@@ -1,0 +1,17 @@
+[package]
+name = "rust_task_demo"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Minimal Rust BlitzBench demo task — busy-loop integer throughput."
+
+[lib]
+name = "rust_task_demo"
+path = "src/lib.rs"
+# rlib: linked by Rust consumers (blitz-lib portable mode, the Rust wrapper).
+# staticlib + cdylib: produced for parity with C/C++ tasks so build.py can
+# emit a uniform set of artifacts.
+crate-type = ["rlib", "staticlib", "cdylib"]
+
+[dependencies]
+blitz-task = { path = "../task-lib/rust" }

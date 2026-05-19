@@ -1,0 +1,25 @@
+# Cargo
+target/
+Cargo.lock
+
+# CMake
+build/
+*.o
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Generated C bindings
+**/include/blitz_task_runtime.h.tmp
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc

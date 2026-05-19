@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "metrics": [
+    { "id": "metric_flops",              "name": "flops",              "unit": "GFLOPS",     "direction": "higher_is_better" },
+    { "id": "metric_iops",               "name": "iops",               "unit": "GIOPS",      "direction": "higher_is_better" },
+    { "id": "metric_branch_throughput",  "name": "branch_throughput",  "unit": "Mops/s",     "direction": "higher_is_better" },
+    { "id": "metric_throughput",         "name": "throughput",         "unit": "Mops/s",     "direction": "higher_is_better" },
+    { "id": "metric_bandwidth",          "name": "bandwidth",          "unit": "GB/s",       "direction": "higher_is_better" },
+    { "id": "metric_latency",            "name": "latency",            "unit": "ns",         "direction": "lower_is_better"  },
+    { "id": "metric_memory_throughput",  "name": "memory_throughput",  "unit": "GB/s",       "direction": "higher_is_better" },
+    { "id": "metric_memory_latency",     "name": "memory_latency",     "unit": "ns",         "direction": "lower_is_better"  },
+    { "id": "metric_items_per_min",      "name": "items_per_min",      "unit": "items/min",  "direction": "higher_is_better" },
+    { "id": "metric_tokens_per_sec",     "name": "tokens_per_sec",     "unit": "tokens/s",   "direction": "higher_is_better" },
+    { "id": "metric_fps",                "name": "fps",                "unit": "fps",        "direction": "higher_is_better" },
+    { "id": "metric_vram_bandwidth",     "name": "vram_bandwidth",     "unit": "GB/s",       "direction": "higher_is_better" },
+    { "id": "metric_pcie_bandwidth",     "name": "pcie_bandwidth",     "unit": "GB/s",       "direction": "higher_is_better" },
+    { "id": "metric_fillrate",           "name": "fillrate",           "unit": "mpixels/s",  "direction": "higher_is_better" },
+    { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s",      "direction": "higher_is_better" },
+    { "id": "metric_compile_time",       "name": "compile_time",       "unit": "s",          "direction": "lower_is_better"  },
+    { "id": "metric_seek_latency",       "name": "seek_latency",       "unit": "us",         "direction": "lower_is_better"  },
+    { "id": "metric_random_iops",        "name": "random_iops",        "unit": "IOPS",       "direction": "higher_is_better" },
+    { "id": "metric_sequential_read",    "name": "sequential_read",    "unit": "MB/s",       "direction": "higher_is_better" },
+    { "id": "metric_sequential_write",   "name": "sequential_write",   "unit": "MB/s",       "direction": "higher_is_better" },
+    { "id": "metric_encode_fps",         "name": "encode_fps",         "unit": "fps",        "direction": "higher_is_better" }
+  ]
+}

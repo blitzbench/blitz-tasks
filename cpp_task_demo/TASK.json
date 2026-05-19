@@ -1,0 +1,41 @@
+{
+  "id": "task_cpu_synthetic_cpp_task_demo",
+  "name": "cpp_task_demo",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "C++ task demo",
+  "short_description": "Minimal C++ example task — busy-loop integer increment throughput.",
+  "structured_text": {
+    "description": "A tight C++ loop that increments an `std::atomic<std::uint64_t>` (relaxed) over the budgeted runtime, measured with `std::chrono::steady_clock`. The throughput is reported in millions of operations per second.",
+    "metric_explanation": "Throughput = total integer-increment operations divided by elapsed wall-clock time, in Mops/s.",
+    "value_interpretation": "Higher values indicate a faster single-thread integer pipeline. Equivalent workload to `rust_task_demo` and `c_task_demo`; the trio illustrates idiomatic implementation in each language.",
+    "reasoning": "Serves as the canonical C++ reference for new task authors. Demonstrates the C++ RAII wrapper layered on top of the same C ABI used by `c_task_demo`."
+  },
+  "metric": {
+    "id": "metric_throughput",
+    "name": "throughput",
+    "unit": "Mops/s",
+    "direction": "higher_is_better"
+  },
+  "baselines": [
+    { "machine_type": "any",      "value": 1000.0 },
+    { "machine_type": "desktop",  "value": 1500.0 },
+    { "machine_type": "notebook", "value":  900.0 },
+    { "machine_type": "mobile",   "value":  400.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.3, "explanation": "Single-thread integer throughput modestly influences game-engine update loops." },
+    "domain_office":               { "weight": 0.1, "explanation": "Productivity workloads are dominated by I/O and latency, not raw ALU throughput." },
+    "domain_software_development": { "weight": 0.7, "explanation": "Compilers and developer tools are heavily ALU-bound; integer throughput is a strong proxy." },
+    "domain_graphics_design":      { "weight": 0.2, "explanation": "Photo / raster work uses some CPU integer paths; mostly GPU and memory-bound." },
+    "domain_video_editing":        { "weight": 0.3, "explanation": "Some integer-bound encoding stages; mostly hardware-accelerated." },
+    "domain_3d_rendering":         { "weight": 0.4, "explanation": "Scene traversal and BVH walks lean on integer throughput." },
+    "domain_audio_production":     { "weight": 0.3, "explanation": "DSP graph dispatch involves significant single-thread integer work." },
+    "domain_cad_engineering":      { "weight": 0.4, "explanation": "Mesh operations and solver bookkeeping rely on integer ALU paths." },
+    "domain_scientific_computing": { "weight": 0.5, "explanation": "Mixed FP+integer kernels; index arithmetic is integer-bound." },
+    "domain_ai_training":          { "weight": 0.3, "explanation": "Mostly GPU; host integer throughput affects data-loader pipelines." },
+    "domain_ai_inference":         { "weight": 0.3, "explanation": "Tokenisation and orchestration use CPU integer paths." },
+    "domain_data_science":         { "weight": 0.4, "explanation": "Dataframe ops dispatch via integer-heavy kernels." },
+    "domain_server_virt":          { "weight": 0.4, "explanation": "Many concurrent processes amplify per-core integer throughput." }
+  }
+}
