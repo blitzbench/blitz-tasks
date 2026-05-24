@@ -26,7 +26,13 @@ private code**. It can be cloned, built, and used standalone.
 ## Building
 You can either use `build.py` to build all tasks (check `./build.py --help` for more information) or you can build each
 task separately. Rust based tasks use cargo, C and C++ based tasks use cmake.
-You can build sample cli applications for each task by passing `-DBUILD_SAMPLE_APP=1` as argument to cmake.
+
+Each demo task ships a small CLI sample app that drives the task in-process
+and prints every lifecycle event to stdout. For C and C++ tasks, pass
+`-DBUILD_SAMPLE_APP=1` to cmake; the resulting `<task_name>_app` binary lands
+under `<build_dir>/app/`. For Rust tasks, run
+`cargo run --release --example <task_name>_app` from inside the task
+directory.
 
 ## Layout
 

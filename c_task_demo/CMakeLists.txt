@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
-project(c_task_demo LANGUAGES C VERSION 0.1.0)
+
+set(TASK_NAME c_task_demo)
+
+project(${TASK_NAME} LANGUAGES C VERSION 0.1.0)
 
 # Allow the parent build (build.py or blitz-lib/build.rs) to choose STATIC
 # or SHARED via -DBLITZ_BUILD_MODE=…
@@ -22,16 +25,20 @@ configure_file(
     @ONLY
 )
 
-add_library(c_task_demo ${BLITZ_BUILD_MODE}
-    src/c_task_demo.c
+add_library(${TASK_NAME} ${BLITZ_BUILD_MODE}
+    src/${TASK_NAME}.c
     "${CMAKE_CURRENT_BINARY_DIR}/info.c"
 )
-target_include_directories(c_task_demo PUBLIC
+target_include_directories(${TASK_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
-target_link_libraries(c_task_demo PUBLIC blitz_task_c)
-target_compile_features(c_task_demo PUBLIC c_std_11)
-set_target_properties(c_task_demo PROPERTIES
+target_link_libraries(${TASK_NAME} PUBLIC blitz_task_c)
+target_compile_features(${TASK_NAME} PUBLIC c_std_11)
+set_target_properties(${TASK_NAME} PROPERTIES
     C_VISIBILITY_PRESET hidden
     POSITION_INDEPENDENT_CODE ON
 )
+
+if ( ${BUILD_SAMPLE_APP} )
+    add_subdirectory(app)
+endif()
