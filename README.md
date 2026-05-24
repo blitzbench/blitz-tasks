@@ -8,10 +8,10 @@ This repository ships:
   Tasks are libraries with injected callbacks (status / start / progress / complete / error),
   configurable runtime budget, and configurable data parameters. No transport, no signing,
   no key material lives here.
-- **`task-runtime/rust/`**: a Rust crate (with C ABI staticlib + cbindgen-generated header)
-  that wraps any `Task` instance and provides the UDP + Ed25519 lifecycle used by
-  blitz-lib's installable mode. The signing key is supplied by the caller (a wrapper
-  executable in the BlitzBench monorepo); this crate never embeds key material.
+
+  The runtime that drives these tasks over the wire (the lifecycle protocol with
+  Ed25519 signing on the final result) lives proprietarily inside BlitzBench's
+  `blitz-lib` and is not part of this repository.
 - **`catalog/{metrics,domains}.json`**: the canonical metric and domain registries
   referenced from every `TASK.json`.
 - **One directory per task** (`<task_name>/`), each containing `TASK.json` (catalogue
@@ -46,8 +46,6 @@ directory.
 │   ├-- rust/
 │   ├-- c/
 │   └-- cpp/
-├-- task-runtime/
-│   └-- rust/
 └-- <task_name>/
     ├-- TASK.json
     ├-- Cargo.toml | CMakeLists.txt

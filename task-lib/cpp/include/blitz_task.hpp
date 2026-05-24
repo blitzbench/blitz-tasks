@@ -364,6 +364,9 @@ inline std::ostream &operator<<(std::ostream &os, BlitzStatus status) {
         case BLITZ_STATUS_IDLE:
             os << "IDLE";
             break;
+        case BLITZ_STATUS_STARTED:
+            os << "STARTED";
+            break;
         case BLITZ_STATUS_RUNNING:
             os << "RUNNING";
             break;

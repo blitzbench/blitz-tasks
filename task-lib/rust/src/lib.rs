@@ -12,12 +12,11 @@
 //!   values, optionally streaming intermediate progress through the injected
 //!   [`TaskCallbacks`].
 //!
-//! Tasks know nothing about transport. The Rust `blitz-task-runtime` crate
-//! (in `task-runtime/rust/`) wraps a `Task` instance and exposes either a
-//! direct in-process API (used by `blitz-cli` in portable mode) or a UDP +
-//! Ed25519 wire protocol used by per-task wrapper executables (installable
-//! mode). The signing key is provided by the wrapper, never embedded in the
-//! task or the framework.
+//! Tasks know nothing about transport. The runtime that drives a `Task`
+//! instance (either in-process or over a wire protocol with Ed25519
+//! signing on the final result) lives proprietarily inside BlitzBench's
+//! `blitz-lib` (`task_protocol/`). The signing key is provided by the
+//! runtime side, never embedded in the task or this framework.
 
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
@@ -27,13 +26,21 @@ use std::time::Duration;
 
 /// Lifecycle status for a task instance, broadcast through
 /// [`TaskCallbacks::on_status`].
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+///
+/// The wire form (used by the runtime protocol) renames `Completed` to
+/// `"done"`; all other variants serialise as their lowercase name.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum TaskStatus {
     /// Task has been constructed but not yet started.
     Idle,
+    /// Task has been spawned and the protocol connection is ready, but
+    /// the measurement loop has not begun.
+    Started,
     /// Task is actively executing its measurement loop.
     Running,
     /// Task completed successfully and emitted final metrics.
+    #[serde(rename = "done")]
     Completed,
     /// Task aborted with an error.
     Failed,

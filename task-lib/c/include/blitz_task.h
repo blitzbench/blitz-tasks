@@ -5,10 +5,10 @@
  * symmetric with the Rust `blitz-task` crate's `Task` trait: a v-table of
  * function pointers + a callbacks struct.
  *
- * Tasks know nothing about transport. A separate runtime adapter (Rust,
- * exposed via `blitz_task_runtime.h`) wraps a `BlitzTask*` and either
- * drives it in-process or speaks the UDP + Ed25519 wire protocol used by
- * BlitzBench's installable mode.
+ * Tasks know nothing about transport. A separate runtime adapter
+ * (proprietary; shipped with BlitzBench's `blitz-lib`) wraps a
+ * `BlitzTask*` and either drives it in-process or speaks the wire
+ * protocol used by BlitzBench's installable mode.
  */
 
 #ifndef BLITZ_TASK_H
@@ -39,13 +39,20 @@ typedef enum BlitzResult {
     BLITZ_ERR_INTERNAL          = 7
 } BlitzResult;
 
-/* -- Lifecycle status (broadcast through callbacks.on_status) ------------- */
+/* -- Lifecycle status (broadcast through callbacks.on_status) -------------
+ *
+ * The runtime protocol renames COMPLETED to "done" on the wire; the C
+ * identifier remains BLITZ_STATUS_COMPLETED. STARTED indicates that the
+ * task process has connected to the protocol endpoint but has not yet
+ * begun its measurement loop (the protocol layer emits this; tasks do
+ * not need to). */
 
 typedef enum BlitzStatus {
     BLITZ_STATUS_IDLE      = 0,
-    BLITZ_STATUS_RUNNING   = 1,
-    BLITZ_STATUS_COMPLETED = 2,
-    BLITZ_STATUS_FAILED    = 3
+    BLITZ_STATUS_STARTED   = 1,
+    BLITZ_STATUS_RUNNING   = 2,
+    BLITZ_STATUS_COMPLETED = 3,
+    BLITZ_STATUS_FAILED    = 4
 } BlitzStatus;
 
 /* -- Metric direction ----------------------------------------------------- */

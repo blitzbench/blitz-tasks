@@ -19,9 +19,11 @@ With `--build-examples`, the per-task sample CLI app is also built (Rust:
 `cargo build --release --examples`; C/C++: `-DBUILD_SAMPLE_APP=1`) and the
 resulting executables are copied into `<out-dir>/<mode>/<task>/examples/`.
 
-The framework crates `task-lib/rust`, `task-lib/c`, `task-lib/cpp`, and
-`task-runtime/rust` are built automatically when any task depends on them
-(cargo / cmake handles transitive deps).
+The framework crates `task-lib/rust`, `task-lib/c`, and `task-lib/cpp`
+are built automatically when any task depends on them (cargo / cmake
+handles transitive deps). The wire-protocol runtime that drives tasks
+in BlitzBench's installable mode is proprietary and lives in
+`blitz-lib/task_protocol/` outside this repository.
 """
 
 from __future__ import annotations
