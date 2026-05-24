@@ -1,5 +1,5 @@
 /*
- * blitz_task.h — C ABI for BlitzBench benchmark tasks.
+ * blitz_task.h - C ABI for BlitzBench benchmark tasks.
  *
  * Tasks written in C or C++ implement this header. The interface is
  * symmetric with the Rust `blitz-task` crate's `Task` trait: a v-table of
@@ -14,14 +14,19 @@
 #ifndef BLITZ_TASK_H
 #define BLITZ_TASK_H
 
+#ifdef __cplusplus
+#include <cstddef>
+#include <cstdint>
+#else
 #include <stddef.h>
 #include <stdint.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* ── Result codes ────────────────────────────────────────────────────────── */
+/* -- Result codes ---------------------------------------------------------- */
 
 typedef enum BlitzResult {
     BLITZ_OK                    = 0,
@@ -34,7 +39,7 @@ typedef enum BlitzResult {
     BLITZ_ERR_INTERNAL          = 7
 } BlitzResult;
 
-/* ── Lifecycle status (broadcast through callbacks.on_status) ───────────── */
+/* -- Lifecycle status (broadcast through callbacks.on_status) ------------- */
 
 typedef enum BlitzStatus {
     BLITZ_STATUS_IDLE      = 0,
@@ -43,14 +48,14 @@ typedef enum BlitzStatus {
     BLITZ_STATUS_FAILED    = 3
 } BlitzStatus;
 
-/* ── Metric direction ───────────────────────────────────────────────────── */
+/* -- Metric direction ----------------------------------------------------- */
 
 typedef enum BlitzDirection {
     BLITZ_DIR_HIGHER_IS_BETTER = 0,
     BLITZ_DIR_LOWER_IS_BETTER  = 1
 } BlitzDirection;
 
-/* ── Metric ─────────────────────────────────────────────────────────────── */
+/* -- Metric --------------------------------------------------------------- */
 
 /*
  * One measurement. The `info_*` fields carry an optional ordered key/value
@@ -70,12 +75,12 @@ typedef struct BlitzMetric {
     size_t                info_len;
 } BlitzMetric;
 
-/* ── DataConfig ─────────────────────────────────────────────────────────── */
+/* -- DataConfig ----------------------------------------------------------- */
 
 /*
  * Caller-supplied data parameters. Fields default to 0 (unset). Tasks read
  * what they need and ignore the rest. The `extra` map from the Rust API is
- * intentionally not part of v0 of the C ABI — extend by adding optional
+ * intentionally not part of v0 of the C ABI - extend by adding optional
  * fields here in future revisions and bumping the API version.
  */
 typedef struct BlitzDataConfig {
@@ -84,7 +89,7 @@ typedef struct BlitzDataConfig {
     uint64_t seed;
 } BlitzDataConfig;
 
-/* ── Callbacks ──────────────────────────────────────────────────────────── */
+/* -- Callbacks ------------------------------------------------------------ */
 
 typedef struct BlitzCallbacks {
     void*  user_data;
@@ -95,7 +100,7 @@ typedef struct BlitzCallbacks {
     void (*on_error)(void* user_data, BlitzResult code, const char* message);
 } BlitzCallbacks;
 
-/* ── Task v-table ───────────────────────────────────────────────────────── */
+/* -- Task v-table --------------------------------------------------------- */
 
 /*
  * Opaque task handle. Each task implementation declares its own derived
@@ -131,7 +136,7 @@ struct BlitzTask {
     /* Task-specific fields follow in derived structs. */
 };
 
-/* ── Inline dispatch helpers ────────────────────────────────────────────── */
+/* -- Inline dispatch helpers ---------------------------------------------- */
 
 static inline const char* blitz_task_info_json(BlitzTask* t) {
     return t->vtable->info_json(t);

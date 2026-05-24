@@ -47,7 +47,7 @@ extern "C" {
  protocol, signing the final metrics with the supplied 32-byte
  Ed25519 key.
 
- **Ownership.** This function does *not* free `task` — the caller
+ **Ownership.** This function does *not* free `task` - the caller
  remains responsible for calling `blitz_task_free` once
  `br_run_with_udp` returns.
 

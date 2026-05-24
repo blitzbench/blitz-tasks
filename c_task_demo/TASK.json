@@ -4,7 +4,7 @@
   "component": "cpu",
   "benchmark_type": "synthetic",
   "title": "C task demo",
-  "short_description": "Minimal C example task — busy-loop integer increment throughput.",
+  "short_description": "Minimal C example task - busy-loop integer increment throughput.",
   "structured_text": {
     "description": "A tight C loop that increments a `volatile uint64_t` over the budgeted runtime. The throughput is reported in millions of operations per second.",
     "metric_explanation": "Throughput = total integer-increment operations divided by elapsed wall-clock time, in Mops/s.",

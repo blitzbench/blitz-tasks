@@ -1,18 +1,18 @@
 {
   "version": "1.0.0",
   "domains": [
-    { "id": "domain_gaming",                "name": "gaming",                       "description": "Real-time interactive 3D graphics workloads — frame-rate-bound game engines on raster and ray-tracing pipelines." },
-    { "id": "domain_office",                "name": "office & productivity",        "description": "Productivity, browsing, email and document workflows — latency-sensitive but rarely throughput-bound." },
-    { "id": "domain_software_development",  "name": "software development",         "description": "Code editing, compilation, version control and developer tooling — heavy on integer throughput, file I/O and many small reads." },
-    { "id": "domain_graphics_design",       "name": "graphics & photo editing",     "description": "Raster image editing and photo post-production — large 2D buffers, GPU-accelerated filters and many short interactive operations." },
-    { "id": "domain_video_editing",         "name": "video editing & encoding",     "description": "Video editing, color grading and encoding — sustained sequential I/O paired with heavy hardware-accelerated encode/decode pipelines." },
-    { "id": "domain_3d_rendering",          "name": "3d rendering & animation",     "description": "Offline 3D content production — modeling, animation and ray-traced rendering workloads dominated by GPU and CPU FP throughput." },
-    { "id": "domain_audio_production",      "name": "audio production & dsp",       "description": "DAW work, mixing, software instruments and real-time DSP — latency-critical, single-thread-bound and memory-latency-sensitive." },
-    { "id": "domain_cad_engineering",       "name": "cad & engineering simulation", "description": "CAD modeling and engineering simulation — FP64-heavy solvers, large-mesh visualization and long-running compute jobs." },
-    { "id": "domain_scientific_computing",  "name": "scientific computing & hpc",   "description": "Numerical simulation, HPC and scientific compute — FP64 and large-bandwidth memory access dominate." },
-    { "id": "domain_ai_training",           "name": "ai / ml training",             "description": "Model training workloads — sustained matmul throughput on GPU/accelerator, large activations in VRAM, high host-bandwidth feeders." },
-    { "id": "domain_ai_inference",          "name": "ai inference (llm & diffusion)","description": "Local LLM and diffusion inference — memory-bandwidth-bound token generation and compute-bound denoising loops." },
-    { "id": "domain_data_science",          "name": "data science & analytics",     "description": "Tabular analytics, dataframe operations, query engines — memory-bandwidth-bound aggregation over wide datasets." },
+    { "id": "domain_gaming",                "name": "gaming",                       "description": "Real-time interactive 3D graphics workloads - frame-rate-bound game engines on raster and ray-tracing pipelines." },
+    { "id": "domain_office",                "name": "office & productivity",        "description": "Productivity, browsing, email and document workflows - latency-sensitive but rarely throughput-bound." },
+    { "id": "domain_software_development",  "name": "software development",         "description": "Code editing, compilation, version control and developer tooling - heavy on integer throughput, file I/O and many small reads." },
+    { "id": "domain_graphics_design",       "name": "graphics & photo editing",     "description": "Raster image editing and photo post-production - large 2D buffers, GPU-accelerated filters and many short interactive operations." },
+    { "id": "domain_video_editing",         "name": "video editing & encoding",     "description": "Video editing, color grading and encoding - sustained sequential I/O paired with heavy hardware-accelerated encode/decode pipelines." },
+    { "id": "domain_3d_rendering",          "name": "3d rendering & animation",     "description": "Offline 3D content production - modeling, animation and ray-traced rendering workloads dominated by GPU and CPU FP throughput." },
+    { "id": "domain_audio_production",      "name": "audio production & dsp",       "description": "DAW work, mixing, software instruments and real-time DSP - latency-critical, single-thread-bound and memory-latency-sensitive." },
+    { "id": "domain_cad_engineering",       "name": "cad & engineering simulation", "description": "CAD modeling and engineering simulation - FP64-heavy solvers, large-mesh visualization and long-running compute jobs." },
+    { "id": "domain_scientific_computing",  "name": "scientific computing & hpc",   "description": "Numerical simulation, HPC and scientific compute - FP64 and large-bandwidth memory access dominate." },
+    { "id": "domain_ai_training",           "name": "ai / ml training",             "description": "Model training workloads - sustained matmul throughput on GPU/accelerator, large activations in VRAM, high host-bandwidth feeders." },
+    { "id": "domain_ai_inference",          "name": "ai inference (llm & diffusion)","description": "Local LLM and diffusion inference - memory-bandwidth-bound token generation and compute-bound denoising loops." },
+    { "id": "domain_data_science",          "name": "data science & analytics",     "description": "Tabular analytics, dataframe operations, query engines - memory-bandwidth-bound aggregation over wide datasets." },
     { "id": "domain_server_virt",           "name": "server & virtualization",      "description": "Multi-tenant workloads, container/VM density, sustained background throughput across many concurrent processes." }
   ]
 }

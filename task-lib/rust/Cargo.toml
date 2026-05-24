@@ -3,7 +3,7 @@ name = "blitz-task"
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-description = "Rust framework for BlitzBench benchmark tasks — Task trait, callbacks, TASK.json parsing."
+description = "Rust framework for BlitzBench benchmark tasks - Task trait, callbacks, TASK.json parsing."
 
 [lib]
 name = "blitz_task"

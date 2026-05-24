@@ -1,6 +1,6 @@
 #![warn(missing_docs)]
 
-//! `rust_task_demo` — minimal BlitzBench task implemented in Rust.
+//! `rust_task_demo` - minimal BlitzBench task implemented in Rust.
 //!
 //! Increments an integer in a tight loop for the configured duration and
 //! reports the throughput in millions of operations per second.
@@ -29,12 +29,12 @@ impl Default for RustTaskDemo {
 
 impl RustTaskDemo {
     /// Construct a new task instance. Parses `TASK.json` once via
-    /// [`parse_task_info`] — the resulting [`TaskInfo`] is the source of
+    /// [`parse_task_info`] - the resulting [`TaskInfo`] is the source of
     /// truth surfaced through [`Task::info`].
     ///
     /// # Panics
     ///
-    /// Panics at construction time when `TASK.json` is invalid — that is a
+    /// Panics at construction time when `TASK.json` is invalid - that is a
     /// build-time bug in the task source, not a runtime condition the
     /// caller should handle.
     #[must_use]
@@ -94,7 +94,7 @@ impl Task for RustTaskDemo {
     }
 }
 
-/// Native Rust constructor — `Box<dyn Task>` for the portable in-process runner.
+/// Native Rust constructor - `Box<dyn Task>` for the portable in-process runner.
 #[must_use]
 pub fn new_task() -> Box<dyn Task> {
     Box::new(RustTaskDemo::new())

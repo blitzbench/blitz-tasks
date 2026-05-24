@@ -29,7 +29,7 @@ pub enum BrRunResult {
 /// protocol, signing the final metrics with the supplied 32-byte
 /// Ed25519 key.
 ///
-/// **Ownership.** This function does *not* free `task` — the caller
+/// **Ownership.** This function does *not* free `task` - the caller
 /// remains responsible for calling `blitz_task_free` once
 /// `br_run_with_udp` returns.
 ///
@@ -103,7 +103,7 @@ pub unsafe extern "C" fn br_render_info(
     needed as isize
 }
 
-// ── C task adapter ───────────────────────────────────────────────────────────
+// -- C task adapter -----------------------------------------------------------
 
 /// Opaque forward declaration that mirrors `BlitzTask` from `blitz_task.h`.
 /// cbindgen renders this as `typedef struct CBlitzTask CBlitzTask;`. The

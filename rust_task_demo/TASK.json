@@ -4,11 +4,11 @@
   "component": "cpu",
   "benchmark_type": "synthetic",
   "title": "Rust task demo",
-  "short_description": "Minimal Rust example task — busy-loop integer increment throughput.",
+  "short_description": "Minimal Rust example task - busy-loop integer increment throughput.",
   "structured_text": {
     "description": "A tight Rust loop that increments a single integer register inside a `wrapping_add` chain over the budgeted runtime. The throughput is reported in millions of operations per second.",
     "metric_explanation": "Throughput = total integer-increment operations divided by elapsed wall-clock time, in Mops/s.",
-    "value_interpretation": "Higher values indicate a faster single-thread integer pipeline. Useful for verifying that the framework end-to-end pipeline is working — not a representative CPU benchmark on its own.",
+    "value_interpretation": "Higher values indicate a faster single-thread integer pipeline. Useful for verifying that the framework end-to-end pipeline is working - not a representative CPU benchmark on its own.",
     "reasoning": "Serves as the canonical Rust reference for new task authors. Should be the simplest possible implementation that exercises every part of the Task class (configure, set_timeout, run, callbacks)."
   },
   "metric": {

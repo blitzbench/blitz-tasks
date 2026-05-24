@@ -14,7 +14,7 @@ fn main() {
         .collect();
 
     // cbindgen runs only when building the staticlib variant *and* the
-    // wrapper crate has been freshly compiled — guard against running
+    // wrapper crate has been freshly compiled - guard against running
     // during pure `cargo check` on the rlib variant by gating on
     // `CARGO_FEATURE_STATICLIB` being absent and a fast-bail when cbindgen
     // would no-op.

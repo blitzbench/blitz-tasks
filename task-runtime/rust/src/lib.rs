@@ -1,6 +1,6 @@
 #![warn(missing_docs)]
 
-//! `blitz-task-runtime` — wraps a [`blitz_task::Task`] and either runs it
+//! `blitz-task-runtime` - wraps a [`blitz_task::Task`] and either runs it
 //! in-process or speaks the BlitzBench UDP wire protocol used by per-task
 //! executable wrappers in installable mode.
 //!
@@ -29,7 +29,7 @@ use serde::Serialize;
 mod ffi;
 pub use ffi::*;
 
-// ── In-process runner (portable mode) ────────────────────────────────────────
+// -- In-process runner (portable mode) ----------------------------------------
 
 /// Drive a task in-process. The callbacks forward directly to `cb`.
 ///
@@ -45,7 +45,7 @@ pub fn run_in_process(
     task.run(cb)
 }
 
-// ── UDP runner (installable mode) ────────────────────────────────────────────
+// -- UDP runner (installable mode) --------------------------------------------
 
 /// Errors raised by [`run_with_udp`] before/after the task itself executes.
 #[derive(Debug)]
@@ -182,7 +182,7 @@ impl TaskCallbacks for UdpCallbacks {
     }
 }
 
-// ── --blitz-info renderer ────────────────────────────────────────────────────
+// -- --blitz-info renderer ----------------------------------------------------
 
 /// Render a task's `TASK.json` payload as a UDP-shape `--blitz-info` blob.
 ///
@@ -235,7 +235,7 @@ pub fn render_info_json(task: &dyn Task) -> String {
     serde_json::to_string(&wire).unwrap_or_else(|_| "{}".to_string())
 }
 
-// ── helpers ──────────────────────────────────────────────────────────────────
+// -- helpers ------------------------------------------------------------------
 
 fn send_started(
     sock: &UdpSocket,
@@ -279,7 +279,7 @@ fn json_number(v: f64) -> String {
     }
 }
 
-// ── Tests ────────────────────────────────────────────────────────────────────
+// -- Tests --------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {

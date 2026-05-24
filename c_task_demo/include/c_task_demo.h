@@ -1,4 +1,4 @@
-/* c_task_demo.h — public constructor for the C demo task. */
+/* c_task_demo.h - public constructor for the C demo task. */
 
 #ifndef C_TASK_DEMO_H
 #define C_TASK_DEMO_H
@@ -6,6 +6,7 @@
 #include <blitz_task.h>
 
 #ifdef __cplusplus
+#pragma message("You are compiling a c blitz-task with C++. Consider using the blitz-task C++ bindings")
 extern "C" {
 #endif
 

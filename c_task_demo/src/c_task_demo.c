@@ -1,4 +1,4 @@
-/* c_task_demo.c — minimal BlitzBench task in C.
+/* c_task_demo.c - minimal BlitzBench task in C.
  *
  * Increments a volatile uint64_t in a tight loop for the configured
  * duration and reports throughput in Mops/s.

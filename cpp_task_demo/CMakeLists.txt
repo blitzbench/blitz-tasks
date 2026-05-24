@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
-project(cpp_task_demo LANGUAGES CXX VERSION 0.1.0)
+
+set(TASK_NAME cpp_task_demo)
+
+project(${TASK_NAME} LANGUAGES CXX VERSION 0.1.0)
 
 if(NOT DEFINED BLITZ_BUILD_MODE)
     set(BLITZ_BUILD_MODE STATIC)
@@ -18,16 +21,20 @@ configure_file(
     @ONLY
 )
 
-add_library(cpp_task_demo ${BLITZ_BUILD_MODE}
+add_library(${TASK_NAME} ${BLITZ_BUILD_MODE}
     src/cpp_task_demo.cpp
     "${CMAKE_CURRENT_BINARY_DIR}/info.cpp"
 )
-target_include_directories(cpp_task_demo PUBLIC
+target_include_directories(${TASK_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
-target_link_libraries(cpp_task_demo PUBLIC blitz_task_cpp)
-target_compile_features(cpp_task_demo PUBLIC cxx_std_17)
-set_target_properties(cpp_task_demo PROPERTIES
+target_link_libraries(${TASK_NAME} PUBLIC blitz_task_cpp)
+target_compile_features(${TASK_NAME} PUBLIC cxx_std_17)
+set_target_properties(${TASK_NAME} PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     POSITION_INDEPENDENT_CODE ON
 )
+
+if ( ${BUILD_SAMPLE_APP} )
+    add_subdirectory(app)
+endif()

@@ -3,7 +3,7 @@ name = "rust_task_demo"
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-description = "Minimal Rust BlitzBench demo task — busy-loop integer throughput."
+description = "Minimal Rust BlitzBench demo task - busy-loop integer throughput."
 
 [lib]
 name = "rust_task_demo"

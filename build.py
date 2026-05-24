@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""build.py — build BlitzBench tasks as static or shared libraries.
+"""build.py - build BlitzBench tasks as static or shared libraries.
 
 Usage:
     python3 build.py [--mode static|shared] [--task NAME ...] [--out-dir DIR]
@@ -130,7 +130,7 @@ def main(argv: list[str]) -> int:
 
     discovered = discover_tasks()
     if not discovered:
-        log("no tasks found — nothing to do")
+        log("no tasks found - nothing to do")
         return 0
 
     if args.task:

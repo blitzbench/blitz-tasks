@@ -1,6 +1,6 @@
 #![warn(missing_docs)]
 
-//! `blitz-task` — Rust framework for BlitzBench benchmark tasks.
+//! `blitz-task` - Rust framework for BlitzBench benchmark tasks.
 //!
 //! A task is a library that implements the [`Task`] trait. Each task owns:
 //!
@@ -23,7 +23,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::time::Duration;
 
-// ── Status & error types ─────────────────────────────────────────────────────
+// -- Status & error types -----------------------------------------------------
 
 /// Lifecycle status for a task instance, broadcast through
 /// [`TaskCallbacks::on_status`].
@@ -42,7 +42,7 @@ pub enum TaskStatus {
 /// Machine-readable error codes a task may surface through
 /// [`TaskCallbacks::on_error`] or as the `code` of the returned
 /// [`TaskError`]. Mirrors the wire-level error codes used by the
-/// runtime adapter — see `blitz_types::BenchmarkErrorCode`.
+/// runtime adapter - see `blitz_types::BenchmarkErrorCode`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 #[allow(missing_docs)]
@@ -84,7 +84,7 @@ impl std::fmt::Display for TaskError {
 
 impl std::error::Error for TaskError {}
 
-// ── Metric ───────────────────────────────────────────────────────────────────
+// -- Metric -------------------------------------------------------------------
 
 /// Direction of the per-metric scoring axis.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -119,7 +119,7 @@ pub struct Metric {
     pub info: BTreeMap<String, String>,
 }
 
-// ── TASK.json schema ─────────────────────────────────────────────────────────
+// -- TASK.json schema ---------------------------------------------------------
 
 /// Structured prose surfacing in the dashboard's task-detail pages.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -134,7 +134,7 @@ pub struct StructuredText {
     pub reasoning: String,
 }
 
-/// Per-task metric specification — references the global catalogue.
+/// Per-task metric specification - references the global catalogue.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MetricSpec {
     /// Stable metric id (e.g. `"metric_throughput"`).
@@ -148,7 +148,7 @@ pub struct MetricSpec {
 }
 
 /// Scoring-axis machine type. The TASK.json schema requires baselines for
-/// **all four** of these — no fallback wildcard, no per-type overrides.
+/// **all four** of these - no fallback wildcard, no per-type overrides.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 #[allow(missing_docs)]
@@ -205,9 +205,9 @@ pub struct TaskInfo {
     pub structured_text: StructuredText,
     /// Metric specification.
     pub metric: MetricSpec,
-    /// Baseline rows — exactly one per [`MachineType`] variant.
+    /// Baseline rows - exactly one per [`MachineType`] variant.
     pub baselines: Vec<TaskBaselineRow>,
-    /// Per-domain weights — keyed by domain id (e.g. `"domain_gaming"`).
+    /// Per-domain weights - keyed by domain id (e.g. `"domain_gaming"`).
     pub weights: BTreeMap<String, DomainWeight>,
 }
 
@@ -282,7 +282,7 @@ pub fn parse_task_info(json: &str) -> Result<TaskInfo, TaskInfoParseError> {
     Ok(info)
 }
 
-// ── DataConfig ───────────────────────────────────────────────────────────────
+// -- DataConfig ---------------------------------------------------------------
 
 /// Task-author-defined input parameters. The framework provides a small,
 /// open key-value bag rather than forcing every task to grow a parser.
@@ -298,7 +298,7 @@ pub struct DataConfig {
     pub extra: BTreeMap<String, String>,
 }
 
-// ── Callbacks ────────────────────────────────────────────────────────────────
+// -- Callbacks ----------------------------------------------------------------
 
 /// Sink for lifecycle events emitted while a task runs.
 ///
@@ -312,9 +312,9 @@ pub trait TaskCallbacks {
     fn on_start(&mut self) {}
     /// Intermediate progress sample.
     fn on_progress(&mut self, _metric: &Metric) {}
-    /// Final metrics — emitted once when [`Task::run`] returns `Ok`.
+    /// Final metrics - emitted once when [`Task::run`] returns `Ok`.
     fn on_complete(&mut self, _metrics: &[Metric]) {}
-    /// Terminal error — emitted once when [`Task::run`] returns `Err` or
+    /// Terminal error - emitted once when [`Task::run`] returns `Err` or
     /// the task panics under the runtime adapter.
     fn on_error(&mut self, _err: &TaskError) {}
 }
@@ -323,7 +323,7 @@ pub trait TaskCallbacks {
 pub struct NoopCallbacks;
 impl TaskCallbacks for NoopCallbacks {}
 
-// ── Task trait ───────────────────────────────────────────────────────────────
+// -- Task trait ---------------------------------------------------------------
 
 /// The contract every task library implements.
 ///
@@ -334,7 +334,7 @@ pub trait Task: Send {
     /// Static task metadata, parsed from TASK.json at construction time.
     fn info(&self) -> &TaskInfo;
 
-    /// Apply data-config knobs. Idempotent — may be called multiple times
+    /// Apply data-config knobs. Idempotent - may be called multiple times
     /// before [`Task::run`].
     fn configure(&mut self, _cfg: DataConfig) {}
 
@@ -356,7 +356,7 @@ pub trait Task: Send {
     fn run(&mut self, cb: &mut dyn TaskCallbacks) -> Result<Vec<Metric>, TaskError>;
 }
 
-// ── Tests ────────────────────────────────────────────────────────────────────
+// -- Tests --------------------------------------------------------------------
 
 #[cfg(test)]
 mod tests {

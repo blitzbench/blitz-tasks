@@ -1,4 +1,4 @@
-// cpp_task_demo.cpp — implementation of the C++ demo task declared in
+// cpp_task_demo.cpp - implementation of the C++ demo task declared in
 // cpp_task_demo.hpp. The class itself is the library's public surface; the
 // `extern "C"` factory at the bottom is the C-ABI entry point used by the
 // bundled wrapper and the in-process runner.
@@ -22,7 +22,7 @@ CppTaskDemo::CppTaskDemo() : timeout_ms_(DEFAULT_BUDGET_MS) {}
 
 CppTaskDemo::~CppTaskDemo() = default;
 
-const char* CppTaskDemo::info_json() const noexcept {
+std::string_view CppTaskDemo::info_json() const noexcept {
     return CPP_TASK_DEMO_INFO_JSON;
 }
 
