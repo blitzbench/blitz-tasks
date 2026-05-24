@@ -1,90 +1,78 @@
 // cpp_task_demo.cpp — minimal BlitzBench task in C++.
 //
-// Increments a 64-bit integer in a tight loop for the configured duration
-// (measured with std::chrono::steady_clock) and reports throughput in
-// Mops/s.
+// Subclasses `blitz::Task` (the idiomatic C++ binding) and reports the
+// throughput of a tight integer-increment loop in Mops/s. Mirrors
+// `rust_task_demo` structurally — a class with state, virtual overrides
+// for configure / set_timeout / run, and a constructor that captures the
+// embedded TASK.json string.
 
 #include "cpp_task_demo.hpp"
-#include <blitz_task.h>
+#include <blitz_task.hpp>
 
 #include <chrono>
 #include <cstdint>
-#include <cstdlib>
+#include <memory>
+#include <vector>
 
 extern "C" const char* CPP_TASK_DEMO_INFO_JSON;
 
 namespace {
 
-struct CppTaskDemo {
-    ::BlitzTask base;
-    std::uint64_t timeout_ms;
-};
+constexpr std::uint64_t DEFAULT_BUDGET_MS = 2000;
 
-const char* demo_info_json(::BlitzTask*) {
-    return CPP_TASK_DEMO_INFO_JSON;
-}
+class CppTaskDemo : public blitz::Task {
+public:
+    CppTaskDemo() = default;
 
-::BlitzResult demo_configure(::BlitzTask*, const ::BlitzDataConfig*) {
-    return BLITZ_OK;
-}
-
-::BlitzResult demo_set_timeout(::BlitzTask* t, std::uint64_t ms) {
-    reinterpret_cast<CppTaskDemo*>(t)->timeout_ms = ms;
-    return BLITZ_OK;
-}
-
-::BlitzResult demo_run(::BlitzTask* t, ::BlitzCallbacks cb) {
-    auto* self = reinterpret_cast<CppTaskDemo*>(t);
-    if (cb.on_status) cb.on_status(cb.user_data, BLITZ_STATUS_RUNNING);
-    if (cb.on_start)  cb.on_start(cb.user_data);
-
-    const auto budget_ms = self->timeout_ms ? self->timeout_ms : 2000;
-    const auto budget = std::chrono::milliseconds(budget_ms);
-
-    const auto start = std::chrono::steady_clock::now();
-    volatile std::uint64_t x = 0;
-    std::uint64_t iters = 0;
-    while (std::chrono::steady_clock::now() - start < budget) {
-        for (int i = 0; i < 100000; ++i) x = x + 1;
-        iters += 100000;
+    [[nodiscard]] const char* info_json() const noexcept override {
+        return CPP_TASK_DEMO_INFO_JSON;
     }
-    (void)x;
-    const auto elapsed = std::chrono::duration<double>(
-        std::chrono::steady_clock::now() - start).count();
-    const double mops = (static_cast<double>(iters) / elapsed) / 1.0e6;
 
-    ::BlitzMetric metric{};
-    metric.name = "throughput";
-    metric.value = mops;
-    metric.unit = "Mops/s";
-    metric.direction = BLITZ_DIR_HIGHER_IS_BETTER;
-    metric.info_keys = nullptr;
-    metric.info_values = nullptr;
-    metric.info_len = 0;
+    blitz::Result set_timeout(std::uint64_t timeout_ms) override {
+        timeout_ms_ = timeout_ms;
+        return BLITZ_OK;
+    }
 
-    if (cb.on_complete) cb.on_complete(cb.user_data, &metric, 1);
-    if (cb.on_status)   cb.on_status(cb.user_data, BLITZ_STATUS_COMPLETED);
-    return BLITZ_OK;
-}
+    blitz::Result run(const blitz::Callbacks& cb) override {
+        if (cb.on_status) cb.on_status(BLITZ_STATUS_RUNNING);
+        if (cb.on_start)  cb.on_start();
 
-void demo_free(::BlitzTask* t) {
-    std::free(t);
-}
+        if (timeout_ms_ == 0) {
+            if (cb.on_error)  cb.on_error(BLITZ_ERR_INVALID_CONFIG, "timeout must be > 0");
+            if (cb.on_status) cb.on_status(BLITZ_STATUS_FAILED);
+            return BLITZ_ERR_INVALID_CONFIG;
+        }
 
-const ::BlitzTaskVTable DEMO_VTABLE = {
-    demo_info_json,
-    demo_configure,
-    demo_set_timeout,
-    demo_run,
-    demo_free,
+        const auto budget = std::chrono::milliseconds(timeout_ms_);
+        const auto start  = std::chrono::steady_clock::now();
+        volatile std::uint64_t x = 0;
+        std::uint64_t iters = 0;
+        while (std::chrono::steady_clock::now() - start < budget) {
+            for (int i = 0; i < 100000; ++i) x = x + 1;
+            iters += 100000;
+        }
+        (void)x;
+        const auto elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
+        const double mops = (static_cast<double>(iters) / elapsed) / 1.0e6;
+
+        std::vector<blitz::Metric> metrics(1);
+        metrics[0].name = "throughput";
+        metrics[0].value = mops;
+        metrics[0].unit = "Mops/s";
+        metrics[0].direction = BLITZ_DIR_HIGHER_IS_BETTER;
+
+        if (cb.on_complete) cb.on_complete(metrics);
+        if (cb.on_status)   cb.on_status(BLITZ_STATUS_COMPLETED);
+        return BLITZ_OK;
+    }
+
+private:
+    std::uint64_t timeout_ms_{DEFAULT_BUDGET_MS};
 };
 
 } // namespace
 
 extern "C" ::BlitzTask* cpp_task_demo_new(void) {
-    auto* t = static_cast<CppTaskDemo*>(std::malloc(sizeof(CppTaskDemo)));
-    if (!t) return nullptr;
-    t->base.vtable = &DEMO_VTABLE;
-    t->timeout_ms = 2000;
-    return reinterpret_cast<::BlitzTask*>(t);
+    return blitz::make_c_task(std::make_unique<CppTaskDemo>());
 }

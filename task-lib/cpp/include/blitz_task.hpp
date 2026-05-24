@@ -1,9 +1,9 @@
 // blitz_task.hpp — C++17 wrapper around the C ABI in <blitz_task.h>.
 //
 // Provides RAII handles and a `Callbacks` struct backed by
-// `std::function` slots, plus a `Task` interface for tasks that prefer to
-// implement the framework in idiomatic C++ rather than fill out a C
-// v-table by hand.
+// `std::function` slots, plus a `Task` abstract class (and a
+// `make_c_task()` adapter) for tasks that prefer to implement the
+// framework in idiomatic C++ rather than fill out a C v-table by hand.
 
 #ifndef BLITZ_TASK_HPP
 #define BLITZ_TASK_HPP
@@ -97,6 +97,159 @@ inline void shim_error(void* ud, Result code, const char* msg) {
 }
 
 } // namespace detail
+
+// ── Task: abstract class for idiomatic C++ implementations ─────────────────
+
+// Subclass `blitz::Task`, then wrap an instance with `blitz::make_c_task(...)`
+// to obtain a `::BlitzTask*` suitable for handing to any consumer of the C
+// ABI (runtime adapters, registries, the in-process runner, ...). The
+// returned pointer is freed via `::blitz_task_free()` / `TaskHandle`, which
+// `delete`s the underlying C++ object.
+class Task {
+public:
+    virtual ~Task() = default;
+
+    Task(const Task&) = delete;
+    Task& operator=(const Task&) = delete;
+    Task(Task&&) = delete;
+    Task& operator=(Task&&) = delete;
+
+    // Return this task's TASK.json as a null-terminated UTF-8 string.
+    // The returned pointer must outlive the `Task` instance — typically a
+    // static string baked into the binary.
+    [[nodiscard]] virtual const char* info_json() const noexcept = 0;
+
+    // Apply data-config knobs. Default: accept anything, do nothing.
+    virtual Result configure(const DataConfig& /*cfg*/) { return BLITZ_OK; }
+
+    // Apply a wall-clock budget (best-effort). Default: ignore.
+    virtual Result set_timeout(std::uint64_t /*timeout_ms*/) { return BLITZ_OK; }
+
+    // Execute the measurement loop. Implementations should:
+    //   1. cb.on_status(BLITZ_STATUS_RUNNING); cb.on_start();
+    //   2. Drive the workload, optionally emitting cb.on_progress(...)
+    //      for intermediate samples.
+    //   3. Build final metrics, cb.on_complete(metrics);
+    //      cb.on_status(BLITZ_STATUS_COMPLETED); return BLITZ_OK.
+    // On error: cb.on_error(code, msg); cb.on_status(BLITZ_STATUS_FAILED);
+    // return the matching `Result`.
+    virtual Result run(const Callbacks& cb) = 0;
+
+protected:
+    Task() = default;
+};
+
+// ── C-ABI adapter for C++ Task implementations ─────────────────────────────
+
+namespace detail {
+
+struct CppTaskBox {
+    ::BlitzTask           base;
+    std::unique_ptr<Task> impl;
+};
+
+// Backing storage for a single Metric materialised back into the C ABI.
+struct MetricBacking {
+    ::BlitzMetric            c{};
+    std::vector<const char*> keys;
+    std::vector<const char*> vals;
+};
+
+inline void fill_c_metric(const Metric& m, MetricBacking& out) {
+    out.c.name = m.name.c_str();
+    out.c.value = m.value;
+    out.c.unit = m.unit.c_str();
+    out.c.direction = m.direction;
+    out.keys.clear();
+    out.vals.clear();
+    out.keys.reserve(m.info.size());
+    out.vals.reserve(m.info.size());
+    for (const auto& kv : m.info) {
+        out.keys.push_back(kv.first.c_str());
+        out.vals.push_back(kv.second.c_str());
+    }
+    out.c.info_keys = out.keys.empty() ? nullptr : out.keys.data();
+    out.c.info_values = out.vals.empty() ? nullptr : out.vals.data();
+    out.c.info_len = m.info.size();
+}
+
+inline const char* cpp_task_info_json(::BlitzTask* t) {
+    return reinterpret_cast<CppTaskBox*>(t)->impl->info_json();
+}
+
+inline ::BlitzResult cpp_task_configure(::BlitzTask* t, const ::BlitzDataConfig* c) {
+    DataConfig cfg;
+    if (c) {
+        cfg.data_size_bytes = c->data_size_bytes;
+        cfg.iterations = c->iterations;
+        cfg.seed = c->seed;
+    }
+    return reinterpret_cast<CppTaskBox*>(t)->impl->configure(cfg);
+}
+
+inline ::BlitzResult cpp_task_set_timeout(::BlitzTask* t, std::uint64_t timeout_ms) {
+    return reinterpret_cast<CppTaskBox*>(t)->impl->set_timeout(timeout_ms);
+}
+
+inline ::BlitzResult cpp_task_run(::BlitzTask* t, ::BlitzCallbacks c) {
+    auto* box = reinterpret_cast<CppTaskBox*>(t);
+    Callbacks cb;
+    if (c.on_status) {
+        cb.on_status = [c](Status s) { c.on_status(c.user_data, s); };
+    }
+    if (c.on_start) {
+        cb.on_start = [c]() { c.on_start(c.user_data); };
+    }
+    if (c.on_progress) {
+        cb.on_progress = [c](const Metric& m) {
+            MetricBacking backing;
+            fill_c_metric(m, backing);
+            c.on_progress(c.user_data, &backing.c);
+        };
+    }
+    if (c.on_complete) {
+        cb.on_complete = [c](const std::vector<Metric>& metrics) {
+            std::vector<MetricBacking> backings(metrics.size());
+            std::vector<::BlitzMetric> wire(metrics.size());
+            for (std::size_t i = 0; i < metrics.size(); ++i) {
+                fill_c_metric(metrics[i], backings[i]);
+                wire[i] = backings[i].c;
+            }
+            c.on_complete(c.user_data, wire.data(), wire.size());
+        };
+    }
+    if (c.on_error) {
+        cb.on_error = [c](Result r, std::string msg) {
+            c.on_error(c.user_data, r, msg.c_str());
+        };
+    }
+    return box->impl->run(cb);
+}
+
+inline void cpp_task_free(::BlitzTask* t) {
+    delete reinterpret_cast<CppTaskBox*>(t);
+}
+
+inline const ::BlitzTaskVTable CPP_TASK_VTABLE = {
+    &cpp_task_info_json,
+    &cpp_task_configure,
+    &cpp_task_set_timeout,
+    &cpp_task_run,
+    &cpp_task_free,
+};
+
+} // namespace detail
+
+// Wrap a C++ `Task` instance behind the C ABI. The returned pointer owns
+// `task` and must be released via `::blitz_task_free()` (or by handing it
+// to a `TaskHandle`).
+inline ::BlitzTask* make_c_task(std::unique_ptr<Task> task) {
+    if (!task) return nullptr;
+    auto* box = new detail::CppTaskBox{};
+    box->base.vtable = &detail::CPP_TASK_VTABLE;
+    box->impl = std::move(task);
+    return reinterpret_cast<::BlitzTask*>(box);
+}
 
 // ── RAII handle around an externally-allocated BlitzTask* ──────────────────
 
