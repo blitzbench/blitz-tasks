@@ -15,6 +15,7 @@
 
 #include "../platform/lib_loader.hpp"
 #include "../search_paths.hpp"
+#include "calling_convention.hpp"
 
 namespace gpgpu::backends {
 
@@ -40,14 +41,14 @@ enum CUdevice_attribute : int {
     CU_ATTR_COMPUTE_CAPABILITY_MINOR = 76,
 };
 
-using PFN_cuInit             = CUresult (*)(unsigned int);
-using PFN_cuDriverGetVersion = CUresult (*)(int*);
-using PFN_cuDeviceGetCount   = CUresult (*)(int*);
-using PFN_cuDeviceGet        = CUresult (*)(CUdevice*, int);
-using PFN_cuDeviceGetName    = CUresult (*)(char*, int, CUdevice);
-using PFN_cuDeviceTotalMem   = CUresult (*)(std::size_t*, CUdevice);
-using PFN_cuDeviceGetAttribute = CUresult (*)(int*, CUdevice_attribute, CUdevice);
-using PFN_cuDeviceGetUuid    = CUresult (*)(unsigned char[16], CUdevice);
+using PFN_cuInit             = CUresult (GPGPU_STDCALL*)(unsigned int);
+using PFN_cuDriverGetVersion = CUresult (GPGPU_STDCALL*)(int*);
+using PFN_cuDeviceGetCount   = CUresult (GPGPU_STDCALL*)(int*);
+using PFN_cuDeviceGet        = CUresult (GPGPU_STDCALL*)(CUdevice*, int);
+using PFN_cuDeviceGetName    = CUresult (GPGPU_STDCALL*)(char*, int, CUdevice);
+using PFN_cuDeviceTotalMem   = CUresult (GPGPU_STDCALL*)(std::size_t*, CUdevice);
+using PFN_cuDeviceGetAttribute = CUresult (GPGPU_STDCALL*)(int*, CUdevice_attribute, CUdevice);
+using PFN_cuDeviceGetUuid    = CUresult (GPGPU_STDCALL*)(unsigned char[16], CUdevice);
 
 // Approximate "CUDA cores" from compute capability and SM count.
 // Table is the well-known one published in the CUDA Programming Guide.

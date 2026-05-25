@@ -11,6 +11,7 @@
 
 #include "../platform/lib_loader.hpp"
 #include "../search_paths.hpp"
+#include "calling_convention.hpp"
 
 namespace gpgpu::backends {
 
@@ -57,15 +58,20 @@ constexpr cl_device_info CL_DEVICE_TOPOLOGY_AMD            = 0x4037;
 // KHR PCI bus info (OpenCL 3.0 + cl_khr_pci_bus_info).
 constexpr cl_device_info CL_DEVICE_PCI_BUS_INFO_KHR        = 0x410F;
 
-using PFN_clGetPlatformIDs   = cl_int (*)(cl_uint, cl_platform_id*, cl_uint*);
-using PFN_clGetPlatformInfo  = cl_int (*)(cl_platform_id, cl_platform_info, std::size_t, void*, std::size_t*);
-using PFN_clGetDeviceIDs     = cl_int (*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
-using PFN_clGetDeviceInfo    = cl_int (*)(cl_device_id, cl_device_info, std::size_t, void*, std::size_t*);
+using PFN_clGetPlatformIDs   = cl_int (GPGPU_STDCALL*)(cl_uint, cl_platform_id*, cl_uint*);
+using PFN_clGetPlatformInfo  = cl_int (GPGPU_STDCALL*)(cl_platform_id, cl_platform_info, std::size_t, void*, std::size_t*);
+using PFN_clGetDeviceIDs     = cl_int (GPGPU_STDCALL*)(cl_platform_id, cl_device_type, cl_uint, cl_device_id*, cl_uint*);
+using PFN_clGetDeviceInfo    = cl_int (GPGPU_STDCALL*)(cl_device_id, cl_device_info, std::size_t, void*, std::size_t*);
 
+// Matches the cl_amd_device_topology union layout (24 bytes total).
+// The pcie variant stores bus/device/function as signed chars at fixed
+// offsets 21/22/23 after a 17-byte `unused` padding.
 struct DeviceTopologyAmd {
     cl_uint type;
-    cl_uint reserved[17];
-    cl_uint pci[5]; // bus, device, function in some fields
+    char    unused[17];
+    char    bus;
+    char    device;
+    char    function;
 };
 
 struct PciBusInfoKhr {
@@ -242,8 +248,10 @@ ProbeResult probe_opencl() {
             } else if (v == Vendor::AMD) {
                 DeviceTopologyAmd topo{};
                 if (clGetDeviceInfo(dev, CL_DEVICE_TOPOLOGY_AMD, sizeof(topo), &topo, nullptr) == CL_SUCCESS) {
-                    // AMD topology layout: pci[0]=bus, pci[1]=device, pci[2]=function (older SDKs).
-                    id_str = format_pci_bdf(0, topo.pci[0] & 0xFF, topo.pci[1] & 0xFF, topo.pci[2] & 0x7);
+                    id_str = format_pci_bdf(0,
+                        static_cast<unsigned>(static_cast<unsigned char>(topo.bus)),
+                        static_cast<unsigned>(static_cast<unsigned char>(topo.device)),
+                        static_cast<unsigned>(static_cast<unsigned char>(topo.function)));
                 }
             }
             if (id_str.empty()) {

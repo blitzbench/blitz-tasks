@@ -68,13 +68,24 @@ void* LibHandle::resolve(const char* symbol) const noexcept {
         ::GetProcAddress(reinterpret_cast<HMODULE>(handle_), symbol));
 }
 
+namespace {
+bool is_absolute_path(const std::string& p) {
+    if (p.size() >= 3 && (p[1] == ':') && (p[2] == '\\' || p[2] == '/')) return true;
+    if (!p.empty() && (p[0] == '\\' || p[0] == '/')) return true;
+    return false;
+}
+} // namespace
+
 LibHandle try_load(const std::vector<std::string>& candidates,
                    std::string& error_out) {
     std::string aggregate;
     for (const auto& candidate : candidates) {
         if (candidate.empty()) continue;
-        HMODULE h = ::LoadLibraryExA(candidate.c_str(), nullptr,
-                                     LOAD_WITH_ALTERED_SEARCH_PATH);
+        // LOAD_WITH_ALTERED_SEARCH_PATH requires an absolute path; for bare
+        // filenames we let the OS loader follow its default search order
+        // (which includes System32, where OpenCL.dll / vulkan-1.dll live).
+        DWORD flags = is_absolute_path(candidate) ? LOAD_WITH_ALTERED_SEARCH_PATH : 0;
+        HMODULE h = ::LoadLibraryExA(candidate.c_str(), nullptr, flags);
         if (h) {
             return LibHandle(reinterpret_cast<void*>(h), candidate);
         }

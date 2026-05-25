@@ -14,6 +14,7 @@
 
 #include "../platform/lib_loader.hpp"
 #include "../search_paths.hpp"
+#include "calling_convention.hpp"
 
 namespace gpgpu::backends {
 
@@ -113,14 +114,14 @@ struct VkPhysicalDeviceMemoryProperties {
     VkMemoryHeap  memoryHeaps[VK_MAX_MEMORY_HEAPS];
 };
 
-using PFN_vkVoidFunction = void (*)();
-using PFN_vkGetInstanceProcAddr = PFN_vkVoidFunction (*)(VkInstance, const char*);
-using PFN_vkCreateInstance = VkResult (*)(const VkInstanceCreateInfo*, const void*, VkInstance*);
-using PFN_vkDestroyInstance = void (*)(VkInstance, const void*);
-using PFN_vkEnumeratePhysicalDevices = VkResult (*)(VkInstance, std::uint32_t*, VkPhysicalDevice*);
-using PFN_vkGetPhysicalDeviceProperties = void (*)(VkPhysicalDevice, VkPhysicalDeviceProperties*);
-using PFN_vkGetPhysicalDeviceMemoryProperties = void (*)(VkPhysicalDevice, VkPhysicalDeviceMemoryProperties*);
-using PFN_vkEnumerateInstanceVersion = VkResult (*)(std::uint32_t*);
+using PFN_vkVoidFunction = void (GPGPU_STDCALL*)();
+using PFN_vkGetInstanceProcAddr = PFN_vkVoidFunction (GPGPU_STDCALL*)(VkInstance, const char*);
+using PFN_vkCreateInstance = VkResult (GPGPU_STDCALL*)(const VkInstanceCreateInfo*, const void*, VkInstance*);
+using PFN_vkDestroyInstance = void (GPGPU_STDCALL*)(VkInstance, const void*);
+using PFN_vkEnumeratePhysicalDevices = VkResult (GPGPU_STDCALL*)(VkInstance, std::uint32_t*, VkPhysicalDevice*);
+using PFN_vkGetPhysicalDeviceProperties = void (GPGPU_STDCALL*)(VkPhysicalDevice, VkPhysicalDeviceProperties*);
+using PFN_vkGetPhysicalDeviceMemoryProperties = void (GPGPU_STDCALL*)(VkPhysicalDevice, VkPhysicalDeviceMemoryProperties*);
+using PFN_vkEnumerateInstanceVersion = VkResult (GPGPU_STDCALL*)(std::uint32_t*);
 
 std::string format_pci_uuid(const std::uint8_t u[VK_UUID_SIZE]) {
     char buf[40];
