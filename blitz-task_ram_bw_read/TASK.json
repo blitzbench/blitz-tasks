@@ -1,0 +1,36 @@
+{
+  "id": "task_ram_synthetic_bw_read",
+  "name": "ram_bw_read",
+  "component": "ram",
+  "benchmark_type": "synthetic",
+  "title": "Memory read bandwidth",
+  "short_description": "Sustained read bandwidth from main memory.",
+  "structured_text": {
+    "description": "Reads large arrays out of main memory across all cores, using a working set far larger than the processor caches so nearly every access reaches the memory chips. The pattern is read only, which isolates how fast the system can pull data in from memory.",
+    "metric_explanation": "Bandwidth is the number of bytes read from memory per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. Read bandwidth sets the ceiling for any workload that consumes more data than it produces, which covers most scanning and analysis tasks.",
+    "reasoning": "Reading is the most common memory access pattern, so read bandwidth is the headline figure for data heavy work that streams inputs through the cores."
+  },
+  "metric": { "id": "metric_memory_throughput", "name": "memory_throughput", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 48.0 },
+    { "machine_type": "desktop",  "value": 75.0 },
+    { "machine_type": "notebook", "value": 52.0 },
+    { "machine_type": "mobile",   "value": 30.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.5, "explanation": "Streaming textures and world data into the cores keeps read bandwidth in demand." },
+    "domain_office":               { "weight": 0.2, "explanation": "Office work reads modest amounts of data from memory." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Large builds and link steps read significant data from memory." },
+    "domain_graphics_design":       { "weight": 0.5, "explanation": "Reading large image buffers during edits is read bandwidth bound." },
+    "domain_video_editing":         { "weight": 0.6, "explanation": "Reading high resolution frames for playback and effects draws heavily on read bandwidth." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Reading large scenes and textures keeps memory busy during rendering." },
+    "domain_audio_production":      { "weight": 0.4, "explanation": "Streaming large sample libraries reads continuously from memory." },
+    "domain_cad_engineering":       { "weight": 0.5, "explanation": "Reading large meshes and result fields is read bandwidth bound." },
+    "domain_scientific_computing":  { "weight": 0.7, "explanation": "Numerical kernels are often limited by how fast inputs are read from memory." },
+    "domain_ai_training":           { "weight": 0.5, "explanation": "Reading parameters and data to feed the accelerator depends on read bandwidth." },
+    "domain_ai_inference":          { "weight": 0.6, "explanation": "CPU inference speed is largely set by how fast weights are read from memory." },
+    "domain_data_science":          { "weight": 0.7, "explanation": "Scanning wide tables is dominated by read bandwidth." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Many concurrent processes compete for read bandwidth from shared memory." }
+  }
+}

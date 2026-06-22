@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_pcie_d2h",
+  "name": "gpu_pcie_d2h",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU transfer, device to host",
+  "short_description": "Bandwidth for reading results back from the GPU to system memory.",
+  "structured_text": {
+    "description": "Transfers large buffers from the graphics processor's local memory back to system memory over the link that connects them. The test measures the download path on its own, which is the route every result takes once the GPU has finished with it.",
+    "metric_explanation": "Bandwidth is the number of bytes sent from the GPU to the host per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. Download bandwidth limits how quickly rendered frames, processed data and model outputs can be brought back for use.",
+    "reasoning": "Many pipelines are gated by getting results off the GPU, so the download path deserves its own measurement alongside upload."
+  },
+  "metric": { "id": "metric_pcie_bandwidth", "name": "pcie_bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 12.0 },
+    { "machine_type": "desktop",  "value": 24.0 },
+    { "machine_type": "notebook", "value": 12.0 },
+    { "machine_type": "mobile",   "value": 6.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Games rarely read large results back from the GPU during play." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work reads little data back from the GPU." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Reading filtered images back from the GPU uses download bandwidth." },
+    "domain_video_editing":         { "weight": 0.5, "explanation": "Reading processed frames back from the GPU for encoding is download bound." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Reading rendered frames back from the GPU uses the download path." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work reads little data back from the GPU." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Reading computed results back from the GPU uses the transfer link." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Bringing large result arrays back from the accelerator is download bandwidth bound." },
+    "domain_ai_training":           { "weight": 0.4, "explanation": "Reading metrics and checkpoints back from the GPU uses the download path." },
+    "domain_ai_inference":          { "weight": 0.5, "explanation": "Reading generated outputs back from the GPU uses download bandwidth." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Returning analytics results from the GPU is download bound." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers return tenant results over this link." }
+  }
+}

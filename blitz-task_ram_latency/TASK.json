@@ -1,0 +1,36 @@
+{
+  "id": "task_ram_synthetic_latency",
+  "name": "ram_latency",
+  "component": "ram",
+  "benchmark_type": "synthetic",
+  "title": "Memory latency",
+  "short_description": "Time to fetch a single random value from main memory.",
+  "structured_text": {
+    "description": "Chases a chain of pointers through a region of memory far larger than any cache, where each step depends on the one before it. Because the accesses cannot overlap, the test exposes the true delay of reaching main memory for a single value.",
+    "metric_explanation": "Latency is the average time to complete one dependent memory access, reported in nanoseconds.",
+    "value_interpretation": "Lower is better. Lower latency makes pointer heavy and irregular workloads feel faster, since they spend much of their time waiting on memory.",
+    "reasoning": "Bandwidth tells only half the story; latency decides performance for the many workloads that follow scattered references rather than streaming data."
+  },
+  "metric": { "id": "metric_memory_latency", "name": "memory_latency", "unit": "ns", "direction": "lower_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 90.0 },
+    { "machine_type": "desktop",  "value": 75.0 },
+    { "machine_type": "notebook", "value": 95.0 },
+    { "machine_type": "mobile",   "value": 130.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.5, "explanation": "Game logic follows scattered object references where latency drives frame consistency." },
+    "domain_office":               { "weight": 0.4, "explanation": "Interactive responsiveness depends on how quickly scattered data is fetched." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Compilers and tools walk pointer heavy structures that are sensitive to latency." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Image work is more bandwidth bound than latency bound." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Streaming media work depends more on bandwidth than on single access latency." },
+    "domain_3d_rendering":          { "weight": 0.4, "explanation": "Walking acceleration structures for rendering is latency sensitive." },
+    "domain_audio_production":      { "weight": 0.5, "explanation": "Real time audio graphs touch scattered state under tight deadlines." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Sparse data structures in solvers follow irregular, latency bound access patterns." },
+    "domain_scientific_computing":  { "weight": 0.4, "explanation": "Irregular and graph based codes are limited by memory latency." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Training is mostly streaming work where latency matters less." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Some orchestration and lookups around inference are latency sensitive." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Hash lookups and joins chase scattered memory where latency counts." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Per request work touches scattered state, so latency shapes response time." }
+  }
+}

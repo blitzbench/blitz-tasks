@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_real_world_ai_train",
+  "name": "gpu_ai_train",
+  "component": "gpu",
+  "benchmark_type": "real_world",
+  "title": "Model training step",
+  "short_description": "Training throughput of a small neural network on the GPU.",
+  "structured_text": {
+    "description": "Runs repeated training steps of a small neural network on the graphics processor, including the forward pass, the backward pass and the weight update. The model, batch size and data are fixed, so the work is dominated by accelerated matrix math and the memory traffic that feeds it.",
+    "metric_explanation": "The score is the number of training samples processed per second, reported as operations per second.",
+    "value_interpretation": "Higher is better. More samples per second means shorter training runs and faster experiment cycles.",
+    "reasoning": "A full training step with forward and backward passes is the workload that defines machine learning training hardware, and it stresses compute and memory the way real training does."
+  },
+  "metric": { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 4000.0 },
+    { "machine_type": "desktop",  "value": 9000.0 },
+    { "machine_type": "notebook", "value": 3500.0 },
+    { "machine_type": "mobile",   "value": 700.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Game machines rarely run model training." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work does not involve training models." },
+    "domain_software_development":  { "weight": 0.3, "explanation": "Developers building machine learning features train models during their work." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Custom generative models for design are sometimes trained locally." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Editing seldom involves training models." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Learned denoisers and assets are trained for rendering pipelines." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio model training is a niche activity." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Engineering teams train surrogate models for simulation." },
+    "domain_scientific_computing":  { "weight": 0.4, "explanation": "Scientific machine learning trains models on simulation and experimental data." },
+    "domain_ai_training":           { "weight": 1.0, "explanation": "This is the defining workload for the training domain." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "Fine tuning before deployment shares the same training path." },
+    "domain_data_science":          { "weight": 0.6, "explanation": "Model fitting on the GPU is a core part of advanced analytics." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared training servers run this workload for many users." }
+  }
+}

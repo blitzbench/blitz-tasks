@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_crypto_sha",
+  "name": "cpu_crypto_sha",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "SHA hashing",
+  "short_description": "SHA-256 hashing throughput on all cores.",
+  "structured_text": {
+    "description": "Hashes a buffer with SHA-256 repeatedly across all cores, using the processor's dedicated hashing instructions where they are available. The buffer stays in memory so the score reflects the speed of the hash function rather than storage.",
+    "metric_explanation": "Throughput is the number of bytes hashed per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. Processors with hardware hashing support pull well ahead of those without it.",
+    "reasoning": "Hashing underpins integrity checks, signatures, version control and storage checksums, which makes its throughput a broadly useful capability signal."
+  },
+  "metric": { "id": "metric_bandwidth", "name": "bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 5.0 },
+    { "machine_type": "desktop",  "value": 8.0 },
+    { "machine_type": "notebook", "value": 5.5 },
+    { "machine_type": "mobile",   "value": 2.5 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Verifying downloaded and patched game files runs hashing over large data." },
+    "domain_office":               { "weight": 0.2, "explanation": "Integrity checks and secure connections hash data behind the scenes." },
+    "domain_software_development":  { "weight": 0.5, "explanation": "Version control, package verification and build caches hash files constantly." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Design work hashes data only at save and sync time." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Verifying large media transfers relies on hashing." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Asset pipelines hash files to detect changes and verify transfers." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work hashes data mainly during file transfer." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Data management systems hash part files to track versions." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Verifying large data sets and results uses hashing heavily." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Deduplicating and verifying large training data sets relies on hashing." },
+    "domain_ai_inference":          { "weight": 0.2, "explanation": "Validating model files and inputs uses hashing." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Joining, deduplicating and verifying data sets runs hashing often." },
+    "domain_server_virt":           { "weight": 0.6, "explanation": "Servers hash continuously for storage integrity, caching and security." }
+  }
+}

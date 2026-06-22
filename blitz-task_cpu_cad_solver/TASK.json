@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_cad_solver",
+  "name": "cpu_cad_solver",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "Engineering simulation solver",
+  "short_description": "Sparse finite element solve over a fixed engineering model.",
+  "structured_text": {
+    "description": "Solves a bundled finite element model the way engineering simulation tools do, assembling a large sparse system and running an iterative solver to convergence across all cores. The model and tolerances are fixed so results compare directly between machines.",
+    "metric_explanation": "The score is the number of solver iterations completed per second, reported as operations per second, which tracks how quickly the simulation reaches an answer.",
+    "value_interpretation": "Higher is better. More iterations per second means faster design cycles, since engineers wait on these solves between every change.",
+    "reasoning": "Sparse solvers stress irregular memory access and double precision math in the pattern real CAD and engineering tools use, so this reflects simulation performance far better than a clean throughput test."
+  },
+  "metric": { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 4500.0 },
+    { "machine_type": "desktop",  "value": 8000.0 },
+    { "machine_type": "notebook", "value": 4000.0 },
+    { "machine_type": "mobile",   "value": 1500.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Game physics shares the iterative solver idea, though at far lower precision." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no simulation component." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Only developers of simulation tools see this kind of load." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Design work does not run engineering solvers." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Editing has no relationship to numerical solving." },
+    "domain_3d_rendering":          { "weight": 0.4, "explanation": "Cloth, fluid and soft body simulation use related sparse solvers." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work does not involve finite element solving." },
+    "domain_cad_engineering":       { "weight": 1.0, "explanation": "This is the defining heavy workload for CAD and engineering simulation." },
+    "domain_scientific_computing":  { "weight": 0.7, "explanation": "Sparse iterative solvers are central to a large share of scientific codes." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Some physics informed training reuses solver style kernels." },
+    "domain_ai_inference":          { "weight": 0.2, "explanation": "Simulation surrogates occasionally pair model inference with solver steps." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Optimisation and graph methods share some sparse linear algebra." },
+    "domain_server_virt":           { "weight": 0.2, "explanation": "Simulation jobs run on servers but are not a general server workload." }
+  }
+}

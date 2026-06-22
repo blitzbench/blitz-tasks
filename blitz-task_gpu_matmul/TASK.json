@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_matmul",
+  "name": "gpu_matmul",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU matrix multiplication",
+  "short_description": "Half precision matrix multiplication throughput using tensor units.",
+  "structured_text": {
+    "description": "Multiplies large half precision matrices on the graphics processor, using the tensor or matrix units that modern hardware provides for this exact operation. Matrix multiplication is the core building block of machine learning, and this test keeps the units saturated to find their peak rate.",
+    "metric_explanation": "Throughput is the number of half precision operations per second during the multiply, in billions, reported in GFLOPS.",
+    "value_interpretation": "Higher is better. This is the figure that most directly predicts training and inference speed, since both are dominated by matrix multiplication.",
+    "reasoning": "Raw compute tests do not exercise the dedicated matrix units, yet those units decide real machine learning performance, so a structured matrix multiply test is essential."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 40000.0 },
+    { "machine_type": "desktop",  "value": 120000.0 },
+    { "machine_type": "notebook", "value": 40000.0 },
+    { "machine_type": "mobile",   "value": 6000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.3, "explanation": "Upscaling and learned effects use matrix multiplication on the tensor units." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work rarely uses matrix units." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers building machine learning features." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Generative and learned design tools run matrix multiplication." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Machine learning effects in editing tools rely on matrix multiplication." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Learned denoisers and upscalers in rendering use the matrix units." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work makes little use of GPU matrix units." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Some accelerated solvers and surrogates rest on dense matrix multiplication." },
+    "domain_scientific_computing":  { "weight": 0.6, "explanation": "Dense linear algebra on the GPU is built on matrix multiplication." },
+    "domain_ai_training":           { "weight": 1.0, "explanation": "Training throughput is essentially matrix multiplication throughput." },
+    "domain_ai_inference":          { "weight": 0.9, "explanation": "Inference speed is dominated by the matrix multiplications inside each layer." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "GPU machine learning over large data rests on matrix multiplication." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared accelerator servers expose matrix throughput to many machine learning tenants." }
+  }
+}

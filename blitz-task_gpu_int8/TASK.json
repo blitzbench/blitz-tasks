@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_int8",
+  "name": "gpu_int8",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU int8 compute",
+  "short_description": "Eight bit integer throughput on the graphics processor.",
+  "structured_text": {
+    "description": "Runs a dense eight bit integer compute kernel on the graphics processor, using the low precision integer paths that modern hardware provides for quantised machine learning. Eight bit math lets models run faster and smaller, and this test finds the peak rate of those integer units.",
+    "metric_explanation": "Throughput is the number of integer operations per second, in billions, reported in GIOPS.",
+    "value_interpretation": "Higher is better. Strong int8 throughput speeds up quantised models, which are widely used to run inference faster and on smaller hardware.",
+    "reasoning": "Quantised eight bit inference is now a mainstream way to deploy models efficiently, and it relies on integer units that the floating point tests do not measure."
+  },
+  "metric": { "id": "metric_iops", "name": "iops", "unit": "GIOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 80000.0 },
+    { "machine_type": "desktop",  "value": 240000.0 },
+    { "machine_type": "notebook", "value": 80000.0 },
+    { "machine_type": "mobile",   "value": 12000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Quantised upscalers and effects use int8 paths on the GPU." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work rarely uses int8 GPU compute." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers building quantised machine learning features." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Some quantised generative tools run on int8 paths." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Quantised machine learning effects in editing use int8 units." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Quantised denoisers can run on int8 hardware." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work makes little use of int8 GPU compute." },
+    "domain_cad_engineering":       { "weight": 0.1, "explanation": "Engineering simulation needs higher precision than int8." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "A few methods use low precision integer math, but most need more precision." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Some training stages use int8, though most training stays in floating point." },
+    "domain_ai_inference":          { "weight": 1.0, "explanation": "Quantised int8 inference is a primary way to run models efficiently." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Quantised models speed up scoring over large data sets." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Cost efficient inference servers lean on int8 throughput to serve more per device." }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "task_disk_synthetic_seek",
+  "name": "disk_seek",
+  "component": "disk",
+  "benchmark_type": "synthetic",
+  "title": "Storage access latency",
+  "short_description": "Time to complete a single small random read from storage.",
+  "structured_text": {
+    "description": "Issues small reads to random positions one at a time, waiting for each to finish before starting the next. With no overlap to hide the delay, the test exposes the true time it takes storage to serve a single scattered request.",
+    "metric_explanation": "The score is the average time to complete one random access, reported in microseconds.",
+    "value_interpretation": "Lower is better. Low access latency keeps a system feeling instant, since many short waits add up across everyday use.",
+    "reasoning": "Throughput hides behind queues of requests, but single access latency is what the user actually feels when an app or file responds, so it complements the random read test."
+  },
+  "metric": { "id": "metric_seek_latency", "name": "seek_latency", "unit": "us", "direction": "lower_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 80.0 },
+    { "machine_type": "desktop",  "value": 50.0 },
+    { "machine_type": "notebook", "value": 75.0 },
+    { "machine_type": "mobile",   "value": 130.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.4, "explanation": "Hitching during asset streaming often traces back to access latency." },
+    "domain_office":               { "weight": 0.5, "explanation": "Everyday responsiveness depends on how quickly small files respond." },
+    "domain_software_development":  { "weight": 0.5, "explanation": "Tools that stat and open many small files are sensitive to access latency." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Loading small assets and previews benefits from low latency." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Media playback is more throughput bound than latency bound." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Gathering many small asset files is affected by access latency." },
+    "domain_audio_production":      { "weight": 0.4, "explanation": "Triggering samples on demand needs low storage latency to avoid dropouts." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Opening projects made of many small references is latency sensitive." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Random access into large data files is gated by latency." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Random record access during shuffling is affected by latency." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Loading model pieces on demand depends on storage latency." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Point lookups into large stores are latency bound." },
+    "domain_server_virt":           { "weight": 0.6, "explanation": "Database response times are tightly coupled to storage access latency." }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_vram_write",
+  "name": "gpu_vram_write",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU memory write bandwidth",
+  "short_description": "Write bandwidth to the graphics processor's own memory.",
+  "structured_text": {
+    "description": "Writes large buffers into the graphics processor's local memory with a write only pattern, using a working set far larger than any on chip cache. The result shows how fast the GPU can store results back to its own memory.",
+    "metric_explanation": "Bandwidth is the number of bytes written to GPU memory per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. Write bandwidth limits workloads that produce large outputs in GPU memory, such as render targets and generated activations.",
+    "reasoning": "Writing can behave differently from reading on a GPU memory system, so a dedicated write test captures output heavy accelerated work."
+  },
+  "metric": { "id": "metric_vram_bandwidth", "name": "vram_bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 300.0 },
+    { "machine_type": "desktop",  "value": 600.0 },
+    { "machine_type": "notebook", "value": 280.0 },
+    { "machine_type": "mobile",   "value": 60.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.5, "explanation": "Writing render targets and frame buffers each frame uses GPU write bandwidth." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work writes little data through GPU memory." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
+    "domain_graphics_design":       { "weight": 0.5, "explanation": "Producing edited image buffers writes large data into GPU memory." },
+    "domain_video_editing":         { "weight": 0.5, "explanation": "Writing processed frames into GPU memory uses write bandwidth." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Writing render buffers and intermediate results is write bandwidth bound." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work writes little through GPU memory." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Writing viewport buffers and results uses GPU write bandwidth." },
+    "domain_scientific_computing":  { "weight": 0.6, "explanation": "Writing large result arrays makes accelerated simulations write bandwidth bound." },
+    "domain_ai_training":           { "weight": 0.7, "explanation": "Writing activations and gradients consumes large amounts of write bandwidth." },
+    "domain_ai_inference":          { "weight": 0.6, "explanation": "Writing intermediate activations during inference uses write bandwidth." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Materialising results in GPU memory writes large data." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers divide write bandwidth across many tenants." }
+  }
+}

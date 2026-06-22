@@ -1,0 +1,36 @@
+{
+  "id": "task_disk_real_world_db_oltp",
+  "name": "disk_db_oltp",
+  "component": "disk",
+  "benchmark_type": "real_world",
+  "title": "Database transactions",
+  "short_description": "Mixed read and write transactions against a local database file.",
+  "structured_text": {
+    "description": "Runs a steady stream of small transactions against a local database file, mixing reads, inserts and updates while keeping the data durable on disk. This combines small random access with the flushing a real database performs to keep data safe, which is one of the most demanding everyday storage patterns.",
+    "metric_explanation": "The score is the number of database transactions committed per second, reported as operations per second.",
+    "value_interpretation": "Higher is better. More transactions per second means a database backed application stays responsive under load.",
+    "reasoning": "Durable transactional workloads push storage on small writes and flushing, which is the pattern that defines servers and database backed software."
+  },
+  "metric": { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 25000.0 },
+    { "machine_type": "desktop",  "value": 45000.0 },
+    { "machine_type": "notebook", "value": 26000.0 },
+    { "machine_type": "mobile",   "value": 9000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Games keep small local databases for state and progress." },
+    "domain_office":               { "weight": 0.3, "explanation": "Many productivity apps store their data in local databases." },
+    "domain_software_development":  { "weight": 0.5, "explanation": "Local development runs databases for testing and tooling all the time." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Creative apps use small databases for catalogues and history." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Editors keep media catalogues in local databases." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Asset and job tracking use small databases around rendering." },
+    "domain_audio_production":      { "weight": 0.2, "explanation": "Audio tools keep project and library databases on disk." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Engineering data management relies on transactional stores." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Experiment tracking and results often live in transactional databases." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Run tracking and metadata stores commit many small transactions." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "Serving systems log and look up state through transactional databases." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Querying and updating local databases is a routine part of analysis." },
+    "domain_server_virt":           { "weight": 1.0, "explanation": "Transactional database throughput is the defining storage workload for servers." }
+  }
+}

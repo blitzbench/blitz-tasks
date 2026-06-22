@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_llm_infer",
+  "name": "cpu_llm_infer",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "Local language model on CPU",
+  "short_description": "Token generation from a small quantised language model on the CPU.",
+  "structured_text": {
+    "description": "Generates text from a small quantised language model running entirely on the processor, the way local assistants run on machines without a capable GPU. The model, prompt and number of tokens are fixed, and the work is largely bound by how fast the CPU can move and multiply the model weights.",
+    "metric_explanation": "The score is the number of tokens generated per second during steady output, reported in tokens per second.",
+    "value_interpretation": "Higher is better. More tokens per second means a more responsive local assistant, since text appears closer to reading speed.",
+    "reasoning": "Running language models locally is now a mainstream use, and CPU inference is bound by memory bandwidth and vector math in a way that reflects real assistant performance."
+  },
+  "metric": { "id": "metric_tokens_per_sec", "name": "tokens_per_sec", "unit": "tokens/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 18.0 },
+    { "machine_type": "desktop",  "value": 30.0 },
+    { "machine_type": "notebook", "value": 16.0 },
+    { "machine_type": "mobile",   "value": 7.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Some games experiment with local language models for dynamic dialogue." },
+    "domain_office":               { "weight": 0.3, "explanation": "Local writing and summarising assistants are increasingly part of office work." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Local coding assistants run language models on the developer's own machine." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Design tools add local language helpers for captions and copy." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Editors use local models for transcripts and summaries." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "Rendering pipelines make little use of local language models." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work touches language models mainly for transcription." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Engineering assistants are emerging but not yet central." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Researchers use local models as writing and analysis aids." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Quick CPU checks of a model are common during training work." },
+    "domain_ai_inference":          { "weight": 1.0, "explanation": "Local language model serving on the CPU is exactly this domain." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Analysts run local models to label, extract and summarise text data." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Cost sensitive deployments serve smaller models from CPU only servers." }
+  }
+}

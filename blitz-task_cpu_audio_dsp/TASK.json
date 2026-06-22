@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_audio_dsp",
+  "name": "cpu_audio_dsp",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "Audio effects processing",
+  "short_description": "Real time audio effect graph with many voices and plugins.",
+  "structured_text": {
+    "description": "Runs a busy audio session as a single real time graph, with many simultaneous voices passing through filters, reverb and convolution. The work is kept on a single processing thread to match how live audio is handled, where every block must finish before the next one is due.",
+    "metric_explanation": "The score is the number of audio processing blocks completed per second, reported as operations per second, which reflects how many voices and effects can run without dropouts.",
+    "value_interpretation": "Higher is better. A higher number means more tracks and plugins can play at once at low latency before the audio starts to glitch.",
+    "reasoning": "Live audio lives or dies on steady single thread performance under a strict deadline, so this represents music and audio production better than any throughput average."
+  },
+  "metric": { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 18000.0 },
+    { "machine_type": "desktop",  "value": 26000.0 },
+    { "machine_type": "notebook", "value": 19000.0 },
+    { "machine_type": "mobile",   "value": 9000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.3, "explanation": "Game audio mixing and spatial effects run on a real time thread alongside the engine." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work involves only basic playback, not heavy audio processing." },
+    "domain_software_development":  { "weight": 0.1, "explanation": "Developers rarely run real time audio graphs as part of their work." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Still image work has little to do with audio processing." },
+    "domain_video_editing":         { "weight": 0.4, "explanation": "Editors run audio effects and mixing in parallel with the video timeline." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "Offline rendering does not depend on real time audio." },
+    "domain_audio_production":      { "weight": 1.0, "explanation": "This is the core daily workload for music and audio professionals." },
+    "domain_cad_engineering":       { "weight": 0.1, "explanation": "Engineering work has no meaningful audio processing component." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Signal processing research shares the same filter and transform kernels." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Audio feature extraction for training reuses these effect and transform stages." },
+    "domain_ai_inference":          { "weight": 0.2, "explanation": "Real time audio models run preprocessing through similar DSP chains." },
+    "domain_data_science":          { "weight": 0.1, "explanation": "Audio is a niche data type within general analytics." },
+    "domain_server_virt":           { "weight": 0.1, "explanation": "Servers seldom run latency bound audio graphs." }
+  }
+}

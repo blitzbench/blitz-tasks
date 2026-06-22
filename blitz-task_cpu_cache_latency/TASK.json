@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_cache_latency",
+  "name": "cpu_cache_latency",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "CPU cache latency",
+  "short_description": "Time to fetch a value from the processor's last level cache.",
+  "structured_text": {
+    "description": "Chases a chain of dependent pointers through a region sized to sit inside the processor's last level cache, where each access waits on the one before it. Because the data never leaves the cache, the result isolates how quickly the processor can serve a value that is on chip but not in the smallest, fastest cache.",
+    "metric_explanation": "Latency is the average time to complete one dependent cache access, reported in nanoseconds.",
+    "value_interpretation": "Lower is better. Low cache latency keeps tight inner loops fast, since they spend much of their time waiting on data that lives in cache.",
+    "reasoning": "Most hot code works over data that fits in cache rather than the smallest level or main memory, so on chip cache latency strongly shapes real single core performance."
+  },
+  "metric": { "id": "metric_latency", "name": "latency", "unit": "ns", "direction": "lower_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 12.0 },
+    { "machine_type": "desktop",  "value": 10.0 },
+    { "machine_type": "notebook", "value": 12.0 },
+    { "machine_type": "mobile",   "value": 18.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.5, "explanation": "Tight game loops work over cache resident data where access latency drives frame times." },
+    "domain_office":               { "weight": 0.3, "explanation": "Interactive responsiveness benefits from fast cache access during short bursts of work." },
+    "domain_software_development":  { "weight": 0.5, "explanation": "Compiler inner loops walk cache resident structures that are sensitive to latency." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Per tile image operations reuse cache held data where latency matters." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Block based codecs operate on cache resident data during processing." },
+    "domain_3d_rendering":          { "weight": 0.4, "explanation": "Traversal and shading reuse cache held working sets under latency pressure." },
+    "domain_audio_production":      { "weight": 0.5, "explanation": "Real time audio kernels run on small cache resident buffers under tight deadlines." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Solver inner blocks operate on cache resident tiles where latency counts." },
+    "domain_scientific_computing":  { "weight": 0.4, "explanation": "Blocked numerical kernels are tuned around cache and are sensitive to its latency." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Host side training work is mostly streaming, with limited cache latency pressure." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "CPU inference loops reuse cache held weights where access latency matters." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Hash tables and grouping buffers that fit in cache are latency sensitive." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Per request work over cache resident state is shaped by cache latency." }
+  }
+}

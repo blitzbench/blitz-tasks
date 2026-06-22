@@ -1,0 +1,36 @@
+{
+  "id": "task_disk_synthetic_seq_write",
+  "name": "disk_seq_write",
+  "component": "disk",
+  "benchmark_type": "synthetic",
+  "title": "Storage sequential write",
+  "short_description": "Write speed for large continuous files to storage.",
+  "structured_text": {
+    "description": "Writes a large file to storage in big continuous blocks and flushes it to the device, so the result reflects durable write speed rather than memory buffering. This is the best case write pattern and shows the top sustained write speed of the drive.",
+    "metric_explanation": "The score is the number of megabytes written per second, reported in MB/s.",
+    "value_interpretation": "Higher is better. Fast sequential writes shorten exports, captures and large file saves.",
+    "reasoning": "Sequential write speed governs how quickly a machine can save large outputs such as rendered video, exported projects and captured data."
+  },
+  "metric": { "id": "metric_sequential_write", "name": "sequential_write", "unit": "MB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 2000.0 },
+    { "machine_type": "desktop",  "value": 4200.0 },
+    { "machine_type": "notebook", "value": 2500.0 },
+    { "machine_type": "mobile",   "value": 1000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.4, "explanation": "Installing and updating games writes large files to storage." },
+    "domain_office":               { "weight": 0.2, "explanation": "Saving documents writes modest amounts of data." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Writing build artifacts and caches creates sustained write load." },
+    "domain_graphics_design":       { "weight": 0.5, "explanation": "Saving large image and project files is write bound." },
+    "domain_video_editing":         { "weight": 0.7, "explanation": "Exporting and capturing video writes large files at high rates." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Writing rendered frames and caches to storage is write heavy." },
+    "domain_audio_production":      { "weight": 0.4, "explanation": "Recording and bouncing audio writes continuously to storage." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Saving large assemblies and simulation results is write bound." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Writing large simulation output sets relies on sustained write speed." },
+    "domain_ai_training":           { "weight": 0.4, "explanation": "Saving checkpoints and processed data sets writes large files." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Inference writes results and logs but is mostly read bound." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Materialising intermediate and output tables writes large files." },
+    "domain_server_virt":           { "weight": 0.6, "explanation": "Logging, snapshots and write heavy services depend on sustained write speed." }
+  }
+}

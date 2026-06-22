@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_fp64",
+  "name": "gpu_fp64",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU double precision compute",
+  "short_description": "Double precision floating point throughput on the graphics processor.",
+  "structured_text": {
+    "description": "Runs a dense double precision compute kernel on the graphics processor, keeping the double precision units busy with fused multiply add work. Many consumer GPUs run double precision far slower than single precision, so this test separates hardware built for scientific work from hardware that is not.",
+    "metric_explanation": "Throughput is the number of double precision operations per second, in billions, reported in GFLOPS.",
+    "value_interpretation": "Higher is better. The gap against the single precision result shows how much the hardware sacrifices double precision speed, which can be large on gaming focused GPUs.",
+    "reasoning": "Engineering and scientific codes that need double precision depend on this capability, and it varies enormously across GPUs, so it deserves its own measurement."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 400.0 },
+    { "machine_type": "desktop",  "value": 900.0 },
+    { "machine_type": "notebook", "value": 350.0 },
+    { "machine_type": "mobile",   "value": 80.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games make almost no use of double precision math." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no double precision GPU component." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers of scientific GPU software." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Design work uses single precision rather than double precision math." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Editing does not use double precision GPU compute." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Some high accuracy simulation for animation needs double precision." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work does not use double precision GPU math." },
+    "domain_cad_engineering":       { "weight": 0.7, "explanation": "Engineering simulation often requires double precision accuracy on the GPU." },
+    "domain_scientific_computing":  { "weight": 1.0, "explanation": "Double precision GPU throughput is a defining requirement for many scientific codes." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Training mostly uses reduced precision rather than double precision." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference rarely uses double precision math." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "High accuracy numeric methods occasionally need double precision on the GPU." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Scientific compute servers expose double precision capability to their users." }
+  }
+}

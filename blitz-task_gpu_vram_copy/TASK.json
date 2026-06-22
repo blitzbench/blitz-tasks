@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_vram_copy",
+  "name": "gpu_vram_copy",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU memory copy bandwidth",
+  "short_description": "Bandwidth for copying data within the graphics processor's memory.",
+  "structured_text": {
+    "description": "Copies large buffers from one region of the graphics processor's local memory to another, reading and writing at the same time over a working set far larger than any on chip cache. This combined pattern matches how most GPU kernels behave, reading data, transforming it and writing it back.",
+    "metric_explanation": "Bandwidth is the number of bytes moved per second counting both the read and the write side, reported in GB/s.",
+    "value_interpretation": "Higher is better. Copy bandwidth reflects real GPU data movement more closely than read or write alone, since both happen together.",
+    "reasoning": "Most GPU kernels both read and write memory, so a copy test that does both at once is the most representative single measure of local memory throughput."
+  },
+  "metric": { "id": "metric_vram_bandwidth", "name": "vram_bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 300.0 },
+    { "machine_type": "desktop",  "value": 600.0 },
+    { "machine_type": "notebook", "value": 280.0 },
+    { "machine_type": "mobile",   "value": 60.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.6, "explanation": "Moving and transforming texture and buffer data combines reads and writes each frame." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work moves little data through GPU memory." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
+    "domain_graphics_design":       { "weight": 0.5, "explanation": "Filtering images reads layers, transforms them and writes them back in GPU memory." },
+    "domain_video_editing":         { "weight": 0.6, "explanation": "Processing frames reads and writes high resolution buffers together in GPU memory." },
+    "domain_3d_rendering":          { "weight": 0.6, "explanation": "Moving scene and buffer data combines reads and writes during GPU rendering." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work moves little data through GPU memory." },
+    "domain_cad_engineering":       { "weight": 0.5, "explanation": "Viewport and solver kernels stream data in and out of GPU memory together." },
+    "domain_scientific_computing":  { "weight": 0.6, "explanation": "Stencil and update kernels read and write large arrays together in GPU memory." },
+    "domain_ai_training":           { "weight": 0.7, "explanation": "Reading weights and writing activations together is copy heavy GPU work." },
+    "domain_ai_inference":          { "weight": 0.7, "explanation": "Streaming weights and activations through GPU memory mixes reads and writes." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Transforming large arrays reads input and writes output in GPU memory." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers divide copy bandwidth across many tenants." }
+  }
+}

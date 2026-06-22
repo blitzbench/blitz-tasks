@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_fp_multi",
+  "name": "cpu_fp_multi",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "CPU floating point, all cores",
+  "short_description": "Floating point throughput with every core running vector math.",
+  "structured_text": {
+    "description": "Runs the same fused multiply add stream as the single core floating point test, but on every available core and hardware thread at once. The result shows the peak sustained math throughput of the whole processor.",
+    "metric_explanation": "Floating point throughput is the total operations per second across all cores, in billions, reported in GFLOPS.",
+    "value_interpretation": "A higher number means more total math throughput. Comparing it against the single core result shows how well floating point work scales with core count.",
+    "reasoning": "All core floating point throughput reflects the ceiling for heavy numeric jobs such as simulation, rendering and CPU side model work."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 450.0 },
+    { "machine_type": "desktop",  "value": 850.0 },
+    { "machine_type": "notebook", "value": 400.0 },
+    { "machine_type": "mobile",   "value": 150.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.3, "explanation": "Some engines thread physics and particle math, though much stays on the main thread." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work rarely engages sustained parallel floating point math." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Build pipelines see little floating point work even when fully threaded." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Batch filters and large image operations spread floating point math across cores." },
+    "domain_video_editing":         { "weight": 0.4, "explanation": "Colour and scaling passes during export use floating point across all cores." },
+    "domain_3d_rendering":          { "weight": 0.7, "explanation": "CPU rendering and physics bakes are floating point heavy and scale across every core." },
+    "domain_audio_production":      { "weight": 0.4, "explanation": "Offline mixdown and render spread floating point effects across cores." },
+    "domain_cad_engineering":       { "weight": 0.7, "explanation": "Engineering solvers run threaded floating point math through long simulation jobs." },
+    "domain_scientific_computing":  { "weight": 0.8, "explanation": "High performance numerical work is defined by total parallel floating point throughput." },
+    "domain_ai_training":           { "weight": 0.5, "explanation": "CPU based training and feature work scale floating point across all cores." },
+    "domain_ai_inference":          { "weight": 0.5, "explanation": "Threaded CPU inference relies on aggregate floating point throughput for matrix math." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Numeric analytics and model fitting spread floating point work across cores." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Mixed server fleets see some floating point load, but it is not the main demand." }
+  }
+}

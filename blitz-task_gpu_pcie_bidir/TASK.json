@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_pcie_bidir",
+  "name": "gpu_pcie_bidir",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU transfer, both directions",
+  "short_description": "Combined bandwidth uploading to and downloading from the GPU at once.",
+  "structured_text": {
+    "description": "Transfers large buffers to the graphics processor and back from it at the same time over the link that connects them. Running both directions together shows whether the connection can sustain full speed each way at once, which is how busy pipelines actually use it.",
+    "metric_explanation": "Bandwidth is the total bytes moved per second across both directions, reported in GB/s.",
+    "value_interpretation": "Higher is better. Strong bidirectional bandwidth keeps a pipeline fed and drained at the same time, avoiding stalls when input and output overlap.",
+    "reasoning": "Real workloads often upload the next batch while downloading the last result, so the bidirectional figure captures sustained pipeline behaviour that one direction alone misses."
+  },
+  "metric": { "id": "metric_pcie_bandwidth", "name": "pcie_bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 20.0 },
+    { "machine_type": "desktop",  "value": 44.0 },
+    { "machine_type": "notebook", "value": 20.0 },
+    { "machine_type": "mobile",   "value": 9.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.3, "explanation": "Streaming assets in while reading some results back overlaps both directions." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work makes little use of the GPU transfer link." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Uploading images and reading filtered results back can overlap." },
+    "domain_video_editing":         { "weight": 0.6, "explanation": "Streaming frames to the GPU while reading processed frames back overlaps both directions." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Staging scenes while reading rendered frames back uses both directions." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work makes little use of the GPU transfer link." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Uploading models while reading results back overlaps the two directions." },
+    "domain_scientific_computing":  { "weight": 0.6, "explanation": "Pipelined simulations upload inputs while downloading results at the same time." },
+    "domain_ai_training":           { "weight": 0.7, "explanation": "Streaming the next batch in while reading metrics out keeps both directions busy." },
+    "domain_ai_inference":          { "weight": 0.6, "explanation": "Uploading inputs while returning outputs overlaps both directions in serving." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Feeding new data while returning results overlaps the transfer link." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Busy shared GPU servers move tenant data in and out at the same time." }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "task_disk_synthetic_seq_read",
+  "name": "disk_seq_read",
+  "component": "disk",
+  "benchmark_type": "synthetic",
+  "title": "Storage sequential read",
+  "short_description": "Read speed for large continuous files from storage.",
+  "structured_text": {
+    "description": "Reads a large file from storage in big continuous blocks, bypassing cached copies so the numbers reflect the drive rather than memory. This is the best case access pattern for storage and shows the top read speed the device can deliver.",
+    "metric_explanation": "The score is the number of megabytes read per second, reported in MB/s.",
+    "value_interpretation": "Higher is better. Fast sequential reads shorten the time to load large files such as videos, game levels and data sets.",
+    "reasoning": "Sequential read is the clearest measure of how quickly a machine can pull large files off storage, which affects load times across many tasks."
+  },
+  "metric": { "id": "metric_sequential_read", "name": "sequential_read", "unit": "MB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 2500.0 },
+    { "machine_type": "desktop",  "value": 5000.0 },
+    { "machine_type": "notebook", "value": 3000.0 },
+    { "machine_type": "mobile",   "value": 1500.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.6, "explanation": "Loading large game worlds and assets is mostly sequential reading." },
+    "domain_office":               { "weight": 0.3, "explanation": "Opening large documents and media benefits from fast sequential reads." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Reading large repositories and build outputs involves heavy sequential reads." },
+    "domain_graphics_design":       { "weight": 0.5, "explanation": "Loading large image and project files is read bound." },
+    "domain_video_editing":         { "weight": 0.7, "explanation": "Playing back high resolution footage demands sustained read speed." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Loading large scenes and texture sets is read heavy." },
+    "domain_audio_production":      { "weight": 0.4, "explanation": "Streaming large sample libraries reads continuously from storage." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Opening large assemblies and result files is read bound." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Loading large input data sets relies on sequential read speed." },
+    "domain_ai_training":           { "weight": 0.6, "explanation": "Streaming large training data sets from storage is read heavy." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "Loading large model files from storage depends on sequential reads." },
+    "domain_data_science":          { "weight": 0.6, "explanation": "Scanning large files into analysis is dominated by read speed." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Loading images and large data volumes draws on sequential read throughput." }
+  }
+}

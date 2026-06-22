@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_fillrate",
+  "name": "gpu_fillrate",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU pixel fill rate",
+  "short_description": "Rate at which the graphics processor can shade and write pixels.",
+  "structured_text": {
+    "description": "Draws layers of full screen geometry with texturing and blending so the graphics processor is limited by how fast it can shade and write pixels to memory. This is the raster side of the GPU rather than its raw compute, and it stresses the output pipeline and memory bandwidth together.",
+    "metric_explanation": "The score is the number of pixels processed per second, reported in millions of pixels per second.",
+    "value_interpretation": "Higher is better. A higher fill rate helps at high resolutions and with heavy transparency, where many layers of pixels are drawn each frame.",
+    "reasoning": "Fill rate captures the traditional graphics pipeline that compute focused tests miss, and it directly affects high resolution gaming and 2D heavy interfaces."
+  },
+  "metric": { "id": "metric_fillrate", "name": "fillrate", "unit": "mpixels/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 80000.0 },
+    { "machine_type": "desktop",  "value": 180000.0 },
+    { "machine_type": "notebook", "value": 80000.0 },
+    { "machine_type": "mobile",   "value": 25000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.7, "explanation": "Fill rate sets frame rate at high resolutions and with heavy transparency effects." },
+    "domain_office":               { "weight": 0.3, "explanation": "Smooth high resolution desktops and many windows depend on fill rate." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Multi monitor coding setups benefit modestly from fill rate." },
+    "domain_graphics_design":       { "weight": 0.6, "explanation": "Large high resolution canvases with many layers are fill rate bound." },
+    "domain_video_editing":         { "weight": 0.5, "explanation": "High resolution timeline previews push many pixels through the pipeline." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Interactive viewports rely on fast pixel output as well as compute." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio interfaces place little demand on pixel fill rate." },
+    "domain_cad_engineering":       { "weight": 0.5, "explanation": "Large model viewports with shading depend on strong fill rate." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Visualisation benefits, but compute dominates scientific GPU use." },
+    "domain_ai_training":           { "weight": 0.1, "explanation": "Training does almost no rasterisation." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference is compute bound rather than fill rate bound." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Interactive plots of large data sets use some fill rate." },
+    "domain_server_virt":           { "weight": 0.2, "explanation": "Remote desktop and streaming servers push rendered pixels to clients." }
+  }
+}

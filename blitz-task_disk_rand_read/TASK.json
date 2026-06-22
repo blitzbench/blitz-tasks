@@ -1,0 +1,36 @@
+{
+  "id": "task_disk_synthetic_rand_read",
+  "name": "disk_rand_read",
+  "component": "disk",
+  "benchmark_type": "synthetic",
+  "title": "Storage random read",
+  "short_description": "Small random read operations per second from storage.",
+  "structured_text": {
+    "description": "Issues many small reads to random positions across a large region of storage, keeping several requests in flight at once. Random access is far harder for storage than sequential streaming, and it is closer to how operating systems and applications actually touch many small files.",
+    "metric_explanation": "The score is the number of read operations completed per second, reported in IOPS.",
+    "value_interpretation": "Higher is better. High random read performance makes a machine feel responsive when launching apps and opening many small files.",
+    "reasoning": "Random read performance is what separates a snappy system from a sluggish one in daily use, since most everyday access is scattered rather than sequential."
+  },
+  "metric": { "id": "metric_random_iops", "name": "random_iops", "unit": "IOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 400000.0 },
+    { "machine_type": "desktop",  "value": 800000.0 },
+    { "machine_type": "notebook", "value": 450000.0 },
+    { "machine_type": "mobile",   "value": 150000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.5, "explanation": "Streaming many small assets during play depends on random read speed." },
+    "domain_office":               { "weight": 0.5, "explanation": "Launching apps and opening many small files is random read bound." },
+    "domain_software_development":  { "weight": 0.7, "explanation": "Builds and tools touch thousands of small source files at random." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Loading many small brushes, assets and previews uses random reads." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Media work is mostly sequential, with some random access to proxies." },
+    "domain_3d_rendering":          { "weight": 0.4, "explanation": "Loading many small texture and asset files involves random reads." },
+    "domain_audio_production":      { "weight": 0.4, "explanation": "Sample libraries trigger many small random reads during playback." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Large projects reference many small part and resource files." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Some data formats use random access into large files." },
+    "domain_ai_training":           { "weight": 0.5, "explanation": "Shuffled training data reads many small records at random." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Loading model shards and assets involves some random access." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Indexed lookups and partitioned data sets drive random reads." },
+    "domain_server_virt":           { "weight": 0.7, "explanation": "Databases and many concurrent tenants generate heavy random read load." }
+  }
+}

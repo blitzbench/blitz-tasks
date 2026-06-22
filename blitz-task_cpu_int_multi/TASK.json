@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_int_multi",
+  "name": "cpu_int_multi",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "CPU integer, all cores",
+  "short_description": "Integer arithmetic throughput with every core and thread busy.",
+  "structured_text": {
+    "description": "Runs the same integer arithmetic mix as the single core test, but spreads it across every available core and hardware thread for a few seconds. The combined result shows how much integer work the whole processor can sustain at once.",
+    "metric_explanation": "Throughput is the total integer operations per second across all cores, divided by one million, reported in Mops/s.",
+    "value_interpretation": "A higher number means more total throughput. The gap between this and the single core result shows how well the chip scales as cores are added.",
+    "reasoning": "All core integer throughput captures the headroom available for parallel workloads such as compiling, encoding and serving many requests at once."
+  },
+  "metric": { "id": "metric_throughput", "name": "throughput", "unit": "Mops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 9000.0 },
+    { "machine_type": "desktop",  "value": 16000.0 },
+    { "machine_type": "notebook", "value": 8000.0 },
+    { "machine_type": "mobile",   "value": 3500.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.4, "explanation": "Modern engines split work across cores for physics, streaming and draw call submission." },
+    "domain_office":               { "weight": 0.2, "explanation": "Most office work uses a few cores at most, so extra cores add little." },
+    "domain_software_development":  { "weight": 0.7, "explanation": "Parallel builds and test suites scale almost directly with available cores." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Some batch filters and exports use several cores, though many edits stay single threaded." },
+    "domain_video_editing":         { "weight": 0.6, "explanation": "Encoding and effects export spread across all cores during render." },
+    "domain_3d_rendering":          { "weight": 0.6, "explanation": "CPU rendering and simulation bake jobs use every core they can get." },
+    "domain_audio_production":      { "weight": 0.3, "explanation": "Large sessions distribute tracks across cores, but the real time path stays single threaded." },
+    "domain_cad_engineering":       { "weight": 0.5, "explanation": "Meshing and many solvers parallelise across cores during long jobs." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Numerical simulations are routinely threaded across all cores." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Data loading and preprocessing on the host feed the accelerator from many cores." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "CPU side inference and batching benefit from spreading across cores." },
+    "domain_data_science":          { "weight": 0.6, "explanation": "Group, join and aggregate kernels parallelise across cores over large tables." },
+    "domain_server_virt":           { "weight": 0.7, "explanation": "Hosting many processes or containers at once depends directly on total core throughput." }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_raytrace",
+  "name": "cpu_raytrace",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "CPU ray traced rendering",
+  "short_description": "Path traced render of a bundled scene on the processor.",
+  "structured_text": {
+    "description": "Renders a bundled 3D scene with a path tracer that runs entirely on the processor, tracing rays through a bounding volume hierarchy across all cores. The scene, sample count and resolution are fixed so the result depends only on the CPU.",
+    "metric_explanation": "The score is the number of completed render tiles per minute, reported as items per minute, which scales with how fast the full image is produced.",
+    "value_interpretation": "Higher is better. More tiles per minute means shorter waits for a finished frame and faster iteration on lighting and materials.",
+    "reasoning": "CPU path tracing is still the backbone of high quality offline rendering, and it stresses floating point math, memory access and scheduling together, which makes it a strong stand in for 3D production."
+  },
+  "metric": { "id": "metric_items_per_min", "name": "items_per_min", "unit": "items/min", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 240.0 },
+    { "machine_type": "desktop",  "value": 460.0 },
+    { "machine_type": "notebook", "value": 210.0 },
+    { "machine_type": "mobile",   "value": 70.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Offline lightmap baking shares the same path tracing math, though play time uses the GPU." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office tasks never run ray traced rendering." },
+    "domain_software_development":  { "weight": 0.1, "explanation": "Rendering is relevant only to developers building graphics tools." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Product and packaging visuals are often rendered with a path tracer." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Rendered 3D elements are composited into edited footage." },
+    "domain_3d_rendering":          { "weight": 1.0, "explanation": "This is the defining workload for offline 3D rendering and animation." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work has no rendering component." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Engineering teams produce ray traced visualisations of their designs." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Scientific visualisation uses the same ray based rendering techniques." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Synthetic training images are sometimes generated with ray traced renders." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference rarely depends on offline rendering." },
+    "domain_data_science":          { "weight": 0.1, "explanation": "Analytics work does not involve ray tracing." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Render farms run this exact workload across many server nodes." }
+  }
+}

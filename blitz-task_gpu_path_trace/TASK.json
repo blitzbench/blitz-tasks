@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_real_world_path_trace",
+  "name": "gpu_path_trace",
+  "component": "gpu",
+  "benchmark_type": "real_world",
+  "title": "GPU ray traced rendering",
+  "short_description": "Path traced render of a bundled scene on the graphics processor.",
+  "structured_text": {
+    "description": "Renders a bundled scene with a path tracer that runs on the graphics processor, tracing rays and accumulating samples toward a clean image. The scene, sample budget and resolution are fixed, and the work uses the GPU's ray tracing and compute paths together.",
+    "metric_explanation": "The score is the average number of accumulated frames produced per second, reported in fps, which scales with how quickly the image converges.",
+    "value_interpretation": "Higher is better. A higher rate means faster previews and shorter final renders when working with ray traced lighting.",
+    "reasoning": "GPU path tracing is now central to high end content creation and to ray traced game effects, and it stresses both ray traversal and shading on the GPU."
+  },
+  "metric": { "id": "metric_fps", "name": "fps", "unit": "fps", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 20.0 },
+    { "machine_type": "desktop",  "value": 45.0 },
+    { "machine_type": "notebook", "value": 18.0 },
+    { "machine_type": "mobile",   "value": 5.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.5, "explanation": "Ray traced lighting and reflections are an increasing part of modern games." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office machines do not run path tracing." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Relevant mainly to developers building rendering tools." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Product and concept visuals are increasingly rendered with GPU path tracing." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Rendered 3D inserts for video are produced with these renderers." },
+    "domain_3d_rendering":          { "weight": 1.0, "explanation": "GPU path tracing is now a primary tool for offline 3D rendering." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work has no rendering component." },
+    "domain_cad_engineering":       { "weight": 0.5, "explanation": "Photoreal design review relies on GPU ray traced rendering." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "High quality scientific visualisation uses ray traced rendering." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Photoreal synthetic data is generated with path traced renders." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference rarely involves offline rendering." },
+    "domain_data_science":          { "weight": 0.1, "explanation": "Analytics does not use path tracing." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "GPU render farms run this workload across many nodes." }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_hpc_fft",
+  "name": "cpu_hpc_fft",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "Scientific compute kernel",
+  "short_description": "Double precision FFT and dense linear algebra across all cores.",
+  "structured_text": {
+    "description": "Runs a mix of double precision fast Fourier transforms and dense matrix work across all cores using a tuned numerical library. The problem sizes are chosen to spill out of cache so the test exercises both arithmetic and memory traffic, which is how real simulations behave.",
+    "metric_explanation": "The score is sustained double precision throughput, reported in GFLOPS, averaged over the run.",
+    "value_interpretation": "Higher is better. More throughput means larger models and longer simulations finish in reasonable time.",
+    "reasoning": "Transforms and linear algebra are the building blocks of most numerical and engineering codes, so double precision throughput here predicts real scientific performance."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 120.0 },
+    { "machine_type": "desktop",  "value": 230.0 },
+    { "machine_type": "notebook", "value": 110.0 },
+    { "machine_type": "mobile",   "value": 35.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games use little double precision math." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no heavy numerical component." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Developers of numerical software benefit, but general coding does not." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Image work uses single precision math rather than this kernel." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Editing rarely touches double precision numerics." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Physical simulation for animation shares these transform and solver kernels." },
+    "domain_audio_production":      { "weight": 0.3, "explanation": "Transforms here mirror the spectral math used in audio analysis." },
+    "domain_cad_engineering":       { "weight": 0.7, "explanation": "Engineering simulation leans directly on double precision transforms and linear algebra." },
+    "domain_scientific_computing":  { "weight": 1.0, "explanation": "This is the core workload for numerical simulation and high performance computing." },
+    "domain_ai_training":           { "weight": 0.4, "explanation": "Some scientific training and feature pipelines reuse these dense kernels." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Numerical preprocessing for models uses similar linear algebra." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Statistical methods and signal analysis rely on transforms and matrix math." },
+    "domain_server_virt":           { "weight": 0.2, "explanation": "General servers run little sustained double precision math." }
+  }
+}

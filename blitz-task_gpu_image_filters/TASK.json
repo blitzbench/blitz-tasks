@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_real_world_image_filters",
+  "name": "gpu_image_filters",
+  "component": "gpu",
+  "benchmark_type": "real_world",
+  "title": "Photo filter processing",
+  "short_description": "Stacked photo filters applied to bundled high resolution images.",
+  "structured_text": {
+    "description": "Applies a stack of common photo editing filters, such as blur, sharpen, noise reduction and tone adjustment, to bundled high resolution images on the graphics processor. The images and filter chain are fixed, matching the accelerated path that photo and design tools use for live edits.",
+    "metric_explanation": "The score is the number of filtered images produced per minute, reported as items per minute.",
+    "value_interpretation": "Higher is better. A higher rate means edits and adjustments appear closer to instantly when working with large images.",
+    "reasoning": "Accelerated filtering on large images is the workload that makes photo and design tools feel responsive, so it represents graphics and photo editing well."
+  },
+  "metric": { "id": "metric_items_per_min", "name": "items_per_min", "unit": "items/min", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 600.0 },
+    { "machine_type": "desktop",  "value": 1100.0 },
+    { "machine_type": "notebook", "value": 550.0 },
+    { "machine_type": "mobile",   "value": 200.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Post processing in games uses similar image filtering on the GPU." },
+    "domain_office":               { "weight": 0.2, "explanation": "Light image edits appear in everyday document work." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers of imaging and creative software." },
+    "domain_graphics_design":       { "weight": 1.0, "explanation": "Filtering large images is the core interactive workload for photo and design work." },
+    "domain_video_editing":         { "weight": 0.5, "explanation": "Per frame filters in video editing reuse the same accelerated operations." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Compositing and post processing of rendered frames use image filters." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work has no image filtering." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Post processing of rendered design images uses similar filters." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Image based science applies the same convolution style filters." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Image augmentation for training reuses these filter operations." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Pre and post processing around vision models uses image filters." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Image analytics applies filters during preparation." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Image processing services run these filters at scale on shared servers." }
+  }
+}

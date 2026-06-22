@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_compile",
+  "name": "cpu_compile",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "Code compilation",
+  "short_description": "Time to compile a fixed C and C++ source tree from clean.",
+  "structured_text": {
+    "description": "Builds a bundled medium sized C and C++ project from a clean state using all available cores. The same sources, compiler flags and parallelism are used on every machine so the only variable is the processor. The bundled toolchain keeps the workload identical regardless of what is installed locally.",
+    "metric_explanation": "The score is the wall clock time to finish the build from clean to done, reported in seconds.",
+    "value_interpretation": "Lower is better. A shorter time means less waiting between code changes, which is the daily reality of software work.",
+    "reasoning": "Compilation mixes heavy parallel integer work with bursts of file access, which is exactly how developer machines spend their time, so it is the headline test for software development."
+  },
+  "metric": { "id": "metric_compile_time", "name": "compile_time", "unit": "s", "direction": "lower_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 60.0 },
+    { "machine_type": "desktop",  "value": 35.0 },
+    { "machine_type": "notebook", "value": 65.0 },
+    { "machine_type": "mobile",   "value": 140.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Build speed matters to engine developers but not to people only playing games." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office users almost never compile software." },
+    "domain_software_development":  { "weight": 1.0, "explanation": "Build time is the single most felt performance number in day to day development." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Designers rarely run compilation workloads." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Editing suites are used as installed rather than built locally." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Technical artists sometimes build tools and plugins, but rendering dominates their time." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work seldom involves compiling code." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Engineers building custom solvers and scripts benefit from fast builds." },
+    "domain_scientific_computing":  { "weight": 0.4, "explanation": "Research codes are recompiled often, so build speed shapes the work cycle." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Compiling frameworks and custom kernels is part of setting up training stacks." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Building and packaging inference runtimes is a recurring task for deployment." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Most analysis is scripted, with occasional native extension builds." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Building images and services from source is common in server pipelines." }
+  }
+}

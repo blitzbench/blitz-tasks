@@ -1,0 +1,36 @@
+{
+  "id": "task_ram_synthetic_bw_write",
+  "name": "ram_bw_write",
+  "component": "ram",
+  "benchmark_type": "synthetic",
+  "title": "Memory write bandwidth",
+  "short_description": "Sustained write bandwidth to main memory.",
+  "structured_text": {
+    "description": "Writes large arrays to main memory across all cores, using a working set far larger than the processor caches so the data is pushed out to the memory chips. The pattern is write only, which isolates how fast the system can store results back to memory.",
+    "metric_explanation": "Bandwidth is the number of bytes written to memory per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. Write bandwidth matters for workloads that generate large outputs, such as filling buffers, building data structures and producing results.",
+    "reasoning": "Writing often behaves differently from reading on a memory system, so a dedicated write test captures output heavy workloads that a read test would miss."
+  },
+  "metric": { "id": "metric_memory_throughput", "name": "memory_throughput", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 38.0 },
+    { "machine_type": "desktop",  "value": 60.0 },
+    { "machine_type": "notebook", "value": 42.0 },
+    { "machine_type": "mobile",   "value": 24.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.4, "explanation": "Building frame and world data writes large buffers into memory each frame." },
+    "domain_office":               { "weight": 0.2, "explanation": "Office work writes modest amounts of data to memory." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Builds construct large output structures and caches in memory." },
+    "domain_graphics_design":       { "weight": 0.5, "explanation": "Producing edited image buffers writes large amounts of data to memory." },
+    "domain_video_editing":         { "weight": 0.5, "explanation": "Generating processed frames writes high resolution buffers to memory." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Writing rendered buffers and intermediate results is write bandwidth bound." },
+    "domain_audio_production":      { "weight": 0.3, "explanation": "Writing processed audio buffers uses memory write bandwidth." },
+    "domain_cad_engineering":       { "weight": 0.5, "explanation": "Assembling large meshes and result fields writes heavily to memory." },
+    "domain_scientific_computing":  { "weight": 0.6, "explanation": "Producing large result arrays makes many simulations write bandwidth bound." },
+    "domain_ai_training":           { "weight": 0.5, "explanation": "Writing activations and processed batches consumes write bandwidth." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "Writing intermediate results during inference uses memory write bandwidth." },
+    "domain_data_science":          { "weight": 0.6, "explanation": "Materialising intermediate tables and results writes large data to memory." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Many processes writing at once compete for shared write bandwidth." }
+  }
+}

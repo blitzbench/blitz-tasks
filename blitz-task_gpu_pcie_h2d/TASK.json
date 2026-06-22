@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_pcie_h2d",
+  "name": "gpu_pcie_h2d",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU transfer, host to device",
+  "short_description": "Bandwidth for sending data from system memory to the GPU.",
+  "structured_text": {
+    "description": "Transfers large buffers from system memory to the graphics processor's local memory over the connection that links them, usually the PCIe bus. The test measures the upload path on its own, which is the route every input takes before the GPU can work on it.",
+    "metric_explanation": "Bandwidth is the number of bytes sent from the host to the GPU per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. Upload bandwidth limits how quickly large data sets, textures and model weights can be staged onto the GPU.",
+    "reasoning": "Before the GPU computes anything, the data has to reach it, and on many systems this link is the real bottleneck rather than the GPU itself."
+  },
+  "metric": { "id": "metric_pcie_bandwidth", "name": "pcie_bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 12.0 },
+    { "machine_type": "desktop",  "value": 24.0 },
+    { "machine_type": "notebook", "value": 12.0 },
+    { "machine_type": "mobile",   "value": 6.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.4, "explanation": "Streaming new assets onto the GPU during play uses the upload path." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work sends little data to the GPU." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Sending large images to the GPU for filtering uses upload bandwidth." },
+    "domain_video_editing":         { "weight": 0.5, "explanation": "Uploading high resolution frames to the GPU for effects is upload bound." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Staging large scenes and textures onto the GPU uses the upload path heavily." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work sends little data to the GPU." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Uploading large models to the GPU viewport uses the transfer link." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Feeding large data sets to the accelerator is often upload bandwidth bound." },
+    "domain_ai_training":           { "weight": 0.7, "explanation": "Streaming training batches onto the GPU makes upload bandwidth critical." },
+    "domain_ai_inference":          { "weight": 0.5, "explanation": "Loading model weights and inputs onto the GPU uses the upload path." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "Moving large data sets to the GPU for analytics is upload bound." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers move tenant data onto the device over this link." }
+  }
+}

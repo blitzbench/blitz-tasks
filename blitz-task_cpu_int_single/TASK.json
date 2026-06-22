@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_int_single",
+  "name": "cpu_int_single",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "CPU integer, single core",
+  "short_description": "Single core integer arithmetic throughput on one busy thread.",
+  "structured_text": {
+    "description": "Runs a tight mix of integer add, multiply, shift and compare operations on a single thread for a few seconds. The data set stays inside the core so the result reflects raw arithmetic speed rather than memory or cache behaviour.",
+    "metric_explanation": "Throughput is the number of integer operations completed per second, divided by one million, reported in Mops/s.",
+    "value_interpretation": "A higher number means a faster single core. This is the figure that matters for work that cannot be spread across many cores, such as a single browser tab or one game thread.",
+    "reasoning": "Single core integer speed is the clearest signal of how snappy a machine feels for everyday, latency sensitive work, so it anchors the synthetic CPU set."
+  },
+  "metric": { "id": "metric_throughput", "name": "throughput", "unit": "Mops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 1200.0 },
+    { "machine_type": "desktop",  "value": 1700.0 },
+    { "machine_type": "notebook", "value": 1300.0 },
+    { "machine_type": "mobile",   "value":  800.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.5, "explanation": "Game logic and the main update thread lean heavily on single core integer speed." },
+    "domain_office":               { "weight": 0.4, "explanation": "Document and browser responsiveness is bound by how fast one core handles short bursts of work." },
+    "domain_software_development":  { "weight": 0.6, "explanation": "Many build and tooling steps run on one core, and editor responsiveness depends on it." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Interactive edits dispatch on a single thread before any GPU work begins." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Timeline scrubbing and effect setup run on one core ahead of multi core export." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Scene setup and per object preparation run single threaded before the render fans out." },
+    "domain_audio_production":      { "weight": 0.6, "explanation": "Real time audio graphs run on one thread and are very sensitive to per core speed." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Model editing and geometry updates run on a single thread between solver runs." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Serial sections and setup code gate otherwise parallel simulations." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Training is dominated by the accelerator, with limited single core influence on the host." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Tokenisation and request handling run on one core around the heavy compute." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Interactive query setup and scripting run single threaded before parallel kernels start." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Per request latency depends on how fast a single core handles one unit of work." }
+  }
+}

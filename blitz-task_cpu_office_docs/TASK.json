@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_office_docs",
+  "name": "cpu_office_docs",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "Office document processing",
+  "short_description": "Spreadsheet recalculation and document rendering over bundled files.",
+  "structured_text": {
+    "description": "Works through a bundled set of office files, recalculating large spreadsheets and laying out and rendering documents to fixed page output. The workload mixes short bursts of calculation with formatting and layout, which is how productivity software actually loads a machine.",
+    "metric_explanation": "The score is the number of documents and recalculations completed per minute, reported as items per minute.",
+    "value_interpretation": "Higher is better. A higher number means less waiting when opening large files, recalculating sheets or exporting to fixed page formats.",
+    "reasoning": "Office work is bursty and latency sensitive rather than a steady grind, so a mixed document workload represents it far better than a raw throughput score."
+  },
+  "metric": { "id": "metric_items_per_min", "name": "items_per_min", "unit": "items/min", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 900.0 },
+    { "machine_type": "desktop",  "value": 1300.0 },
+    { "machine_type": "notebook", "value": 950.0 },
+    { "machine_type": "mobile",   "value": 450.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Document handling is unrelated to game performance." },
+    "domain_office":               { "weight": 1.0, "explanation": "This is the defining everyday workload for productivity machines." },
+    "domain_software_development":  { "weight": 0.3, "explanation": "Developers spend real time in documents, issues and notes alongside code." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Designers handle briefs, layouts and exported documents throughout a project." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Editors manage scripts and paperwork around the editing itself." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Studios produce documentation and reports alongside renders." },
+    "domain_audio_production":      { "weight": 0.2, "explanation": "Audio professionals handle session notes and paperwork." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Engineering produces a steady stream of reports, drawings and specifications." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Researchers spend significant time writing and formatting papers and reports." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Documentation surrounds training work but is not its main load." },
+    "domain_ai_inference":          { "weight": 0.2, "explanation": "Reporting accompanies deployed model work." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Analysts produce many reports and documents from their findings." },
+    "domain_server_virt":           { "weight": 0.2, "explanation": "Server administration involves documentation but little document rendering." }
+  }
+}

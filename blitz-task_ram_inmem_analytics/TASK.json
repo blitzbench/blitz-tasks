@@ -1,0 +1,36 @@
+{
+  "id": "task_ram_real_world_inmem_analytics",
+  "name": "ram_inmem_analytics",
+  "component": "ram",
+  "benchmark_type": "real_world",
+  "title": "In memory analytics",
+  "short_description": "Large hash join and sort held entirely in memory.",
+  "structured_text": {
+    "description": "Builds large hash tables and sorts a large data set entirely in memory, the way an analytics engine handles a join and order by over data that does not fit in cache. The work is deliberately bound by the memory system rather than by arithmetic, so it reflects how quickly the machine can move and reorganise large data.",
+    "metric_explanation": "The score is the number of records joined and sorted per second, reported as operations per second.",
+    "value_interpretation": "Higher is better. A higher rate means faster joins and sorts over large in memory data, which is where memory bound analytics spends its time.",
+    "reasoning": "Joining and sorting large in memory data sets is one of the most memory bound real workloads there is, which makes it the right real world test for the memory system."
+  },
+  "metric": { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 2.5e7 },
+    { "machine_type": "desktop",  "value": 4.5e7 },
+    { "machine_type": "notebook", "value": 2.4e7 },
+    { "machine_type": "mobile",   "value": 9.0e6 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Games do little large in memory analytics." },
+    "domain_office":               { "weight": 0.3, "explanation": "Large spreadsheets and pivot operations are smaller versions of this work." },
+    "domain_software_development":  { "weight": 0.3, "explanation": "Querying large logs and traces in memory follows the same pattern." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Design work involves little in memory analytics." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Editing rarely runs large joins or sorts." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Scene and asset management touches some in memory sorting." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work has little in memory analytics." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Sorting and matching large result sets is part of simulation post processing." },
+    "domain_scientific_computing":  { "weight": 0.4, "explanation": "Reorganising large in memory arrays is common between simulation stages." },
+    "domain_ai_training":           { "weight": 0.4, "explanation": "Shuffling and joining large feature tables in memory feeds training." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Batch inference joins inputs and features in memory before scoring." },
+    "domain_data_science":          { "weight": 1.0, "explanation": "Large in memory joins and sorts are the core of analytics workloads." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "In memory data services run these joins and sorts continuously on shared servers." }
+  }
+}

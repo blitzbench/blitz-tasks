@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_fp16",
+  "name": "gpu_fp16",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU half precision compute",
+  "short_description": "Half precision floating point throughput on the graphics processor.",
+  "structured_text": {
+    "description": "Runs a dense half precision compute kernel on the graphics processor, using the reduced precision and tensor paths that modern hardware provides. The data stays on chip so the score reflects peak reduced precision math rather than memory speed.",
+    "metric_explanation": "Throughput is the number of half precision operations per second, in billions, reported in GFLOPS.",
+    "value_interpretation": "Higher is better. The gap between this and the single precision result shows how much extra speed the hardware gains from reduced precision paths.",
+    "reasoning": "Half precision throughput is what drives modern machine learning and many accelerated effects, where hardware often delivers several times the single precision rate."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 12000.0 },
+    { "machine_type": "desktop",  "value": 32000.0 },
+    { "machine_type": "notebook", "value": 12000.0 },
+    { "machine_type": "mobile",   "value": 3000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.4, "explanation": "Upscaling and some effects use half precision math on the GPU." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work rarely uses reduced precision compute." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant to developers building accelerated software." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Some accelerated filters and generative tools run in half precision." },
+    "domain_video_editing":         { "weight": 0.4, "explanation": "Machine learning effects in editing tools use reduced precision paths." },
+    "domain_3d_rendering":          { "weight": 0.4, "explanation": "Denoising and learned effects in rendering use half precision compute." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work makes little use of GPU reduced precision math." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Some accelerated engineering tools adopt reduced precision for speed." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Mixed precision methods speed up many scientific GPU codes." },
+    "domain_ai_training":           { "weight": 1.0, "explanation": "Reduced precision throughput is the defining metric for accelerated training." },
+    "domain_ai_inference":          { "weight": 0.9, "explanation": "Most accelerated inference runs in half precision or lower." },
+    "domain_data_science":          { "weight": 0.5, "explanation": "GPU machine learning over large datasets relies on reduced precision math." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared accelerator servers expose this throughput to many machine learning tenants." }
+  }
+}

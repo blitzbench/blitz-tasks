@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_crypto_aes",
+  "name": "cpu_crypto_aes",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "AES encryption",
+  "short_description": "AES-256 symmetric encryption throughput on all cores.",
+  "structured_text": {
+    "description": "Encrypts a buffer with AES-256 repeatedly across all cores, using the processor's dedicated AES instructions where they are available. The buffer stays resident in memory so the result tracks the speed of the cipher itself rather than storage or network.",
+    "metric_explanation": "Throughput is the number of bytes encrypted per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. Machines with hardware AES support run far ahead of those that fall back to software.",
+    "reasoning": "AES is the default cipher for secure connections and full disk encryption, so its throughput is a direct measure of how cheaply a machine can protect data in motion and at rest."
+  },
+  "metric": { "id": "metric_bandwidth", "name": "bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 7.0 },
+    { "machine_type": "desktop",  "value": 11.0 },
+    { "machine_type": "notebook", "value": 7.5 },
+    { "machine_type": "mobile",   "value": 3.5 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games touch encryption only lightly, mostly for downloads and protected content." },
+    "domain_office":               { "weight": 0.2, "explanation": "Secure connections and disk encryption run quietly behind everyday office work." },
+    "domain_software_development":  { "weight": 0.3, "explanation": "Cloning, transferring and packaging encrypted data leans on the cipher." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Creative work touches encryption only at save and sync time." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Protected media and secure delivery add some encryption load around editing." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "Rendering itself does almost no encryption." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work involves little encryption beyond file transfer." },
+    "domain_cad_engineering":       { "weight": 0.1, "explanation": "Engineering work encrypts mainly when protecting project files." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Secure data movement around clusters adds modest encryption load." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Encrypted data sets are decrypted on the way into training pipelines." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Serving models involves light transport encryption only." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Reading encrypted data stores runs the cipher continuously." },
+    "domain_server_virt":           { "weight": 0.6, "explanation": "Servers spend real time encrypting connections and protecting stored data." }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_conv3d",
+  "name": "gpu_conv3d",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU 3D convolution",
+  "short_description": "Three dimensional convolution throughput on the graphics processor.",
+  "structured_text": {
+    "description": "Runs repeated three dimensional convolutions over volume shaped data on the graphics processor, the operation used for video, medical imaging and volumetric models. Adding a third dimension makes the access pattern far heavier on memory than the two dimensional case, which tests a different limit of the hardware.",
+    "metric_explanation": "Throughput is the number of operations per second performed during the convolutions, in billions, reported in GFLOPS.",
+    "value_interpretation": "Higher is better. Strong 3D convolution throughput speeds up video understanding, volumetric medical analysis and other models that work over space and time.",
+    "reasoning": "Three dimensional convolution is much more demanding than the two dimensional version and is central to video and volumetric models, so it merits a separate, harder test."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 12000.0 },
+    { "machine_type": "desktop",  "value": 34000.0 },
+    { "machine_type": "notebook", "value": 12000.0 },
+    { "machine_type": "mobile",   "value": 1800.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games rarely use three dimensional convolution during play." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work makes no use of volumetric convolution." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers building video and volumetric models." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Some volumetric and sequence effects use three dimensional convolution." },
+    "domain_video_editing":         { "weight": 0.4, "explanation": "Video understanding models that span frames use three dimensional convolution." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Volumetric effects and simulation can use three dimensional convolution." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work rarely uses volumetric convolution." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Volumetric inspection and simulation use three dimensional convolution." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Volumetric scientific data and stencil methods share this pattern." },
+    "domain_ai_training":           { "weight": 0.5, "explanation": "Training video and volumetric models relies on three dimensional convolution." },
+    "domain_ai_inference":          { "weight": 0.6, "explanation": "Running video and medical imaging models depends on this throughput." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Analytics over volumetric and time series data uses three dimensional convolution." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Video and imaging inference services run this workload on shared GPUs." }
+  }
+}

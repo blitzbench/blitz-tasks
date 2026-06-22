@@ -1,0 +1,36 @@
+{
+  "id": "task_disk_real_world_asset_load",
+  "name": "disk_asset_load",
+  "component": "disk",
+  "benchmark_type": "real_world",
+  "title": "Game asset loading",
+  "short_description": "Streaming and unpacking a bundled game asset package from storage.",
+  "structured_text": {
+    "description": "Loads a bundled package of game assets from storage and unpacks it into usable form, mixing large sequential reads of packed data with the many smaller reads and decompression steps a game performs while loading a level. The package is fixed so the result reflects how a real load screen behaves.",
+    "metric_explanation": "The score is the number of asset bundles loaded and unpacked per minute, reported as items per minute.",
+    "value_interpretation": "Higher is better. A higher rate means shorter loading screens and less stutter when a game streams new areas.",
+    "reasoning": "Game loading combines reading, seeking and decompression in one workload, which represents storage in real use far better than any single access pattern."
+  },
+  "metric": { "id": "metric_items_per_min", "name": "items_per_min", "unit": "items/min", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 240.0 },
+    { "machine_type": "desktop",  "value": 420.0 },
+    { "machine_type": "notebook", "value": 260.0 },
+    { "machine_type": "mobile",   "value": 120.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 1.0, "explanation": "Level loading and world streaming are exactly this workload." },
+    "domain_office":               { "weight": 0.2, "explanation": "Opening large bundled files shares the read and unpack pattern." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Unpacking large archives and dependency caches mirrors this work." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Loading packed asset libraries follows the same read and unpack flow." },
+    "domain_video_editing":         { "weight": 0.4, "explanation": "Loading project bundles and media caches reads and unpacks large packages." },
+    "domain_3d_rendering":          { "weight": 0.6, "explanation": "Loading packed scenes and texture sets matches this read and decompress pattern." },
+    "domain_audio_production":      { "weight": 0.4, "explanation": "Loading packed sample and instrument libraries works the same way." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Opening packaged project files involves reading and unpacking." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Unpacking compressed input archives uses the same combined pattern." },
+    "domain_ai_training":           { "weight": 0.4, "explanation": "Loading packed training shards reads and decompresses large bundles." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "Loading packaged models unpacks large files at startup." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Reading and decompressing packed data sets follows this pattern." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Pulling and unpacking container images reads and decompresses large bundles." }
+  }
+}

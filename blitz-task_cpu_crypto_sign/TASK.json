@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_crypto_sign",
+  "name": "cpu_crypto_sign",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "Digital signatures",
+  "short_description": "Ed25519 signing and verification throughput.",
+  "structured_text": {
+    "description": "Creates and verifies Ed25519 signatures over small messages as fast as the processor allows, across all cores. Unlike bulk encryption, this is many small independent operations, each dominated by arithmetic on large numbers, which is how authentication and secure handshakes actually load a machine.",
+    "metric_explanation": "Throughput is the number of sign and verify operations completed per second, reported as operations per second.",
+    "value_interpretation": "Higher is better. A higher rate means more authenticated requests and connections can be handled in the same time.",
+    "reasoning": "Signature operations sit on the hot path for secure handshakes, tokens and request authentication, which is exactly the kind of work this server performs for sessions and installs."
+  },
+  "metric": { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 80000.0 },
+    { "machine_type": "desktop",  "value": 130000.0 },
+    { "machine_type": "notebook", "value": 85000.0 },
+    { "machine_type": "mobile",   "value": 35000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games verify signatures only occasionally for updates and licensing." },
+    "domain_office":               { "weight": 0.2, "explanation": "Signed connections and documents verify signatures behind the scenes." },
+    "domain_software_development":  { "weight": 0.4, "explanation": "Signed commits, packages and tokens are verified constantly in development." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Design work rarely performs signature operations directly." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Editing involves few signature operations." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "Rendering does almost no signing work." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work seldom performs signature operations." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Signed approvals and licensing verify signatures in engineering tools." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Authenticated access to clusters and data verifies signatures." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Authenticated access to data and compute uses signatures." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "Authenticating each request to a model service relies on signature throughput." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Authenticated access to data sources verifies signatures." },
+    "domain_server_virt":           { "weight": 0.7, "explanation": "Secure handshakes and request authentication make signing a core server workload." }
+  }
+}

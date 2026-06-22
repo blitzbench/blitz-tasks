@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_crypto_chacha",
+  "name": "cpu_crypto_chacha",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "ChaCha20 encryption",
+  "short_description": "ChaCha20-Poly1305 authenticated encryption throughput on all cores.",
+  "structured_text": {
+    "description": "Encrypts and authenticates a buffer with ChaCha20-Poly1305 repeatedly across all cores. This cipher is built from plain arithmetic rather than dedicated instructions, so it shows how a processor handles secure traffic when no hardware cipher acceleration is in play, which is common on lighter and mobile hardware.",
+    "metric_explanation": "Throughput is the number of bytes encrypted and authenticated per second, reported in GB/s.",
+    "value_interpretation": "Higher is better. The gap against the AES result shows how much a machine relies on dedicated cipher instructions versus general arithmetic.",
+    "reasoning": "ChaCha20-Poly1305 is widely used for secure connections, especially where hardware AES is weak or absent, so it captures a different and important side of cryptographic performance."
+  },
+  "metric": { "id": "metric_bandwidth", "name": "bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 3.5 },
+    { "machine_type": "desktop",  "value": 5.5 },
+    { "machine_type": "notebook", "value": 3.8 },
+    { "machine_type": "mobile",   "value": 2.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games use authenticated encryption mainly for network traffic." },
+    "domain_office":               { "weight": 0.2, "explanation": "Secure browsing and messaging often run on this cipher." },
+    "domain_software_development":  { "weight": 0.3, "explanation": "Secure transfers and tunnels frequently negotiate this cipher." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Design work touches authenticated encryption only when syncing." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Secure media delivery sometimes uses this cipher." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "Rendering does almost no encryption work." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work uses encryption only for transfers." },
+    "domain_cad_engineering":       { "weight": 0.1, "explanation": "Engineering work encrypts mainly when protecting files in transit." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Secure links between nodes can use this cipher for data movement." },
+    "domain_ai_training":           { "weight": 0.1, "explanation": "Training pipelines spend little time on transport encryption." },
+    "domain_ai_inference":          { "weight": 0.2, "explanation": "Serving over secure connections uses authenticated encryption per request." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Pulling data over secure links runs this cipher." },
+    "domain_server_virt":           { "weight": 0.6, "explanation": "Servers terminate many secure connections, often on this cipher for clients without hardware AES." }
+  }
+}

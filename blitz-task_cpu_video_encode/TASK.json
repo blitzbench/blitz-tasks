@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_real_world_video_encode",
+  "name": "cpu_video_encode",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "title": "Software video encoding",
+  "short_description": "H.264 software encode of a bundled 1080p clip using x264.",
+  "structured_text": {
+    "description": "Encodes a bundled 1080p video clip to H.264 entirely on the processor using the x264 encoder at a fixed quality preset. Software encoding is chosen on purpose so the test measures the CPU rather than a fixed function hardware encoder. The clip and settings are identical on every machine.",
+    "metric_explanation": "The score is the average number of frames encoded per second across the clip, reported in fps.",
+    "value_interpretation": "Higher is better. More frames per second means faster exports and smoother previews when an effects chain forces software encoding.",
+    "reasoning": "High quality software encoding is one of the most demanding sustained jobs a creator runs, which makes it the right headline test for video work."
+  },
+  "metric": { "id": "metric_encode_fps", "name": "encode_fps", "unit": "fps", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 90.0 },
+    { "machine_type": "desktop",  "value": 160.0 },
+    { "machine_type": "notebook", "value": 80.0 },
+    { "machine_type": "mobile",   "value": 30.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Streamers encode gameplay, often falling back to the CPU when the GPU is busy." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office users encode video only occasionally for presentations." },
+    "domain_software_development":  { "weight": 0.1, "explanation": "Developers rarely run sustained video encoding." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Motion graphics work produces video that needs encoding at export." },
+    "domain_video_editing":         { "weight": 1.0, "explanation": "Software encoding speed directly sets how long a final export takes." },
+    "domain_3d_rendering":          { "weight": 0.4, "explanation": "Animation output is encoded to deliverable video after frames are rendered." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work touches video encoding only when scoring to picture." },
+    "domain_cad_engineering":       { "weight": 0.1, "explanation": "Engineering work occasionally encodes simulation flythroughs." },
+    "domain_scientific_computing":  { "weight": 0.1, "explanation": "Encoding is a minor step when turning simulation output into video." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Video datasets are sometimes transcoded during preparation." },
+    "domain_ai_inference":          { "weight": 0.2, "explanation": "Pipelines that produce video output need an encode stage." },
+    "domain_data_science":          { "weight": 0.1, "explanation": "Analytics rarely involves video encoding." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Media servers run software transcoding when hardware encoders are unavailable." }
+  }
+}

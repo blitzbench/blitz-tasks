@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_fp32",
+  "name": "gpu_fp32",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU single precision compute",
+  "short_description": "Single precision floating point throughput on the graphics processor.",
+  "structured_text": {
+    "description": "Runs a dense single precision compute kernel on the graphics processor, keeping every shading unit busy with fused multiply add work. The data stays in fast on chip memory so the result reflects raw compute power rather than memory transfer.",
+    "metric_explanation": "Throughput is the number of single precision operations per second, in billions, reported in GFLOPS.",
+    "value_interpretation": "Higher is better. This is the headline compute figure that scales with most graphics and general GPU workloads.",
+    "reasoning": "Single precision throughput is the broadest measure of GPU power and underpins gaming, rendering and most accelerated work, so it anchors the synthetic GPU set."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 6000.0 },
+    { "machine_type": "desktop",  "value": 15000.0 },
+    { "machine_type": "notebook", "value": 6000.0 },
+    { "machine_type": "mobile",   "value": 1500.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.7, "explanation": "Shading and effects in modern games depend directly on single precision GPU throughput." },
+    "domain_office":               { "weight": 0.2, "explanation": "The desktop and basic acceleration use a small fraction of GPU compute." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Most development is CPU bound, with limited GPU compute use." },
+    "domain_graphics_design":       { "weight": 0.6, "explanation": "Accelerated filters and large canvas operations run as single precision GPU work." },
+    "domain_video_editing":         { "weight": 0.6, "explanation": "Effects, transitions and previews are computed on the GPU in single precision." },
+    "domain_3d_rendering":          { "weight": 0.7, "explanation": "GPU rendering and viewport work are dominated by single precision throughput." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work makes little use of the GPU." },
+    "domain_cad_engineering":       { "weight": 0.5, "explanation": "Large model viewports and some solvers run on the GPU in single precision." },
+    "domain_scientific_computing":  { "weight": 0.5, "explanation": "Many accelerated simulations use single precision GPU compute." },
+    "domain_ai_training":           { "weight": 0.7, "explanation": "Single precision throughput sets a ceiling for accelerated training math." },
+    "domain_ai_inference":          { "weight": 0.7, "explanation": "Accelerated inference leans heavily on single precision compute." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "GPU accelerated analytics use single precision throughput over large arrays." },
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Shared GPU servers expose this compute to many tenants." }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "id": "task_gpu_synthetic_conv2d",
+  "name": "gpu_conv2d",
+  "component": "gpu",
+  "benchmark_type": "synthetic",
+  "title": "GPU 2D convolution",
+  "short_description": "Two dimensional convolution throughput on the graphics processor.",
+  "structured_text": {
+    "description": "Runs repeated two dimensional convolutions over image shaped data on the graphics processor, the operation at the heart of image models and many filters. The shapes are fixed and chosen to keep the compute units busy, so the result reflects how fast the GPU performs this specific pattern.",
+    "metric_explanation": "Throughput is the number of operations per second performed during the convolutions, in billions, reported in GFLOPS.",
+    "value_interpretation": "Higher is better. Strong 2D convolution throughput speeds up image recognition, vision models and accelerated image filters.",
+    "reasoning": "Two dimensional convolution is the dominant operation in image based machine learning and in many GPU image effects, and its access pattern differs from a plain matrix multiply, so it deserves a dedicated test."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 18000.0 },
+    { "machine_type": "desktop",  "value": 50000.0 },
+    { "machine_type": "notebook", "value": 18000.0 },
+    { "machine_type": "mobile",   "value": 3000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.3, "explanation": "Convolution based upscaling and post effects run during play." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work makes little use of convolution." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers building vision features." },
+    "domain_graphics_design":       { "weight": 0.5, "explanation": "Many accelerated image filters are convolutions over the picture." },
+    "domain_video_editing":         { "weight": 0.4, "explanation": "Per frame convolution effects and learned filters run on the GPU." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Convolution based denoisers clean up rendered frames." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work rarely uses two dimensional convolution on the GPU." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Some image based inspection tasks use convolution." },
+    "domain_scientific_computing":  { "weight": 0.4, "explanation": "Stencil and image based scientific methods share the convolution pattern." },
+    "domain_ai_training":           { "weight": 0.6, "explanation": "Training image models is dominated by two dimensional convolution." },
+    "domain_ai_inference":          { "weight": 0.7, "explanation": "Running image and vision models leans heavily on convolution throughput." },
+    "domain_data_science":          { "weight": 0.4, "explanation": "Image analytics applies convolution during processing and modelling." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Vision inference services run convolution continuously on shared GPUs." }
+  }
+}

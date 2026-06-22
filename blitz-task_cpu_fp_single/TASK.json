@@ -1,0 +1,36 @@
+{
+  "id": "task_cpu_synthetic_fp_single",
+  "name": "cpu_fp_single",
+  "component": "cpu",
+  "benchmark_type": "synthetic",
+  "title": "CPU floating point, single core",
+  "short_description": "Single core floating point throughput using vector math.",
+  "structured_text": {
+    "description": "Runs a dense stream of fused multiply add operations on one thread using the widest vector unit the processor supports. The working set stays in registers and cache so the score reflects floating point execution speed.",
+    "metric_explanation": "Floating point throughput is the number of floating point operations per second, expressed in billions, reported in GFLOPS.",
+    "value_interpretation": "A higher number means faster math on one core. This drives the parts of creative and engineering work that run before a job spreads to many threads.",
+    "reasoning": "Single core floating point speed sets the pace for latency sensitive numeric work and for the serial parts of larger parallel jobs."
+  },
+  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 60.0 },
+    { "machine_type": "desktop",  "value": 90.0 },
+    { "machine_type": "notebook", "value": 65.0 },
+    { "machine_type": "mobile",   "value": 35.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.4, "explanation": "Physics, animation and camera math run as floating point work on the game thread." },
+    "domain_office":               { "weight": 0.1, "explanation": "Productivity apps do very little sustained floating point work." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Most build work is integer bound, with limited floating point in tooling." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Colour math and per pixel adjustments use floating point on the editing thread." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Colour grading and scaling use floating point before the parallel export stage." },
+    "domain_3d_rendering":          { "weight": 0.5, "explanation": "Shading and geometry math are floating point heavy, even in the serial setup phase." },
+    "domain_audio_production":      { "weight": 0.5, "explanation": "Real time effects and synthesis run floating point math on a single thread." },
+    "domain_cad_engineering":       { "weight": 0.6, "explanation": "Geometry kernels and solver inner loops are dominated by floating point math." },
+    "domain_scientific_computing":  { "weight": 0.6, "explanation": "Numerical kernels are floating point bound even before they scale to many cores." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Host side math supports the accelerator but is not the main training path." },
+    "domain_ai_inference":          { "weight": 0.4, "explanation": "CPU inference relies on floating point throughput for matrix math." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Statistical and numeric columns use floating point during analysis." },
+    "domain_server_virt":           { "weight": 0.2, "explanation": "General server work is mostly integer and I/O bound rather than floating point." }
+  }
+}
