@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "ram_bw_copy",
+  "short_description": "Bande passante soutenue de copie de données au sein de la mémoire principale.",
+  "description": "Copie de grands tableaux d'une région de la mémoire principale vers une autre sur tous les cœurs, en lisant et en écrivant simultanément sur un ensemble de travail bien plus grand que les caches. Ce schéma combiné correspond au comportement de la plupart des mouvements de données réels, car les données sont généralement lues, transformées et réécrites.",
+  "metric_explanation": "La bande passante est le nombre d'octets déplacés par seconde en comptant à la fois la lecture et l'écriture, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante de copie reflète le mouvement quotidien des données plus fidèlement que la lecture ou l'écriture seule, puisque les deux se produisent conjointement.",
+  "reasoning": "Les charges réelles se limitent rarement à lire ou à écrire ; un test de copie qui fait les deux à la fois est donc la mesure unique la plus représentative du débit de la mémoire.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le déplacement et la transformation des données de monde et de textures combinent lectures et écritures à chaque image."
+    },
+    "domain_office": {
+      "explanation": "La bureautique fait transiter des quantités modestes de données par la mémoire."
+    },
+    "domain_software_development": {
+      "explanation": "Les compilations déplacent et transforment des structures de données, mêlant lectures et écritures."
+    },
+    "domain_graphics_design": {
+      "explanation": "La retouche lit les tampons d'image, les transforme et les réécrit."
+    },
+    "domain_video_editing": {
+      "explanation": "Le traitement des images lit et écrit conjointement des tampons haute résolution."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le déplacement des données de scène et de tampon combine lectures et écritures lors du rendu."
+    },
+    "domain_audio_production": {
+      "explanation": "Le traitement audio lit les tampons et écrit les résultats dans une même passe."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les solveurs font transiter les données par la mémoire au fil des itérations."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les noyaux de type stencil et de mise à jour lisent et écrivent conjointement de grands tableaux, rendant la bande passante de copie décisive."
+    },
+    "domain_ai_training": {
+      "explanation": "La mise en forme et le déplacement des données d'entraînement mêlent lectures et écritures en mémoire."
+    },
+    "domain_ai_inference": {
+      "explanation": "La lecture des poids et l'écriture des activations combinées constituent un travail dominé par la copie."
+    },
+    "domain_data_science": {
+      "explanation": "La transformation de larges tables lit l'entrée et écrit la sortie dans une même passe."
+    },
+    "domain_server_virt": {
+      "explanation": "De nombreux processus déplaçant des données simultanément partagent la même bande passante de copie."
+    }
+  }
+}

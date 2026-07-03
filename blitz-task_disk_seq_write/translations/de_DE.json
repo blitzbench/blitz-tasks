@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "disk_seq_write",
+  "short_description": "Schreibgeschwindigkeit für große zusammenhängende Dateien auf den Datenträger.",
+  "description": "Schreibt eine große Datei in großen zusammenhängenden Blöcken auf den Datenträger und flusht sie auf das Gerät, sodass das Ergebnis die dauerhafte Schreibgeschwindigkeit widerspiegelt und nicht die Pufferung im Speicher. Dies ist das beste Schreibmuster und zeigt die höchste anhaltbare Schreibgeschwindigkeit des Laufwerks.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde geschriebenen Megabytes, angegeben in MB/s.",
+  "value_interpretation": "„Höher ist besser.“ Schnelles sequenzielles Schreiben verkürzt Exporte, Aufnahmen und das Speichern großer Dateien.",
+  "reasoning": "Die sequenzielle Schreibgeschwindigkeit bestimmt, wie schnell eine Maschine große Ausgaben wie gerendertes Video, exportierte Projekte und aufgezeichnete Daten speichern kann.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Installieren und Aktualisieren von Spielen schreibt große Dateien auf den Datenträger."
+    },
+    "domain_office": {
+      "explanation": "Das Speichern von Dokumenten schreibt moderate Datenmengen."
+    },
+    "domain_software_development": {
+      "explanation": "Das Schreiben von Build-Artefakten und Caches erzeugt eine anhaltende Schreiblast."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Speichern großer Bild- und Projektdateien ist schreiblastig."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Exportieren und Aufnehmen von Video schreibt große Dateien mit hoher Rate."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Schreiben gerenderter Frames und Caches auf den Datenträger ist schreibintensiv."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioaufnahmen und das Rendern schreiben kontinuierlich auf den Datenträger."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Speichern großer Baugruppen und Simulationsergebnisse ist schreiblastig."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Das Schreiben großer Simulationsausgaben erfordert anhaltende Schreibgeschwindigkeit."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Speichern von Checkpoints und verarbeiteten Datensätzen schreibt große Dateien."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenz schreibt Ergebnisse und Protokolle, ist aber überwiegend leselastig."
+    },
+    "domain_data_science": {
+      "explanation": "Das Materialisieren von Zwischen- und Ausgabetabellen schreibt große Dateien."
+    },
+    "domain_server_virt": {
+      "explanation": "Protokollierung, Snapshots und schreibintensive Dienste erfordern anhaltende Schreibgeschwindigkeit."
+    }
+  }
+}

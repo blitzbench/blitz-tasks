@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_cache_latency",
+  "short_description": "Temps nécessaire pour récupérer une valeur depuis le cache de dernier niveau du processeur.",
+  "description": "Suit une chaîne de pointeurs dépendants à travers une région dimensionnée pour tenir dans le cache de dernier niveau du processeur, où chaque accès attend le précédent. Comme les données ne quittent jamais le cache, le résultat isole la rapidité avec laquelle le processeur peut servir une valeur présente sur la puce, mais pas dans le cache le plus petit et le plus rapide.",
+  "metric_explanation": "La latence est le temps moyen nécessaire pour effectuer un accès dépendant au cache, exprimé en nanosecondes.",
+  "value_interpretation": "Plus la valeur est basse, mieux c'est. Une faible latence du cache maintient la rapidité des boucles internes serrées, car elles passent une grande partie de leur temps à attendre des données situées dans le cache.",
+  "reasoning": "La majeure partie du code chaud travaille sur des données qui tiennent dans le cache plutôt que dans le plus petit niveau ou la mémoire principale ; la latence du cache sur la puce façonne donc fortement les performances réelles d'un seul cœur.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les boucles de jeu serrées travaillent sur des données résidant en cache, où la latence d'accès conditionne le temps par image."
+    },
+    "domain_office": {
+      "explanation": "La réactivité interactive profite d'accès rapides au cache lors de brèves rafales de travail."
+    },
+    "domain_software_development": {
+      "explanation": "Les boucles internes d'un compilateur parcourent des structures résidant en cache, sensibles à la latence."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les opérations image par tuile réutilisent des données conservées en cache, où la latence compte."
+    },
+    "domain_video_editing": {
+      "explanation": "Les codecs par blocs opèrent sur des données résidant en cache durant le traitement."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le parcours et l'ombrage réutilisent des jeux de données conservés en cache, sous la pression de la latence."
+    },
+    "domain_audio_production": {
+      "explanation": "Les noyaux audio temps réel s'exécutent sur de petits tampons résidant en cache, sous des délais stricts."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les blocs internes d'un solveur opèrent sur des tuiles résidant en cache, où la latence compte."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les noyaux numériques par blocs sont optimisés autour du cache et sensibles à sa latence."
+    },
+    "domain_ai_training": {
+      "explanation": "Le travail d'entraînement côté hôte relève surtout du flux continu, avec peu de pression sur la latence du cache."
+    },
+    "domain_ai_inference": {
+      "explanation": "Les boucles d'inférence sur CPU réutilisent des poids conservés en cache, où la latence d'accès compte."
+    },
+    "domain_data_science": {
+      "explanation": "Les tables de hachage et tampons de regroupement qui tiennent en cache sont sensibles à la latence."
+    },
+    "domain_server_virt": {
+      "explanation": "Le traitement par requête sur un état résidant en cache est façonné par la latence de celui-ci."
+    }
+  }
+}

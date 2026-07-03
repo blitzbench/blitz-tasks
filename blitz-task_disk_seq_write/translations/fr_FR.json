@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "disk_seq_write",
+  "short_description": "Vitesse d'écriture de grands fichiers continus vers le stockage.",
+  "description": "Écrit un gros fichier vers le stockage par grands blocs continus et le vide vers le périphérique, de sorte que le résultat reflète la vitesse d'écriture durable plutôt qu'une mise en tampon en mémoire. C'est le meilleur schéma d'écriture possible et il révèle la vitesse d'écriture soutenue maximale du disque.",
+  "metric_explanation": "Le score est le nombre de mégaoctets écrits par seconde, exprimé en MB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Des écritures séquentielles rapides raccourcissent les exportations, les captures et l'enregistrement de gros fichiers.",
+  "reasoning": "La vitesse d'écriture séquentielle détermine la rapidité avec laquelle une machine peut enregistrer de gros résultats tels que vidéo rendue, projets exportés et données capturées.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'installation et la mise à jour des jeux écrivent de gros fichiers sur le stockage."
+    },
+    "domain_office": {
+      "explanation": "L'enregistrement des documents écrit des quantités de données modestes."
+    },
+    "domain_software_development": {
+      "explanation": "L'écriture des artefacts de compilation et des caches crée une charge d'écriture soutenue."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'enregistrement de gros fichiers d'images et de projets est limité par l'écriture."
+    },
+    "domain_video_editing": {
+      "explanation": "L'export et la capture vidéo écrivent de gros fichiers à haut débit."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'écriture des images calculées et des caches sur le stockage est fortement liée à l'écriture."
+    },
+    "domain_audio_production": {
+      "explanation": "L'enregistrement et le mixage audio écrivent en continu sur le stockage."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'enregistrement de grands assemblages et de résultats de simulation est limité par l'écriture."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'écriture de grands ensembles de sorties de simulation repose sur une vitesse d'écriture soutenue."
+    },
+    "domain_ai_training": {
+      "explanation": "L'enregistrement des points de contrôle et des jeux de données traités écrit de gros fichiers."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence écrit des résultats et des journaux, mais reste surtout limitée par la lecture."
+    },
+    "domain_data_science": {
+      "explanation": "La matérialisation des tables intermédiaires et de sortie écrit de gros fichiers."
+    },
+    "domain_server_virt": {
+      "explanation": "La journalisation, les instantanés et les services à forte écriture dépendent d'une vitesse d'écriture soutenue."
+    }
+  }
+}

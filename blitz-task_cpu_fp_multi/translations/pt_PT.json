@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_fp_multi",
+  "short_description": "Débito de vírgula flutuante com todos os núcleos a executar matemática vetorial.",
+  "description": "Executa o mesmo fluxo de fused multiply add que o teste de vírgula flutuante de núcleo único, mas em todos os núcleos e threads de hardware disponíveis ao mesmo tempo. O resultado mostra o pico de débito matemático sustentado de todo o processador.",
+  "metric_explanation": "O débito de vírgula flutuante é o total de operações por segundo em todos os núcleos, em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Um número mais elevado significa mais débito matemático total. Compará-lo com o resultado de núcleo único mostra quão bem o trabalho de vírgula flutuante escala com o número de núcleos.",
+  "reasoning": "O débito de vírgula flutuante em todos os núcleos reflete o teto para tarefas numéricas pesadas como simulação, renderização e trabalho de modelos do lado do CPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Alguns motores distribuem a física e a matemática de partículas por threads, embora muito permaneça no thread principal."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório raramente exige matemática de vírgula flutuante paralela e sustentada."
+    },
+    "domain_software_development": {
+      "explanation": "Os pipelines de compilação têm pouco trabalho de vírgula flutuante, mesmo quando totalmente distribuídos por threads."
+    },
+    "domain_graphics_design": {
+      "explanation": "Os filtros em lote e as operações sobre imagens grandes distribuem a matemática de vírgula flutuante pelos núcleos."
+    },
+    "domain_video_editing": {
+      "explanation": "As passagens de cor e de escala durante a exportação utilizam vírgula flutuante em todos os núcleos."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A renderização por CPU e os bakes de física são intensivos em vírgula flutuante e escalam por todos os núcleos."
+    },
+    "domain_audio_production": {
+      "explanation": "A mistura final offline e a renderização distribuem os efeitos de vírgula flutuante pelos núcleos."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os solvers de engenharia executam matemática de vírgula flutuante distribuída por threads ao longo de tarefas de simulação prolongadas."
+    },
+    "domain_scientific_computing": {
+      "explanation": "O trabalho numérico de alto desempenho é definido pelo débito total de vírgula flutuante paralela."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino baseado em CPU e o trabalho de características escalam a vírgula flutuante por todos os núcleos."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência por CPU distribuída por threads depende do débito agregado de vírgula flutuante para a matemática matricial."
+    },
+    "domain_data_science": {
+      "explanation": "A análise numérica e o ajuste de modelos distribuem o trabalho de vírgula flutuante pelos núcleos."
+    },
+    "domain_server_virt": {
+      "explanation": "As frotas de servidores mistos têm alguma carga de vírgula flutuante, mas não é a procura principal."
+    }
+  }
+}

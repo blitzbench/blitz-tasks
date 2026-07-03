@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_fillrate",
+  "short_description": "Velocidad a la que el procesador gráfico puede sombrear y escribir píxeles.",
+  "description": "Dibuja capas de geometría a pantalla completa con texturizado y mezcla, de modo que el procesador gráfico queda limitado por la rapidez con que puede sombrear y escribir píxeles en memoria. Este es el lado de rasterizado de la GPU, no su cálculo en bruto, y exige a la vez la canalización de salida y el ancho de banda de memoria.",
+  "metric_explanation": "La puntuación es el número de píxeles procesados por segundo, expresado en millones de píxeles por segundo.",
+  "value_interpretation": "Cuanto más alto, mejor. Una tasa de relleno más alta ayuda en resoluciones altas y con transparencias intensas, donde se dibujan muchas capas de píxeles en cada fotograma.",
+  "reasoning": "La tasa de relleno captura la canalización gráfica tradicional que las pruebas centradas en el cálculo pasan por alto, y afecta directamente a los juegos en alta resolución y a las interfaces con mucho contenido 2D.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La tasa de relleno determina la frecuencia de fotogramas a altas resoluciones y con efectos de transparencia exigentes."
+    },
+    "domain_office": {
+      "explanation": "Los escritorios fluidos de alta resolución con muchas ventanas dependen de la tasa de relleno."
+    },
+    "domain_software_development": {
+      "explanation": "Las configuraciones de programación con varios monitores se benefician de forma moderada de la tasa de relleno."
+    },
+    "domain_graphics_design": {
+      "explanation": "Los lienzos grandes de alta resolución con muchas capas están limitados por la tasa de relleno."
+    },
+    "domain_video_editing": {
+      "explanation": "Las vistas previas de la línea de tiempo en alta resolución empujan muchos píxeles a través del flujo de procesamiento."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los viewports interactivos dependen tanto de una salida rápida de píxeles como del cálculo."
+    },
+    "domain_audio_production": {
+      "explanation": "Las interfaces de audio exigen poco de la tasa de relleno de píxeles."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los viewports de modelos grandes con sombreado dependen de una sólida tasa de relleno."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualización se beneficia, pero el cálculo domina el uso científico de la GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento apenas realiza rasterización."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia está limitada por el cálculo y no por la tasa de relleno."
+    },
+    "domain_data_science": {
+      "explanation": "Las gráficas interactivas de grandes conjuntos de datos usan algo de tasa de relleno."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de escritorio remoto y streaming envían píxeles renderizados a los clientes."
+    }
+  }
+}

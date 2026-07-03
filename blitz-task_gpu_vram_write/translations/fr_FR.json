@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_vram_write",
+  "short_description": "Bande passante en écriture vers la mémoire propre du processeur graphique.",
+  "description": "Écrit de grands tampons dans la mémoire locale du processeur graphique selon un schéma en écriture seule, avec un ensemble de travail bien plus grand que tout cache sur la puce. Le résultat montre la vitesse à laquelle le GPU peut stocker des résultats dans sa propre mémoire.",
+  "metric_explanation": "La bande passante est le nombre d'octets écrits dans la mémoire GPU par seconde, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante en écriture limite les charges qui produisent de grandes sorties en mémoire GPU, telles que cibles de rendu et activations générées.",
+  "reasoning": "L'écriture peut se comporter différemment de la lecture sur un système mémoire GPU ; un test d'écriture dédié saisit donc le travail accéléré à forte production de sorties.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'écriture des cibles de rendu et des tampons d'image à chaque image sollicite la bande passante en écriture du GPU."
+    },
+    "domain_office": {
+      "explanation": "La bureautique écrit peu de données dans la mémoire du GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent surtout lors du développement de logiciels accélérés par GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "La production des tampons d'image retouchés écrit de grandes données dans la mémoire du GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "L'écriture des images traitées dans la mémoire du GPU sollicite la bande passante en écriture."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'écriture des tampons de rendu et des résultats intermédiaires est limitée par la bande passante en écriture."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio écrit peu dans la mémoire du GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'écriture des tampons de la fenêtre d'affichage et des résultats sollicite la bande passante en écriture du GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'écriture de grands tableaux de résultats rend les simulations accélérées limitées par la bande passante en écriture."
+    },
+    "domain_ai_training": {
+      "explanation": "L'écriture des activations et des gradients consomme d'importantes quantités de bande passante en écriture."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'écriture des activations intermédiaires lors de l'inférence sollicite la bande passante en écriture."
+    },
+    "domain_data_science": {
+      "explanation": "La matérialisation des résultats dans la mémoire du GPU écrit de grandes données."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs GPU partagés répartissent la bande passante en écriture entre de nombreux locataires."
+    }
+  }
+}

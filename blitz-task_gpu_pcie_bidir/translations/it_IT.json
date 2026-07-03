@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_pcie_bidir",
+  "short_description": "Larghezza di banda combinata caricando verso e scaricando dalla GPU contemporaneamente.",
+  "description": "Trasferisce grandi buffer verso il processore grafico e da esso allo stesso tempo attraverso il collegamento che li connette. Eseguire entrambe le direzioni insieme mostra se la connessione può sostenere la piena velocità in ciascun senso contemporaneamente, ossia il modo in cui le pipeline sotto carico la utilizzano realmente.",
+  "metric_explanation": "La larghezza di banda è il totale dei byte spostati al secondo in entrambe le direzioni, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. Un'elevata larghezza di banda bidirezionale mantiene una pipeline alimentata e svuotata allo stesso tempo, evitando stalli quando input e output si sovrappongono.",
+  "reasoning": "I carichi di lavoro reali spesso caricano il batch successivo mentre scaricano l'ultimo risultato, quindi il dato bidirezionale cattura il comportamento sostenuto della pipeline che una singola direzione da sola non coglie.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Lo streaming degli asset in ingresso mentre si leggono alcuni risultati in uscita sfrutta entrambe le direzioni."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio fa scarso uso del collegamento di trasferimento della GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante soprattutto durante lo sviluppo di software accelerato su GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il caricamento delle immagini e la lettura dei risultati filtrati possono sovrapporsi."
+    },
+    "domain_video_editing": {
+      "explanation": "Inviare i fotogrammi alla GPU mentre si leggono quelli elaborati sfrutta entrambe le direzioni."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Preparare le scene mentre si leggono i fotogrammi renderizzati utilizza entrambe le direzioni."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa scarso uso del collegamento di trasferimento della GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Caricare i modelli mentre si leggono i risultati sovrappone le due direzioni."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le simulazioni in pipeline caricano gli input mentre scaricano i risultati nello stesso momento."
+    },
+    "domain_ai_training": {
+      "explanation": "Inviare il batch successivo mentre si leggono le metriche in uscita mantiene occupate entrambe le direzioni."
+    },
+    "domain_ai_inference": {
+      "explanation": "Caricare gli input mentre si restituiscono gli output sovrappone entrambe le direzioni nel serving."
+    },
+    "domain_data_science": {
+      "explanation": "Alimentare nuovi dati mentre si restituiscono i risultati sovrappone il collegamento di trasferimento."
+    },
+    "domain_server_virt": {
+      "explanation": "I server GPU condivisi sotto carico spostano i dati dei tenant in ingresso e in uscita nello stesso momento."
+    }
+  }
+}

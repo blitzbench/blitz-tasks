@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "ram_bw_copy",
+  "short_description": "Larghezza di banda sostenuta per copiare dati all'interno della memoria principale.",
+  "description": "Copia grandi array da una regione della memoria principale a un'altra su tutti i core, leggendo e scrivendo contemporaneamente su un working set molto più grande delle cache. Questo schema combinato rispecchia il comportamento della maggior parte dei reali movimenti di dati, poiché i dati vengono solitamente letti, trasformati e riscritti.",
+  "metric_explanation": "La larghezza di banda è il numero di byte spostati al secondo contando sia il lato lettura sia il lato scrittura, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. La larghezza di banda di copia riflette il movimento quotidiano dei dati più fedelmente della sola lettura o scrittura, poiché entrambe avvengono insieme.",
+  "reasoning": "I carichi di lavoro reali raramente eseguono solo letture o solo scritture, quindi un test di copia che esegue entrambe contemporaneamente è la singola misura più rappresentativa del throughput della memoria.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spostare e trasformare i dati di mondo e texture combina letture e scritture a ogni fotogramma."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio muove quantità modeste di dati attraverso la memoria."
+    },
+    "domain_software_development": {
+      "explanation": "Le build spostano e trasformano strutture di dati, mescolando letture e scritture."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'editing legge i buffer delle immagini, li trasforma e li riscrive."
+    },
+    "domain_video_editing": {
+      "explanation": "L'elaborazione dei fotogrammi legge e scrive insieme buffer ad alta risoluzione."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Spostare i dati di scena e buffer combina letture e scritture durante il rendering."
+    },
+    "domain_audio_production": {
+      "explanation": "L'elaborazione audio legge i buffer e scrive i risultati nello stesso passaggio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I solver spostano i dati in ingresso e in uscita dalla memoria durante le iterazioni."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I kernel stencil e di aggiornamento leggono e scrivono insieme grandi array, rendendo decisiva la larghezza di banda in copia."
+    },
+    "domain_ai_training": {
+      "explanation": "Modellare e spostare i dati di addestramento mescola letture e scritture attraverso la memoria."
+    },
+    "domain_ai_inference": {
+      "explanation": "Leggere i pesi e scrivere le attivazioni insieme è un lavoro intensivo in copia."
+    },
+    "domain_data_science": {
+      "explanation": "Trasformare tabelle larghe legge l'input e scrive l'output nello stesso passaggio."
+    },
+    "domain_server_virt": {
+      "explanation": "Molti processi che spostano dati contemporaneamente condividono la stessa larghezza di banda in copia."
+    }
+  }
+}

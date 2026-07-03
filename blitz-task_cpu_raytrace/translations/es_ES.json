@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_raytrace",
+  "short_description": "Renderizado con trazado de caminos de una escena incluida en el procesador.",
+  "description": "Renderiza una escena 3D incluida con un trazador de caminos que se ejecuta íntegramente en el procesador, trazando rayos a través de una jerarquía de volúmenes envolventes (BVH) en todos los núcleos. La escena, el número de muestras y la resolución son fijos, de modo que el resultado depende únicamente de la CPU.",
+  "metric_explanation": "La puntuación es el número de teselas de render completadas por minuto, expresado como elementos por minuto, que escala con la rapidez con la que se produce la imagen completa.",
+  "value_interpretation": "Cuanto más alto, mejor. Más teselas por minuto significan esperas más cortas para un fotograma terminado y una iteración más rápida sobre la iluminación y los materiales.",
+  "reasoning": "El trazado de caminos en la CPU sigue siendo la columna vertebral del renderizado offline de alta calidad, y exige a la vez matemáticas en coma flotante, accesos a memoria y planificación, lo que lo convierte en un buen sustituto de la producción 3D.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "El horneado de mapas de luz sin conexión comparte el mismo cálculo de trazado de caminos, aunque el tiempo de juego usa la GPU."
+    },
+    "domain_office": {
+      "explanation": "Las tareas de ofimática nunca ejecutan renderizado con trazado de rayos."
+    },
+    "domain_software_development": {
+      "explanation": "El renderizado solo es relevante para los desarrolladores que crean herramientas de gráficos."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las imágenes de producto y de embalaje se renderizan a menudo con un trazador de caminos."
+    },
+    "domain_video_editing": {
+      "explanation": "Los elementos 3D renderizados se componen sobre el metraje editado."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Esta es la carga de trabajo que define el renderizado y la animación 3D sin conexión."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio no tiene componente de renderizado."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los equipos de ingeniería elaboran visualizaciones con trazado de rayos de sus diseños."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualización científica usa las mismas técnicas de renderizado basadas en rayos."
+    },
+    "domain_ai_training": {
+      "explanation": "Las imágenes sintéticas de entrenamiento se generan a veces con renderizados con trazado de rayos."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia rara vez depende del renderizado sin conexión."
+    },
+    "domain_data_science": {
+      "explanation": "El trabajo de analítica no implica trazado de rayos."
+    },
+    "domain_server_virt": {
+      "explanation": "Las granjas de renderizado ejecutan exactamente esta carga de trabajo en muchos nodos de servidor."
+    }
+  }
+}

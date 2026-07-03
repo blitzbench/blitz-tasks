@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_diffusion",
+  "short_description": "Diffusionsbasierte Bildgenerierung auf dem Grafikprozessor.",
+  "description": "Erzeugt Bilder mit einem Diffusionsmodell auf dem Grafikprozessor und führt dabei eine feste Anzahl von Entrauschungsschritten pro Bild bei einer festgelegten Auflösung aus. Modell und Einstellungen sind auf jeder Maschine identisch, sodass das Ergebnis anhaltende beschleunigte Rechenleistung und Speicherdurchsatz widerspiegelt.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Minute erzeugten Bilder, angegeben als Elemente pro Minute.",
+  "value_interpretation": "„Höher ist besser.“ Mehr Bilder pro Minute bedeuten weniger Warten beim Erzeugen oder Weiterentwickeln visueller Ideen.",
+  "reasoning": "Die diffusionsbasierte Bildgenerierung ist eine der häufigsten lokalen Arbeitslasten des maschinellen Lernens, und ihre Entrauschungsschleife ist ein schwerer, wiederholbarer Test beschleunigter Inferenz.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Generierte Texturen und Assets werden in manchen Spiel-Pipelines eingesetzt."
+    },
+    "domain_office": {
+      "explanation": "Generierte Bilder finden sich in Präsentationen und Dokumenten."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler integrieren Bildgenerierung in ihre Anwendungen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Bildgenerierung ist mittlerweile ein fester Bestandteil des Design-Workflows."
+    },
+    "domain_video_editing": {
+      "explanation": "Generierte Frames und Elemente werden in bearbeitete Videos eingebettet."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Generierte Texturen und Konzepte fließen in die 3D-Produktion ein."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion nutzt Bildgenerierung kaum."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieurarbeit benötigt generierte Bilder selten."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Generative Modelle unterstützen bestimmte wissenschaftliche Bildgebungsaufgaben."
+    },
+    "domain_ai_training": {
+      "explanation": "Generierte Bilder werden zur Augmentierung von Trainingsdatensätzen eingesetzt."
+    },
+    "domain_ai_inference": {
+      "explanation": "Diffusion-Generierung ist eine zentrale lokale Inferenz-Arbeitslast."
+    },
+    "domain_data_science": {
+      "explanation": "Synthetische Bilddaten unterstützen bestimmte Analyse- und Modellierungsaufgaben."
+    },
+    "domain_server_virt": {
+      "explanation": "Gehostete Generierungsdienste führen diese Arbeitslast kontinuierlich für viele Nutzer aus."
+    }
+  }
+}

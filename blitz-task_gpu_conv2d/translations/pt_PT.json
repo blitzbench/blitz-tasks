@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_conv2d",
+  "short_description": "Débito de convolução bidimensional no processador gráfico.",
+  "description": "Executa convoluções bidimensionais repetidas sobre dados em forma de imagem no processador gráfico, a operação no centro dos modelos de imagem e de muitos filtros. As formas são fixas e escolhidas para manter as unidades de computação ocupadas, pelo que o resultado reflete a rapidez com que a GPU executa este padrão específico.",
+  "metric_explanation": "O débito é o número de operações por segundo realizadas durante as convoluções, em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Quanto maior, melhor. Um forte débito de convolução 2D acelera o reconhecimento de imagem, os modelos de visão e os filtros de imagem acelerados.",
+  "reasoning": "A convolução bidimensional é a operação dominante na aprendizagem automática baseada em imagem e em muitos efeitos de imagem na GPU, e o seu padrão de acesso difere de uma simples multiplicação de matrizes, pelo que merece um teste dedicado.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "O escalonamento por convolução e os pós-efeitos correm durante o jogo."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório faz pouco uso de convolução."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para os programadores que criam funcionalidades de visão."
+    },
+    "domain_graphics_design": {
+      "explanation": "Muitos filtros de imagem acelerados são convoluções sobre a imagem."
+    },
+    "domain_video_editing": {
+      "explanation": "Os efeitos de convolução por fotograma e os filtros aprendidos correm na GPU."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os denoisers baseados em convolução limpam os fotogramas renderizados."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio raramente usa convolução bidimensional na GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Algumas tarefas de inspeção baseadas em imagem usam convolução."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os métodos científicos baseados em stencils e em imagens partilham o padrão de convolução."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino de modelos de imagem é dominado pela convolução bidimensional."
+    },
+    "domain_ai_inference": {
+      "explanation": "Correr modelos de imagem e de visão apoia-se fortemente no débito de convolução."
+    },
+    "domain_data_science": {
+      "explanation": "A análise de imagem aplica convolução durante o processamento e a modelação."
+    },
+    "domain_server_virt": {
+      "explanation": "Os serviços de inferência de visão correm convolução continuamente em GPUs partilhadas."
+    }
+  }
+}

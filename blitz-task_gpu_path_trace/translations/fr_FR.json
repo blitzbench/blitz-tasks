@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_path_trace",
+  "short_description": "Rendu en path tracing d'une scène fournie sur le processeur graphique.",
+  "description": "Effectue le rendu d'une scène fournie avec un moteur de path tracing s'exécutant sur le processeur graphique, en traçant des rayons et en accumulant des échantillons vers une image nette. La scène, le budget d'échantillons et la résolution sont fixes, et le travail exploite conjointement les chemins de ray tracing et de calcul du GPU.",
+  "metric_explanation": "Le score est le nombre moyen d'images accumulées produites par seconde, exprimé en fps, ce qui évolue avec la rapidité de convergence de l'image.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un débit plus élevé signifie des aperçus plus rapides et des rendus finaux plus courts lorsqu'on travaille avec un éclairage en ray tracing.",
+  "reasoning": "Le path tracing sur GPU est désormais central pour la création de contenu haut de gamme et les effets de jeu en ray tracing, et il sollicite à la fois le parcours des rayons et l'ombrage sur le GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'éclairage et les reflets en ray tracing prennent une place croissante dans les jeux modernes."
+    },
+    "domain_office": {
+      "explanation": "Les machines bureautiques n'exécutent pas de path tracing."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent surtout pour les développeurs qui conçoivent des outils de rendu."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les visuels de produits et de concepts sont de plus en plus rendus par path tracing sur GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Les incrustations 3D rendues pour la vidéo sont produites avec ces moteurs de rendu."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le path tracing sur GPU est désormais un outil de premier plan pour le rendu 3D hors ligne."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio ne comporte aucune composante de rendu."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La revue de conception photoréaliste repose sur le rendu en ray tracing sur GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualisation scientifique de haute qualité fait appel au rendu en ray tracing."
+    },
+    "domain_ai_training": {
+      "explanation": "Les données synthétiques photoréalistes sont générées par des rendus en path tracing."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence fait rarement appel au rendu hors ligne."
+    },
+    "domain_data_science": {
+      "explanation": "L'analytique n'utilise pas le path tracing."
+    },
+    "domain_server_virt": {
+      "explanation": "Les fermes de rendu GPU exécutent cette charge de travail sur de nombreux nœuds."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_fp64",
+  "short_description": "Débito de vírgula flutuante de precisão dupla no processador gráfico.",
+  "description": "Executa um kernel de computação denso de precisão dupla no processador gráfico, mantendo as unidades de precisão dupla ocupadas com trabalho de fused multiply add. Muitas GPUs de consumo executam a precisão dupla muito mais lentamente do que a precisão simples, pelo que este teste separa o hardware concebido para trabalho científico do hardware que não o é.",
+  "metric_explanation": "O débito é o número de operações de precisão dupla por segundo, em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Quanto maior, melhor. A diferença em relação ao resultado de precisão simples mostra quanto o hardware sacrifica na velocidade de precisão dupla, que pode ser grande em GPUs focadas em jogos.",
+  "reasoning": "Os códigos de engenharia e científicos que necessitam de precisão dupla dependem desta capacidade, e ela varia enormemente entre GPUs, pelo que merece a sua própria medição.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos quase não usam cálculo em dupla precisão."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não tem componente de GPU em dupla precisão."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para os programadores de software científico para GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho de design usa precisão simples em vez de cálculo em dupla precisão."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição não usa computação da GPU em dupla precisão."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Alguma simulação de alta exatidão para animação precisa de dupla precisão."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não usa cálculo da GPU em dupla precisão."
+    },
+    "domain_cad_engineering": {
+      "explanation": "A simulação de engenharia exige frequentemente exatidão em dupla precisão na GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "O débito da GPU em dupla precisão é um requisito que define muitos códigos científicos."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino usa sobretudo precisão reduzida em vez de dupla precisão."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência raramente usa cálculo em dupla precisão."
+    },
+    "domain_data_science": {
+      "explanation": "Os métodos numéricos de alta exatidão precisam ocasionalmente de dupla precisão na GPU."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de computação científica expõem a capacidade de dupla precisão aos seus utilizadores."
+    }
+  }
+}

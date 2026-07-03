@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_fp_multi",
+  "short_description": "Throughput in virgola mobile con ogni core impegnato in calcolo vettoriale.",
+  "description": "Esegue lo stesso flusso di operazioni fused multiply-add del test in virgola mobile su singolo core, ma su ogni core e thread hardware disponibile contemporaneamente. Il risultato mostra il throughput di calcolo massimo sostenuto dell'intero processore.",
+  "metric_explanation": "Il throughput in virgola mobile è il totale delle operazioni al secondo su tutti i core, in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Un valore più alto indica un throughput di calcolo complessivo maggiore. Confrontarlo con il risultato su singolo core mostra quanto bene il lavoro in virgola mobile scali con il numero di core.",
+  "reasoning": "Il throughput in virgola mobile su tutti i core riflette il limite massimo per i carichi numerici pesanti come simulazione, rendering e lavoro sui modelli lato CPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Alcuni motori distribuiscono su più thread la fisica e i calcoli sulle particelle, sebbene gran parte resti sul thread principale."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio raramente impegna calcoli in virgola mobile parallelo prolungati."
+    },
+    "domain_software_development": {
+      "explanation": "Le pipeline di build vedono poco lavoro in virgola mobile anche quando sono pienamente parallelizzate."
+    },
+    "domain_graphics_design": {
+      "explanation": "I filtri batch e le operazioni su grandi immagini distribuiscono i calcoli in virgola mobile tra i core."
+    },
+    "domain_video_editing": {
+      "explanation": "I passaggi di colore e scaling durante l'esportazione usano la virgola mobile su tutti i core."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il rendering su CPU e i bake fisici fanno un uso intensivo della virgola mobile e scalano su ogni core."
+    },
+    "domain_audio_production": {
+      "explanation": "Il mixdown e il render offline distribuiscono gli effetti in virgola mobile tra i core."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I solver ingegneristici eseguono calcoli in virgola mobile multi thread lungo job di simulazione prolungati."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Il lavoro numerico ad alte prestazioni è definito dal throughput totale in virgola mobile parallelo."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento su CPU e il lavoro sulle caratteristiche scalano la virgola mobile su tutti i core."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza su CPU multi thread si affida al throughput aggregato in virgola mobile per i calcoli matriciali."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi numerica e l'adattamento dei modelli distribuiscono il lavoro in virgola mobile tra i core."
+    },
+    "domain_server_virt": {
+      "explanation": "I parchi server misti vedono un certo carico in virgola mobile, ma non è la richiesta principale."
+    }
+  }
+}

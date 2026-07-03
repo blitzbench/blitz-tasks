@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "disk_db_oltp",
+  "short_description": "Transazioni miste di lettura e scrittura su un file di database locale.",
+  "description": "Esegue un flusso costante di piccole transazioni su un file di database locale, combinando letture, inserimenti e aggiornamenti mantenendo i dati persistenti su disco. Ciò unisce piccoli accessi casuali al flushing che un database reale esegue per mantenere i dati al sicuro, uno degli schemi di archiviazione quotidiani più impegnativi.",
+  "metric_explanation": "Il punteggio è il numero di transazioni di database confermate al secondo, riportato come operazioni al secondo.",
+  "value_interpretation": "Più alto è, meglio è. Più transazioni al secondo significano che un'applicazione basata su database rimane reattiva sotto carico.",
+  "reasoning": "I carichi transazionali persistenti sollecitano l'archiviazione con piccole scritture e flushing, lo schema che caratterizza i server e il software basato su database.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi mantengono piccoli database locali per stato e progressi."
+    },
+    "domain_office": {
+      "explanation": "Molte app di produttività memorizzano i loro dati in database locali."
+    },
+    "domain_software_development": {
+      "explanation": "Lo sviluppo locale esegue costantemente database per test e strumenti."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le app creative usano piccoli database per cataloghi e cronologia."
+    },
+    "domain_video_editing": {
+      "explanation": "I montatori tengono i cataloghi multimediali in database locali."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il tracciamento di asset e job usa piccoli database attorno al rendering."
+    },
+    "domain_audio_production": {
+      "explanation": "Gli strumenti audio mantengono su disco i database di progetti e librerie."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La gestione dei dati di ingegneria si affida ad archivi transazionali."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Il tracciamento degli esperimenti e i risultati risiedono spesso in database transazionali."
+    },
+    "domain_ai_training": {
+      "explanation": "Il tracciamento delle esecuzioni e gli archivi di metadati eseguono molte piccole transazioni."
+    },
+    "domain_ai_inference": {
+      "explanation": "I sistemi di serving registrano e consultano lo stato tramite database transazionali."
+    },
+    "domain_data_science": {
+      "explanation": "Interrogare e aggiornare database locali è una parte abituale dell'analisi."
+    },
+    "domain_server_virt": {
+      "explanation": "Il throughput dei database transazionali è il carico di lavoro di archiviazione che definisce i server."
+    }
+  }
+}

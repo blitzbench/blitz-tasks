@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "ram_bw_write",
+  "short_description": "Largura de banda de escrita sustentada para a memória principal.",
+  "description": "Escreve grandes arrays na memória principal em todos os núcleos, usando um conjunto de trabalho muito maior do que as caches do processador, de modo que os dados são empurrados para os chips de memória. O padrão é apenas de escrita, o que isola a rapidez com que o sistema consegue armazenar resultados de volta na memória.",
+  "metric_explanation": "A largura de banda é o número de bytes escritos na memória por segundo, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. A largura de banda de escrita importa para as cargas de trabalho que geram saídas grandes, como preencher buffers, construir estruturas de dados e produzir resultados.",
+  "reasoning": "A escrita comporta-se muitas vezes de forma diferente da leitura num sistema de memória, pelo que um teste de escrita dedicado capta as cargas de trabalho com muitas saídas que um teste de leitura não detetaria.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Construir dados de fotograma e do mundo escreve grandes buffers na memória a cada fotograma."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório escreve volumes moderados de dados na memória."
+    },
+    "domain_software_development": {
+      "explanation": "As compilações constroem grandes estruturas de saída e caches na memória."
+    },
+    "domain_graphics_design": {
+      "explanation": "Produzir buffers de imagem editados escreve grandes quantidades de dados na memória."
+    },
+    "domain_video_editing": {
+      "explanation": "Gerar fotogramas processados escreve buffers de alta resolução na memória."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Escrever buffers renderizados e resultados intermédios é limitado pela largura de banda de escrita."
+    },
+    "domain_audio_production": {
+      "explanation": "Escrever buffers de áudio processados utiliza a largura de banda de escrita da memória."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Montar grandes malhas e campos de resultados escreve intensamente na memória."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Produzir grandes matrizes de resultados torna muitas simulações limitadas pela largura de banda de escrita."
+    },
+    "domain_ai_training": {
+      "explanation": "Escrever ativações e lotes processados consome largura de banda de escrita."
+    },
+    "domain_ai_inference": {
+      "explanation": "Escrever resultados intermédios durante a inferência utiliza a largura de banda de escrita da memória."
+    },
+    "domain_data_science": {
+      "explanation": "Materializar tabelas e resultados intermédios escreve grandes volumes de dados na memória."
+    },
+    "domain_server_virt": {
+      "explanation": "Muitos processos a escrever em simultâneo competem pela largura de banda de escrita partilhada."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_crypto_sha",
+  "short_description": "Rendimiento de hash SHA-256 en todos los núcleos.",
+  "description": "Calcula el hash de un búfer con SHA-256 de forma repetida en todos los núcleos, utilizando las instrucciones de hash dedicadas del procesador cuando están disponibles. El búfer permanece en memoria, de modo que la puntuación refleja la velocidad de la función de hash y no del almacenamiento.",
+  "metric_explanation": "El rendimiento es el número de bytes a los que se aplica el hash por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. Los procesadores con soporte de hash por hardware se distancian considerablemente de los que carecen de él.",
+  "reasoning": "El hash sustenta las comprobaciones de integridad, las firmas, el control de versiones y las sumas de verificación de almacenamiento, lo que hace de su rendimiento un indicador de capacidad de amplia utilidad.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Verificar los archivos de juego descargados y parcheados ejecuta funciones hash sobre grandes volúmenes de datos."
+    },
+    "domain_office": {
+      "explanation": "Las comprobaciones de integridad y las conexiones seguras aplican funciones hash a los datos en segundo plano."
+    },
+    "domain_software_development": {
+      "explanation": "El control de versiones, la verificación de paquetes y las cachés de compilación aplican hash a los archivos constantemente."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo de diseño aplica hash a los datos solo al guardar y sincronizar."
+    },
+    "domain_video_editing": {
+      "explanation": "Verificar grandes transferencias de medios depende de las funciones hash."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Las canalizaciones de recursos aplican hash a los archivos para detectar cambios y verificar transferencias."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio aplica hash a los datos principalmente durante la transferencia de archivos."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los sistemas de gestión de datos aplican hash a los archivos de piezas para controlar versiones."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Verificar grandes conjuntos de datos y resultados recurre intensamente a las funciones hash."
+    },
+    "domain_ai_training": {
+      "explanation": "Deduplicar y verificar grandes conjuntos de datos de entrenamiento depende de las funciones hash."
+    },
+    "domain_ai_inference": {
+      "explanation": "Validar los archivos de modelo y las entradas utiliza funciones hash."
+    },
+    "domain_data_science": {
+      "explanation": "Unir, deduplicar y verificar conjuntos de datos ejecuta funciones hash a menudo."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores aplican hash de forma continua para la integridad del almacenamiento, el almacenamiento en caché y la seguridad."
+    }
+  }
+}

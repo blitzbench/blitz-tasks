@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_llm_infer",
+  "short_description": "Token-Erzeugung aus einem kleinen quantisierten Sprachmodell auf der CPU.",
+  "description": "Erzeugt Text aus einem kleinen quantisierten Sprachmodell, das vollständig auf dem Prozessor läuft, so wie lokale Assistenten auf Maschinen ohne leistungsfähige GPU laufen. Modell, Prompt und Token-Anzahl sind fest, und die Arbeit ist weitgehend dadurch begrenzt, wie schnell die CPU die Modellgewichte bewegen und multiplizieren kann.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde erzeugten Tokens bei stetiger Ausgabe, angegeben in Tokens pro Sekunde.",
+  "value_interpretation": "„Höher ist besser.“ Mehr Tokens pro Sekunde bedeuten einen reaktionsschnelleren lokalen Assistenten, da Text näher an der Lesegeschwindigkeit erscheint.",
+  "reasoning": "Sprachmodelle lokal auszuführen ist inzwischen eine gängige Nutzung, und die CPU-Inferenz ist durch Bandbreite und Vektorrechnung so begrenzt, dass sie die reale Assistentenleistung widerspiegelt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Einige Spiele experimentieren mit lokalen Sprachmodellen für dynamische Dialoge."
+    },
+    "domain_office": {
+      "explanation": "Lokale Schreib- und Zusammenfassungsassistenten werden zunehmend Teil der Büroarbeit."
+    },
+    "domain_software_development": {
+      "explanation": "Lokale Coding-Assistenten führen Sprachmodelle auf dem eigenen Rechner des Entwicklers aus."
+    },
+    "domain_graphics_design": {
+      "explanation": "Design-Tools ergänzen lokale Sprachhelfer für Bildunterschriften und Texte."
+    },
+    "domain_video_editing": {
+      "explanation": "Cutter verwenden lokale Modelle für Transkripte und Zusammenfassungen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Rendering-Pipelines nutzen lokale Sprachmodelle kaum."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit berührt Sprachmodelle hauptsächlich für Transkription."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieursassistenten sind im Entstehen, aber noch nicht zentral."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Forscher nutzen lokale Modelle als Schreib- und Analysehilfen."
+    },
+    "domain_ai_training": {
+      "explanation": "Schnelle CPU-Prüfungen eines Modells sind während des Trainings üblich."
+    },
+    "domain_ai_inference": {
+      "explanation": "Lokales Ausführen von Sprachmodellen auf der CPU ist genau dieser Anwendungsbereich."
+    },
+    "domain_data_science": {
+      "explanation": "Analysten führen lokale Modelle aus, um Textdaten zu beschriften, zu extrahieren und zusammenzufassen."
+    },
+    "domain_server_virt": {
+      "explanation": "Kosteneffiziente Deployments bedienen kleinere Modelle von reinen CPU-Servern."
+    }
+  }
+}

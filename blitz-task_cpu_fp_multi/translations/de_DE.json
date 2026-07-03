@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_fp_multi",
+  "short_description": "Gleitkomma-Durchsatz mit Vektorrechnung auf jedem Kern.",
+  "description": "Führt denselben Strom aus fusionierten Multiply-Add-Operationen aus wie der Single-Core-Gleitkommatest, jedoch auf allen verfügbaren Kernen und Hardware-Threads gleichzeitig. Das Ergebnis zeigt den maximal anhaltbaren Rechendurchsatz des gesamten Prozessors.",
+  "metric_explanation": "Der Gleitkomma-Durchsatz ist die Gesamtzahl der Operationen pro Sekunde über alle Kerne, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "Eine höhere Zahl bedeutet mehr gesamten Rechendurchsatz. Der Vergleich mit dem Single-Core-Ergebnis zeigt, wie gut Gleitkommaarbeit mit der Kernzahl skaliert.",
+  "reasoning": "Der Gleitkomma-Durchsatz über alle Kerne spiegelt die Obergrenze für rechenintensive numerische Aufgaben wie Simulation, Rendering und CPU-seitige Modellarbeit wider.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Manche Engines verteilen Physik- und Partikelmathematik auf Threads, obwohl vieles auf dem Haupt-Thread bleibt."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit erfordert selten anhaltende parallele Gleitkomma-Mathematik."
+    },
+    "domain_software_development": {
+      "explanation": "Build-Pipelines verzeichnen wenig Gleitkommaarbeit, selbst wenn sie vollständig auf Threads verteilt sind."
+    },
+    "domain_graphics_design": {
+      "explanation": "Batch-Filter und große Bildoperationen verteilen Gleitkomma-Mathematik auf mehrere Kerne."
+    },
+    "domain_video_editing": {
+      "explanation": "Farb- und Skalierungsdurchgänge beim Export nutzen Gleitkomma auf allen Kernen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "CPU-Rendering und Physics-Bakes sind gleitkommaintensiv und skalieren über alle Kerne."
+    },
+    "domain_audio_production": {
+      "explanation": "Offline-Mixdown und Render verteilen Gleitkommaeffekte auf mehrere Kerne."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieur-Solver führen thread-basierte Gleitkomma-Mathematik über lange Simulationsaufgaben aus."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Hochleistungs-Numerik wird durch den gesamten parallelen Gleitkomma-Durchsatz definiert."
+    },
+    "domain_ai_training": {
+      "explanation": "CPU-basiertes Training und Feature-Arbeit skalieren Gleitkomma auf alle Kerne."
+    },
+    "domain_ai_inference": {
+      "explanation": "Thread-basierte CPU-Inferenz ist auf den aggregierten Gleitkomma-Durchsatz für Matrixmultiplikation angewiesen."
+    },
+    "domain_data_science": {
+      "explanation": "Numerische Analytik und Modellanpassung verteilen Gleitkommaarbeit auf mehrere Kerne."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemischte Server-Flotten verzeichnen etwas Gleitkommalast, aber diese ist nicht der Hauptbedarf."
+    }
+  }
+}

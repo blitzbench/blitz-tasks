@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_fp16",
+  "short_description": "Rendimiento de coma flotante de precisión media en el procesador gráfico.",
+  "description": "Ejecuta un kernel de cálculo denso de precisión media en el procesador gráfico, utilizando las rutas de precisión reducida y tensoriales que ofrece el hardware moderno. Los datos permanecen en el chip, de modo que la puntuación refleja el cálculo máximo de precisión reducida y no la velocidad de la memoria.",
+  "metric_explanation": "El rendimiento es el número de operaciones de precisión media por segundo, en miles de millones, expresado en GFLOPS.",
+  "value_interpretation": "Cuanto más alto, mejor. La diferencia entre este resultado y el de precisión simple muestra cuánta velocidad adicional gana el hardware con las rutas de precisión reducida.",
+  "reasoning": "El rendimiento de precisión media es lo que impulsa el aprendizaje automático moderno y muchos efectos acelerados, donde el hardware suele ofrecer varias veces la tasa de precisión simple.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "El reescalado y algunos efectos usan cálculos de precisión media en la GPU."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática rara vez usa cálculo de precisión reducida."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante sobre todo para los desarrolladores que crean software acelerado."
+    },
+    "domain_graphics_design": {
+      "explanation": "Algunos filtros acelerados y herramientas generativas se ejecutan en precisión media."
+    },
+    "domain_video_editing": {
+      "explanation": "Los efectos de aprendizaje automático en las herramientas de edición usan vías de precisión reducida."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La reducción de ruido y los efectos aprendidos en el renderizado usan cálculo de precisión media."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio hace un uso escaso del cálculo de precisión reducida en la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Algunas herramientas de ingeniería aceleradas adoptan la precisión reducida para ganar velocidad."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los métodos de precisión mixta aceleran muchos códigos científicos en la GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "El rendimiento en precisión reducida es la métrica que define el entrenamiento acelerado."
+    },
+    "domain_ai_inference": {
+      "explanation": "La mayor parte de la inferencia acelerada se ejecuta en precisión media o inferior."
+    },
+    "domain_data_science": {
+      "explanation": "El aprendizaje automático en la GPU sobre grandes conjuntos de datos depende del cálculo de precisión reducida."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de aceleradores compartidos exponen este rendimiento a numerosos usuarios de aprendizaje automático."
+    }
+  }
+}

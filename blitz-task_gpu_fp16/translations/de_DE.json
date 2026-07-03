@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_fp16",
+  "short_description": "Gleitkomma-Durchsatz mit halber Genauigkeit auf dem Grafikprozessor.",
+  "description": "Führt einen dichten Rechenkernel mit halber Genauigkeit auf dem Grafikprozessor aus und nutzt dabei die Pfade für reduzierte Genauigkeit und Tensor-Einheiten, die moderne Hardware bietet. Die Daten bleiben auf dem Chip, sodass der Score die maximale Rechenleistung bei reduzierter Genauigkeit widerspiegelt und nicht die Speichergeschwindigkeit.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der Operationen mit halber Genauigkeit pro Sekunde, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "„Höher ist besser.“ Der Abstand zwischen diesem und dem Ergebnis mit einfacher Genauigkeit zeigt, wie viel zusätzliche Geschwindigkeit die Hardware aus den Pfaden für reduzierte Genauigkeit gewinnt.",
+  "reasoning": "Der Durchsatz mit halber Genauigkeit treibt modernes maschinelles Lernen und viele beschleunigte Effekte an, wo Hardware oft ein Mehrfaches der Rate mit einfacher Genauigkeit liefert.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Upscaling und einige Effekte nutzen Gleitkomma-Arithmetik halber Genauigkeit auf der GPU."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit nutzt Rechenleistung mit reduzierter Genauigkeit kaum."
+    },
+    "domain_software_development": {
+      "explanation": "Hauptsächlich relevant für Entwickler beschleunigter Software."
+    },
+    "domain_graphics_design": {
+      "explanation": "Einige beschleunigte Filter und generative Werkzeuge laufen mit halber Genauigkeit."
+    },
+    "domain_video_editing": {
+      "explanation": "ML-Effekte in Bearbeitungswerkzeugen nutzen Pfade mit reduzierter Genauigkeit."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Denoising und gelernte Effekte im Rendering nutzen Rechenleistung mit halber Genauigkeit."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion nutzt GPU-Rechenleistung mit reduzierter Genauigkeit kaum."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Einige beschleunigte Ingenieurwerkzeuge verwenden reduzierte Genauigkeit für mehr Geschwindigkeit."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Gemischte Genauigkeitsmethoden beschleunigen viele wissenschaftliche GPU-Codes."
+    },
+    "domain_ai_training": {
+      "explanation": "Der Durchsatz mit reduzierter Genauigkeit ist die maßgebliche Kennzahl für beschleunigtes Training."
+    },
+    "domain_ai_inference": {
+      "explanation": "Die meiste beschleunigte Inferenz läuft mit halber oder geringerer Genauigkeit."
+    },
+    "domain_data_science": {
+      "explanation": "GPU-gestütztes maschinelles Lernen über große Datensätze stützt sich auf reduzierte Genauigkeit."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemeinsam genutzte Beschleuniger-Server stellen diesen Durchsatz vielen ML-Nutzern bereit."
+    }
+  }
+}

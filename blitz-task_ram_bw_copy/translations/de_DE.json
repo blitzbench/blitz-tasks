@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "ram_bw_copy",
+  "short_description": "Anhaltende Bandbreite für das Kopieren von Daten innerhalb des Hauptspeichers.",
+  "description": "Kopiert große Arrays von einem Bereich des Hauptspeichers in einen anderen über alle Kerne und liest und schreibt dabei gleichzeitig über einen Arbeitssatz, der weit größer ist als die Caches. Dieses kombinierte Muster entspricht dem Verhalten der meisten realen Datenbewegung, da Daten üblicherweise gelesen, transformiert und zurückgeschrieben werden.",
+  "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde bewegten Bytes unter Zählung sowohl der Lese- als auch der Schreibseite, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Die Kopier-Bandbreite spiegelt alltägliche Datenbewegung genauer wider als Lesen oder Schreiben allein, da beide zugleich geschehen.",
+  "reasoning": "Reale Arbeitslasten lesen oder schreiben selten nur, weshalb ein Kopiertest, der beides zugleich ausführt, das repräsentativste Einzelmaß für den Speicherdurchsatz ist.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Verschieben und Transformieren von Welt- und Texturdaten kombiniert pro Frame Lese- und Schreibzugriffe."
+    },
+    "domain_office": {
+      "explanation": "Büro-Arbeit bewegt moderate Datenmengen durch den Arbeitsspeicher."
+    },
+    "domain_software_development": {
+      "explanation": "Build-Prozesse verschieben und transformieren Datenstrukturen und kombinieren dabei Lese- und Schreibzugriffe."
+    },
+    "domain_graphics_design": {
+      "explanation": "Die Bildbearbeitung liest Bildpuffer, transformiert sie und schreibt sie zurück."
+    },
+    "domain_video_editing": {
+      "explanation": "Die Frame-Verarbeitung liest und schreibt hochauflösende Puffer im selben Durchgang."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Verschieben von Szenen- und Pufferdaten kombiniert beim Rendering Lese- und Schreibzugriffe."
+    },
+    "domain_audio_production": {
+      "explanation": "Die Audioverarbeitung liest Puffer und schreibt Ergebnisse im selben Durchgang."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Solver streamen Daten beim Iterieren in den und aus dem Arbeitsspeicher."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Stencil- und Update-Kernel lesen und schreiben große Arrays gleichzeitig, wodurch die Kopierbandbreite entscheidend wird."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Formen und Verschieben von Trainingsdaten kombiniert Lese- und Schreibzugriffe im Arbeitsspeicher."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das gleichzeitige Lesen von Gewichten und Schreiben von Aktivierungen ist kopierintensive Arbeit."
+    },
+    "domain_data_science": {
+      "explanation": "Das Transformieren breiter Tabellen liest Eingaben und schreibt Ausgaben im selben Durchgang."
+    },
+    "domain_server_virt": {
+      "explanation": "Viele Prozesse, die gleichzeitig Daten verschieben, teilen sich die Kopierbandbreite."
+    }
+  }
+}

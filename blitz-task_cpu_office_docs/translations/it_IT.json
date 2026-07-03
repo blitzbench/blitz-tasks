@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_office_docs",
+  "short_description": "Ricalcolo di fogli di calcolo e rendering di documenti su file inclusi.",
+  "description": "Elabora un insieme incluso di file per ufficio, ricalcolando grandi fogli di calcolo e impaginando e rendendo documenti in un output di pagine fisso. Il carico di lavoro combina brevi raffiche di calcolo con formattazione e impaginazione, ossia il modo in cui il software di produttività carica realmente una macchina.",
+  "metric_explanation": "Il punteggio è il numero di documenti e ricalcoli completati al minuto, riportato come elementi al minuto.",
+  "value_interpretation": "Più alto è, meglio è. Un valore più alto significa meno attesa nell'aprire file di grandi dimensioni, ricalcolare fogli o esportare in formati di pagina fissi.",
+  "reasoning": "Il lavoro d'ufficio è a raffiche e sensibile alla latenza anziché uno sforzo costante, quindi un carico di lavoro documentale misto lo rappresenta molto meglio di un punteggio di throughput grezzo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La gestione dei documenti non ha relazione con le prestazioni di gioco."
+    },
+    "domain_office": {
+      "explanation": "Questo è il carico di lavoro quotidiano che definisce le macchine da produttività."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori dedicano tempo reale a documenti, issue e note oltre al codice."
+    },
+    "domain_graphics_design": {
+      "explanation": "I designer gestiscono brief, layout e documenti esportati per tutta la durata di un progetto."
+    },
+    "domain_video_editing": {
+      "explanation": "I montatori gestiscono copioni e documentazione oltre al montaggio vero e proprio."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Gli studi producono documentazione e report insieme ai render."
+    },
+    "domain_audio_production": {
+      "explanation": "I professionisti dell'audio gestiscono note di sessione e documentazione."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ingegneria produce un flusso costante di report, disegni e specifiche."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I ricercatori dedicano molto tempo a scrivere e formattare articoli e report."
+    },
+    "domain_ai_training": {
+      "explanation": "La documentazione accompagna l'addestramento ma non ne è il carico principale."
+    },
+    "domain_ai_inference": {
+      "explanation": "La reportistica accompagna il lavoro sui modelli in produzione."
+    },
+    "domain_data_science": {
+      "explanation": "Gli analisti producono molti report e documenti a partire dai loro risultati."
+    },
+    "domain_server_virt": {
+      "explanation": "L'amministrazione dei server comporta documentazione ma poco rendering di documenti."
+    }
+  }
+}

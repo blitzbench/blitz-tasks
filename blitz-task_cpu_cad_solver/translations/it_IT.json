@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_cad_solver",
+  "short_description": "Risoluzione a elementi finiti sparsi su un modello ingegneristico fisso.",
+  "description": "Risolve un modello a elementi finiti incluso come fanno gli strumenti di simulazione ingegneristica, assemblando un ampio sistema sparso ed eseguendo un solver iterativo fino alla convergenza su tutti i core. Il modello e le tolleranze sono fissi, così i risultati sono direttamente confrontabili tra le macchine.",
+  "metric_explanation": "Il punteggio è il numero di iterazioni del solver completate al secondo, riportato come operazioni al secondo, e indica la rapidità con cui la simulazione giunge a un risultato.",
+  "value_interpretation": "Più alto è, meglio è. Più iterazioni al secondo significano cicli di progettazione più rapidi, poiché gli ingegneri attendono queste risoluzioni tra una modifica e l'altra.",
+  "reasoning": "I solver sparsi mettono sotto stress l'accesso irregolare alla memoria e i calcoli in precisione doppia secondo lo schema usato dai reali strumenti CAD e ingegneristici, quindi questo riflette le prestazioni di simulazione molto meglio di un test di throughput lineare.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La fisica dei giochi condivide l'idea del solver iterativo, seppur con una precisione molto inferiore."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non ha alcuna componente di simulazione."
+    },
+    "domain_software_development": {
+      "explanation": "Solo gli sviluppatori di strumenti di simulazione affrontano questo tipo di carico."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di design non esegue solver ingegneristici."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio non ha alcuna relazione con la risoluzione numerica."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le simulazioni di tessuti, fluidi e corpi deformabili utilizzano solver sparsi analoghi."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede la risoluzione a elementi finiti."
+    },
+    "domain_cad_engineering": {
+      "explanation": "È il carico di lavoro intensivo che definisce il CAD e la simulazione ingegneristica."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I solver iterativi sparsi sono centrali in gran parte dei codici scientifici."
+    },
+    "domain_ai_training": {
+      "explanation": "Alcuni addestramenti basati sulla fisica riutilizzano kernel in stile solver."
+    },
+    "domain_ai_inference": {
+      "explanation": "I surrogati di simulazione talvolta abbinano l'inferenza del modello a passi di solver."
+    },
+    "domain_data_science": {
+      "explanation": "I metodi di ottimizzazione e su grafi condividono una parte di algebra lineare sparsa."
+    },
+    "domain_server_virt": {
+      "explanation": "I job di simulazione girano sui server ma non costituiscono un carico di lavoro server generico."
+    }
+  }
+}

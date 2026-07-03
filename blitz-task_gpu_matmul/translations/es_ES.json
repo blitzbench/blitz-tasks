@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_matmul",
+  "short_description": "Rendimiento de multiplicación de matrices en precisión media usando unidades tensoriales.",
+  "description": "Multiplica matrices grandes en precisión media en el procesador gráfico, utilizando las unidades tensoriales o matriciales que el hardware moderno ofrece para esta operación concreta. La multiplicación de matrices es el bloque fundamental del aprendizaje automático, y esta prueba mantiene saturadas las unidades para hallar su tasa máxima.",
+  "metric_explanation": "El rendimiento es el número de operaciones de precisión media por segundo durante la multiplicación, en miles de millones, expresado en GFLOPS.",
+  "value_interpretation": "Cuanto más alto, mejor. Esta es la cifra que más directamente predice la velocidad de entrenamiento e inferencia, ya que ambas están dominadas por la multiplicación de matrices.",
+  "reasoning": "Las pruebas de cálculo en bruto no ejercitan las unidades matriciales dedicadas, pero son esas unidades las que deciden el rendimiento real del aprendizaje automático, por lo que es esencial una prueba estructurada de multiplicación de matrices.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "El reescalado y los efectos aprendidos utilizan la multiplicación de matrices en las unidades tensoriales."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática rara vez utiliza unidades matriciales."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para desarrolladores que crean funciones de aprendizaje automático."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las herramientas de diseño generativas y aprendidas ejecutan multiplicación de matrices."
+    },
+    "domain_video_editing": {
+      "explanation": "Los efectos de aprendizaje automático en las herramientas de edición dependen de la multiplicación de matrices."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los reductores de ruido y reescaladores aprendidos en el renderizado utilizan las unidades matriciales."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio hace poco uso de las unidades matriciales de la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Algunos solucionadores y modelos sustitutos acelerados se basan en la multiplicación de matrices densas."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El álgebra lineal densa en la GPU se construye sobre la multiplicación de matrices."
+    },
+    "domain_ai_training": {
+      "explanation": "El rendimiento del entrenamiento es esencialmente el rendimiento de la multiplicación de matrices."
+    },
+    "domain_ai_inference": {
+      "explanation": "La velocidad de inferencia está dominada por las multiplicaciones de matrices dentro de cada capa."
+    },
+    "domain_data_science": {
+      "explanation": "El aprendizaje automático en GPU sobre grandes volúmenes de datos se basa en la multiplicación de matrices."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de aceleradores compartidos exponen el rendimiento matricial a muchos inquilinos de aprendizaje automático."
+    }
+  }
+}

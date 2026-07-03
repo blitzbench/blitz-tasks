@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "ram_bw_read",
+  "short_description": "Larghezza di banda in lettura sostenuta dalla memoria principale.",
+  "description": "Legge grandi array dalla memoria principale su tutti i core, utilizzando un working set molto più grande delle cache del processore, così che quasi ogni accesso raggiunga i chip di memoria. Lo schema è di sola lettura, il che isola la rapidità con cui il sistema può prelevare dati dalla memoria.",
+  "metric_explanation": "La larghezza di banda è il numero di byte letti dalla memoria al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. La larghezza di banda in lettura stabilisce il limite massimo per qualsiasi carico di lavoro che consuma più dati di quanti ne produca, il che copre la maggior parte delle attività di scansione e analisi.",
+  "reasoning": "La lettura è lo schema di accesso alla memoria più comune, quindi la larghezza di banda in lettura è il dato principale per il lavoro ricco di dati che fa scorrere gli input attraverso i core.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Lo streaming di texture e dati di mondo verso i core mantiene alta la richiesta di larghezza di banda in lettura."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio legge quantità modeste di dati dalla memoria."
+    },
+    "domain_software_development": {
+      "explanation": "Le build di grandi dimensioni e le fasi di link leggono quantità significative di dati dalla memoria."
+    },
+    "domain_graphics_design": {
+      "explanation": "Leggere grandi buffer di immagine durante le modifiche è vincolato dalla larghezza di banda in lettura."
+    },
+    "domain_video_editing": {
+      "explanation": "Leggere fotogrammi ad alta risoluzione per la riproduzione e gli effetti attinge fortemente alla larghezza di banda in lettura."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Leggere scene e texture di grandi dimensioni mantiene occupata la memoria durante il rendering."
+    },
+    "domain_audio_production": {
+      "explanation": "Lo streaming di grandi librerie di campioni legge continuamente dalla memoria."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Leggere mesh di grandi dimensioni e campi di risultati è vincolato dalla larghezza di banda in lettura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I kernel numerici sono spesso limitati dalla rapidità con cui gli input vengono letti dalla memoria."
+    },
+    "domain_ai_training": {
+      "explanation": "Leggere parametri e dati per alimentare l'acceleratore dipende dalla larghezza di banda in lettura."
+    },
+    "domain_ai_inference": {
+      "explanation": "La velocità dell'inferenza su CPU è determinata in gran parte dalla rapidità con cui i pesi vengono letti dalla memoria."
+    },
+    "domain_data_science": {
+      "explanation": "La scansione di tabelle larghe è dominata dalla larghezza di banda in lettura."
+    },
+    "domain_server_virt": {
+      "explanation": "Molti processi concorrenti competono per la larghezza di banda in lettura dalla memoria condivisa."
+    }
+  }
+}

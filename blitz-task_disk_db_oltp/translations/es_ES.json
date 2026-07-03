@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "disk_db_oltp",
+  "short_description": "Transacciones mixtas de lectura y escritura contra un archivo de base de datos local.",
+  "description": "Ejecuta un flujo constante de pequeñas transacciones contra un archivo de base de datos local, combinando lecturas, inserciones y actualizaciones mientras mantiene los datos de forma duradera en disco. Esto combina el acceso aleatorio pequeño con el volcado a disco que realiza una base de datos real para mantener los datos seguros, uno de los patrones de almacenamiento cotidianos más exigentes.",
+  "metric_explanation": "La puntuación es el número de transacciones de base de datos confirmadas por segundo, expresado como operaciones por segundo.",
+  "value_interpretation": "Cuanto más alto, mejor. Más transacciones por segundo significan que una aplicación respaldada por una base de datos sigue respondiendo bajo carga.",
+  "reasoning": "Las cargas de trabajo transaccionales duraderas exigen el almacenamiento en escrituras pequeñas y volcados a disco, que es el patrón que define a los servidores y al software respaldado por bases de datos.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos mantienen pequeñas bases de datos locales para el estado y el progreso."
+    },
+    "domain_office": {
+      "explanation": "Muchas aplicaciones de productividad almacenan sus datos en bases de datos locales."
+    },
+    "domain_software_development": {
+      "explanation": "El desarrollo local ejecuta bases de datos para pruebas y herramientas constantemente."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las aplicaciones creativas usan pequeñas bases de datos para catálogos e historial."
+    },
+    "domain_video_editing": {
+      "explanation": "Los editores mantienen catálogos multimedia en bases de datos locales."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El seguimiento de recursos y trabajos usa pequeñas bases de datos en torno al renderizado."
+    },
+    "domain_audio_production": {
+      "explanation": "Las herramientas de audio mantienen bases de datos de proyectos y bibliotecas en disco."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La gestión de datos de ingeniería se apoya en almacenes transaccionales."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El seguimiento de experimentos y los resultados suelen residir en bases de datos transaccionales."
+    },
+    "domain_ai_training": {
+      "explanation": "El seguimiento de ejecuciones y los almacenes de metadatos confirman muchas transacciones pequeñas."
+    },
+    "domain_ai_inference": {
+      "explanation": "Los sistemas de servicio registran y consultan el estado mediante bases de datos transaccionales."
+    },
+    "domain_data_science": {
+      "explanation": "Consultar y actualizar bases de datos locales es una parte habitual del análisis."
+    },
+    "domain_server_virt": {
+      "explanation": "El rendimiento de las bases de datos transaccionales es la carga de almacenamiento determinante en los servidores."
+    }
+  }
+}

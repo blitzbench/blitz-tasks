@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_int8",
+  "short_description": "Rendimiento en enteros de ocho bits en el procesador gráfico.",
+  "description": "Ejecuta un kernel de cálculo denso de enteros de ocho bits en el procesador gráfico, utilizando las rutas de enteros de baja precisión que ofrece el hardware moderno para el aprendizaje automático cuantizado. Las operaciones de ocho bits permiten que los modelos se ejecuten más rápido y ocupen menos, y esta prueba determina la tasa máxima de esas unidades de enteros.",
+  "metric_explanation": "El rendimiento es el número de operaciones con enteros por segundo, en miles de millones, expresado en GIOPS.",
+  "value_interpretation": "Cuanto más alto, mejor. Un buen rendimiento en int8 acelera los modelos cuantizados, ampliamente utilizados para ejecutar la inferencia más rápido y en hardware más modesto.",
+  "reasoning": "La inferencia cuantizada de ocho bits es hoy una forma habitual de desplegar modelos de manera eficiente, y depende de unidades de enteros que las pruebas en coma flotante no miden.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los reescaladores y efectos cuantizados utilizan rutas int8 en la GPU."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática rara vez utiliza cómputo int8 en la GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para desarrolladores que crean funciones de aprendizaje automático cuantizado."
+    },
+    "domain_graphics_design": {
+      "explanation": "Algunas herramientas generativas cuantizadas se ejecutan en rutas int8."
+    },
+    "domain_video_editing": {
+      "explanation": "Los efectos de aprendizaje automático cuantizado en la edición utilizan unidades int8."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los reductores de ruido cuantizados pueden ejecutarse en hardware int8."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio hace poco uso del cómputo int8 en la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulación de ingeniería necesita una precisión mayor que int8."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Unos pocos métodos utilizan matemáticas de enteros de baja precisión, pero la mayoría necesita más precisión."
+    },
+    "domain_ai_training": {
+      "explanation": "Algunas fases del entrenamiento utilizan int8, aunque la mayor parte del entrenamiento permanece en coma flotante."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia cuantizada en int8 es una de las formas principales de ejecutar modelos de manera eficiente."
+    },
+    "domain_data_science": {
+      "explanation": "Los modelos cuantizados aceleran la puntuación sobre grandes conjuntos de datos."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de inferencia rentables se apoyan en el rendimiento int8 para servir más por dispositivo."
+    }
+  }
+}

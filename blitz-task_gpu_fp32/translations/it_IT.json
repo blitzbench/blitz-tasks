@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_fp32",
+  "short_description": "Throughput in virgola mobile a precisione singola sul processore grafico.",
+  "description": "Esegue un kernel di calcolo denso a precisione singola sul processore grafico, mantenendo occupata ogni unità di shading con lavoro fused multiply-add. I dati restano nella veloce memoria on-chip, così il risultato riflette la potenza di calcolo pura anziché il trasferimento di memoria.",
+  "metric_explanation": "Il throughput è il numero di operazioni a precisione singola al secondo, in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Più alto è, meglio è. È il dato di calcolo principale che scala con la maggior parte dei carichi grafici e GPU generici.",
+  "reasoning": "Il throughput a precisione singola è la misura più ampia della potenza della GPU e sta alla base del gaming, del rendering e della maggior parte del lavoro accelerato, quindi funge da riferimento per l'insieme dei test GPU sintetici.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'ombreggiatura e gli effetti nei giochi moderni dipendono direttamente dal throughput a precisione singola della GPU."
+    },
+    "domain_office": {
+      "explanation": "Il desktop e l'accelerazione di base usano una piccola frazione della capacità di calcolo della GPU."
+    },
+    "domain_software_development": {
+      "explanation": "La maggior parte dello sviluppo è limitata dalla CPU, con un uso ridotto del calcolo su GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "I filtri accelerati e le operazioni su grandi tele vengono eseguiti come calcolo a precisione singola sulla GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Effetti, transizioni e anteprime vengono calcolati sulla GPU a precisione singola."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il rendering su GPU e il lavoro nel viewport sono dominati dal throughput a precisione singola."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa scarso uso della GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I viewport di modelli di grandi dimensioni e alcuni solutori vengono eseguiti sulla GPU a precisione singola."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Molte simulazioni accelerate usano il calcolo a precisione singola su GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "Il throughput a precisione singola fissa un limite superiore per i calcoli dell'addestramento accelerato."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza accelerata dipende fortemente dal calcolo a precisione singola."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi accelerata su GPU usa il throughput a precisione singola su grandi array."
+    },
+    "domain_server_virt": {
+      "explanation": "I server GPU condivisi mettono questa capacità di calcolo a disposizione di molti tenant."
+    }
+  }
+}

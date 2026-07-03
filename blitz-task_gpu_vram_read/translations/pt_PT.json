@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_vram_read",
+  "short_description": "Largura de banda de leitura da própria memória do processador gráfico.",
+  "description": "Lê grandes buffers da memória local do processador gráfico com um padrão apenas de leitura, usando um conjunto de trabalho muito maior do que qualquer cache no chip. O resultado mostra a rapidez com que a GPU consegue puxar dados da sua própria memória para alimentar as unidades de computação.",
+  "metric_explanation": "A largura de banda é o número de bytes lidos da memória da GPU por segundo, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. A largura de banda de leitura limita as cargas de trabalho que fazem streaming de grandes texturas, modelos e conjuntos de dados para a GPU mais depressa do que calculam.",
+  "reasoning": "A leitura da memória local é o padrão de acesso de GPU mais comum, pelo que a largura de banda de leitura é o valor principal para o trabalho acelerado com muitos dados.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Ler texturas e buffers para os núcleos depende de leituras rápidas da memória da GPU."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório lê poucos dados através da memória da GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Sobretudo relevante no desenvolvimento de software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Ler grandes camadas de imagem para a GPU é limitado pela largura de banda de leitura."
+    },
+    "domain_video_editing": {
+      "explanation": "Ler fotogramas de alta resolução para a GPU recorre à largura de banda de leitura de memória."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Ler grandes cenas e texturas torna a renderização na GPU limitada pela largura de banda de leitura."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio lê pouco através da memória da GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ler grandes malhas para a janela de visualização utiliza a largura de banda de leitura da GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "As simulações aceleradas são muitas vezes limitadas pelas leituras da memória da GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "Ler pesos e ativações domina o tráfego de memória do treino."
+    },
+    "domain_ai_inference": {
+      "explanation": "A velocidade de geração de tokens é determinada em grande parte pela rapidez com que os pesos são lidos da memória da GPU."
+    },
+    "domain_data_science": {
+      "explanation": "A análise em GPU percorre grandes matrizes a partir da memória."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de GPU partilhada dividem a largura de banda de leitura por muitos inquilinos."
+    }
+  }
+}

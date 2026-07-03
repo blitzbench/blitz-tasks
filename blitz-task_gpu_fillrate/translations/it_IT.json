@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_fillrate",
+  "short_description": "Velocità con cui il processore grafico può ombreggiare e scrivere pixel.",
+  "description": "Disegna strati di geometria a schermo intero con texturing e blending, così che il processore grafico sia limitato dalla rapidità con cui può ombreggiare e scrivere pixel in memoria. È il lato raster della GPU anziché la sua potenza di calcolo pura, e mette sotto stress insieme la pipeline di output e la larghezza di banda della memoria.",
+  "metric_explanation": "Il punteggio è il numero di pixel elaborati al secondo, riportato in milioni di pixel al secondo.",
+  "value_interpretation": "Più alto è, meglio è. Un fill rate più elevato aiuta alle alte risoluzioni e con forte trasparenza, dove molti strati di pixel vengono disegnati a ogni fotogramma.",
+  "reasoning": "Il fill rate cattura la pipeline grafica tradizionale che i test incentrati sul calcolo trascurano e influisce direttamente sul gaming ad alta risoluzione e sulle interfacce con molta grafica 2D.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Il fill rate determina la frequenza dei fotogrammi alle alte risoluzioni e con pesanti effetti di trasparenza."
+    },
+    "domain_office": {
+      "explanation": "Un desktop fluido ad alta risoluzione e con molte finestre dipende dal fill rate."
+    },
+    "domain_software_development": {
+      "explanation": "Le configurazioni di sviluppo con più monitor traggono un modesto beneficio dal fill rate."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le grandi tele ad alta risoluzione con molti livelli sono limitate dal fill rate."
+    },
+    "domain_video_editing": {
+      "explanation": "Le anteprime della timeline ad alta risoluzione spingono molti pixel attraverso la pipeline."
+    },
+    "domain_3d_rendering": {
+      "explanation": "I viewport interattivi si affidano a una rapida emissione dei pixel oltre che al calcolo."
+    },
+    "domain_audio_production": {
+      "explanation": "Le interfacce audio richiedono poco al fill rate dei pixel."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I viewport di modelli di grandi dimensioni con ombreggiatura dipendono da un fill rate elevato."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualizzazione ne trae beneficio, ma è il calcolo a dominare l'uso della GPU in ambito scientifico."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento non esegue quasi alcuna rasterizzazione."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza è limitata dal calcolo più che dal fill rate."
+    },
+    "domain_data_science": {
+      "explanation": "I grafici interattivi di grandi set di dati usano una certa quantità di fill rate."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di desktop remoto e streaming inviano ai client i pixel renderizzati."
+    }
+  }
+}

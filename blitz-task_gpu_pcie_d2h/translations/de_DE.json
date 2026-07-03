@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_pcie_d2h",
+  "short_description": "Bandbreite für das Zurücklesen von Ergebnissen von der GPU in den Systemspeicher.",
+  "description": "Überträgt große Puffer vom lokalen Speicher des Grafikprozessors zurück in den Systemspeicher über die Verbindung, die sie verbindet. Der Test misst den Herunterlade-Pfad für sich allein, den Weg, den jedes Ergebnis nimmt, sobald die GPU damit fertig ist.",
+  "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde von der GPU zum Host gesendeten Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Die Herunterlade-Bandbreite begrenzt, wie schnell gerenderte Bilder, verarbeitete Daten und Modellausgaben zur Nutzung zurückgeholt werden können.",
+  "reasoning": "Viele Pipelines werden dadurch begrenzt, Ergebnisse von der GPU zu holen, weshalb der Herunterlade-Pfad neben dem Hochladen eine eigene Messung verdient.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele lesen während des Spielbetriebs kaum große Ergebnismengen von der GPU zurück."
+    },
+    "domain_office": {
+      "explanation": "Büro-Arbeit liest kaum Daten von der GPU zurück."
+    },
+    "domain_software_development": {
+      "explanation": "Vor allem relevant bei der Entwicklung GPU-beschleunigter Software."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Zurücklesen gefilterter Bilder von der GPU beansprucht die Download-Bandbreite."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Zurücklesen verarbeiteter Frames von der GPU für das Encoding ist durch die Download-Bandbreite begrenzt."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Zurücklesen gerenderter Frames von der GPU nutzt die Download-Strecke."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit liest kaum Daten von der GPU zurück."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Zurücklesen berechneter Ergebnisse von der GPU beansprucht die Übertragungsstrecke."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Das Zurückübertragen großer Ergebnis-Arrays vom Beschleuniger ist durch die Download-Bandbreite begrenzt."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Zurücklesen von Metriken und Checkpoints von der GPU nutzt die Download-Strecke."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Zurücklesen generierter Ausgaben von der GPU beansprucht die Download-Bandbreite."
+    },
+    "domain_data_science": {
+      "explanation": "Das Zurückgeben von Analyseergebnissen von der GPU ist durch die Download-Bandbreite begrenzt."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemeinsam genutzte GPU-Server übertragen Mandanten-Ergebnisse über diese Strecke."
+    }
+  }
+}

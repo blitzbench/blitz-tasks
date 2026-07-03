@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "disk_seq_read",
+  "short_description": "Velocità di lettura per grandi file continui dall'archiviazione.",
+  "description": "Legge un file di grandi dimensioni dall'archiviazione in grandi blocchi continui, aggirando le copie in cache così che i valori riflettano l'unità anziché la memoria. È lo schema di accesso migliore per l'archiviazione e mostra la massima velocità di lettura che il dispositivo può offrire.",
+  "metric_explanation": "Il punteggio è il numero di megabyte letti al secondo, riportato in MB/s.",
+  "value_interpretation": "Più alto è, meglio è. Letture sequenziali veloci riducono il tempo di caricamento di file di grandi dimensioni come video, livelli di gioco e set di dati.",
+  "reasoning": "La lettura sequenziale è la misura più chiara della rapidità con cui una macchina può prelevare grandi file dall'archiviazione, il che influisce sui tempi di caricamento in molte attività.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Il caricamento di grandi mondi di gioco e asset è per lo più lettura sequenziale."
+    },
+    "domain_office": {
+      "explanation": "L'apertura di documenti e media di grandi dimensioni beneficia di letture sequenziali veloci."
+    },
+    "domain_software_development": {
+      "explanation": "La lettura di grandi repository e output di build comporta pesanti letture sequenziali."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il caricamento di grandi file di immagini e progetti è vincolato dalla lettura."
+    },
+    "domain_video_editing": {
+      "explanation": "La riproduzione di filmati ad alta risoluzione richiede una velocità di lettura costante."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il caricamento di grandi scene e set di texture è a forte carico di lettura."
+    },
+    "domain_audio_production": {
+      "explanation": "Lo streaming di grandi librerie di campioni legge di continuo dall'archiviazione."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'apertura di grandi assiemi e file di risultati è vincolata dalla lettura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Il caricamento di grandi dataset di input si affida alla velocità di lettura sequenziale."
+    },
+    "domain_ai_training": {
+      "explanation": "Lo streaming di grandi dataset di addestramento dall'archiviazione è a forte carico di lettura."
+    },
+    "domain_ai_inference": {
+      "explanation": "Il caricamento di grandi file di modello dall'archiviazione dipende dalle letture sequenziali."
+    },
+    "domain_data_science": {
+      "explanation": "La scansione di grandi file per l'analisi è dominata dalla velocità di lettura."
+    },
+    "domain_server_virt": {
+      "explanation": "Il caricamento di immagini e grandi volumi di dati sfrutta il throughput di lettura sequenziale."
+    }
+  }
+}

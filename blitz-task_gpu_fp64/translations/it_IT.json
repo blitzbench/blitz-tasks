@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_fp64",
+  "short_description": "Throughput in virgola mobile a precisione doppia sul processore grafico.",
+  "description": "Esegue un kernel di calcolo denso a precisione doppia sul processore grafico, mantenendo occupate le unità a precisione doppia con lavoro fused multiply-add. Molte GPU di consumo eseguono la precisione doppia molto più lentamente della precisione singola, quindi questo test distingue l'hardware pensato per il lavoro scientifico da quello che non lo è.",
+  "metric_explanation": "Il throughput è il numero di operazioni a precisione doppia al secondo, in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Più alto è, meglio è. Il divario rispetto al risultato in precisione singola mostra quanto l'hardware sacrifica la velocità in precisione doppia, un divario che può essere ampio sulle GPU orientate al gaming.",
+  "reasoning": "I codici ingegneristici e scientifici che richiedono la precisione doppia dipendono da questa capacità, che varia enormemente tra le GPU, quindi merita una misurazione a sé.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi non fanno quasi alcun uso del calcolo a precisione doppia."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non ha alcuna componente di calcolo a precisione doppia su GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori di software scientifico su GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di design usa il calcolo a precisione singola anziché a precisione doppia."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio non usa il calcolo a precisione doppia su GPU."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Alcune simulazioni ad alta accuratezza per l'animazione richiedono la precisione doppia."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non usa il calcolo a precisione doppia su GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulazione ingegneristica richiede spesso l'accuratezza a precisione doppia sulla GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Il throughput a precisione doppia su GPU è un requisito determinante per molti codici scientifici."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento usa per lo più la precisione ridotta anziché quella doppia."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza usa raramente il calcolo a precisione doppia."
+    },
+    "domain_data_science": {
+      "explanation": "I metodi numerici ad alta accuratezza necessitano occasionalmente della precisione doppia sulla GPU."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di calcolo scientifico mettono la capacità a precisione doppia a disposizione dei propri utenti."
+    }
+  }
+}

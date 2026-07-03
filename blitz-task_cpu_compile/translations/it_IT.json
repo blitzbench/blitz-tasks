@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_compile",
+  "short_description": "Tempo per compilare da zero un albero di sorgenti C e C++ fisso.",
+  "description": "Compila da uno stato pulito un progetto C e C++ di medie dimensioni incluso, utilizzando tutti i core disponibili. Su ogni macchina si usano gli stessi sorgenti, gli stessi flag del compilatore e lo stesso grado di parallelismo, così l'unica variabile è il processore. La toolchain inclusa mantiene il carico di lavoro identico indipendentemente da ciò che è installato localmente.",
+  "metric_explanation": "Il punteggio è il tempo reale trascorso per completare la compilazione, dallo stato pulito al termine, riportato in secondi.",
+  "value_interpretation": "Più basso è, meglio è. Un tempo più breve significa meno attesa tra le modifiche al codice, che è la realtà quotidiana del lavoro di sviluppo software.",
+  "reasoning": "La compilazione combina un intenso lavoro intero parallelo con raffiche di accessi ai file, esattamente il modo in cui le macchine degli sviluppatori impiegano il loro tempo, quindi è il test di riferimento per lo sviluppo software.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La velocità di build conta per gli sviluppatori di motori di gioco, ma non per chi si limita a giocare."
+    },
+    "domain_office": {
+      "explanation": "Gli utenti office non compilano quasi mai software."
+    },
+    "domain_software_development": {
+      "explanation": "Il tempo di build è il dato di prestazione più percepito nello sviluppo quotidiano."
+    },
+    "domain_graphics_design": {
+      "explanation": "I designer raramente eseguono carichi di compilazione."
+    },
+    "domain_video_editing": {
+      "explanation": "Le suite di montaggio si usano già installate anziché compilarle localmente."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Gli artisti tecnici a volte compilano strumenti e plugin, ma il rendering occupa la maggior parte del loro tempo."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio raramente comporta la compilazione di codice."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Gli ingegneri che sviluppano solver e script personalizzati traggono vantaggio da build veloci."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I codici di ricerca vengono ricompilati spesso, quindi la velocità di build modella il ciclo di lavoro."
+    },
+    "domain_ai_training": {
+      "explanation": "La compilazione di framework e kernel personalizzati fa parte della configurazione degli stack di addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "Compilare e pacchettizzare i runtime di inferenza è un'attività ricorrente per il deployment."
+    },
+    "domain_data_science": {
+      "explanation": "La maggior parte delle analisi è basata su script, con occasionali build di estensioni native."
+    },
+    "domain_server_virt": {
+      "explanation": "Compilare immagini e servizi dai sorgenti è comune nelle pipeline server."
+    }
+  }
+}

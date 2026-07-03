@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "disk_seq_write",
+  "short_description": "Velocidade de escrita de ficheiros grandes e contínuos para o armazenamento.",
+  "description": "Escreve um ficheiro grande para o armazenamento em grandes blocos contínuos e faz o flush para o dispositivo, de modo que o resultado reflita a velocidade de escrita durável em vez do buffering em memória. Este é o melhor cenário de padrão de escrita e mostra a velocidade máxima de escrita sustentada da unidade.",
+  "metric_explanation": "A pontuação é o número de megabytes escritos por segundo, indicado em MB/s.",
+  "value_interpretation": "Quanto maior, melhor. Escritas sequenciais rápidas encurtam exportações, capturas e gravações de ficheiros grandes.",
+  "reasoning": "A velocidade de escrita sequencial determina a rapidez com que uma máquina consegue guardar saídas grandes como vídeo renderizado, projetos exportados e dados capturados.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Instalar e atualizar jogos escreve grandes ficheiros no armazenamento."
+    },
+    "domain_office": {
+      "explanation": "Guardar documentos escreve quantidades modestas de dados."
+    },
+    "domain_software_development": {
+      "explanation": "Escrever artefactos de compilação e caches cria uma carga de escrita sustentada."
+    },
+    "domain_graphics_design": {
+      "explanation": "Guardar grandes ficheiros de imagem e de projeto é limitado pela escrita."
+    },
+    "domain_video_editing": {
+      "explanation": "Exportar e capturar vídeo escreve grandes ficheiros a taxas elevadas."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Escrever fotogramas renderizados e caches no armazenamento é intenso em escrita."
+    },
+    "domain_audio_production": {
+      "explanation": "Gravar e exportar áudio escreve continuamente para o armazenamento."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Guardar grandes montagens e resultados de simulação é limitado pela escrita."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Escrever grandes conjuntos de saída de simulação depende da velocidade de escrita sustentada."
+    },
+    "domain_ai_training": {
+      "explanation": "Guardar checkpoints e conjuntos de dados processados escreve grandes ficheiros."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência escreve resultados e logs, mas é sobretudo limitada pela leitura."
+    },
+    "domain_data_science": {
+      "explanation": "Materializar tabelas intermédias e de saída escreve grandes ficheiros."
+    },
+    "domain_server_virt": {
+      "explanation": "O registo de logs, os snapshots e os serviços intensos em escrita dependem da velocidade de escrita sustentada."
+    }
+  }
+}

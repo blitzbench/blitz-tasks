@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_conv3d",
+  "short_description": "Throughput di convoluzione tridimensionale sul processore grafico.",
+  "description": "Esegue ripetute convoluzioni tridimensionali su dati in forma di volume sul processore grafico, l'operazione utilizzata per video, imaging medicale e modelli volumetrici. L'aggiunta di una terza dimensione rende lo schema di accesso molto più gravoso per la memoria rispetto al caso bidimensionale, mettendo alla prova un diverso limite dell'hardware.",
+  "metric_explanation": "Il throughput è il numero di operazioni al secondo eseguite durante le convoluzioni, in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Più alto è, meglio è. Un elevato throughput di convoluzione 3D velocizza la comprensione dei video, l'analisi medica volumetrica e altri modelli che operano nello spazio e nel tempo.",
+  "reasoning": "La convoluzione tridimensionale è molto più impegnativa della versione bidimensionale ed è centrale per i modelli video e volumetrici, quindi merita un test separato e più impegnativo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi usano raramente la convoluzione tridimensionale durante il gioco."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non fa alcun uso della convoluzione volumetrica."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori che realizzano modelli video e volumetrici."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alcuni effetti volumetrici e su sequenze usano la convoluzione tridimensionale."
+    },
+    "domain_video_editing": {
+      "explanation": "I modelli di comprensione video che abbracciano più fotogrammi usano la convoluzione tridimensionale."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Gli effetti volumetrici e la simulazione possono usare la convoluzione tridimensionale."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio usa raramente la convoluzione volumetrica."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ispezione volumetrica e la simulazione usano la convoluzione tridimensionale."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I dati scientifici volumetrici e i metodi a stencil condividono questo schema."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento di modelli video e volumetrici si basa sulla convoluzione tridimensionale."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'esecuzione di modelli video e di imaging medico dipende da questo throughput."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi di dati volumetrici e serie temporali usa la convoluzione tridimensionale."
+    },
+    "domain_server_virt": {
+      "explanation": "I servizi di inferenza video e di imaging eseguono questo carico di lavoro su GPU condivise."
+    }
+  }
+}

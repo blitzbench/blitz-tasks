@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "disk_rand_read",
+  "short_description": "Piccole operazioni di lettura casuale al secondo dall'archiviazione.",
+  "description": "Emette molte piccole letture verso posizioni casuali in un'ampia regione dell'archiviazione, mantenendo diverse richieste in corso contemporaneamente. L'accesso casuale è molto più impegnativo per l'archiviazione rispetto allo streaming sequenziale ed è più vicino al modo in cui i sistemi operativi e le applicazioni accedono realmente a molti piccoli file.",
+  "metric_explanation": "Il punteggio è il numero di operazioni di lettura completate al secondo, riportato in IOPS.",
+  "value_interpretation": "Più alto è, meglio è. Prestazioni elevate di lettura casuale rendono una macchina reattiva nell'avvio delle applicazioni e nell'apertura di molti piccoli file.",
+  "reasoning": "Le prestazioni di lettura casuale sono ciò che distingue un sistema reattivo da uno lento nell'uso quotidiano, poiché la maggior parte degli accessi quotidiani è dispersa anziché sequenziale.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Lo streaming di molti piccoli asset durante il gioco dipende dalla velocità di lettura casuale."
+    },
+    "domain_office": {
+      "explanation": "L'avvio delle app e l'apertura di molti piccoli file è vincolato dalla lettura casuale."
+    },
+    "domain_software_development": {
+      "explanation": "Le build e gli strumenti accedono in modo casuale a migliaia di piccoli file sorgente."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il caricamento di molti piccoli pennelli, asset e anteprime usa letture casuali."
+    },
+    "domain_video_editing": {
+      "explanation": "Il lavoro multimediale è per lo più sequenziale, con qualche accesso casuale ai proxy."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il caricamento di molti piccoli file di texture e asset comporta letture casuali."
+    },
+    "domain_audio_production": {
+      "explanation": "Le librerie di campioni innescano molte piccole letture casuali durante la riproduzione."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I progetti di grandi dimensioni fanno riferimento a molti piccoli file di parti e risorse."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Alcuni formati di dati usano l'accesso casuale a file di grandi dimensioni."
+    },
+    "domain_ai_training": {
+      "explanation": "I dati di addestramento mescolati leggono in modo casuale molti piccoli record."
+    },
+    "domain_ai_inference": {
+      "explanation": "Il caricamento degli shard e degli asset del modello comporta un certo accesso casuale."
+    },
+    "domain_data_science": {
+      "explanation": "Le ricerche indicizzate e i dataset partizionati generano letture casuali."
+    },
+    "domain_server_virt": {
+      "explanation": "I database e i numerosi tenant concorrenti generano un forte carico di lettura casuale."
+    }
+  }
+}

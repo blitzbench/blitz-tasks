@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_int_multi",
+  "short_description": "Rendimiento aritmético de enteros con todos los núcleos e hilos ocupados.",
+  "description": "Ejecuta la misma mezcla de aritmética de enteros que la prueba de un solo núcleo, pero la reparte entre todos los núcleos e hilos de hardware disponibles durante unos segundos. El resultado combinado muestra cuánto trabajo de enteros puede sostener a la vez todo el procesador.",
+  "metric_explanation": "El rendimiento es el total de operaciones de enteros por segundo en todos los núcleos, dividido por un millón, expresado en Mops/s.",
+  "value_interpretation": "Un número más alto significa más rendimiento total. La diferencia entre este y el resultado de un solo núcleo muestra cómo escala el chip a medida que se añaden núcleos.",
+  "reasoning": "El rendimiento de enteros con todos los núcleos capta el margen disponible para cargas de trabajo paralelas como compilar, codificar y atender muchas solicitudes a la vez.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los motores modernos reparten el trabajo entre los núcleos para la física, la transmisión y el envío de llamadas de dibujo."
+    },
+    "domain_office": {
+      "explanation": "La mayor parte del trabajo de ofimática usa unos pocos núcleos como mucho, así que los núcleos adicionales aportan poco."
+    },
+    "domain_software_development": {
+      "explanation": "Las compilaciones y los conjuntos de pruebas en paralelo escalan casi directamente con los núcleos disponibles."
+    },
+    "domain_graphics_design": {
+      "explanation": "Algunos filtros por lotes y exportaciones usan varios núcleos, aunque muchas ediciones siguen en un solo hilo."
+    },
+    "domain_video_editing": {
+      "explanation": "La codificación y la exportación de efectos se reparten entre todos los núcleos durante el renderizado."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El renderizado por CPU y los trabajos de horneado de simulación usan todos los núcleos que puedan conseguir."
+    },
+    "domain_audio_production": {
+      "explanation": "Las sesiones grandes distribuyen las pistas entre los núcleos, pero la ruta en tiempo real sigue en un solo hilo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "El mallado y muchos solucionadores se paralelizan entre los núcleos durante los trabajos largos."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Las simulaciones numéricas se ejecutan habitualmente en paralelo en todos los núcleos."
+    },
+    "domain_ai_training": {
+      "explanation": "La carga y el preprocesamiento de datos en el host alimentan al acelerador desde muchos núcleos."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia y el agrupamiento en lotes del lado de la CPU se benefician de repartirse entre los núcleos."
+    },
+    "domain_data_science": {
+      "explanation": "Los núcleos de agrupación, unión y agregación se paralelizan entre los núcleos sobre tablas grandes."
+    },
+    "domain_server_virt": {
+      "explanation": "Alojar muchos procesos o contenedores a la vez depende directamente del rendimiento total de los núcleos."
+    }
+  }
+}

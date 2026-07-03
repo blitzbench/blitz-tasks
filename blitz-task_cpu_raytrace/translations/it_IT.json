@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_raytrace",
+  "short_description": "Rendering in path tracing di una scena inclusa sul processore.",
+  "description": "Esegue il rendering di una scena 3D inclusa con un path tracer eseguito interamente sul processore, tracciando raggi attraverso una bounding volume hierarchy su tutti i core. La scena, il numero di campioni e la risoluzione sono fissi, così il risultato dipende solo dalla CPU.",
+  "metric_explanation": "Il punteggio è il numero di tile di rendering completati al minuto, riportato come elementi al minuto, e cresce con la rapidità di produzione dell'immagine completa.",
+  "value_interpretation": "Più alto è, meglio è. Più tile al minuto significano attese più brevi per un fotogramma finito e un'iterazione più rapida su illuminazione e materiali.",
+  "reasoning": "Il path tracing su CPU è ancora la spina dorsale del rendering offline di alta qualità e mette sotto stress insieme il calcolo in virgola mobile, l'accesso alla memoria e lo scheduling, il che lo rende un valido rappresentante della produzione 3D.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Il baking offline delle lightmap condivide la stessa matematica del path tracing, anche se durante il gioco si usa la GPU."
+    },
+    "domain_office": {
+      "explanation": "Le attività d'ufficio non eseguono mai rendering in ray tracing."
+    },
+    "domain_software_development": {
+      "explanation": "Il rendering è rilevante solo per gli sviluppatori che realizzano strumenti grafici."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le immagini di prodotto e packaging vengono spesso renderizzate con un path tracer."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli elementi 3D renderizzati vengono composti nel materiale montato."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Questo è il carico di lavoro che definisce il rendering 3D offline e l'animazione."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non ha alcuna componente di rendering."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I team di ingegneria producono visualizzazioni in ray tracing dei loro progetti."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualizzazione scientifica usa le stesse tecniche di rendering basate sui raggi."
+    },
+    "domain_ai_training": {
+      "explanation": "Le immagini sintetiche per l'addestramento vengono talvolta generate con render in ray tracing."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza dipende raramente dal rendering offline."
+    },
+    "domain_data_science": {
+      "explanation": "Il lavoro di analisi non prevede il ray tracing."
+    },
+    "domain_server_virt": {
+      "explanation": "Le render farm eseguono esattamente questo carico di lavoro su molti nodi server."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "ram_latency",
+  "short_description": "Tempo per recuperare un singolo valore casuale dalla memoria principale.",
+  "description": "Segue una catena di puntatori attraverso una regione di memoria molto più grande di qualsiasi cache, dove ogni passo dipende da quello precedente. Poiché gli accessi non possono sovrapporsi, il test rivela il ritardo reale nel raggiungere la memoria principale per un singolo valore.",
+  "metric_explanation": "La latenza è il tempo medio per completare un accesso dipendente alla memoria, riportato in nanosecondi.",
+  "value_interpretation": "Più basso è, meglio è. Una latenza inferiore rende più veloci i carichi di lavoro ricchi di puntatori e irregolari, poiché trascorrono gran parte del tempo in attesa della memoria.",
+  "reasoning": "La larghezza di banda racconta solo metà della storia; la latenza determina le prestazioni per i molti carichi di lavoro che seguono riferimenti dispersi anziché fare streaming di dati.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La logica di gioco segue riferimenti sparsi tra oggetti, dove la latenza determina la costanza dei fotogrammi."
+    },
+    "domain_office": {
+      "explanation": "La reattività interattiva dipende dalla rapidità con cui vengono recuperati i dati sparsi."
+    },
+    "domain_software_development": {
+      "explanation": "I compilatori e gli strumenti attraversano strutture ricche di puntatori, sensibili alla latenza."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro sulle immagini è più vincolato dalla larghezza di banda che dalla latenza."
+    },
+    "domain_video_editing": {
+      "explanation": "Il lavoro sui media in streaming dipende più dalla larghezza di banda che dalla latenza del singolo accesso."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Attraversare le strutture di accelerazione per il rendering è sensibile alla latenza."
+    },
+    "domain_audio_production": {
+      "explanation": "I grafi audio in tempo reale accedono a uno stato sparso entro scadenze serrate."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le strutture di dati sparse nei solver seguono schemi di accesso irregolari, vincolati dalla latenza."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I codici irregolari e basati su grafi sono limitati dalla latenza della memoria."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento è per lo più un lavoro di streaming, dove la latenza conta meno."
+    },
+    "domain_ai_inference": {
+      "explanation": "Alcune operazioni di orchestrazione e ricerca attorno all'inferenza sono sensibili alla latenza."
+    },
+    "domain_data_science": {
+      "explanation": "Le ricerche hash e i join inseguono memoria sparsa, dove la latenza conta."
+    },
+    "domain_server_virt": {
+      "explanation": "Il lavoro per richiesta accede a uno stato sparso, quindi la latenza modella il tempo di risposta."
+    }
+  }
+}

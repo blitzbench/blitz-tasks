@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_image_filters",
+  "short_description": "Filtri fotografici sovrapposti applicati a immagini ad alta risoluzione incluse.",
+  "description": "Applica una serie di comuni filtri di fotoritocco, come sfocatura, nitidezza, riduzione del rumore e regolazione dei toni, a immagini ad alta risoluzione incluse sul processore grafico. Le immagini e la catena di filtri sono fisse e rispecchiano il percorso accelerato che gli strumenti di fotoritocco e di design utilizzano per le modifiche in tempo reale.",
+  "metric_explanation": "Il punteggio è il numero di immagini filtrate prodotte al minuto, riportato come elementi al minuto.",
+  "value_interpretation": "Più alto è, meglio è. Un tasso più elevato fa sì che modifiche e regolazioni appaiano quasi istantaneamente quando si lavora con immagini di grandi dimensioni.",
+  "reasoning": "Il filtraggio accelerato su immagini di grandi dimensioni è il carico di lavoro che rende reattivi gli strumenti di fotoritocco e di design, quindi rappresenta bene la grafica e il fotoritocco.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Il post-processing nei giochi usa un filtraggio delle immagini analogo sulla GPU."
+    },
+    "domain_office": {
+      "explanation": "Piccole modifiche alle immagini compaiono nel lavoro quotidiano sui documenti."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori di software di imaging e creativo."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il filtraggio di immagini di grandi dimensioni è il carico di lavoro interattivo centrale per la fotografia e il design."
+    },
+    "domain_video_editing": {
+      "explanation": "I filtri applicati fotogramma per fotogramma nel montaggio video riutilizzano le stesse operazioni accelerate."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il compositing e il post-processing dei fotogrammi renderizzati usano filtri per immagini."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede alcun filtraggio delle immagini."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il post-processing delle immagini di progetto renderizzate usa filtri analoghi."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La scienza basata su immagini applica gli stessi filtri in stile convoluzione."
+    },
+    "domain_ai_training": {
+      "explanation": "L'augmentation delle immagini per l'addestramento riutilizza queste operazioni di filtraggio."
+    },
+    "domain_ai_inference": {
+      "explanation": "Il pre- e post-processing attorno ai modelli di visione artificiale usa filtri per immagini."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi delle immagini applica filtri durante la preparazione."
+    },
+    "domain_server_virt": {
+      "explanation": "I servizi di elaborazione delle immagini eseguono questi filtri su larga scala su server condivisi."
+    }
+  }
+}

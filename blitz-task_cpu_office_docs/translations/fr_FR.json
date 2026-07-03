@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_office_docs",
+  "short_description": "Recalcul de tableurs et rendu de documents sur des fichiers fournis.",
+  "description": "Parcourt un ensemble de fichiers bureautiques fourni, en recalculant de grands tableurs et en mettant en page puis en restituant des documents vers une sortie paginée fixe. La charge de travail mêle de courtes rafales de calcul à de la mise en forme et de la mise en page, ce qui correspond à la façon dont les logiciels de productivité sollicitent réellement une machine.",
+  "metric_explanation": "Le score est le nombre de documents et de recalculs effectués par minute, exprimé en éléments par minute.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un nombre plus élevé signifie moins d'attente à l'ouverture de gros fichiers, au recalcul de feuilles ou à l'exportation vers des formats paginés fixes.",
+  "reasoning": "Le travail bureautique procède par rafales et est sensible à la latence plutôt qu'à un effort soutenu ; une charge de travail documentaire mixte le représente donc bien mieux qu'un score de débit brut.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La gestion des documents n'a aucun rapport avec les performances de jeu."
+    },
+    "domain_office": {
+      "explanation": "C'est la charge de travail quotidienne qui définit les machines de productivité."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs passent un temps réel dans les documents, tickets et notes, en marge du code."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les graphistes manipulent briefs, mises en page et documents exportés tout au long d'un projet."
+    },
+    "domain_video_editing": {
+      "explanation": "Les monteurs gèrent scripts et paperasse autour du montage lui-même."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les studios produisent documentation et rapports en marge des rendus."
+    },
+    "domain_audio_production": {
+      "explanation": "Les professionnels de l'audio gèrent notes de session et paperasse."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ingénierie produit un flux régulier de rapports, de plans et de spécifications."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les chercheurs consacrent un temps notable à rédiger et mettre en forme articles et rapports."
+    },
+    "domain_ai_training": {
+      "explanation": "La documentation entoure le travail d'entraînement, mais n'en constitue pas la charge principale."
+    },
+    "domain_ai_inference": {
+      "explanation": "La production de rapports accompagne le travail sur les modèles déployés."
+    },
+    "domain_data_science": {
+      "explanation": "Les analystes produisent de nombreux rapports et documents à partir de leurs conclusions."
+    },
+    "domain_server_virt": {
+      "explanation": "L'administration des serveurs implique de la documentation, mais peu de rendu de documents."
+    }
+  }
+}

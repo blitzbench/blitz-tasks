@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "disk_rand_read",
+  "short_description": "Nombre de petites opérations de lecture aléatoire par seconde depuis le stockage.",
+  "description": "Émet de nombreuses petites lectures à des positions aléatoires sur une vaste région du stockage, en maintenant plusieurs requêtes en cours à la fois. L'accès aléatoire est bien plus difficile pour le stockage que la diffusion séquentielle, et il est plus proche de la façon dont les systèmes d'exploitation et les applications touchent réellement à de nombreux petits fichiers.",
+  "metric_explanation": "Le score est le nombre d'opérations de lecture effectuées par seconde, exprimé en IOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. De bonnes performances en lecture aléatoire donnent une impression de réactivité au lancement des applications et à l'ouverture de nombreux petits fichiers.",
+  "reasoning": "Les performances en lecture aléatoire sont ce qui distingue un système vif d'un système poussif à l'usage quotidien, car la plupart des accès courants sont dispersés plutôt que séquentiels.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le streaming de nombreux petits assets en cours de jeu dépend de la vitesse de lecture aléatoire."
+    },
+    "domain_office": {
+      "explanation": "Le lancement des applications et l'ouverture de nombreux petits fichiers sont limités par la lecture aléatoire."
+    },
+    "domain_software_development": {
+      "explanation": "Les compilations et les outils accèdent aléatoirement à des milliers de petits fichiers source."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le chargement de nombreux petits pinceaux, assets et aperçus repose sur des lectures aléatoires."
+    },
+    "domain_video_editing": {
+      "explanation": "Le travail multimédia est surtout séquentiel, avec quelques accès aléatoires aux proxys."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le chargement de nombreux petits fichiers de textures et d'assets implique des lectures aléatoires."
+    },
+    "domain_audio_production": {
+      "explanation": "Les bibliothèques d'échantillons déclenchent de nombreuses petites lectures aléatoires pendant la lecture."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les grands projets référencent de nombreux petits fichiers de pièces et de ressources."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Certains formats de données emploient un accès aléatoire au sein de gros fichiers."
+    },
+    "domain_ai_training": {
+      "explanation": "Les données d'entraînement mélangées lisent aléatoirement de nombreux petits enregistrements."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le chargement des fragments de modèle et des assets comporte quelques accès aléatoires."
+    },
+    "domain_data_science": {
+      "explanation": "Les recherches indexées et les jeux de données partitionnés génèrent des lectures aléatoires."
+    },
+    "domain_server_virt": {
+      "explanation": "Les bases de données et de nombreux locataires concurrents génèrent une forte charge de lecture aléatoire."
+    }
+  }
+}

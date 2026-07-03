@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_pcie_d2h",
+  "short_description": "Bande passante de relecture des résultats du GPU vers la mémoire système.",
+  "description": "Transfère de grands tampons depuis la mémoire locale du processeur graphique vers la mémoire système sur le lien qui les connecte. Le test mesure le chemin de téléchargement seul, la route qu'emprunte chaque résultat une fois que le GPU en a terminé.",
+  "metric_explanation": "La bande passante est le nombre d'octets envoyés du GPU vers l'hôte par seconde, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante de téléchargement limite la rapidité avec laquelle images rendues, données traitées et sorties de modèle peuvent être rapatriées pour être exploitées.",
+  "reasoning": "De nombreux pipelines sont bridés par la récupération des résultats depuis le GPU ; le chemin de téléchargement mérite donc sa propre mesure aux côtés du téléversement.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux relisent rarement de grands résultats depuis le GPU pendant le jeu."
+    },
+    "domain_office": {
+      "explanation": "La bureautique relit peu de données depuis le GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent surtout lors du développement de logiciels accélérés par GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "La relecture des images filtrées depuis le GPU sollicite la bande passante de téléchargement."
+    },
+    "domain_video_editing": {
+      "explanation": "La relecture des images traitées depuis le GPU pour l'encodage est limitée par le téléchargement."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La relecture des images rendues depuis le GPU emprunte le chemin de téléchargement."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio relit peu de données depuis le GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La relecture des résultats calculés depuis le GPU sollicite le lien de transfert."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le rapatriement de grands tableaux de résultats depuis l'accélérateur est limité par la bande passante de téléchargement."
+    },
+    "domain_ai_training": {
+      "explanation": "La relecture des métriques et des points de contrôle depuis le GPU emprunte le chemin de téléchargement."
+    },
+    "domain_ai_inference": {
+      "explanation": "La relecture des sorties générées depuis le GPU sollicite la bande passante de téléchargement."
+    },
+    "domain_data_science": {
+      "explanation": "Le renvoi des résultats analytiques depuis le GPU est limité par le téléchargement."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs GPU partagés renvoient les résultats des locataires par ce lien."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_cache_latency",
+  "short_description": "Zeit, um einen Wert aus dem Last-Level-Cache des Prozessors zu laden.",
+  "description": "Verfolgt eine Kette abhängiger Zeiger durch einen Bereich, der so bemessen ist, dass er in den Last-Level-Cache des Prozessors passt, wobei jeder Zugriff auf den vorherigen wartet. Da die Daten den Cache nie verlassen, isoliert das Ergebnis, wie schnell der Prozessor einen Wert bereitstellen kann, der zwar auf dem Chip liegt, aber nicht im kleinsten, schnellsten Cache.",
+  "metric_explanation": "Die Latenz ist die durchschnittliche Zeit für einen abhängigen Cache-Zugriff, angegeben in Nanosekunden.",
+  "value_interpretation": "„Niedriger ist besser.“ Eine niedrige Cache-Latenz hält enge innere Schleifen schnell, da diese einen Großteil ihrer Zeit mit dem Warten auf Daten im Cache verbringen.",
+  "reasoning": "Der meiste heiße Code arbeitet mit Daten, die in den Cache passen, statt in die kleinste Cache-Stufe oder den Hauptspeicher, weshalb die On-Chip-Cache-Latenz die reale Single-Core-Leistung stark prägt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Enge Spielschleifen arbeiten auf im Cache gehaltenen Daten, bei denen die Zugriffslatenz die Bildzeiten bestimmt."
+    },
+    "domain_office": {
+      "explanation": "Interaktive Reaktionsfähigkeit profitiert von schnellem Cache-Zugriff bei kurzen Arbeitsspitzen."
+    },
+    "domain_software_development": {
+      "explanation": "Innere Compiler-Schleifen durchlaufen im Cache gehaltene Strukturen, die latenzempfindlich sind."
+    },
+    "domain_graphics_design": {
+      "explanation": "Kachelweise Bildoperationen nutzen im Cache gehaltene Daten erneut, bei denen Latenz eine Rolle spielt."
+    },
+    "domain_video_editing": {
+      "explanation": "Blockbasierte Codecs arbeiten während der Verarbeitung auf im Cache gehaltenen Daten."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Traversierung und Shading nutzen im Cache gehaltene Working Sets unter Latenzanforderungen erneut."
+    },
+    "domain_audio_production": {
+      "explanation": "Echtzeit-Audio-Kerne arbeiten auf kleinen, im Cache gehaltenen Puffern unter engen Zeitvorgaben."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Innere Solver-Blöcke arbeiten auf im Cache gehaltenen Kacheln, bei denen Latenz entscheidend ist."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Blockierte numerische Kerne sind auf den Cache abgestimmt und reagieren empfindlich auf dessen Latenz."
+    },
+    "domain_ai_training": {
+      "explanation": "Hostseitiges Training ist überwiegend streaming-basiert, mit begrenztem Cache-Latenzdruck."
+    },
+    "domain_ai_inference": {
+      "explanation": "CPU-Inferenzschleifen nutzen im Cache gehaltene Gewichte erneut, bei denen die Zugriffslatenz eine Rolle spielt."
+    },
+    "domain_data_science": {
+      "explanation": "Hashtabellen und Gruppierungspuffer, die in den Cache passen, sind latenzempfindlich."
+    },
+    "domain_server_virt": {
+      "explanation": "Anfragespezifische Arbeit über im Cache gehaltenen Zustand wird durch die Cache-Latenz geprägt."
+    }
+  }
+}

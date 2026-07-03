@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_vram_read",
+  "short_description": "Lesebandbreite aus dem eigenen Speicher des Grafikprozessors.",
+  "description": "Liest große Puffer aus dem lokalen Speicher des Grafikprozessors mit einem reinen Lesemuster und nutzt dabei einen Arbeitssatz, der weit größer ist als jeder On-Chip-Cache. Das Ergebnis zeigt, wie schnell die GPU Daten aus ihrem eigenen Speicher holen kann, um die Recheneinheiten zu versorgen.",
+  "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde aus dem GPU-Speicher gelesenen Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Die Lesebandbreite begrenzt Arbeitslasten, die große Texturen, Modelle und Datensätze schneller in die GPU streamen, als sie sie berechnen.",
+  "reasoning": "Das Lesen aus dem lokalen Speicher ist das häufigste GPU-Zugriffsmuster, weshalb die Lesebandbreite die Leitkennzahl für datenintensive beschleunigte Arbeit ist.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Einlesen von Texturen und Puffern in die Kerne hängt von schnellen GPU-Speicherlesezugriffen ab."
+    },
+    "domain_office": {
+      "explanation": "Büro-Arbeit liest kaum Daten aus dem GPU-Speicher."
+    },
+    "domain_software_development": {
+      "explanation": "Vor allem relevant bei der Entwicklung GPU-beschleunigter Software."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Einlesen großer Bildebenen in die GPU ist durch die Lesebandbreite begrenzt."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Einlesen hochauflösender Frames in die GPU beansprucht die Speicher-Lesebandbreite."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Einlesen großer Szenen und Texturen macht GPU-Rendering lesebandbreitengebunden."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit liest kaum Daten aus dem GPU-Speicher."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Einlesen großer Netze in den Viewport beansprucht die GPU-Lesebandbreite."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Beschleunigte Simulationen sind häufig durch Lesezugriffe auf den GPU-Speicher begrenzt."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Lesen von Gewichten und Aktivierungen dominiert den Speicherverkehr beim Training."
+    },
+    "domain_ai_inference": {
+      "explanation": "Die Tokengenerierungsgeschwindigkeit wird maßgeblich dadurch bestimmt, wie schnell Gewichte aus dem GPU-Speicher gelesen werden."
+    },
+    "domain_data_science": {
+      "explanation": "GPU-Analysen scannen große Arrays aus dem Speicher."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemeinsam genutzte GPU-Server teilen die Lesebandbreite auf viele Mandanten auf."
+    }
+  }
+}

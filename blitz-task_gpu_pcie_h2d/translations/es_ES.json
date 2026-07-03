@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_pcie_h2d",
+  "short_description": "Ancho de banda para enviar datos desde la memoria del sistema a la GPU.",
+  "description": "Transfiere búferes grandes desde la memoria del sistema a la memoria local del procesador gráfico a través de la conexión que los enlaza, normalmente el bus PCIe. La prueba mide la ruta de subida por sí sola, que es el camino que toma toda entrada antes de que la GPU pueda trabajar con ella.",
+  "metric_explanation": "El ancho de banda es el número de bytes enviados desde el host a la GPU por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de subida limita la rapidez con la que se pueden preparar en la GPU grandes conjuntos de datos, texturas y pesos de modelos.",
+  "reasoning": "Antes de que la GPU calcule nada, los datos tienen que llegar hasta ella, y en muchos sistemas este enlace es el verdadero cuello de botella, más que la propia GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Transmitir nuevos recursos a la GPU durante la partida utiliza la ruta de subida."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática envía pocos datos a la GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante sobre todo al desarrollar software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Enviar imágenes grandes a la GPU para su filtrado utiliza ancho de banda de subida."
+    },
+    "domain_video_editing": {
+      "explanation": "Subir fotogramas de alta resolución a la GPU para efectos está limitado por la subida."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Preparar escenas y texturas grandes en la GPU utiliza intensamente la ruta de subida."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio envía pocos datos a la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Subir modelos grandes al viewport de la GPU utiliza el enlace de transferencia."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Alimentar grandes conjuntos de datos al acelerador suele estar limitado por el ancho de banda de subida."
+    },
+    "domain_ai_training": {
+      "explanation": "Transmitir los lotes de entrenamiento a la GPU hace que el ancho de banda de subida sea crítico."
+    },
+    "domain_ai_inference": {
+      "explanation": "Cargar los pesos del modelo y las entradas en la GPU utiliza la ruta de subida."
+    },
+    "domain_data_science": {
+      "explanation": "Trasladar grandes conjuntos de datos a la GPU para analítica está limitado por la subida."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de GPU compartida trasladan los datos de cada inquilino al dispositivo a través de este enlace."
+    }
+  }
+}

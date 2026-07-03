@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_matmul",
+  "short_description": "Throughput di moltiplicazione di matrici a precisione dimezzata mediante unità tensoriali.",
+  "description": "Moltiplica grandi matrici a precisione dimezzata sul processore grafico, utilizzando le unità tensoriali o matriciali che l'hardware moderno offre proprio per questa operazione. La moltiplicazione di matrici è il mattone fondamentale del machine learning, e questo test mantiene le unità sature per individuarne il tasso massimo.",
+  "metric_explanation": "Il throughput è il numero di operazioni a precisione dimezzata al secondo durante la moltiplicazione, in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Più alto è, meglio è. È il dato che predice più direttamente la velocità di addestramento e inferenza, poiché entrambi sono dominati dalla moltiplicazione di matrici.",
+  "reasoning": "I test di calcolo puro non mettono alla prova le unità matriciali dedicate, eppure sono quelle unità a determinare le reali prestazioni di machine learning, quindi un test strutturato di moltiplicazione di matrici è essenziale.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'upscaling e gli effetti basati su apprendimento usano la moltiplicazione di matrici sulle unità tensoriali."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio usa raramente le unità matriciali."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori che realizzano funzionalità di machine learning."
+    },
+    "domain_graphics_design": {
+      "explanation": "Gli strumenti di design generativi e basati su apprendimento eseguono la moltiplicazione di matrici."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli effetti di machine learning negli strumenti di montaggio si basano sulla moltiplicazione di matrici."
+    },
+    "domain_3d_rendering": {
+      "explanation": "I denoiser e gli upscaler basati su apprendimento nel rendering usano le unità matriciali."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa scarso uso delle unità matriciali della GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Alcuni solutori accelerati e modelli surrogati si basano sulla moltiplicazione di matrici dense."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'algebra lineare densa sulla GPU si fonda sulla moltiplicazione di matrici."
+    },
+    "domain_ai_training": {
+      "explanation": "Il throughput dell'addestramento è essenzialmente il throughput della moltiplicazione di matrici."
+    },
+    "domain_ai_inference": {
+      "explanation": "La velocità dell'inferenza è dominata dalle moltiplicazioni di matrici all'interno di ciascuno strato."
+    },
+    "domain_data_science": {
+      "explanation": "Il machine learning su GPU applicato a grandi quantità di dati si fonda sulla moltiplicazione di matrici."
+    },
+    "domain_server_virt": {
+      "explanation": "I server con acceleratori condivisi mettono il throughput matriciale a disposizione di molti tenant di machine learning."
+    }
+  }
+}

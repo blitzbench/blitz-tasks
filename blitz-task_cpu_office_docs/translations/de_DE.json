@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_office_docs",
+  "short_description": "Tabellenneuberechnung und Dokumentenrendering über mitgelieferte Dateien.",
+  "description": "Arbeitet einen mitgelieferten Satz von Bürodateien durch, berechnet große Tabellen neu und setzt Dokumente auf und rendert sie zu einer festen Seitenausgabe. Die Arbeitslast mischt kurze Rechenschübe mit Formatierung und Layout, was der Art entspricht, wie Produktivitätssoftware eine Maschine tatsächlich belastet.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Minute abgeschlossenen Dokumente und Neuberechnungen, angegeben als Elemente pro Minute.",
+  "value_interpretation": "„Höher ist besser.“ Eine höhere Zahl bedeutet weniger Warten beim Öffnen großer Dateien, beim Neuberechnen von Tabellen oder beim Exportieren in feste Seitenformate.",
+  "reasoning": "Büroarbeit ist schubweise und latenzsensitiv statt eine stetige Belastung, weshalb eine gemischte Dokumenten-Arbeitslast sie weit besser abbildet als ein reiner Durchsatz-Score.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Dokumentenverarbeitung ist für Gaming-Leistung nicht relevant."
+    },
+    "domain_office": {
+      "explanation": "Dies ist die maßgebliche Alltagsarbeitslast für Produktivrechner."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler verbringen echte Zeit in Dokumenten, Issues und Notizen neben dem Code."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designer bearbeiten Briefings, Layouts und exportierte Dokumente während eines gesamten Projekts."
+    },
+    "domain_video_editing": {
+      "explanation": "Cutter verwalten Skripte und Verwaltungsarbeit rund um den eigentlichen Schnitt."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Studios erstellen Dokumentation und Berichte begleitend zu den Renders."
+    },
+    "domain_audio_production": {
+      "explanation": "Audiofachleute bearbeiten Session-Notizen und Verwaltungsarbeit."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieurwesen erzeugt kontinuierlich Berichte, Zeichnungen und Spezifikationen."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Forscher verbringen erhebliche Zeit mit dem Schreiben und Formatieren von Fachartikeln und Berichten."
+    },
+    "domain_ai_training": {
+      "explanation": "Dokumentation begleitet das Training, ist aber nicht dessen Hauptlast."
+    },
+    "domain_ai_inference": {
+      "explanation": "Berichterstattung begleitet den Betrieb bereitgestellter Modelle."
+    },
+    "domain_data_science": {
+      "explanation": "Analysten erstellen zahlreiche Berichte und Dokumente aus ihren Ergebnissen."
+    },
+    "domain_server_virt": {
+      "explanation": "Serveradministration umfasst Dokumentation, jedoch kaum Dokument-Rendering."
+    }
+  }
+}

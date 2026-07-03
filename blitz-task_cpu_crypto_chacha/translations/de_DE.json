@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_crypto_chacha",
+  "short_description": "ChaCha20-Poly1305-Durchsatz für authentifizierte Verschlüsselung auf allen Kernen.",
+  "description": "Verschlüsselt und authentifiziert einen Puffer wiederholt mit ChaCha20-Poly1305 über alle Kerne. Diese Chiffre baut auf einfacher Arithmetik statt auf dedizierten Befehlen auf und zeigt daher, wie ein Prozessor sicheren Datenverkehr handhabt, wenn keine Hardware-Chiffrebeschleunigung im Spiel ist, was bei leichterer und mobiler Hardware häufig vorkommt.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der pro Sekunde verschlüsselten und authentifizierten Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Der Abstand zum AES-Ergebnis zeigt, wie stark eine Maschine auf dedizierte Chiffrebefehle im Vergleich zu allgemeiner Arithmetik angewiesen ist.",
+  "reasoning": "ChaCha20-Poly1305 wird für sichere Verbindungen weithin genutzt, besonders dort, wo Hardware-AES schwach oder nicht vorhanden ist, weshalb es eine andere und wichtige Seite der kryptografischen Leistung erfasst.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele verwenden authentifizierte Verschlüsselung hauptsächlich für Netzwerkverkehr."
+    },
+    "domain_office": {
+      "explanation": "Sicheres Surfen und Messaging verwenden oft diese Chiffre."
+    },
+    "domain_software_development": {
+      "explanation": "Sichere Übertragungen und Tunnel handeln häufig diese Chiffre aus."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designarbeit nutzt authentifizierte Verschlüsselung nur beim Synchronisieren."
+    },
+    "domain_video_editing": {
+      "explanation": "Sichere Medienauslieferung verwendet gelegentlich diese Chiffre."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Rendering führt kaum Verschlüsselungsarbeit durch."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit nutzt Verschlüsselung nur für Übertragungen."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieursarbeit verschlüsselt hauptsächlich beim Schutz von Dateien während der Übertragung."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Sichere Verbindungen zwischen Knoten können diese Chiffre für die Datenbewegung verwenden."
+    },
+    "domain_ai_training": {
+      "explanation": "Training-Pipelines verbringen wenig Zeit mit Transportverschlüsselung."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Bereitstellen über sichere Verbindungen verwendet pro Anfrage authentifizierte Verschlüsselung."
+    },
+    "domain_data_science": {
+      "explanation": "Das Abrufen von Daten über sichere Verbindungen betreibt diese Chiffre."
+    },
+    "domain_server_virt": {
+      "explanation": "Server terminieren viele sichere Verbindungen, oft mit dieser Chiffre für Clients ohne Hardware-AES."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_diffusion",
+  "short_description": "Generazione di immagini con diffusion sul processore grafico.",
+  "description": "Genera immagini con un modello diffusion sul processore grafico, eseguendo un numero fisso di passi di denoising per immagine a una risoluzione stabilita. Il modello e le impostazioni sono identici su ogni macchina, così il risultato riflette il throughput di calcolo accelerato e di memoria sostenuto.",
+  "metric_explanation": "Il punteggio è il numero di immagini prodotte al minuto, riportato come elementi al minuto.",
+  "value_interpretation": "Più alto è, meglio è. Più immagini al minuto significano meno attesa nel generare o iterare su idee visive.",
+  "reasoning": "La generazione di immagini con diffusion è uno dei carichi di machine learning locale più comuni, e il suo ciclo di denoising è un test pesante e ripetibile dell'inferenza accelerata.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Texture e asset generati vengono usati in alcune pipeline di gioco."
+    },
+    "domain_office": {
+      "explanation": "Le immagini generate compaiono in presentazioni e documenti."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori integrano la generazione di immagini nelle applicazioni che realizzano."
+    },
+    "domain_graphics_design": {
+      "explanation": "La generazione di immagini è ormai una parte abituale del flusso di lavoro di design."
+    },
+    "domain_video_editing": {
+      "explanation": "Fotogrammi ed elementi generati vengono integrati nel video montato."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Texture e concept generati alimentano la produzione 3D."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa scarso uso della generazione di immagini."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il lavoro di ingegneria raramente necessita di immagini generate."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I modelli generativi supportano alcune attività di imaging scientifico."
+    },
+    "domain_ai_training": {
+      "explanation": "Le immagini generate vengono usate per ampliare i set di dati di addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "La generazione tramite diffusione è un carico di lavoro di inferenza locale fondamentale."
+    },
+    "domain_data_science": {
+      "explanation": "I dati di immagini sintetiche supportano alcune attività di analisi e modellazione."
+    },
+    "domain_server_virt": {
+      "explanation": "I servizi di generazione ospitati eseguono questo carico di lavoro in modo continuo per molti utenti."
+    }
+  }
+}

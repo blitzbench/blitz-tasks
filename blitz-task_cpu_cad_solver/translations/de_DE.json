@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_cad_solver",
+  "short_description": "Dünnbesetzte Finite-Elemente-Lösung über ein festes Ingenieurmodell.",
+  "description": "Löst ein mitgeliefertes Finite-Elemente-Modell so, wie es Werkzeuge zur Ingenieursimulation tun: Es baut ein großes dünnbesetztes System auf und führt einen iterativen Solver über alle Kerne bis zur Konvergenz aus. Modell und Toleranzen sind fest, sodass sich die Ergebnisse direkt zwischen Maschinen vergleichen lassen.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde abgeschlossenen Solver-Iterationen, angegeben als Operationen pro Sekunde, was verfolgt, wie schnell die Simulation zu einem Ergebnis gelangt.",
+  "value_interpretation": "„Höher ist besser.“ Mehr Iterationen pro Sekunde bedeuten schnellere Entwurfszyklen, da Ingenieure zwischen jeder Änderung auf diese Berechnungen warten.",
+  "reasoning": "Dünnbesetzte Solver belasten unregelmäßige Speicherzugriffe und doppelte Genauigkeit in dem Muster, das reale CAD- und Ingenieurwerkzeuge verwenden, weshalb dies die Simulationsleistung weit besser widerspiegelt als ein sauberer Durchsatztest.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spielephysik teilt das Prinzip des iterativen Solvers, allerdings bei weitaus geringerer Genauigkeit."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit hat keine Simulationskomponente."
+    },
+    "domain_software_development": {
+      "explanation": "Nur Entwickler von Simulationswerkzeugen sehen diese Art von Last."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designarbeit nutzt keine technischen Solver."
+    },
+    "domain_video_editing": {
+      "explanation": "Editieren hat keinen Bezug zu numerischem Lösen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Stoff-, Flüssigkeits- und Weichkörpersimulation verwenden verwandte spärlich besetzte Solver."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit umfasst keine Finite-Elemente-Berechnungen."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Dies ist die charakteristische schwere Arbeitslast für CAD und Ingenieursimulation."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Spärlich besetzte iterative Solver sind zentral für einen großen Teil wissenschaftlicher Codes."
+    },
+    "domain_ai_training": {
+      "explanation": "Physikbasiertes Training nutzt gelegentlich solver-artige Kerne."
+    },
+    "domain_ai_inference": {
+      "explanation": "Simulationssurrogate kombinieren gelegentlich Modell-Inferenz mit Solver-Schritten."
+    },
+    "domain_data_science": {
+      "explanation": "Optimierungs- und Graphmethoden teilen einige spärlich besetzte lineare Algebra."
+    },
+    "domain_server_virt": {
+      "explanation": "Simulationsaufgaben laufen auf Servern, stellen aber keine allgemeine Server-Arbeitslast dar."
+    }
+  }
+}

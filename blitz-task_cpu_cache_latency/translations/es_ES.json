@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_cache_latency",
+  "short_description": "Tiempo para obtener un valor de la caché de último nivel del procesador.",
+  "description": "Recorre una cadena de punteros dependientes a través de una región dimensionada para caber dentro de la caché de último nivel del procesador, donde cada acceso espera al anterior. Como los datos nunca salen de la caché, el resultado aísla la rapidez con la que el procesador puede servir un valor que está en el chip pero no en la caché más pequeña y rápida.",
+  "metric_explanation": "La latencia es el tiempo medio para completar un acceso dependiente a la caché, expresado en nanosegundos.",
+  "value_interpretation": "Cuanto más bajo, mejor. Una latencia de caché baja mantiene rápidos los bucles internos ajustados, ya que pasan gran parte de su tiempo esperando datos que residen en la caché.",
+  "reasoning": "La mayor parte del código crítico trabaja sobre datos que caben en la caché en lugar de en el nivel más pequeño o en la memoria principal, por lo que la latencia de la caché en el chip determina en gran medida el rendimiento real de un solo núcleo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los bucles ajustados de los juegos operan sobre datos residentes en caché, donde la latencia de acceso determina los tiempos de fotograma."
+    },
+    "domain_office": {
+      "explanation": "La capacidad de respuesta interactiva se beneficia de un acceso rápido a la caché durante ráfagas breves de trabajo."
+    },
+    "domain_software_development": {
+      "explanation": "Los bucles internos del compilador recorren estructuras residentes en caché que son sensibles a la latencia."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las operaciones de imagen por mosaicos reutilizan datos retenidos en caché, donde la latencia importa."
+    },
+    "domain_video_editing": {
+      "explanation": "Los códecs basados en bloques operan sobre datos residentes en caché durante el procesamiento."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El recorrido y el sombreado reutilizan conjuntos de trabajo retenidos en caché bajo presión de latencia."
+    },
+    "domain_audio_production": {
+      "explanation": "Los núcleos de audio en tiempo real operan sobre pequeños búferes residentes en caché con plazos muy ajustados."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los bloques internos del solucionador operan sobre mosaicos residentes en caché, donde la latencia cuenta."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los núcleos numéricos por bloques están optimizados en torno a la caché y son sensibles a su latencia."
+    },
+    "domain_ai_training": {
+      "explanation": "El trabajo de entrenamiento del lado del host es mayoritariamente de flujo continuo, con poca presión sobre la latencia de caché."
+    },
+    "domain_ai_inference": {
+      "explanation": "Los bucles de inferencia en CPU reutilizan pesos retenidos en caché, donde la latencia de acceso importa."
+    },
+    "domain_data_science": {
+      "explanation": "Las tablas hash y los búferes de agrupación que caben en la caché son sensibles a la latencia."
+    },
+    "domain_server_virt": {
+      "explanation": "El trabajo por petición sobre estado residente en caché viene determinado por la latencia de la caché."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_crypto_chacha",
+  "short_description": "Rendimiento de cifrado autenticado ChaCha20-Poly1305 en todos los núcleos.",
+  "description": "Cifra y autentica un búfer con ChaCha20-Poly1305 de forma repetida en todos los núcleos. Este cifrado se construye a partir de aritmética simple en lugar de instrucciones dedicadas, por lo que muestra cómo gestiona un procesador el tráfico seguro cuando no entra en juego ninguna aceleración de cifrado por hardware, algo habitual en el hardware más ligero y móvil.",
+  "metric_explanation": "El rendimiento es el número de bytes cifrados y autenticados por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. La diferencia frente al resultado de AES muestra hasta qué punto una máquina depende de instrucciones de cifrado dedicadas frente a la aritmética general.",
+  "reasoning": "ChaCha20-Poly1305 se utiliza ampliamente para conexiones seguras, especialmente donde el AES por hardware es débil o inexistente, por lo que capta una faceta distinta e importante del rendimiento criptográfico.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos utilizan el cifrado autenticado principalmente para el tráfico de red."
+    },
+    "domain_office": {
+      "explanation": "La navegación y la mensajería seguras suelen apoyarse en este cifrado."
+    },
+    "domain_software_development": {
+      "explanation": "Las transferencias y túneles seguros negocian con frecuencia este cifrado."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo de diseño recurre al cifrado autenticado solo al sincronizar."
+    },
+    "domain_video_editing": {
+      "explanation": "La entrega segura de medios utiliza a veces este cifrado."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El renderizado apenas realiza trabajo de cifrado."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio utiliza el cifrado solo para las transferencias."
+    },
+    "domain_cad_engineering": {
+      "explanation": "El trabajo de ingeniería cifra principalmente al proteger archivos en tránsito."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los enlaces seguros entre nodos pueden usar este cifrado para el movimiento de datos."
+    },
+    "domain_ai_training": {
+      "explanation": "Las canalizaciones de entrenamiento dedican poco tiempo al cifrado de transporte."
+    },
+    "domain_ai_inference": {
+      "explanation": "Servir a través de conexiones seguras utiliza cifrado autenticado en cada petición."
+    },
+    "domain_data_science": {
+      "explanation": "Obtener datos a través de enlaces seguros ejecuta este cifrado."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores terminan muchas conexiones seguras, a menudo con este cifrado para clientes sin AES por hardware."
+    }
+  }
+}

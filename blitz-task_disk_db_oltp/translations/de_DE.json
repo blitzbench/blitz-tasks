@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "disk_db_oltp",
+  "short_description": "Gemischte Lese- und Schreibtransaktionen gegen eine lokale Datenbankdatei.",
+  "description": "Führt einen stetigen Strom kleiner Transaktionen gegen eine lokale Datenbankdatei aus und mischt Lesevorgänge, Einfügungen und Aktualisierungen, während die Daten dauerhaft auf dem Datenträger gehalten werden. Dies kombiniert kleinen wahlfreien Zugriff mit dem Flushing, das eine reale Datenbank ausführt, um Daten sicher zu halten, was eines der anspruchsvollsten alltäglichen Speichermuster ist.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde bestätigten Datenbanktransaktionen, angegeben als Operationen pro Sekunde.",
+  "value_interpretation": "„Höher ist besser.“ Mehr Transaktionen pro Sekunde bedeuten, dass eine datenbankgestützte Anwendung unter Last reaktionsschnell bleibt.",
+  "reasoning": "Dauerhafte transaktionale Arbeitslasten fordern den Datenträger bei kleinen Schreibvorgängen und beim Flushing, was das Muster ist, das Server und datenbankgestützte Software prägt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele halten kleine lokale Datenbanken für Spielzustand und Fortschritt vor."
+    },
+    "domain_office": {
+      "explanation": "Viele Produktivitäts-Apps speichern ihre Daten in lokalen Datenbanken."
+    },
+    "domain_software_development": {
+      "explanation": "Lokale Entwicklung betreibt ständig Datenbanken für Tests und Tools."
+    },
+    "domain_graphics_design": {
+      "explanation": "Kreative Apps nutzen kleine Datenbanken für Kataloge und Verlauf."
+    },
+    "domain_video_editing": {
+      "explanation": "Cutter führen Medienkataloge in lokalen Datenbanken."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Asset- und Job-Tracking nutzen kleine Datenbanken rund um das Rendering."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Tools speichern Projekt- und Bibliotheksdatenbanken auf dem Datenträger."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieur-Datenverwaltung stützt sich auf transaktionale Datenspeicher."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Experiment-Tracking und Ergebnisse werden häufig in Transaktionsdatenbanken gespeichert."
+    },
+    "domain_ai_training": {
+      "explanation": "Run-Tracking und Metadaten-Speicher führen viele kleine Transaktionen durch."
+    },
+    "domain_ai_inference": {
+      "explanation": "Serving-Systeme protokollieren und rufen Zustand über Transaktionsdatenbanken ab."
+    },
+    "domain_data_science": {
+      "explanation": "Das Abfragen und Aktualisieren lokaler Datenbanken ist ein routinemäßiger Teil der Analyse."
+    },
+    "domain_server_virt": {
+      "explanation": "Transaktionsdatenbank-Durchsatz ist die maßgebliche Speicher-Arbeitslast für Server."
+    }
+  }
+}

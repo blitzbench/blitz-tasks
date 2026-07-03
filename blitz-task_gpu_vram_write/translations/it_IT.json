@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_vram_write",
+  "short_description": "Larghezza di banda in scrittura verso la memoria propria del processore grafico.",
+  "description": "Scrive grandi buffer nella memoria locale del processore grafico con uno schema di sola scrittura, utilizzando un working set molto più grande di qualsiasi cache on-chip. Il risultato mostra la rapidità con cui la GPU può memorizzare i risultati nella propria memoria.",
+  "metric_explanation": "La larghezza di banda è il numero di byte scritti nella memoria della GPU al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. La larghezza di banda in scrittura limita i carichi di lavoro che producono output di grandi dimensioni nella memoria della GPU, come i render target e le attivazioni generate.",
+  "reasoning": "La scrittura può comportarsi diversamente dalla lettura in un sistema di memoria GPU, quindi un test di scrittura dedicato cattura il lavoro accelerato ricco di output.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Scrivere i render target e i frame buffer a ogni fotogramma utilizza la larghezza di banda in scrittura della GPU."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio scrive pochi dati attraverso la memoria della GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante soprattutto durante lo sviluppo di software accelerato su GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Produrre i buffer delle immagini modificate scrive grandi quantità di dati nella memoria della GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Scrivere i fotogrammi elaborati nella memoria della GPU utilizza la larghezza di banda in scrittura."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Scrivere i buffer di rendering e i risultati intermedi è vincolato dalla larghezza di banda in scrittura."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio scrive pochi dati attraverso la memoria della GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Scrivere i buffer del viewport e i risultati utilizza la larghezza di banda in scrittura della GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Scrivere grandi array di risultati rende le simulazioni accelerate vincolate dalla larghezza di banda in scrittura."
+    },
+    "domain_ai_training": {
+      "explanation": "Scrivere attivazioni e gradienti consuma grandi quantità di larghezza di banda in scrittura."
+    },
+    "domain_ai_inference": {
+      "explanation": "Scrivere le attivazioni intermedie durante l'inferenza utilizza la larghezza di banda in scrittura."
+    },
+    "domain_data_science": {
+      "explanation": "Materializzare i risultati nella memoria della GPU scrive grandi quantità di dati."
+    },
+    "domain_server_virt": {
+      "explanation": "I server GPU condivisi ripartiscono la larghezza di banda in scrittura tra molti tenant."
+    }
+  }
+}

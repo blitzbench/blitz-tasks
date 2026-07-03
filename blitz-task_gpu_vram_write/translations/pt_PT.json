@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_vram_write",
+  "short_description": "Largura de banda de escrita para a própria memória do processador gráfico.",
+  "description": "Escreve grandes buffers na memória local do processador gráfico com um padrão apenas de escrita, usando um conjunto de trabalho muito maior do que qualquer cache no chip. O resultado mostra a rapidez com que a GPU consegue armazenar resultados de volta na sua própria memória.",
+  "metric_explanation": "A largura de banda é o número de bytes escritos na memória da GPU por segundo, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. A largura de banda de escrita limita as cargas de trabalho que produzem saídas grandes na memória da GPU, como alvos de renderização e ativações geradas.",
+  "reasoning": "A escrita pode comportar-se de forma diferente da leitura num sistema de memória de GPU, pelo que um teste de escrita dedicado capta o trabalho acelerado com muitas saídas.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Escrever render targets e frame buffers a cada fotograma utiliza a largura de banda de escrita da GPU."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório escreve poucos dados através da memória da GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Sobretudo relevante no desenvolvimento de software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Produzir buffers de imagem editados escreve grandes volumes de dados na memória da GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Escrever fotogramas processados na memória da GPU utiliza largura de banda de escrita."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Escrever buffers de renderização e resultados intermédios é limitado pela largura de banda de escrita."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio escreve pouco através da memória da GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Escrever buffers da janela de visualização e resultados utiliza a largura de banda de escrita da GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Escrever grandes matrizes de resultados torna as simulações aceleradas limitadas pela largura de banda de escrita."
+    },
+    "domain_ai_training": {
+      "explanation": "Escrever ativações e gradientes consome grandes quantidades de largura de banda de escrita."
+    },
+    "domain_ai_inference": {
+      "explanation": "Escrever ativações intermédias durante a inferência utiliza largura de banda de escrita."
+    },
+    "domain_data_science": {
+      "explanation": "Materializar resultados na memória da GPU escreve grandes volumes de dados."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de GPU partilhada dividem a largura de banda de escrita por muitos inquilinos."
+    }
+  }
+}

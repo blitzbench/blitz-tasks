@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_fp32",
+  "short_description": "Gleitkomma-Durchsatz mit einfacher Genauigkeit auf dem Grafikprozessor.",
+  "description": "Führt einen dichten Rechenkernel mit einfacher Genauigkeit auf dem Grafikprozessor aus und hält dabei jede Shading-Einheit mit fusionierter Multiply-Add-Arbeit ausgelastet. Die Daten bleiben im schnellen On-Chip-Speicher, sodass das Ergebnis die reine Rechenleistung widerspiegelt und nicht den Speichertransfer.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der Operationen mit einfacher Genauigkeit pro Sekunde, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "„Höher ist besser.“ Dies ist die Leit-Rechenkennzahl, die mit den meisten Grafik- und allgemeinen GPU-Arbeitslasten skaliert.",
+  "reasoning": "Der Durchsatz mit einfacher Genauigkeit ist das breiteste Maß der GPU-Leistung und bildet die Grundlage für Gaming, Rendering und die meiste beschleunigte Arbeit, weshalb er die synthetische GPU-Reihe verankert.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Shading und Effekte in modernen Spielen hängen direkt vom GPU-Durchsatz mit einfacher Genauigkeit ab."
+    },
+    "domain_office": {
+      "explanation": "Desktop und grundlegende Beschleunigung nutzen nur einen kleinen Teil der GPU-Rechenleistung."
+    },
+    "domain_software_development": {
+      "explanation": "Die meiste Entwicklung ist CPU-limitiert, mit begrenzter GPU-Nutzung."
+    },
+    "domain_graphics_design": {
+      "explanation": "Beschleunigte Filter und Großflächen-Operationen werden als GPU-Arbeit mit einfacher Genauigkeit ausgeführt."
+    },
+    "domain_video_editing": {
+      "explanation": "Effekte, Übergänge und Vorschauen werden auf der GPU mit einfacher Genauigkeit berechnet."
+    },
+    "domain_3d_rendering": {
+      "explanation": "GPU-Rendering und Viewport-Arbeit werden vom Durchsatz mit einfacher Genauigkeit dominiert."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion nutzt die GPU kaum."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Große Modell-Viewports und einige Solver laufen auf der GPU mit einfacher Genauigkeit."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Viele beschleunigte Simulationen nutzen GPU-Rechenleistung mit einfacher Genauigkeit."
+    },
+    "domain_ai_training": {
+      "explanation": "Der Durchsatz mit einfacher Genauigkeit setzt die Obergrenze für beschleunigtes Training."
+    },
+    "domain_ai_inference": {
+      "explanation": "Beschleunigte Inferenz stützt sich stark auf Rechenleistung mit einfacher Genauigkeit."
+    },
+    "domain_data_science": {
+      "explanation": "GPU-beschleunigte Analytik nutzt den Durchsatz mit einfacher Genauigkeit über große Arrays."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemeinsam genutzte GPU-Server stellen diese Rechenleistung vielen Nutzern bereit."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_audio_dsp",
+  "short_description": "Echtzeit-Audioeffektgraph mit vielen Stimmen und Plugins.",
+  "description": "Führt eine ausgelastete Audiositzung als einen einzigen Echtzeitgraphen aus, bei dem viele gleichzeitige Stimmen durch Filter, Hall und Faltung laufen. Die Arbeit bleibt auf einem einzelnen Verarbeitungs-Thread, entsprechend der Handhabung von Live-Audio, bei der jeder Block fertig sein muss, bevor der nächste fällig ist.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde abgeschlossenen Audioverarbeitungs-Blöcke, angegeben als Operationen pro Sekunde, was widerspiegelt, wie viele Stimmen und Effekte ohne Aussetzer laufen können.",
+  "value_interpretation": "„Höher ist besser.“ Eine höhere Zahl bedeutet, dass mehr Spuren und Plugins gleichzeitig bei niedriger Latenz abgespielt werden können, bevor das Audio zu stocken beginnt.",
+  "reasoning": "Live-Audio steht und fällt mit gleichmäßiger Single-Thread-Leistung unter einer strikten Frist, weshalb dies Musik- und Audioproduktion besser abbildet als jeder Durchsatz-Mittelwert.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spielaudio-Mixing und räumliche Effekte laufen auf einem Echtzeit-Thread parallel zur Engine."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit umfasst nur einfache Wiedergabe, keine aufwendige Audioverarbeitung."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler nutzen selten Echtzeit-Audiographen im Rahmen ihrer Arbeit."
+    },
+    "domain_graphics_design": {
+      "explanation": "Arbeit mit Standbildern hat wenig mit Audioverarbeitung zu tun."
+    },
+    "domain_video_editing": {
+      "explanation": "Editoren führen Audioeffekte und Mixing parallel zur Video-Timeline aus."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Offline-Rendering ist nicht auf Echtzeit-Audio angewiesen."
+    },
+    "domain_audio_production": {
+      "explanation": "Dies ist die zentrale tägliche Arbeitslast für Musik- und Audiofachleute."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieursarbeit hat keine nennenswerte Audioverarbeitungskomponente."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Signalverarbeitungsforschung nutzt dieselben Filter- und Transformationskerne."
+    },
+    "domain_ai_training": {
+      "explanation": "Die Extraktion von Audiomerkmalen für das Training nutzt dieselben Effekt- und Transformationsstufen."
+    },
+    "domain_ai_inference": {
+      "explanation": "Echtzeit-Audiomodelle führen die Vorverarbeitung über ähnliche DSP-Ketten aus."
+    },
+    "domain_data_science": {
+      "explanation": "Audio ist ein Nischendatentyp innerhalb der allgemeinen Analytik."
+    },
+    "domain_server_virt": {
+      "explanation": "Server betreiben selten latenzgebundene Audiographen."
+    }
+  }
+}

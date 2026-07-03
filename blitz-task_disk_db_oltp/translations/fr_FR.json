@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "disk_db_oltp",
+  "short_description": "Transactions mêlant lectures et écritures sur un fichier de base de données local.",
+  "description": "Exécute un flux régulier de petites transactions sur un fichier de base de données local, en mêlant lectures, insertions et mises à jour tout en gardant les données durables sur le disque. Cela combine de petits accès aléatoires aux vidages qu'effectue une véritable base de données pour préserver les données, l'un des schémas de stockage quotidiens les plus exigeants.",
+  "metric_explanation": "Le score est le nombre de transactions de base de données validées par seconde, exprimé en opérations par seconde.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage de transactions par seconde signifie qu'une application adossée à une base de données reste réactive sous charge.",
+  "reasoning": "Les charges transactionnelles durables sollicitent le stockage par de petites écritures et des vidages, soit le schéma qui définit les serveurs et les logiciels adossés à une base de données.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux conservent de petites bases de données locales pour l'état et la progression."
+    },
+    "domain_office": {
+      "explanation": "De nombreuses applications de productivité stockent leurs données dans des bases locales."
+    },
+    "domain_software_development": {
+      "explanation": "Le développement local fait tourner en permanence des bases de données pour les tests et l'outillage."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les applications créatives utilisent de petites bases pour les catalogues et l'historique."
+    },
+    "domain_video_editing": {
+      "explanation": "Les logiciels de montage tiennent leurs catalogues multimédias dans des bases locales."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le suivi des assets et des tâches s'appuie sur de petites bases autour du rendu."
+    },
+    "domain_audio_production": {
+      "explanation": "Les outils audio conservent sur disque des bases de projets et de bibliothèques."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La gestion des données d'ingénierie repose sur des magasins transactionnels."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le suivi des expériences et les résultats résident souvent dans des bases transactionnelles."
+    },
+    "domain_ai_training": {
+      "explanation": "Le suivi des exécutions et les magasins de métadonnées valident de nombreuses petites transactions."
+    },
+    "domain_ai_inference": {
+      "explanation": "Les systèmes de service journalisent et consultent leur état via des bases transactionnelles."
+    },
+    "domain_data_science": {
+      "explanation": "Interroger et mettre à jour des bases locales fait partie du quotidien de l'analyse."
+    },
+    "domain_server_virt": {
+      "explanation": "Le débit des bases de données transactionnelles est la charge de stockage qui définit les serveurs."
+    }
+  }
+}

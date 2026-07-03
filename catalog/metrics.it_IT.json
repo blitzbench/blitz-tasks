@@ -1,0 +1,87 @@
+{
+  "lang": "it_IT",
+  "metric_flops": {
+    "name": "flops",
+    "unit": "GFLOPS"
+  },
+  "metric_iops": {
+    "name": "iops",
+    "unit": "GIOPS"
+  },
+  "metric_branch_throughput": {
+    "name": "throughput dei salti",
+    "unit": "Mops/s"
+  },
+  "metric_throughput": {
+    "name": "throughput",
+    "unit": "Mops/s"
+  },
+  "metric_bandwidth": {
+    "name": "larghezza di banda",
+    "unit": "GB/s"
+  },
+  "metric_latency": {
+    "name": "latenza",
+    "unit": "ns"
+  },
+  "metric_memory_throughput": {
+    "name": "throughput della memoria",
+    "unit": "GB/s"
+  },
+  "metric_memory_latency": {
+    "name": "latenza della memoria",
+    "unit": "ns"
+  },
+  "metric_items_per_min": {
+    "name": "elementi/min",
+    "unit": "items/min"
+  },
+  "metric_tokens_per_sec": {
+    "name": "token/s",
+    "unit": "tokens/s"
+  },
+  "metric_fps": {
+    "name": "fps",
+    "unit": "fps"
+  },
+  "metric_vram_bandwidth": {
+    "name": "larghezza di banda VRAM",
+    "unit": "GB/s"
+  },
+  "metric_pcie_bandwidth": {
+    "name": "larghezza di banda PCIe",
+    "unit": "GB/s"
+  },
+  "metric_fillrate": {
+    "name": "fill rate",
+    "unit": "mpixels/s"
+  },
+  "metric_throughput_samples": {
+    "name": "throughput dei campioni",
+    "unit": "ops/s"
+  },
+  "metric_compile_time": {
+    "name": "tempo di compilazione",
+    "unit": "s"
+  },
+  "metric_seek_latency": {
+    "name": "latenza di accesso",
+    "unit": "us"
+  },
+  "metric_random_iops": {
+    "name": "iops casuali",
+    "unit": "IOPS"
+  },
+  "metric_sequential_read": {
+    "name": "lettura sequenziale",
+    "unit": "MB/s"
+  },
+  "metric_sequential_write": {
+    "name": "scrittura sequenziale",
+    "unit": "MB/s"
+  },
+  "metric_encode_fps": {
+    "name": "fps di codifica",
+    "unit": "fps"
+  }
+}

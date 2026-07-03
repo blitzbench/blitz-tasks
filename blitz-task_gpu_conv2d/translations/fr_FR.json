@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_conv2d",
+  "short_description": "Débit de convolution bidimensionnelle sur le processeur graphique.",
+  "description": "Exécute des convolutions bidimensionnelles répétées sur des données en forme d'image sur le processeur graphique, l'opération au cœur des modèles d'image et de nombreux filtres. Les formes sont fixes et choisies pour maintenir les unités de calcul occupées, de sorte que le résultat reflète la vitesse à laquelle le GPU réalise ce schéma précis.",
+  "metric_explanation": "Le débit est le nombre d'opérations par seconde effectuées pendant les convolutions, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un fort débit de convolution 2D accélère la reconnaissance d'images, les modèles de vision et les filtres d'image accélérés.",
+  "reasoning": "La convolution bidimensionnelle est l'opération dominante de l'apprentissage automatique fondé sur l'image et de nombreux effets d'image GPU, et son schéma d'accès diffère d'une simple multiplication matricielle ; elle mérite donc un test dédié.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La mise à l'échelle par convolution et certains effets de post-traitement s'exécutent en cours de jeu."
+    },
+    "domain_office": {
+      "explanation": "Le travail bureautique fait peu usage de la convolution."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent pour les développeurs qui conçoivent des fonctionnalités de vision."
+    },
+    "domain_graphics_design": {
+      "explanation": "De nombreux filtres d'image accélérés sont des convolutions appliquées à l'image."
+    },
+    "domain_video_editing": {
+      "explanation": "Les effets de convolution par image et les filtres appris s'exécutent sur le GPU."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les débruiteurs par convolution nettoient les images calculées."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio utilise rarement la convolution bidimensionnelle sur le GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Certaines tâches d'inspection par imagerie emploient la convolution."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les méthodes scientifiques à base de stencils et d'images partagent le schéma de la convolution."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement des modèles d'image est dominé par la convolution bidimensionnelle."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'exécution des modèles d'image et de vision s'appuie fortement sur le débit de convolution."
+    },
+    "domain_data_science": {
+      "explanation": "L'analytique d'images applique la convolution lors du traitement et de la modélisation."
+    },
+    "domain_server_virt": {
+      "explanation": "Les services d'inférence visuelle exécutent la convolution en continu sur des GPU partagés."
+    }
+  }
+}

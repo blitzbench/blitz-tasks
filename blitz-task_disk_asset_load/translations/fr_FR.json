@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "disk_asset_load",
+  "short_description": "Diffusion et décompression d'un paquet d'assets de jeu fourni depuis le stockage.",
+  "description": "Charge un paquet d'assets de jeu fourni depuis le stockage et le décompresse sous une forme exploitable, en mêlant de grandes lectures séquentielles de données compactées aux nombreuses lectures plus petites et étapes de décompression qu'un jeu effectue lors du chargement d'un niveau. Le paquet est fixe, de sorte que le résultat reflète le comportement d'un véritable écran de chargement.",
+  "metric_explanation": "Le score est le nombre de paquets d'assets chargés et décompressés par minute, exprimé en éléments par minute.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un débit plus élevé signifie des écrans de chargement plus courts et moins de saccades lorsqu'un jeu diffuse de nouvelles zones.",
+  "reasoning": "Le chargement d'un jeu combine lecture, recherche et décompression au sein d'une même charge de travail, ce qui représente le stockage en usage réel bien mieux que n'importe quel schéma d'accès unique.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le chargement des niveaux et le streaming du monde correspondent exactement à cette charge de travail."
+    },
+    "domain_office": {
+      "explanation": "L'ouverture de gros fichiers regroupés partage le schéma de lecture et de décompression."
+    },
+    "domain_software_development": {
+      "explanation": "La décompression de grandes archives et des caches de dépendances reproduit ce travail."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le chargement de bibliothèques d'assets empaquetées suit le même flux de lecture et de décompression."
+    },
+    "domain_video_editing": {
+      "explanation": "Le chargement des projets et des caches multimédias lit et décompresse de grands paquets."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le chargement de scènes empaquetées et de jeux de textures correspond à ce schéma de lecture et de décompression."
+    },
+    "domain_audio_production": {
+      "explanation": "Le chargement de bibliothèques d'échantillons et d'instruments empaquetées fonctionne de la même manière."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ouverture de fichiers de projet empaquetés implique une lecture et une décompression."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La décompression d'archives d'entrée compressées emploie ce même schéma combiné."
+    },
+    "domain_ai_training": {
+      "explanation": "Le chargement de fragments d'entraînement empaquetés lit et décompresse de grands paquets."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le chargement de modèles empaquetés décompresse de gros fichiers au démarrage."
+    },
+    "domain_data_science": {
+      "explanation": "La lecture et la décompression de jeux de données empaquetés suivent ce schéma."
+    },
+    "domain_server_virt": {
+      "explanation": "La récupération et la décompression des images de conteneurs lisent et décompressent de grands paquets."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_pcie_bidir",
+  "short_description": "Bande passante combinée d'envoi vers le GPU et de réception depuis celui-ci simultanément.",
+  "description": "Transfère de grands tampons vers le processeur graphique et en retour en même temps sur le lien qui les connecte. L'exécution simultanée des deux sens montre si la connexion peut soutenir la pleine vitesse dans chaque sens à la fois, ce qui correspond à l'usage qu'en font réellement les pipelines chargés.",
+  "metric_explanation": "La bande passante est le total des octets déplacés par seconde dans les deux sens, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Une forte bande passante bidirectionnelle maintient un pipeline alimenté et vidé en même temps, évitant les blocages lorsque l'entrée et la sortie se recouvrent.",
+  "reasoning": "Les charges réelles téléversent souvent le lot suivant tout en téléchargeant le résultat précédent ; le chiffre bidirectionnel saisit donc le comportement soutenu du pipeline qu'un seul sens manque.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le streaming des ressources entrantes tout en relisant certains résultats fait se chevaucher les deux directions."
+    },
+    "domain_office": {
+      "explanation": "La bureautique fait peu appel au lien de transfert du GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent surtout lors du développement de logiciels accélérés par GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le transfert des images vers le GPU et la relecture des résultats filtrés peuvent se chevaucher."
+    },
+    "domain_video_editing": {
+      "explanation": "Le streaming des images vers le GPU tout en relisant les images traitées fait se chevaucher les deux directions."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La préparation des scènes tout en relisant les images rendues sollicite les deux directions."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio fait peu appel au lien de transfert du GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le transfert des modèles tout en relisant les résultats fait se chevaucher les deux directions."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les simulations en pipeline transfèrent les entrées tout en téléchargeant les résultats simultanément."
+    },
+    "domain_ai_training": {
+      "explanation": "Le transfert du lot suivant tout en relisant les métriques maintient les deux directions actives."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le transfert des entrées tout en renvoyant les sorties fait se chevaucher les deux directions lors du service."
+    },
+    "domain_data_science": {
+      "explanation": "L'alimentation en nouvelles données tout en renvoyant les résultats sollicite le lien de transfert dans les deux sens."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs GPU partagés très sollicités déplacent les données des locataires en entrée et en sortie simultanément."
+    }
+  }
+}

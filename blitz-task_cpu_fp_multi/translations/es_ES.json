@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_fp_multi",
+  "short_description": "Rendimiento en coma flotante con todos los núcleos ejecutando matemáticas vectoriales.",
+  "description": "Ejecuta el mismo flujo de multiplicación-suma fusionada que la prueba de coma flotante de un solo núcleo, pero en todos los núcleos e hilos de hardware disponibles a la vez. El resultado muestra el rendimiento matemático máximo sostenido de todo el procesador.",
+  "metric_explanation": "El rendimiento en coma flotante es el total de operaciones por segundo en todos los núcleos, en miles de millones, expresado en GFLOPS.",
+  "value_interpretation": "Un número más alto significa más rendimiento matemático total. Compararlo con el resultado de un solo núcleo muestra cómo escala el trabajo en coma flotante con el número de núcleos.",
+  "reasoning": "El rendimiento en coma flotante con todos los núcleos refleja el techo para trabajos numéricos intensivos como la simulación, el renderizado y el trabajo de modelos en el lado de la CPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Algunos motores reparten la física y el cálculo de partículas entre hilos, aunque buena parte sigue en el hilo principal."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática rara vez requiere cálculo en coma flotante sostenido y paralelo."
+    },
+    "domain_software_development": {
+      "explanation": "Las canalizaciones de compilación apenas implican cálculo en coma flotante, incluso cuando aprovechan todos los hilos."
+    },
+    "domain_graphics_design": {
+      "explanation": "Los filtros por lotes y las operaciones sobre imágenes grandes reparten el cálculo en coma flotante entre los núcleos."
+    },
+    "domain_video_editing": {
+      "explanation": "Las pasadas de color y escalado durante la exportación usan coma flotante en todos los núcleos."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El renderizado por CPU y el horneado de física hacen un uso intensivo de la coma flotante y escalan en todos los núcleos."
+    },
+    "domain_audio_production": {
+      "explanation": "La mezcla y el renderizado sin conexión reparten los efectos en coma flotante entre los núcleos."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los solucionadores de ingeniería ejecutan cálculo en coma flotante multihilo durante largos trabajos de simulación."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El trabajo numérico de alto rendimiento se define por el rendimiento total de coma flotante en paralelo."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento y el trabajo de características basados en CPU escalan la coma flotante en todos los núcleos."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia multihilo por CPU depende del rendimiento agregado de coma flotante para el cálculo matricial."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica numérica y el ajuste de modelos reparten el trabajo en coma flotante entre los núcleos."
+    },
+    "domain_server_virt": {
+      "explanation": "Las flotas de servidores mixtas presentan algo de carga en coma flotante, pero no es la demanda principal."
+    }
+  }
+}

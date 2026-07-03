@@ -1,0 +1,55 @@
+{
+  "lang": "fr_FR",
+  "domain_gaming": {
+    "name": "jeux vidéo",
+    "description": "Charges de travail graphiques 3D interactives en temps réel - moteurs de jeu limités par la fréquence d'images, sur pipelines de rastérisation et de ray tracing."
+  },
+  "domain_office": {
+    "name": "bureautique et productivité",
+    "description": "Productivité, navigation, courrier électronique et flux documentaires - sensibles à la latence, mais rarement limités par le débit."
+  },
+  "domain_software_development": {
+    "name": "développement logiciel",
+    "description": "Édition de code, compilation, gestion de versions et outillage de développement - forte demande en débit sur entiers, en E/S disque et en nombreuses petites lectures."
+  },
+  "domain_graphics_design": {
+    "name": "graphisme et retouche photo",
+    "description": "Retouche d'images matricielles et post-production photo - grands tampons 2D, filtres accélérés par le GPU et nombreuses opérations interactives brèves."
+  },
+  "domain_video_editing": {
+    "name": "montage et encodage vidéo",
+    "description": "Montage vidéo, étalonnage et encodage - E/S séquentielles soutenues associées à de lourds pipelines d'encodage/décodage accélérés matériellement."
+  },
+  "domain_3d_rendering": {
+    "name": "rendu 3D et animation",
+    "description": "Production de contenu 3D en différé - modélisation, animation et rendu par ray tracing, dominés par le débit en virgule flottante du GPU et du CPU."
+  },
+  "domain_audio_production": {
+    "name": "production audio et DSP",
+    "description": "Travail sur DAW, mixage, instruments logiciels et DSP en temps réel - critique pour la latence, limité par un seul thread et sensible à la latence mémoire."
+  },
+  "domain_cad_engineering": {
+    "name": "CAO et simulation d'ingénierie",
+    "description": "Modélisation CAO et simulation d'ingénierie - solveurs à forte composante FP64, visualisation de maillages volumineux et calculs de longue durée."
+  },
+  "domain_scientific_computing": {
+    "name": "calcul scientifique et HPC",
+    "description": "Simulation numérique, HPC et calcul scientifique - dominés par le FP64 et les accès mémoire à haute bande passante."
+  },
+  "domain_ai_training": {
+    "name": "entraînement IA / ML",
+    "description": "Charges d'entraînement de modèles - débit soutenu en multiplication matricielle sur GPU/accélérateur, activations volumineuses en VRAM, alimentation à haute bande passante depuis l'hôte."
+  },
+  "domain_ai_inference": {
+    "name": "inférence IA (LLM et diffusion)",
+    "description": "Inférence locale de LLM et de modèles de diffusion - génération de jetons limitée par la bande passante mémoire et boucles de débruitage limitées par le calcul."
+  },
+  "domain_data_science": {
+    "name": "science des données et analyse",
+    "description": "Analyse tabulaire, opérations sur dataframes, moteurs de requêtes - agrégation limitée par la bande passante mémoire sur de larges jeux de données."
+  },
+  "domain_server_virt": {
+    "name": "serveur et virtualisation",
+    "description": "Charges multi-locataires, densité de conteneurs/VM, débit d'arrière-plan soutenu sur de nombreux processus concurrents."
+  }
+}

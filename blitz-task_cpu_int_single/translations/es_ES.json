@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_int_single",
+  "short_description": "Rendimiento aritmético de enteros de un solo núcleo en un hilo ocupado.",
+  "description": "Ejecuta una mezcla ajustada de operaciones de suma, multiplicación, desplazamiento y comparación de enteros en un solo hilo durante unos segundos. El conjunto de datos permanece dentro del núcleo, de modo que el resultado refleja la velocidad aritmética en bruto y no el comportamiento de la memoria o la caché.",
+  "metric_explanation": "El rendimiento es el número de operaciones de enteros completadas por segundo, dividido por un millón, expresado en Mops/s.",
+  "value_interpretation": "Un número más alto significa un núcleo individual más rápido. Esta es la cifra que importa para el trabajo que no puede repartirse entre muchos núcleos, como una sola pestaña del navegador o un único hilo de un juego.",
+  "reasoning": "La velocidad de enteros de un solo núcleo es el indicador más claro de lo ágil que resulta una máquina en el trabajo diario y sensible a la latencia, por lo que ancla el conjunto sintético de CPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La lógica del juego y el hilo principal de actualización dependen en gran medida de la velocidad de enteros de un solo núcleo."
+    },
+    "domain_office": {
+      "explanation": "La fluidez de los documentos y el navegador está limitada por la rapidez con la que un núcleo gestiona ráfagas breves de trabajo."
+    },
+    "domain_software_development": {
+      "explanation": "Muchos pasos de compilación y de las herramientas se ejecutan en un solo núcleo, y de él depende la fluidez del editor."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las ediciones interactivas se despachan en un solo hilo antes de que comience cualquier trabajo en la GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "El desplazamiento por la línea de tiempo y la configuración de efectos se ejecutan en un solo núcleo antes de la exportación multinúcleo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La preparación de la escena y de cada objeto se ejecuta en un solo hilo antes de que el renderizado se reparta."
+    },
+    "domain_audio_production": {
+      "explanation": "Los grafos de audio en tiempo real se ejecutan en un solo hilo y son muy sensibles a la velocidad por núcleo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La edición del modelo y las actualizaciones de geometría se ejecutan en un solo hilo entre las pasadas del solucionador."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Las secciones en serie y el código de preparación limitan simulaciones que, por lo demás, son paralelas."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento está dominado por el acelerador, con una influencia limitada de un solo núcleo en el host."
+    },
+    "domain_ai_inference": {
+      "explanation": "La tokenización y la gestión de solicitudes se ejecutan en un solo núcleo en torno al cálculo intensivo."
+    },
+    "domain_data_science": {
+      "explanation": "La preparación de consultas interactivas y los scripts se ejecutan en un solo hilo antes de que arranquen los núcleos en paralelo."
+    },
+    "domain_server_virt": {
+      "explanation": "La latencia por solicitud depende de la rapidez con la que un solo núcleo gestiona una unidad de trabajo."
+    }
+  }
+}

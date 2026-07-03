@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_fillrate",
+  "short_description": "Taxa a que o processador gráfico consegue sombrear e escrever píxeis.",
+  "description": "Desenha camadas de geometria de ecrã inteiro com texturização e mistura, de modo que o processador gráfico fique limitado pela rapidez com que consegue sombrear e escrever píxeis na memória. Este é o lado de rasterização da GPU em vez da sua computação pura, e exige em conjunto do pipeline de saída e da largura de banda da memória.",
+  "metric_explanation": "A pontuação é o número de píxeis processados por segundo, indicado em milhões de píxeis por segundo.",
+  "value_interpretation": "Quanto maior, melhor. Uma taxa de preenchimento mais elevada ajuda em altas resoluções e com transparência intensa, onde muitas camadas de píxeis são desenhadas em cada fotograma.",
+  "reasoning": "A taxa de preenchimento capta o pipeline gráfico tradicional que os testes focados em computação não abrangem, e afeta diretamente os jogos em alta resolução e as interfaces pesadas em 2D.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "A taxa de preenchimento determina a taxa de fotogramas em altas resoluções e com efeitos de transparência intensos."
+    },
+    "domain_office": {
+      "explanation": "Ambientes de trabalho fluidos em alta resolução e com muitas janelas dependem da taxa de preenchimento."
+    },
+    "domain_software_development": {
+      "explanation": "As configurações de programação com vários monitores beneficiam modestamente da taxa de preenchimento."
+    },
+    "domain_graphics_design": {
+      "explanation": "Os grandes canvas de alta resolução com muitas camadas são limitados pela taxa de preenchimento."
+    },
+    "domain_video_editing": {
+      "explanation": "As pré-visualizações da linha temporal em alta resolução empurram muitos pixels pelo pipeline."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os viewports interativos dependem de uma saída de pixels rápida, além da computação."
+    },
+    "domain_audio_production": {
+      "explanation": "As interfaces de áudio exigem pouco da taxa de preenchimento de pixels."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os viewports de modelos grandes com sombreamento dependem de uma boa taxa de preenchimento."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A visualização beneficia, mas a computação domina o uso científico da GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino quase não faz rasterização."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência é limitada pela computação e não pela taxa de preenchimento."
+    },
+    "domain_data_science": {
+      "explanation": "Os gráficos interativos de grandes conjuntos de dados usam alguma taxa de preenchimento."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de ambiente de trabalho remoto e de streaming enviam pixels renderizados para os clientes."
+    }
+  }
+}

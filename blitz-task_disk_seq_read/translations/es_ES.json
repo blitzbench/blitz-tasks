@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "disk_seq_read",
+  "short_description": "Velocidad de lectura de archivos grandes y continuos desde el almacenamiento.",
+  "description": "Lee un archivo grande del almacenamiento en grandes bloques continuos, evitando las copias en caché para que los números reflejen la unidad y no la memoria. Este es el patrón de acceso óptimo para el almacenamiento y muestra la velocidad máxima de lectura que el dispositivo puede ofrecer.",
+  "metric_explanation": "La puntuación es el número de megabytes leídos por segundo, expresado en MB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. Las lecturas secuenciales rápidas acortan el tiempo de carga de archivos grandes como vídeos, niveles de juego y conjuntos de datos.",
+  "reasoning": "La lectura secuencial es la medida más clara de la rapidez con que un ordenador puede extraer archivos grandes del almacenamiento, lo que afecta a los tiempos de carga en muchas tareas.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Cargar mundos de juego y recursos de gran tamaño es en su mayoría lectura secuencial."
+    },
+    "domain_office": {
+      "explanation": "Abrir documentos y archivos multimedia grandes se beneficia de lecturas secuenciales rápidas."
+    },
+    "domain_software_development": {
+      "explanation": "Leer repositorios grandes y salidas de compilación implica lecturas secuenciales intensas."
+    },
+    "domain_graphics_design": {
+      "explanation": "Cargar archivos de imagen y de proyecto grandes depende de la lectura."
+    },
+    "domain_video_editing": {
+      "explanation": "Reproducir metraje de alta resolución exige una velocidad de lectura sostenida."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Cargar escenas grandes y conjuntos de texturas exige muchas lecturas."
+    },
+    "domain_audio_production": {
+      "explanation": "Transmitir bibliotecas de samples grandes lee continuamente del almacenamiento."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Abrir ensamblajes grandes y archivos de resultados depende de la lectura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La carga de grandes conjuntos de datos de entrada depende de la velocidad de lectura secuencial."
+    },
+    "domain_ai_training": {
+      "explanation": "La transmisión de grandes conjuntos de datos de entrenamiento desde el almacenamiento implica una intensa actividad de lectura."
+    },
+    "domain_ai_inference": {
+      "explanation": "La carga de archivos de modelo de gran tamaño desde el almacenamiento depende de las lecturas secuenciales."
+    },
+    "domain_data_science": {
+      "explanation": "El escaneo de archivos grandes para su análisis está dominado por la velocidad de lectura."
+    },
+    "domain_server_virt": {
+      "explanation": "La carga de imágenes y grandes volúmenes de datos recurre al rendimiento de lectura secuencial."
+    }
+  }
+}

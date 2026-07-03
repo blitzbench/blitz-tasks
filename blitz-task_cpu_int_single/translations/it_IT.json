@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_int_single",
+  "short_description": "Throughput aritmetico intero su singolo core con un solo thread impegnato.",
+  "description": "Esegue un mix serrato di operazioni intere di addizione, moltiplicazione, shift e confronto su un singolo thread per alcuni secondi. Il set di dati resta all'interno del core, così il risultato riflette la velocità aritmetica pura anziché il comportamento della memoria o della cache.",
+  "metric_explanation": "Il throughput è il numero di operazioni intere completate al secondo, diviso per un milione, riportato in Mops/s.",
+  "value_interpretation": "Un valore più alto indica un singolo core più veloce. È il dato che conta per il lavoro che non può essere distribuito su molti core, come una singola scheda del browser o un unico thread di gioco.",
+  "reasoning": "La velocità intera su singolo core è l'indicatore più chiaro della reattività percepita di una macchina nel lavoro quotidiano sensibile alla latenza, quindi funge da riferimento per l'insieme dei test CPU sintetici.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La logica di gioco e il thread principale di aggiornamento si basano in gran parte sulla velocità degli interi su un singolo core."
+    },
+    "domain_office": {
+      "explanation": "La reattività di documenti e browser dipende dalla rapidità con cui un singolo core gestisce brevi picchi di lavoro."
+    },
+    "domain_software_development": {
+      "explanation": "Molte fasi di build e degli strumenti girano su un solo core, e la reattività dell'editor ne dipende."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le modifiche interattive vengono avviate su un singolo thread prima che inizi qualsiasi lavoro sulla GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Lo scorrimento della timeline e la configurazione degli effetti girano su un solo core prima dell'export multi thread."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La preparazione della scena e dei singoli oggetti gira su singolo thread prima che il rendering si distribuisca sui core."
+    },
+    "domain_audio_production": {
+      "explanation": "I grafi audio in tempo reale girano su un solo thread e sono molto sensibili alla velocità per core."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La modifica del modello e l'aggiornamento della geometria girano su un singolo thread tra un'esecuzione del solver e l'altra."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le sezioni seriali e il codice di configurazione limitano simulazioni per il resto parallele."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento è dominato dall'acceleratore, con un'influenza limitata del singolo core sull'host."
+    },
+    "domain_ai_inference": {
+      "explanation": "La tokenizzazione e la gestione delle richieste girano su un solo core attorno al calcolo pesante."
+    },
+    "domain_data_science": {
+      "explanation": "La preparazione interattiva delle query e lo scripting girano su singolo thread prima che partano i kernel paralleli."
+    },
+    "domain_server_virt": {
+      "explanation": "La latenza per richiesta dipende dalla rapidità con cui un singolo core gestisce una unità di lavoro."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_crypto_aes",
+  "short_description": "Rendimiento de cifrado simétrico AES-256 en todos los núcleos.",
+  "description": "Cifra un búfer con AES-256 de forma repetida en todos los núcleos, utilizando las instrucciones AES dedicadas del procesador cuando están disponibles. El búfer permanece residente en memoria, de modo que el resultado refleja la velocidad del propio cifrado y no del almacenamiento ni de la red.",
+  "metric_explanation": "El rendimiento es el número de bytes cifrados por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. Las máquinas con soporte de AES por hardware van muy por delante de las que recurren al software.",
+  "reasoning": "AES es el cifrado por defecto para las conexiones seguras y el cifrado completo de disco, por lo que su rendimiento es una medida directa de lo económico que le resulta a una máquina proteger los datos en tránsito y en reposo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos recurren al cifrado solo de forma ligera, sobre todo para descargas y contenido protegido."
+    },
+    "domain_office": {
+      "explanation": "Las conexiones seguras y el cifrado de disco funcionan de forma discreta tras el trabajo diario de ofimática."
+    },
+    "domain_software_development": {
+      "explanation": "Clonar, transferir y empaquetar datos cifrados se apoya en este cifrado."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo creativo recurre al cifrado solo al guardar y sincronizar."
+    },
+    "domain_video_editing": {
+      "explanation": "Los medios protegidos y la entrega segura añaden algo de carga de cifrado en torno a la edición."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El renderizado en sí apenas realiza cifrado."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio implica poco cifrado más allá de la transferencia de archivos."
+    },
+    "domain_cad_engineering": {
+      "explanation": "El trabajo de ingeniería cifra principalmente al proteger los archivos de proyecto."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El movimiento seguro de datos por los clústeres añade una carga de cifrado moderada."
+    },
+    "domain_ai_training": {
+      "explanation": "Los conjuntos de datos cifrados se descifran al entrar en las canalizaciones de entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "Servir modelos implica únicamente un cifrado ligero de transporte."
+    },
+    "domain_data_science": {
+      "explanation": "Leer almacenes de datos cifrados ejecuta el cifrado de forma continua."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores dedican un tiempo considerable a cifrar conexiones y proteger los datos almacenados."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_hpc_fft",
+  "short_description": "FFT en double précision et algèbre linéaire dense sur tous les cœurs.",
+  "description": "Exécute un mélange de transformées de Fourier rapides en double précision et de calcul matriciel dense sur tous les cœurs à l'aide d'une bibliothèque numérique optimisée. Les tailles de problème sont choisies pour déborder du cache, de sorte que le test sollicite à la fois l'arithmétique et le trafic mémoire, comme se comportent les véritables simulations.",
+  "metric_explanation": "Le score est le débit soutenu en double précision, exprimé en GFLOPS, moyenné sur l'exécution.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un débit plus élevé signifie que des modèles plus vastes et des simulations plus longues s'achèvent dans un délai raisonnable.",
+  "reasoning": "Les transformées et l'algèbre linéaire sont les briques de la plupart des codes numériques et d'ingénierie ; le débit en double précision mesuré ici prédit donc les performances scientifiques réelles.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux font peu appel au calcul en double précision."
+    },
+    "domain_office": {
+      "explanation": "La bureautique n'a aucune composante numérique lourde."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs de logiciels numériques en profitent, mais pas la programmation générale."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail d'image utilise le calcul en simple précision plutôt que ce noyau."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage touche rarement au calcul numérique en double précision."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La simulation physique pour l'animation partage ces noyaux de transformation et de résolution."
+    },
+    "domain_audio_production": {
+      "explanation": "Les transformations utilisées ici reflètent le calcul spectral employé en analyse audio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulation d'ingénierie s'appuie directement sur les transformations et l'algèbre linéaire en double précision."
+    },
+    "domain_scientific_computing": {
+      "explanation": "C'est la charge de travail fondamentale de la simulation numérique et du calcul haute performance (HPC)."
+    },
+    "domain_ai_training": {
+      "explanation": "Certaines chaînes d'entraînement et de caractéristiques scientifiques réutilisent ces noyaux denses."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le prétraitement numérique des modèles fait appel à une algèbre linéaire similaire."
+    },
+    "domain_data_science": {
+      "explanation": "Les méthodes statistiques et l'analyse du signal reposent sur les transformations et le calcul matriciel."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs généralistes effectuent peu de calcul en double précision soutenu."
+    }
+  }
+}

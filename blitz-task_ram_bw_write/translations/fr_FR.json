@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "ram_bw_write",
+  "short_description": "Bande passante soutenue en écriture vers la mémoire principale.",
+  "description": "Écrit de grands tableaux vers la mémoire principale sur tous les cœurs, avec un ensemble de travail bien plus grand que les caches du processeur, de sorte que les données sont poussées vers les puces mémoire. Le schéma est en écriture seule, ce qui isole la vitesse à laquelle le système peut stocker des résultats en mémoire.",
+  "metric_explanation": "La bande passante est le nombre d'octets écrits vers la mémoire par seconde, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante en écriture importe pour les charges qui génèrent de grandes sorties, telles que le remplissage de tampons, la construction de structures de données et la production de résultats.",
+  "reasoning": "L'écriture se comporte souvent différemment de la lecture sur un système mémoire ; un test d'écriture dédié saisit donc les charges à forte production de sorties qu'un test de lecture manquerait.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La construction des données d'image et de monde écrit de grands tampons en mémoire à chaque image."
+    },
+    "domain_office": {
+      "explanation": "La bureautique écrit des quantités modestes de données en mémoire."
+    },
+    "domain_software_development": {
+      "explanation": "Les compilations construisent de grandes structures de sortie et des caches en mémoire."
+    },
+    "domain_graphics_design": {
+      "explanation": "La production des tampons d'image retouchés écrit de grandes quantités de données en mémoire."
+    },
+    "domain_video_editing": {
+      "explanation": "La génération des images traitées écrit des tampons haute résolution en mémoire."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'écriture des tampons rendus et des résultats intermédiaires est limitée par la bande passante en écriture."
+    },
+    "domain_audio_production": {
+      "explanation": "L'écriture des tampons audio traités sollicite la bande passante en écriture de la mémoire."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'assemblage de grands maillages et champs de résultats écrit abondamment en mémoire."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La production de grands tableaux de résultats rend de nombreuses simulations limitées par la bande passante en écriture."
+    },
+    "domain_ai_training": {
+      "explanation": "L'écriture des activations et des lots traités consomme de la bande passante en écriture."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'écriture des résultats intermédiaires lors de l'inférence sollicite la bande passante en écriture de la mémoire."
+    },
+    "domain_data_science": {
+      "explanation": "La matérialisation des tables et résultats intermédiaires écrit de grandes données en mémoire."
+    },
+    "domain_server_virt": {
+      "explanation": "De nombreux processus écrivant simultanément se disputent la bande passante en écriture partagée."
+    }
+  }
+}

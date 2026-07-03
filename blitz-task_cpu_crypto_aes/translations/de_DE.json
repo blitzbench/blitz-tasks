@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_crypto_aes",
+  "short_description": "AES-256-Durchsatz für symmetrische Verschlüsselung auf allen Kernen.",
+  "description": "Verschlüsselt einen Puffer wiederholt mit AES-256 über alle Kerne und nutzt dabei die dedizierten AES-Befehle des Prozessors, sofern verfügbar. Der Puffer bleibt im Speicher, sodass das Ergebnis die Geschwindigkeit der Chiffre selbst abbildet und nicht die von Speicher oder Netzwerk.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der pro Sekunde verschlüsselten Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Maschinen mit Hardware-AES-Unterstützung liegen weit vor denen, die auf Software zurückfallen.",
+  "reasoning": "AES ist die Standardchiffre für sichere Verbindungen und vollständige Datenträgerverschlüsselung, weshalb ihr Durchsatz ein direktes Maß dafür ist, wie günstig eine Maschine Daten in Bewegung und im Ruhezustand schützen kann.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele nutzen Verschlüsselung nur geringfügig, hauptsächlich für Downloads und geschützte Inhalte."
+    },
+    "domain_office": {
+      "explanation": "Sichere Verbindungen und Datenträgerverschlüsselung laufen unauffällig im Hintergrund alltäglicher Büroarbeit."
+    },
+    "domain_software_development": {
+      "explanation": "Klonen, Übertragen und Paketieren verschlüsselter Daten belastet die Chiffre."
+    },
+    "domain_graphics_design": {
+      "explanation": "Kreative Arbeit nutzt Verschlüsselung nur beim Speichern und Synchronisieren."
+    },
+    "domain_video_editing": {
+      "explanation": "Geschützte Medien und sichere Auslieferung erzeugen rund um das Editieren etwas Verschlüsselungslast."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Rendering selbst führt kaum Verschlüsselung durch."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit umfasst wenig Verschlüsselung über die Dateiübertragung hinaus."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieursarbeit verschlüsselt hauptsächlich beim Schutz von Projektdateien."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Sichere Datenbewegung innerhalb von Clustern erzeugt eine moderate Verschlüsselungslast."
+    },
+    "domain_ai_training": {
+      "explanation": "Verschlüsselte Datensätze werden beim Einlesen in Training-Pipelines entschlüsselt."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Bereitstellen von Modellen erfordert nur leichte Transportverschlüsselung."
+    },
+    "domain_data_science": {
+      "explanation": "Das Lesen verschlüsselter Datenspeicher betreibt die Chiffre kontinuierlich."
+    },
+    "domain_server_virt": {
+      "explanation": "Server verbringen messbare Zeit damit, Verbindungen zu verschlüsseln und gespeicherte Daten zu schützen."
+    }
+  }
+}

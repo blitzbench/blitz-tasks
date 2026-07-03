@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "ram_bw_read",
+  "short_description": "Ancho de banda de lectura sostenido desde la memoria principal.",
+  "description": "Lee arrays grandes de la memoria principal usando todos los núcleos, con un conjunto de trabajo mucho mayor que las cachés del procesador, de modo que casi todos los accesos llegan a los chips de memoria. El patrón es de solo lectura, lo que aísla la rapidez con la que el sistema puede traer datos de la memoria.",
+  "metric_explanation": "El ancho de banda es el número de bytes leídos de la memoria por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de lectura marca el techo de cualquier carga de trabajo que consuma más datos de los que produce, lo que abarca la mayoría de las tareas de exploración y análisis.",
+  "reasoning": "La lectura es el patrón de acceso a memoria más común, por lo que el ancho de banda de lectura es la cifra principal para el trabajo con gran volumen de datos que hace pasar las entradas por los núcleos.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Transmitir texturas y datos del mundo hacia los núcleos mantiene la demanda del ancho de banda de lectura."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática lee volúmenes moderados de datos desde la memoria."
+    },
+    "domain_software_development": {
+      "explanation": "Las compilaciones grandes y los pasos de enlazado leen volúmenes importantes de datos desde la memoria."
+    },
+    "domain_graphics_design": {
+      "explanation": "Leer grandes búferes de imagen durante las ediciones está limitado por el ancho de banda de lectura."
+    },
+    "domain_video_editing": {
+      "explanation": "Leer fotogramas de alta resolución para la reproducción y los efectos recurre intensamente al ancho de banda de lectura."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Leer grandes escenas y texturas mantiene ocupada la memoria durante el renderizado."
+    },
+    "domain_audio_production": {
+      "explanation": "Transmitir grandes bibliotecas de samples lee de forma continua desde la memoria."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Leer grandes mallas y campos de resultados está limitado por el ancho de banda de lectura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los kernels numéricos suelen estar limitados por la rapidez con que se leen las entradas desde la memoria."
+    },
+    "domain_ai_training": {
+      "explanation": "Leer los parámetros y los datos para alimentar el acelerador depende del ancho de banda de lectura."
+    },
+    "domain_ai_inference": {
+      "explanation": "La velocidad de inferencia en CPU viene determinada en gran medida por la rapidez con que se leen los pesos desde la memoria."
+    },
+    "domain_data_science": {
+      "explanation": "Recorrer tablas anchas está dominado por el ancho de banda de lectura."
+    },
+    "domain_server_virt": {
+      "explanation": "Muchos procesos concurrentes compiten por el ancho de banda de lectura de la memoria compartida."
+    }
+  }
+}

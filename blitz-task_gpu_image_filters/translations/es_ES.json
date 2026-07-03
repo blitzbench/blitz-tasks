@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_image_filters",
+  "short_description": "Filtros de foto encadenados aplicados a imágenes de alta resolución incluidas.",
+  "description": "Aplica una serie de filtros habituales de edición de fotos, como desenfoque, enfoque, reducción de ruido y ajuste de tono, a imágenes de alta resolución incluidas, ejecutándolos en el procesador gráfico. Las imágenes y la cadena de filtros son fijas y reproducen la ruta acelerada que utilizan las herramientas de foto y diseño para las ediciones en directo.",
+  "metric_explanation": "La puntuación es el número de imágenes filtradas producidas por minuto, expresado como elementos por minuto.",
+  "value_interpretation": "Cuanto más alto, mejor. Una tasa más alta significa que las ediciones y los ajustes aparecen casi al instante al trabajar con imágenes grandes.",
+  "reasoning": "El filtrado acelerado sobre imágenes grandes es la carga de trabajo que hace que las herramientas de foto y diseño se sientan ágiles, por lo que representa bien los gráficos y la edición de fotos.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "El posprocesado en los juegos utiliza un filtrado de imágenes similar en la GPU."
+    },
+    "domain_office": {
+      "explanation": "Las ediciones de imagen ligeras aparecen en el trabajo cotidiano con documentos."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para desarrolladores de software de imagen y creativo."
+    },
+    "domain_graphics_design": {
+      "explanation": "El filtrado de imágenes grandes es la carga de trabajo interactiva principal en el trabajo de fotografía y diseño."
+    },
+    "domain_video_editing": {
+      "explanation": "Los filtros por fotograma en la edición de vídeo reutilizan las mismas operaciones aceleradas."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La composición y el posprocesado de los fotogramas renderizados utilizan filtros de imagen."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio no tiene filtrado de imágenes."
+    },
+    "domain_cad_engineering": {
+      "explanation": "El posprocesado de las imágenes de diseño renderizadas utiliza filtros similares."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La ciencia basada en imágenes aplica los mismos filtros de tipo convolución."
+    },
+    "domain_ai_training": {
+      "explanation": "El aumento de datos de imágenes para el entrenamiento reutiliza estas operaciones de filtrado."
+    },
+    "domain_ai_inference": {
+      "explanation": "El preprocesado y posprocesado en torno a los modelos de visión utiliza filtros de imagen."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica de imágenes aplica filtros durante la preparación."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servicios de procesamiento de imágenes ejecutan estos filtros a gran escala en servidores compartidos."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_fp16",
+  "short_description": "Débito de vírgula flutuante de meia precisão no processador gráfico.",
+  "description": "Executa um kernel de computação denso de meia precisão no processador gráfico, usando os caminhos de precisão reduzida e tensoriais que o hardware moderno disponibiliza. Os dados permanecem no chip, pelo que a pontuação reflete o pico de matemática de precisão reduzida em vez da velocidade da memória.",
+  "metric_explanation": "O débito é o número de operações de meia precisão por segundo, em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Quanto maior, melhor. A diferença entre este e o resultado de precisão simples mostra quanta velocidade extra o hardware ganha com os caminhos de precisão reduzida.",
+  "reasoning": "O débito de meia precisão é o que impulsiona a aprendizagem automática moderna e muitos efeitos acelerados, onde o hardware muitas vezes entrega várias vezes a taxa de precisão simples.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "O escalonamento e alguns efeitos usam cálculo em precisão reduzida na GPU."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório raramente usa computação em precisão reduzida."
+    },
+    "domain_software_development": {
+      "explanation": "Sobretudo relevante para os programadores que criam software acelerado."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alguns filtros acelerados e ferramentas generativas correm em precisão reduzida."
+    },
+    "domain_video_editing": {
+      "explanation": "Os efeitos de aprendizagem automática nas ferramentas de edição usam caminhos de precisão reduzida."
+    },
+    "domain_3d_rendering": {
+      "explanation": "O denoising e os efeitos aprendidos na renderização usam cálculo em precisão reduzida."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio faz pouco uso do cálculo em precisão reduzida da GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Algumas ferramentas de engenharia aceleradas adotam a precisão reduzida para ganhar velocidade."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os métodos de precisão mista aceleram muitos códigos científicos na GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "O débito em precisão reduzida é a métrica que define o treino acelerado."
+    },
+    "domain_ai_inference": {
+      "explanation": "A maior parte da inferência acelerada corre em precisão reduzida ou inferior."
+    },
+    "domain_data_science": {
+      "explanation": "A aprendizagem automática na GPU sobre grandes conjuntos de dados depende do cálculo em precisão reduzida."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de aceleradores partilhados expõem este débito a muitos inquilinos de aprendizagem automática."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_path_trace",
+  "short_description": "Renderização por path tracing de uma cena incluída no processador gráfico.",
+  "description": "Renderiza uma cena incluída com um path tracer que corre no processador gráfico, traçando raios e acumulando amostras em direção a uma imagem limpa. A cena, o orçamento de amostras e a resolução são fixos, e o trabalho usa em conjunto os caminhos de ray tracing e de computação da GPU.",
+  "metric_explanation": "A pontuação é o número médio de fotogramas acumulados produzidos por segundo, indicado em fps, o que escala com a rapidez com que a imagem converge.",
+  "value_interpretation": "Quanto maior, melhor. Uma taxa mais elevada significa pré-visualizações mais rápidas e renderizações finais mais curtas ao trabalhar com iluminação por ray tracing.",
+  "reasoning": "O path tracing na GPU é agora central para a criação de conteúdos de topo de gama e para os efeitos de jogo por ray tracing, e exige tanto da travessia de raios como do sombreamento na GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "A iluminação e os reflexos com ray tracing são uma parte crescente dos jogos modernos."
+    },
+    "domain_office": {
+      "explanation": "As máquinas de escritório não correm path tracing."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante sobretudo para os programadores que criam ferramentas de renderização."
+    },
+    "domain_graphics_design": {
+      "explanation": "As imagens de produtos e de conceitos são cada vez mais renderizadas com path tracing na GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "As inserções 3D renderizadas para vídeo são produzidas com estes renderizadores."
+    },
+    "domain_3d_rendering": {
+      "explanation": "O path tracing na GPU é agora uma ferramenta primária para a renderização 3D offline."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não tem componente de renderização."
+    },
+    "domain_cad_engineering": {
+      "explanation": "A revisão fotorrealista de projetos depende da renderização com ray tracing na GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A visualização científica de alta qualidade usa renderização com ray tracing."
+    },
+    "domain_ai_training": {
+      "explanation": "Os dados sintéticos fotorrealistas são gerados com renderizações por path tracing."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência raramente envolve renderização offline."
+    },
+    "domain_data_science": {
+      "explanation": "A análise não usa path tracing."
+    },
+    "domain_server_virt": {
+      "explanation": "As render farms de GPU correm esta carga de trabalho em muitos nós."
+    }
+  }
+}

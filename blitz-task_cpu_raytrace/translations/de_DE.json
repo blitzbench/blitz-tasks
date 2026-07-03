@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_raytrace",
+  "short_description": "Path-Tracing-Rendering einer mitgelieferten Szene auf dem Prozessor.",
+  "description": "Rendert eine mitgelieferte 3D-Szene mit einem Path Tracer, der vollständig auf dem Prozessor läuft und Strahlen durch eine Bounding-Volume-Hierarchie über alle Kerne verfolgt. Szene, Sample-Anzahl und Auflösung sind fest, sodass das Ergebnis allein von der CPU abhängt.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Minute abgeschlossenen Render-Kacheln, angegeben als Elemente pro Minute, was damit skaliert, wie schnell das vollständige Bild erzeugt wird.",
+  "value_interpretation": "„Höher ist besser.“ Mehr Kacheln pro Minute bedeuten kürzere Wartezeiten auf ein fertiges Bild und schnellere Iteration bei Beleuchtung und Materialien.",
+  "reasoning": "CPU-Path-Tracing ist nach wie vor das Rückgrat hochwertigen Offline-Renderings und belastet Gleitkommarechnung, Speicherzugriff und Ablaufplanung zugleich, was es zu einem guten Stellvertreter für die 3D-Produktion macht.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Offline-Lightmap-Baking nutzt dieselbe Path-Tracing-Mathematik; zur Spielzeit übernimmt die GPU."
+    },
+    "domain_office": {
+      "explanation": "Büroaufgaben führen kein Raytracing-Rendering aus."
+    },
+    "domain_software_development": {
+      "explanation": "Rendering ist nur für Entwickler relevant, die Grafik-Tools erstellen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Produkt- und Verpackungsvisualisierungen werden häufig mit einem Path Tracer gerendert."
+    },
+    "domain_video_editing": {
+      "explanation": "Gerenderte 3D-Elemente werden in geschnittenes Filmmaterial eingebettet."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Dies ist die maßgebliche Arbeitslast für Offline-3D-Rendering und Animation."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit hat keine Rendering-Komponente."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieurteams erstellen Raytracing-Visualisierungen ihrer Konstruktionen."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Wissenschaftliche Visualisierung nutzt dieselben strahlenbasierten Rendering-Techniken."
+    },
+    "domain_ai_training": {
+      "explanation": "Synthetische Trainingsbilder werden manchmal mit Raytracing-Renders erzeugt."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenz hängt selten von Offline-Rendering ab."
+    },
+    "domain_data_science": {
+      "explanation": "Analysearbeit beinhaltet kein Raytracing."
+    },
+    "domain_server_virt": {
+      "explanation": "Render-Farmen führen genau diese Arbeitslast auf vielen Server-Knoten aus."
+    }
+  }
+}

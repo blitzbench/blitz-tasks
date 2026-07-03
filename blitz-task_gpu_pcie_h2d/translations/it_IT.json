@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_pcie_h2d",
+  "short_description": "Larghezza di banda per inviare dati dalla memoria di sistema alla GPU.",
+  "description": "Trasferisce grandi buffer dalla memoria di sistema alla memoria locale del processore grafico attraverso la connessione che li collega, di solito il bus PCIe. Il test misura il percorso di upload in modo isolato, ossia la strada che ogni input percorre prima che la GPU possa elaborarlo.",
+  "metric_explanation": "La larghezza di banda è il numero di byte inviati dall'host alla GPU al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. La larghezza di banda di upload limita la rapidità con cui grandi set di dati, texture e pesi dei modelli possono essere preparati sulla GPU.",
+  "reasoning": "Prima che la GPU calcoli qualcosa, i dati devono raggiungerla, e su molti sistemi questo collegamento è il vero collo di bottiglia anziché la GPU stessa.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Lo streaming di nuovi asset verso la GPU durante il gioco utilizza il percorso di upload."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio invia pochi dati alla GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante soprattutto durante lo sviluppo di software accelerato su GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Inviare immagini di grandi dimensioni alla GPU per il filtraggio utilizza la larghezza di banda in upload."
+    },
+    "domain_video_editing": {
+      "explanation": "Caricare fotogrammi ad alta risoluzione sulla GPU per gli effetti è vincolato dalla larghezza di banda in upload."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Preparare scene e texture di grandi dimensioni sulla GPU utilizza intensamente il percorso di upload."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio invia pochi dati alla GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Caricare modelli di grandi dimensioni nel viewport della GPU utilizza il collegamento di trasferimento."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Alimentare l'acceleratore con grandi insiemi di dati è spesso vincolato dalla larghezza di banda in upload."
+    },
+    "domain_ai_training": {
+      "explanation": "Lo streaming dei batch di addestramento sulla GPU rende critica la larghezza di banda in upload."
+    },
+    "domain_ai_inference": {
+      "explanation": "Caricare i pesi del modello e gli input sulla GPU utilizza il percorso di upload."
+    },
+    "domain_data_science": {
+      "explanation": "Spostare grandi insiemi di dati sulla GPU per l'analisi è vincolato dalla larghezza di banda in upload."
+    },
+    "domain_server_virt": {
+      "explanation": "I server GPU condivisi spostano i dati dei tenant sul dispositivo tramite questo collegamento."
+    }
+  }
+}

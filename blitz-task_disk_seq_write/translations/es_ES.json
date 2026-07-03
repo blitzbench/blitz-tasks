@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "disk_seq_write",
+  "short_description": "Velocidad de escritura de archivos grandes y continuos en el almacenamiento.",
+  "description": "Escribe un archivo grande en el almacenamiento en grandes bloques continuos y lo vuelca al dispositivo, de modo que el resultado refleja la velocidad de escritura duradera y no el almacenamiento en búfer en memoria. Este es el patrón de escritura óptimo y muestra la velocidad de escritura sostenida máxima de la unidad.",
+  "metric_explanation": "La puntuación es el número de megabytes escritos por segundo, expresado en MB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. Las escrituras secuenciales rápidas acortan las exportaciones, las capturas y el guardado de archivos grandes.",
+  "reasoning": "La velocidad de escritura secuencial determina la rapidez con que un ordenador puede guardar resultados grandes como vídeo renderizado, proyectos exportados y datos capturados.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Instalar y actualizar juegos escribe archivos de gran tamaño en el almacenamiento."
+    },
+    "domain_office": {
+      "explanation": "Guardar documentos escribe cantidades modestas de datos."
+    },
+    "domain_software_development": {
+      "explanation": "La escritura de artefactos de compilación y cachés genera una carga de escritura sostenida."
+    },
+    "domain_graphics_design": {
+      "explanation": "Guardar archivos de imagen y de proyecto de gran tamaño está limitado por la escritura."
+    },
+    "domain_video_editing": {
+      "explanation": "Exportar y capturar vídeo escribe archivos de gran tamaño a velocidades elevadas."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La escritura de fotogramas renderizados y cachés en el almacenamiento implica una intensa actividad de escritura."
+    },
+    "domain_audio_production": {
+      "explanation": "Grabar y exportar audio escribe de forma continua en el almacenamiento."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Guardar grandes ensamblajes y resultados de simulación está limitado por la escritura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La escritura de grandes conjuntos de datos de salida de simulación depende de la velocidad de escritura sostenida."
+    },
+    "domain_ai_training": {
+      "explanation": "Guardar puntos de control y conjuntos de datos procesados escribe archivos de gran tamaño."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia escribe resultados y registros, pero está limitada principalmente por la lectura."
+    },
+    "domain_data_science": {
+      "explanation": "La materialización de tablas intermedias y de salida escribe archivos de gran tamaño."
+    },
+    "domain_server_virt": {
+      "explanation": "El registro de eventos, las instantáneas y los servicios con escritura intensiva dependen de la velocidad de escritura sostenida."
+    }
+  }
+}

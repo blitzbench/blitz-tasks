@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "disk_asset_load",
+  "short_description": "Streaming e decompressione di un pacchetto di asset di gioco incluso dall'archiviazione.",
+  "description": "Carica un pacchetto incluso di asset di gioco dall'archiviazione e lo decomprime in forma utilizzabile, combinando ampie letture sequenziali di dati compressi con le numerose letture più piccole e i passaggi di decompressione che un gioco esegue durante il caricamento di un livello. Il pacchetto è fisso, così il risultato riflette il comportamento di una reale schermata di caricamento.",
+  "metric_explanation": "Il punteggio è il numero di bundle di asset caricati e decompressi al minuto, riportato come elementi al minuto.",
+  "value_interpretation": "Più alto è, meglio è. Un tasso più elevato significa schermate di caricamento più brevi e meno scatti quando un gioco carica in streaming nuove aree.",
+  "reasoning": "Il caricamento di un gioco combina lettura, seek e decompressione in un unico carico di lavoro, il che rappresenta l'archiviazione nell'uso reale molto meglio di qualsiasi singolo schema di accesso.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Il caricamento dei livelli e lo streaming del mondo sono esattamente questo carico di lavoro."
+    },
+    "domain_office": {
+      "explanation": "L'apertura di grandi file compressi condivide lo schema di lettura e decompressione."
+    },
+    "domain_software_development": {
+      "explanation": "L'estrazione di grandi archivi e cache di dipendenze rispecchia questo lavoro."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il caricamento di librerie di asset compresse segue lo stesso flusso di lettura e decompressione."
+    },
+    "domain_video_editing": {
+      "explanation": "Il caricamento dei bundle di progetto e delle cache multimediali legge e decomprime grandi pacchetti."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il caricamento di scene e set di texture compressi corrisponde a questo schema di lettura e decompressione."
+    },
+    "domain_audio_production": {
+      "explanation": "Il caricamento di librerie di campioni e strumenti compresse funziona allo stesso modo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'apertura di file di progetto pacchettizzati comporta lettura e decompressione."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'estrazione di archivi di input compressi usa lo stesso schema combinato."
+    },
+    "domain_ai_training": {
+      "explanation": "Il caricamento degli shard di addestramento compressi legge e decomprime grandi bundle."
+    },
+    "domain_ai_inference": {
+      "explanation": "Il caricamento dei modelli pacchettizzati decomprime grandi file all'avvio."
+    },
+    "domain_data_science": {
+      "explanation": "La lettura e decompressione di dataset compressi segue questo schema."
+    },
+    "domain_server_virt": {
+      "explanation": "Il download e l'estrazione delle immagini di container legge e decomprime grandi bundle."
+    }
+  }
+}

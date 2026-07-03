@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_compile",
+  "short_description": "Zeit, um einen festen C- und C++-Quellbaum von Grund auf zu kompilieren.",
+  "description": "Baut ein mitgeliefertes mittelgroßes C- und C++-Projekt aus einem sauberen Zustand unter Nutzung aller verfügbaren Kerne. Dieselben Quellen, Compiler-Flags und dieselbe Parallelität kommen auf jeder Maschine zum Einsatz, sodass die einzige Variable der Prozessor ist. Die mitgelieferte Toolchain hält die Arbeitslast identisch, unabhängig davon, was lokal installiert ist.",
+  "metric_explanation": "Der Score ist die tatsächlich verstrichene Zeit, um den Build von sauber bis fertig abzuschließen, angegeben in Sekunden.",
+  "value_interpretation": "„Niedriger ist besser.“ Eine kürzere Zeit bedeutet weniger Warten zwischen Codeänderungen, was die tägliche Realität der Softwarearbeit ist.",
+  "reasoning": "Kompilierung mischt schwere parallele Integer-Arbeit mit Schüben von Dateizugriffen, was genau der Art entspricht, wie Entwicklermaschinen ihre Zeit verbringen, weshalb sie der Leittest für die Softwareentwicklung ist.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Build-Geschwindigkeit ist für Engine-Entwickler relevant, nicht aber für reine Spieler."
+    },
+    "domain_office": {
+      "explanation": "Büroanwender kompilieren so gut wie nie Software."
+    },
+    "domain_software_development": {
+      "explanation": "Die Build-Zeit ist die am stärksten spürbare Leistungskennzahl in der täglichen Entwicklung."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designer führen selten Kompilierungs-Arbeitslasten aus."
+    },
+    "domain_video_editing": {
+      "explanation": "Schnittanwendungen werden so genutzt, wie sie installiert werden, anstatt lokal gebaut zu werden."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Technische Künstler erstellen gelegentlich Werkzeuge und Plugins, aber Rendering dominiert ihre Arbeit."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit beinhaltet selten das Kompilieren von Code."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieure, die benutzerdefinierte Solver und Skripte erstellen, profitieren von schnellen Builds."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Forschungscode wird häufig neu kompiliert, sodass die Build-Geschwindigkeit den Arbeitsrhythmus prägt."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Kompilieren von Frameworks und benutzerdefinierten Kernen ist Teil der Einrichtung von Training-Stacks."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Erstellen und Paketieren von Inferenz-Laufzeiten ist eine wiederkehrende Aufgabe beim Deployment."
+    },
+    "domain_data_science": {
+      "explanation": "Die meiste Analyse erfolgt skriptbasiert, mit gelegentlichen nativen Erweiterungs-Builds."
+    },
+    "domain_server_virt": {
+      "explanation": "Das Erstellen von Images und Diensten aus dem Quellcode ist in Server-Pipelines üblich."
+    }
+  }
+}

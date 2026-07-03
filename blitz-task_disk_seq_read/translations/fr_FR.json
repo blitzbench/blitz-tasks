@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "disk_seq_read",
+  "short_description": "Vitesse de lecture de grands fichiers continus depuis le stockage.",
+  "description": "Lit un gros fichier depuis le stockage par grands blocs continus, en contournant les copies mises en cache afin que les chiffres reflètent le disque plutôt que la mémoire. C'est le meilleur schéma d'accès possible pour le stockage et il révèle la vitesse de lecture maximale que le périphérique peut offrir.",
+  "metric_explanation": "Le score est le nombre de mégaoctets lus par seconde, exprimé en MB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Des lectures séquentielles rapides raccourcissent le temps de chargement de gros fichiers tels que vidéos, niveaux de jeu et jeux de données.",
+  "reasoning": "La lecture séquentielle est la mesure la plus claire de la rapidité avec laquelle une machine peut extraire de gros fichiers du stockage, ce qui influe sur les temps de chargement de nombreuses tâches.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le chargement de grands mondes de jeu et de leurs assets relève surtout de la lecture séquentielle."
+    },
+    "domain_office": {
+      "explanation": "L'ouverture de gros documents et fichiers multimédias profite de lectures séquentielles rapides."
+    },
+    "domain_software_development": {
+      "explanation": "La lecture de grands dépôts et de sorties de compilation implique de lourdes lectures séquentielles."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le chargement de gros fichiers d'images et de projets est limité par la lecture."
+    },
+    "domain_video_editing": {
+      "explanation": "La lecture de séquences en haute résolution exige une vitesse de lecture soutenue."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le chargement de grandes scènes et de jeux de textures est fortement lié à la lecture."
+    },
+    "domain_audio_production": {
+      "explanation": "Le streaming de grandes bibliothèques d'échantillons lit en continu depuis le stockage."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ouverture de grands assemblages et de fichiers de résultats est limitée par la lecture."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le chargement de grands jeux de données d'entrée repose sur la vitesse de lecture séquentielle."
+    },
+    "domain_ai_training": {
+      "explanation": "Le streaming de grands jeux de données d'entraînement depuis le stockage est fortement lié à la lecture."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le chargement de gros fichiers de modèle depuis le stockage dépend des lectures séquentielles."
+    },
+    "domain_data_science": {
+      "explanation": "Le balayage de gros fichiers vers l'analyse est dominé par la vitesse de lecture."
+    },
+    "domain_server_virt": {
+      "explanation": "Le chargement d'images et de grands volumes de données puise dans le débit de lecture séquentielle."
+    }
+  }
+}

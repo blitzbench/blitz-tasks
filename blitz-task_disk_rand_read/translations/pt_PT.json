@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "disk_rand_read",
+  "short_description": "Pequenas operações de leitura aleatória por segundo a partir do armazenamento.",
+  "description": "Emite muitas leituras pequenas para posições aleatórias ao longo de uma grande região do armazenamento, mantendo vários pedidos em curso ao mesmo tempo. O acesso aleatório é muito mais difícil para o armazenamento do que o streaming sequencial, e está mais próximo de como os sistemas operativos e as aplicações realmente acedem a muitos ficheiros pequenos.",
+  "metric_explanation": "A pontuação é o número de operações de leitura concluídas por segundo, indicado em IOPS.",
+  "value_interpretation": "Quanto maior, melhor. Um elevado desempenho de leitura aleatória faz uma máquina parecer reativa ao iniciar aplicações e abrir muitos ficheiros pequenos.",
+  "reasoning": "O desempenho de leitura aleatória é o que separa um sistema ágil de um lento no uso diário, uma vez que a maior parte do acesso quotidiano é disperso em vez de sequencial.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "O streaming de muitos recursos pequenos durante o jogo depende da velocidade de leitura aleatória."
+    },
+    "domain_office": {
+      "explanation": "Iniciar aplicações e abrir muitos ficheiros pequenos é limitado pela leitura aleatória."
+    },
+    "domain_software_development": {
+      "explanation": "As compilações e as ferramentas acedem a milhares de pequenos ficheiros de código-fonte de forma aleatória."
+    },
+    "domain_graphics_design": {
+      "explanation": "Carregar muitos pincéis, recursos e pré-visualizações pequenas usa leituras aleatórias."
+    },
+    "domain_video_editing": {
+      "explanation": "O trabalho com média é sobretudo sequencial, com algum acesso aleatório a proxies."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Carregar muitos pequenos ficheiros de textura e de recursos envolve leituras aleatórias."
+    },
+    "domain_audio_production": {
+      "explanation": "As bibliotecas de samples desencadeiam muitas pequenas leituras aleatórias durante a reprodução."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os projetos grandes referenciam muitos pequenos ficheiros de peças e de recursos."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Alguns formatos de dados usam acesso aleatório dentro de grandes ficheiros."
+    },
+    "domain_ai_training": {
+      "explanation": "Os dados de treino baralhados leem muitos pequenos registos de forma aleatória."
+    },
+    "domain_ai_inference": {
+      "explanation": "Carregar shards de modelo e recursos envolve algum acesso aleatório."
+    },
+    "domain_data_science": {
+      "explanation": "As consultas indexadas e os conjuntos de dados particionados geram leituras aleatórias."
+    },
+    "domain_server_virt": {
+      "explanation": "As bases de dados e muitos inquilinos concorrentes geram uma carga intensa de leitura aleatória."
+    }
+  }
+}

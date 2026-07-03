@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_diffusion",
+  "short_description": "Generación de imágenes por difusión en el procesador gráfico.",
+  "description": "Genera imágenes con un modelo de difusión en el procesador gráfico, ejecutando un número fijo de pasos de reducción de ruido por imagen a una resolución determinada. El modelo y los ajustes son idénticos en todos los ordenadores, de modo que el resultado refleja el cálculo acelerado sostenido y el rendimiento de memoria.",
+  "metric_explanation": "La puntuación es el número de imágenes producidas por minuto, expresado como elementos por minuto.",
+  "value_interpretation": "Cuanto más alto, mejor. Más imágenes por minuto significan menos espera al generar o iterar sobre ideas visuales.",
+  "reasoning": "La generación de imágenes por difusión es una de las cargas de trabajo de aprendizaje automático local más habituales, y su bucle de reducción de ruido es una prueba pesada y repetible de la inferencia acelerada.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Las texturas y los recursos generados se utilizan en algunos flujos de producción de juegos."
+    },
+    "domain_office": {
+      "explanation": "Las imágenes generadas aparecen en presentaciones y documentos."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores integran la generación de imágenes en las aplicaciones que crean."
+    },
+    "domain_graphics_design": {
+      "explanation": "La generación de imágenes ya es una parte habitual del flujo de trabajo de diseño."
+    },
+    "domain_video_editing": {
+      "explanation": "Los fotogramas y elementos generados se incorporan al vídeo editado."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Las texturas y los conceptos generados alimentan la producción 3D."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio hace un uso escaso de la generación de imágenes."
+    },
+    "domain_cad_engineering": {
+      "explanation": "El trabajo de ingeniería rara vez necesita imágenes generadas."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los modelos generativos apoyan algunas tareas de imagen científica."
+    },
+    "domain_ai_training": {
+      "explanation": "Las imágenes generadas se utilizan para ampliar los conjuntos de datos de entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "La generación por difusión es una carga de trabajo fundamental de inferencia local."
+    },
+    "domain_data_science": {
+      "explanation": "Los datos de imagen sintéticos apoyan algunos trabajos de analítica y modelado."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servicios de generación alojados ejecutan esta carga de trabajo de forma continua para muchos usuarios."
+    }
+  }
+}

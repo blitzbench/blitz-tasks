@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_int_multi",
+  "short_description": "Integer-Arithmetik-Durchsatz mit ausgelastetem Kern und Thread.",
+  "description": "Führt dieselbe Integer-Arithmetik-Mischung aus wie der Single-Core-Test, verteilt sie jedoch für einige Sekunden über alle verfügbaren Kerne und Hardware-Threads. Das kombinierte Ergebnis zeigt, wie viel Integer-Arbeit der gesamte Prozessor gleichzeitig aufrechterhalten kann.",
+  "metric_explanation": "Der Durchsatz ist die Gesamtzahl der Integer-Operationen pro Sekunde über alle Kerne, geteilt durch eine Million, angegeben in Mops/s.",
+  "value_interpretation": "Eine höhere Zahl bedeutet mehr gesamten Durchsatz. Der Abstand zwischen diesem und dem Single-Core-Ergebnis zeigt, wie gut der Chip mit hinzugefügten Kernen skaliert.",
+  "reasoning": "Der Integer-Durchsatz über alle Kerne erfasst den verfügbaren Spielraum für parallele Arbeitslasten wie Kompilieren, Encoding und das gleichzeitige Bedienen vieler Anfragen.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Moderne Engines verteilen Arbeit auf Kerne für Physik, Streaming und Draw-Call-Übermittlung."
+    },
+    "domain_office": {
+      "explanation": "Die meiste Büroarbeit nutzt höchstens wenige Kerne, sodass zusätzliche Kerne wenig beitragen."
+    },
+    "domain_software_development": {
+      "explanation": "Parallele Builds und Test-Suites skalieren nahezu direkt mit den verfügbaren Kernen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Manche Batch-Filter und Exporte nutzen mehrere Kerne, obwohl viele Bearbeitungen single-threaded bleiben."
+    },
+    "domain_video_editing": {
+      "explanation": "Encoding und Effekte-Export verteilen sich beim Rendering auf alle Kerne."
+    },
+    "domain_3d_rendering": {
+      "explanation": "CPU-Rendering und Simulations-Bake-Aufgaben nutzen jeden verfügbaren Kern."
+    },
+    "domain_audio_production": {
+      "explanation": "Große Sessions verteilen Spuren auf Kerne, aber der Echtzeit-Pfad bleibt single-threaded."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Vernetzung und viele Solver parallelisieren bei langen Aufgaben auf mehrere Kerne."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Numerische Simulationen werden routinemäßig über alle Kerne verteilt."
+    },
+    "domain_ai_training": {
+      "explanation": "Datenladen und Vorverarbeitung auf dem Host speisen den Beschleuniger von vielen Kernen."
+    },
+    "domain_ai_inference": {
+      "explanation": "CPU-seitige Inferenz und Batching profitieren von der Verteilung auf mehrere Kerne."
+    },
+    "domain_data_science": {
+      "explanation": "Gruppier-, Join- und Aggregations-Kernels parallelisieren sich über Kerne bei großen Tabellen."
+    },
+    "domain_server_virt": {
+      "explanation": "Das gleichzeitige Betreiben vieler Prozesse oder Container hängt direkt vom gesamten Kern-Durchsatz ab."
+    }
+  }
+}

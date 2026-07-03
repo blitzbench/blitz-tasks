@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "disk_asset_load",
+  "short_description": "Streaming e descompactação de um pacote de assets de jogo incluído a partir do armazenamento.",
+  "description": "Carrega um pacote incluído de assets de jogo a partir do armazenamento e descompacta-o numa forma utilizável, misturando grandes leituras sequenciais de dados empacotados com as muitas leituras mais pequenas e os passos de descompressão que um jogo realiza ao carregar um nível. O pacote é fixo, pelo que o resultado reflete como um ecrã de carregamento real se comporta.",
+  "metric_explanation": "A pontuação é o número de pacotes de assets carregados e descompactados por minuto, indicado como itens por minuto.",
+  "value_interpretation": "Quanto maior, melhor. Uma taxa mais elevada significa ecrãs de carregamento mais curtos e menos engasgos quando um jogo faz streaming de novas áreas.",
+  "reasoning": "O carregamento de jogos combina leitura, procura e descompressão numa só carga de trabalho, o que representa o armazenamento em uso real muito melhor do que qualquer padrão de acesso isolado.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "O carregamento de níveis e o streaming do mundo são exatamente esta carga de trabalho."
+    },
+    "domain_office": {
+      "explanation": "Abrir grandes ficheiros empacotados partilha o padrão de ler e descompactar."
+    },
+    "domain_software_development": {
+      "explanation": "Descompactar grandes arquivos e caches de dependências espelha este trabalho."
+    },
+    "domain_graphics_design": {
+      "explanation": "Carregar bibliotecas de recursos empacotadas segue o mesmo fluxo de ler e descompactar."
+    },
+    "domain_video_editing": {
+      "explanation": "Carregar pacotes de projeto e caches de média lê e descompacta grandes pacotes."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Carregar cenas e conjuntos de texturas empacotados corresponde a este padrão de ler e descomprimir."
+    },
+    "domain_audio_production": {
+      "explanation": "Carregar bibliotecas de samples e de instrumentos empacotadas funciona da mesma forma."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Abrir ficheiros de projeto empacotados envolve ler e descompactar."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Descompactar arquivos de entrada comprimidos usa o mesmo padrão combinado."
+    },
+    "domain_ai_training": {
+      "explanation": "Carregar shards de treino empacotados lê e descomprime grandes pacotes."
+    },
+    "domain_ai_inference": {
+      "explanation": "Carregar modelos empacotados descompacta grandes ficheiros no arranque."
+    },
+    "domain_data_science": {
+      "explanation": "Ler e descomprimir conjuntos de dados empacotados segue este padrão."
+    },
+    "domain_server_virt": {
+      "explanation": "Obter e descompactar imagens de contentor lê e descomprime grandes pacotes."
+    }
+  }
+}

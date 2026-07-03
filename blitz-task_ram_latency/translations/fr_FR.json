@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "ram_latency",
+  "short_description": "Temps nécessaire pour récupérer une seule valeur aléatoire depuis la mémoire principale.",
+  "description": "Suit une chaîne de pointeurs à travers une région de mémoire bien plus grande que tout cache, où chaque étape dépend de la précédente. Comme les accès ne peuvent se recouvrir, le test expose le délai réel pour atteindre la mémoire principale pour une seule valeur.",
+  "metric_explanation": "La latence est le temps moyen nécessaire pour effectuer un accès mémoire dépendant, exprimé en nanosecondes.",
+  "value_interpretation": "Plus la valeur est basse, mieux c'est. Une latence plus faible rend les charges à forte densité de pointeurs et irrégulières plus rapides, car elles passent une grande partie de leur temps à attendre la mémoire.",
+  "reasoning": "La bande passante ne raconte que la moitié de l'histoire ; la latence détermine les performances des nombreuses charges qui suivent des références dispersées plutôt que de faire défiler des données.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La logique de jeu suit des références d'objets dispersées où la latence conditionne la régularité de la fréquence d'images."
+    },
+    "domain_office": {
+      "explanation": "La réactivité interactive dépend de la rapidité avec laquelle les données dispersées sont récupérées."
+    },
+    "domain_software_development": {
+      "explanation": "Les compilateurs et les outils parcourent des structures riches en pointeurs, sensibles à la latence."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail sur image est davantage limité par la bande passante que par la latence."
+    },
+    "domain_video_editing": {
+      "explanation": "Le travail sur médias en streaming dépend davantage de la bande passante que de la latence d'un accès unique."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le parcours des structures d'accélération pour le rendu est sensible à la latence."
+    },
+    "domain_audio_production": {
+      "explanation": "Les graphes audio en temps réel touchent à un état dispersé sous des contraintes de délai strictes."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les structures de données creuses des solveurs suivent des schémas d'accès irréguliers, limités par la latence."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les codes irréguliers et fondés sur les graphes sont limités par la latence de la mémoire."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement relève surtout d'un travail en flux continu où la latence importe moins."
+    },
+    "domain_ai_inference": {
+      "explanation": "Certaines orchestrations et recherches autour de l'inférence sont sensibles à la latence."
+    },
+    "domain_data_science": {
+      "explanation": "Les recherches par hachage et les jointures parcourent une mémoire dispersée où la latence compte."
+    },
+    "domain_server_virt": {
+      "explanation": "Le travail par requête touche à un état dispersé, de sorte que la latence conditionne le temps de réponse."
+    }
+  }
+}

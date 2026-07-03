@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_int_multi",
+  "short_description": "Throughput aritmetico intero con ogni core e thread impegnato.",
+  "description": "Esegue lo stesso mix di aritmetica intera del test su singolo core, ma lo distribuisce su ogni core e thread hardware disponibile per alcuni secondi. Il risultato combinato mostra quanto lavoro intero l'intero processore può sostenere simultaneamente.",
+  "metric_explanation": "Il throughput è il totale delle operazioni intere al secondo su tutti i core, diviso per un milione, riportato in Mops/s.",
+  "value_interpretation": "Un valore più alto indica un throughput complessivo maggiore. Il divario tra questo risultato e quello su singolo core mostra quanto bene il chip scala all'aumentare dei core.",
+  "reasoning": "Il throughput intero su tutti i core cattura il margine disponibile per carichi paralleli come compilazione, codifica e gestione di molte richieste contemporaneamente.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I motori moderni suddividono il lavoro tra i core per fisica, streaming e invio delle draw call."
+    },
+    "domain_office": {
+      "explanation": "Gran parte del lavoro d'ufficio usa al più pochi core, quindi core aggiuntivi aggiungono poco."
+    },
+    "domain_software_development": {
+      "explanation": "Le build parallele e le suite di test scalano quasi direttamente con i core disponibili."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alcuni filtri batch ed esportazioni usano più core, anche se molte modifiche restano a singolo thread."
+    },
+    "domain_video_editing": {
+      "explanation": "La codifica e l'esportazione degli effetti si distribuiscono su tutti i core durante il render."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il rendering su CPU e i job di bake delle simulazioni usano ogni core disponibile."
+    },
+    "domain_audio_production": {
+      "explanation": "Le sessioni ampie distribuiscono le tracce tra i core, ma il percorso in tempo reale resta a singolo thread."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La generazione delle mesh e molti solver si parallelizzano tra i core durante job prolungati."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le simulazioni numeriche vengono abitualmente distribuite su tutti i core."
+    },
+    "domain_ai_training": {
+      "explanation": "Il caricamento e il preprocessing dei dati sull'host alimentano l'acceleratore da molti core."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza lato CPU e il batching traggono vantaggio dalla distribuzione tra i core."
+    },
+    "domain_data_science": {
+      "explanation": "I kernel di raggruppamento, join e aggregazione si parallelizzano tra i core su grandi tabelle."
+    },
+    "domain_server_virt": {
+      "explanation": "Ospitare molti processi o container contemporaneamente dipende direttamente dal throughput totale dei core."
+    }
+  }
+}

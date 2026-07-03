@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_game_scene",
+  "short_description": "Fréquence d'images d'une scène 3D texturée et éclairée rendue comme un jeu.",
+  "description": "Effectue le rendu d'une scène 3D fournie à la manière d'un moteur de jeu, avec géométrie texturée, éclairage dynamique, ombres et post-traitement, en dessinant autant d'images que possible à une résolution fixe. La scène et les réglages sont identiques sur chaque machine, de sorte que le résultat ne dépend que du processeur graphique.",
+  "metric_explanation": "Le score est le nombre moyen d'images dessinées par seconde sur l'ensemble de l'exécution, exprimé en fps.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage d'images par seconde signifie un jeu plus fluide, avec des cibles courantes autour de 60 et plus pour une expérience fluide.",
+  "reasoning": "Une scène complète de style jeu sollicite l'ensemble du pipeline graphique conjointement, ce qui en fait la mesure la plus directe des performances en jeu.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "C'est la charge de travail déterminante pour les performances en jeux vidéo."
+    },
+    "domain_office": {
+      "explanation": "Les machines bureautiques n'exécutent pas de scènes de jeu."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs de jeux et de moteurs testent précisément ce type de scène."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'aperçu en temps réel des ressources 3D emprunte le même chemin de rendu."
+    },
+    "domain_video_editing": {
+      "explanation": "Les incrustations graphiques en temps réel et les aperçus animés réutilisent le rendu du moteur."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les fenêtres d'affichage en temps réel et le contenu prêt pour le jeu dépendent de ce pipeline."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio ne comporte aucun rendu 3D en temps réel."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La revue de conception interactive fait appel à un rendu en temps réel similaire."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualisation en temps réel s'inspire de ce style de rendu."
+    },
+    "domain_ai_training": {
+      "explanation": "Les environnements simulés pour l'entraînement produisent des scènes de ce type."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence pilote rarement un rendu en temps réel."
+    },
+    "domain_data_science": {
+      "explanation": "L'analytique ne dépend pas du rendu de jeu."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs de cloud gaming et de diffusion produisent exactement ces scènes à distance."
+    }
+  }
+}

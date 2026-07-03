@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_int8",
+  "short_description": "Acht-Bit-Integer-Durchsatz auf dem Grafikprozessor.",
+  "description": "Führt einen dichten Acht-Bit-Integer-Rechenkernel auf dem Grafikprozessor aus und nutzt dabei die Integer-Pfade niedriger Genauigkeit, die moderne Hardware für quantisiertes maschinelles Lernen bereitstellt. Acht-Bit-Rechnung lässt Modelle schneller und kleiner laufen, und dieser Test ermittelt die maximale Rate dieser Integer-Einheiten.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der Integer-Operationen pro Sekunde, in Milliarden, angegeben in GIOPS.",
+  "value_interpretation": "„Höher ist besser.“ Ein starker INT8-Durchsatz beschleunigt quantisierte Modelle, die weithin genutzt werden, um Inferenz schneller und auf kleinerer Hardware auszuführen.",
+  "reasoning": "Quantisierte Acht-Bit-Inferenz ist inzwischen ein gängiger Weg, Modelle effizient einzusetzen, und sie stützt sich auf Integer-Einheiten, die die Gleitkommatests nicht messen.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Quantisierte Upscaler und Effekte nutzen INT8-Pfade auf der GPU."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit nutzt INT8-GPU-Rechenleistung kaum."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant für Entwickler quantisierter ML-Funktionen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Einige quantisierte generative Werkzeuge nutzen INT8-Pfade."
+    },
+    "domain_video_editing": {
+      "explanation": "Quantisierte ML-Effekte in der Videobearbeitung nutzen INT8-Einheiten."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Quantisierte Denoiser können auf INT8-Hardware ausgeführt werden."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion nutzt INT8-GPU-Rechenleistung kaum."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieurssimulationen erfordern höhere Genauigkeit als INT8."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Wenige Methoden nutzen Integer-Arithmetik mit geringer Genauigkeit; die meisten erfordern mehr Genauigkeit."
+    },
+    "domain_ai_training": {
+      "explanation": "Einige Trainingsstufen nutzen INT8, der Großteil des Trainings bleibt jedoch im Gleitkommabereich."
+    },
+    "domain_ai_inference": {
+      "explanation": "Quantisierte INT8-Inferenz ist ein bevorzugter Weg, Modelle effizient auszuführen."
+    },
+    "domain_data_science": {
+      "explanation": "Quantisierte Modelle beschleunigen die Bewertung über große Datensätze."
+    },
+    "domain_server_virt": {
+      "explanation": "Kosteneffiziente Inferenz-Server stützen sich auf INT8-Durchsatz, um mehr Anfragen pro Gerät zu bedienen."
+    }
+  }
+}

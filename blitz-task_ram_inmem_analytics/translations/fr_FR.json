@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "ram_inmem_analytics",
+  "short_description": "Grande jointure par hachage et tri entièrement conservés en mémoire.",
+  "description": "Construit de grandes tables de hachage et trie un vaste jeu de données entièrement en mémoire, à la manière dont un moteur analytique gère une jointure et un tri sur des données qui ne tiennent pas dans le cache. Le travail est délibérément limité par le système mémoire plutôt que par l'arithmétique, de sorte qu'il reflète la vitesse à laquelle la machine peut déplacer et réorganiser de grandes données.",
+  "metric_explanation": "Le score est le nombre d'enregistrements joints et triés par seconde, exprimé en opérations par seconde.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un débit plus élevé signifie des jointures et des tris plus rapides sur de grandes données en mémoire, là où l'analytique limitée par la mémoire passe son temps.",
+  "reasoning": "Joindre et trier de grands jeux de données en mémoire est l'une des charges réelles les plus limitées par la mémoire qui soit, ce qui en fait le test concret adapté au système mémoire.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux vidéo effectuent peu d'analytique volumineuse en mémoire."
+    },
+    "domain_office": {
+      "explanation": "Les grands tableurs et les opérations de tableau croisé sont des versions réduites de ce travail."
+    },
+    "domain_software_development": {
+      "explanation": "L'interrogation en mémoire de grands journaux et traces suit le même schéma."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail graphique comporte peu d'analytique en mémoire."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage exécute rarement de grandes jointures ou de grands tris."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La gestion des scènes et des ressources fait appel à un certain tri en mémoire."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio comporte peu d'analytique en mémoire."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le tri et l'appariement de grands ensembles de résultats font partie du post-traitement des simulations."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La réorganisation de grands tableaux en mémoire est fréquente entre les étapes de simulation."
+    },
+    "domain_ai_training": {
+      "explanation": "Le brassage et la jointure de grandes tables de caractéristiques en mémoire alimentent l'entraînement."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence par lots joint les entrées et les caractéristiques en mémoire avant le scoring."
+    },
+    "domain_data_science": {
+      "explanation": "Les grandes jointures et tris en mémoire sont au cœur des charges de travail analytiques."
+    },
+    "domain_server_virt": {
+      "explanation": "Les services de données en mémoire exécutent continuellement ces jointures et tris sur des serveurs partagés."
+    }
+  }
+}

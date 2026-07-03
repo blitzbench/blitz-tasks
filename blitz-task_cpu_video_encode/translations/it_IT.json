@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_video_encode",
+  "short_description": "Codifica software H.264 di un clip 1080p incluso tramite x264.",
+  "description": "Codifica un clip video 1080p incluso in H.264 interamente sul processore utilizzando l'encoder x264 con un preset di qualità fisso. La codifica software è scelta di proposito, così il test misura la CPU anziché un encoder hardware a funzione fissa. Il clip e le impostazioni sono identici su ogni macchina.",
+  "metric_explanation": "Il punteggio è il numero medio di fotogrammi codificati al secondo sull'intero clip, riportato in fps.",
+  "value_interpretation": "Più alto è, meglio è. Più fotogrammi al secondo significano esportazioni più rapide e anteprime più fluide quando una catena di effetti impone la codifica software.",
+  "reasoning": "La codifica software di alta qualità è uno dei carichi sostenuti più impegnativi che un creatore esegue, il che la rende il test di riferimento adeguato per il lavoro video.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Gli streamer codificano il gameplay, ricorrendo spesso alla CPU quando la GPU è occupata."
+    },
+    "domain_office": {
+      "explanation": "Gli utenti d'ufficio codificano video solo occasionalmente per le presentazioni."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori eseguono raramente codifiche video prolungate."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di motion graphics produce video che richiedono la codifica in fase di export."
+    },
+    "domain_video_editing": {
+      "explanation": "La velocità di codifica software determina direttamente la durata di un export finale."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'output dell'animazione viene codificato in video consegnabile dopo il rendering dei fotogrammi."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio ricorre alla codifica video solo quando si compone su immagini."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il lavoro di ingegneria codifica occasionalmente i flythrough delle simulazioni."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La codifica è un passaggio minore quando si trasforma l'output di una simulazione in video."
+    },
+    "domain_ai_training": {
+      "explanation": "I dataset video vengono talvolta ricodificati durante la preparazione."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le pipeline che producono output video necessitano di una fase di codifica."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi dei dati raramente comporta la codifica video."
+    },
+    "domain_server_virt": {
+      "explanation": "I media server eseguono la transcodifica software quando i codificatori hardware non sono disponibili."
+    }
+  }
+}

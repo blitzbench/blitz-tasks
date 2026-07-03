@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_cache_latency",
+  "short_description": "Tempo per recuperare un valore dalla cache di ultimo livello del processore.",
+  "description": "Segue una catena di puntatori dipendenti attraverso una regione dimensionata per restare all'interno della cache di ultimo livello del processore, dove ogni accesso attende quello precedente. Poiché i dati non lasciano mai la cache, il risultato isola la rapidità con cui il processore può fornire un valore presente sul chip ma non nella cache più piccola e veloce.",
+  "metric_explanation": "La latenza è il tempo medio per completare un accesso dipendente alla cache, riportato in nanosecondi.",
+  "value_interpretation": "Più basso è, meglio è. Una bassa latenza della cache mantiene veloci i cicli interni serrati, poiché trascorrono gran parte del tempo in attesa di dati che risiedono nella cache.",
+  "reasoning": "La maggior parte del codice critico opera su dati che entrano nella cache anziché nel livello più piccolo o nella memoria principale, quindi la latenza della cache on-chip influisce fortemente sulle prestazioni reali del singolo core.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I loop serrati dei giochi operano su dati residenti in cache, dove la latenza di accesso determina i tempi di frame."
+    },
+    "domain_office": {
+      "explanation": "La reattività interattiva trae vantaggio da un accesso rapido alla cache durante brevi picchi di lavoro."
+    },
+    "domain_software_development": {
+      "explanation": "I loop interni del compilatore percorrono strutture residenti in cache sensibili alla latenza."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le operazioni sulle immagini per tile riutilizzano dati mantenuti in cache, dove la latenza conta."
+    },
+    "domain_video_editing": {
+      "explanation": "I codec basati su blocchi operano su dati residenti in cache durante l'elaborazione."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'attraversamento e lo shading riutilizzano working set mantenuti in cache sotto pressione di latenza."
+    },
+    "domain_audio_production": {
+      "explanation": "I kernel audio in tempo reale operano su piccoli buffer residenti in cache con scadenze serrate."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I blocchi interni del solver operano su tile residenti in cache, dove la latenza conta."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I kernel numerici a blocchi sono ottimizzati attorno alla cache e sono sensibili alla sua latenza."
+    },
+    "domain_ai_training": {
+      "explanation": "Il lavoro di addestramento lato host è per lo più in streaming, con una limitata pressione sulla latenza della cache."
+    },
+    "domain_ai_inference": {
+      "explanation": "I loop di inferenza su CPU riutilizzano pesi mantenuti in cache, dove la latenza di accesso conta."
+    },
+    "domain_data_science": {
+      "explanation": "Le tabelle hash e i buffer di raggruppamento che stanno in cache sono sensibili alla latenza."
+    },
+    "domain_server_virt": {
+      "explanation": "Il lavoro per richiesta su stato residente in cache è condizionato dalla latenza della cache."
+    }
+  }
+}

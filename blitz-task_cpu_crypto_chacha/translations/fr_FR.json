@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_crypto_chacha",
+  "short_description": "Débit de chiffrement authentifié ChaCha20-Poly1305 sur tous les cœurs.",
+  "description": "Chiffre et authentifie un tampon avec ChaCha20-Poly1305 de façon répétée sur tous les cœurs. Ce chiffrement repose sur de l'arithmétique simple plutôt que sur des instructions dédiées ; il montre donc comment un processeur gère le trafic sécurisé lorsqu'aucune accélération matérielle du chiffrement n'entre en jeu, ce qui est courant sur le matériel léger et mobile.",
+  "metric_explanation": "Le débit est le nombre d'octets chiffrés et authentifiés par seconde, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. L'écart avec le résultat AES révèle à quel point une machine s'appuie sur des instructions de chiffrement dédiées plutôt que sur l'arithmétique générale.",
+  "reasoning": "ChaCha20-Poly1305 est largement utilisé pour les connexions sécurisées, en particulier là où l'AES matériel est faible ou absent ; il saisit donc un aspect différent et important des performances cryptographiques.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux utilisent le chiffrement authentifié principalement pour le trafic réseau."
+    },
+    "domain_office": {
+      "explanation": "La navigation et la messagerie sécurisées reposent souvent sur ce chiffrement."
+    },
+    "domain_software_development": {
+      "explanation": "Les transferts et tunnels sécurisés négocient fréquemment ce chiffrement."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail de conception ne touche au chiffrement authentifié qu'à la synchronisation."
+    },
+    "domain_video_editing": {
+      "explanation": "La diffusion sécurisée de médias emploie parfois ce chiffrement."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le rendu n'effectue presque aucun travail de chiffrement."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'utilise le chiffrement que pour les transferts."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le travail d'ingénierie chiffre surtout pour protéger les fichiers en transit."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les liens sécurisés entre nœuds peuvent recourir à ce chiffrement pour le transfert des données."
+    },
+    "domain_ai_training": {
+      "explanation": "Les chaînes d'entraînement consacrent peu de temps au chiffrement de transport."
+    },
+    "domain_ai_inference": {
+      "explanation": "Servir sur des connexions sécurisées recourt au chiffrement authentifié à chaque requête."
+    },
+    "domain_data_science": {
+      "explanation": "Récupérer des données via des liens sécurisés sollicite ce chiffrement."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs terminent de nombreuses connexions sécurisées, souvent avec ce chiffrement pour les clients dépourvus d'AES matériel."
+    }
+  }
+}

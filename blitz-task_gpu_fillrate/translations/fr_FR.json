@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_fillrate",
+  "short_description": "Vitesse à laquelle le processeur graphique peut ombrer et écrire des pixels.",
+  "description": "Dessine des couches de géométrie plein écran avec texturage et fusion afin que le processeur graphique soit limité par la vitesse à laquelle il peut ombrer et écrire des pixels en mémoire. C'est le versant matriciel du GPU plutôt que son calcul brut, et il sollicite conjointement le pipeline de sortie et la bande passante mémoire.",
+  "metric_explanation": "Le score est le nombre de pixels traités par seconde, exprimé en millions de pixels par seconde.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un taux de remplissage plus élevé aide aux hautes résolutions et avec une transparence importante, lorsque de nombreuses couches de pixels sont dessinées à chaque image.",
+  "reasoning": "Le taux de remplissage saisit le pipeline graphique traditionnel que les tests axés sur le calcul manquent, et il influe directement sur le jeu en haute résolution et les interfaces à forte composante 2D.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le taux de remplissage fixe la fréquence d'images en haute résolution et avec de lourds effets de transparence."
+    },
+    "domain_office": {
+      "explanation": "La fluidité des bureaux en haute résolution et des nombreuses fenêtres dépend du taux de remplissage."
+    },
+    "domain_software_development": {
+      "explanation": "Les configurations de développement multi-écrans profitent modérément du taux de remplissage."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les grandes toiles en haute résolution comportant de nombreux calques sont limitées par le taux de remplissage."
+    },
+    "domain_video_editing": {
+      "explanation": "Les aperçus de timeline en haute résolution poussent de nombreux pixels dans le pipeline."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les fenêtres interactives reposent sur une sortie de pixels rapide autant que sur le calcul."
+    },
+    "domain_audio_production": {
+      "explanation": "Les interfaces audio sollicitent peu le taux de remplissage."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les fenêtres de grands modèles avec ombrage dépendent d'un taux de remplissage élevé."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualisation en profite, mais le calcul domine l'usage scientifique du GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement ne procède presque à aucune rastérisation."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence est limitée par le calcul, non par le taux de remplissage."
+    },
+    "domain_data_science": {
+      "explanation": "Les tracés interactifs de grands jeux de données mobilisent un certain taux de remplissage."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs de bureau distant et de streaming poussent des pixels calculés vers les clients."
+    }
+  }
+}

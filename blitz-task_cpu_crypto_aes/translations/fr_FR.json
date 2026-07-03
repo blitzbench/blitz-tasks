@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_crypto_aes",
+  "short_description": "Débit de chiffrement symétrique AES-256 sur tous les cœurs.",
+  "description": "Chiffre un tampon avec AES-256 de façon répétée sur tous les cœurs, en exploitant les instructions AES dédiées du processeur lorsqu'elles sont disponibles. Le tampon reste résident en mémoire, de sorte que le résultat traduit la vitesse du chiffrement lui-même plutôt que celle du stockage ou du réseau.",
+  "metric_explanation": "Le débit est le nombre d'octets chiffrés par seconde, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Les machines dotées d'un support matériel de l'AES devancent largement celles qui se rabattent sur une implémentation logicielle.",
+  "reasoning": "L'AES est le chiffrement par défaut des connexions sécurisées et du chiffrement intégral du disque ; son débit est donc une mesure directe du coût auquel une machine protège les données en transit et au repos.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux ne touchent au chiffrement que légèrement, surtout pour les téléchargements et le contenu protégé."
+    },
+    "domain_office": {
+      "explanation": "Connexions sécurisées et chiffrement de disque œuvrent discrètement derrière le travail bureautique quotidien."
+    },
+    "domain_software_development": {
+      "explanation": "Cloner, transférer et empaqueter des données chiffrées sollicite le chiffrement."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail créatif ne touche au chiffrement qu'au moment de l'enregistrement et de la synchronisation."
+    },
+    "domain_video_editing": {
+      "explanation": "Les médias protégés et la diffusion sécurisée ajoutent une charge de chiffrement autour du montage."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le rendu lui-même n'effectue presque aucun chiffrement."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'implique guère de chiffrement au-delà du transfert de fichiers."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le travail d'ingénierie chiffre surtout lorsqu'il s'agit de protéger les fichiers de projet."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le déplacement sécurisé des données entre grappes ajoute une charge de chiffrement modérée."
+    },
+    "domain_ai_training": {
+      "explanation": "Les jeux de données chiffrés sont déchiffrés à leur entrée dans les chaînes d'entraînement."
+    },
+    "domain_ai_inference": {
+      "explanation": "Servir des modèles n'implique qu'un léger chiffrement de transport."
+    },
+    "domain_data_science": {
+      "explanation": "Lire des dépôts de données chiffrés sollicite le chiffrement en continu."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs passent un temps réel à chiffrer les connexions et protéger les données stockées."
+    }
+  }
+}

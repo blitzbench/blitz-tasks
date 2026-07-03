@@ -1,0 +1,55 @@
+{
+  "lang": "es_ES",
+  "domain_gaming": {
+    "name": "juegos",
+    "description": "Cargas de trabajo de gráficos 3D interactivos en tiempo real: motores de juego limitados por la frecuencia de fotogramas, con pipelines de rasterizado y de trazado de rayos."
+  },
+  "domain_office": {
+    "name": "ofimática y productividad",
+    "description": "Flujos de trabajo de productividad, navegación, correo electrónico y documentos: sensibles a la latencia, pero rara vez limitados por el rendimiento."
+  },
+  "domain_software_development": {
+    "name": "desarrollo de software",
+    "description": "Edición de código, compilación, control de versiones y herramientas de desarrollo: gran carga de rendimiento de enteros, E/S de archivos y muchas lecturas pequeñas."
+  },
+  "domain_graphics_design": {
+    "name": "gráficos y edición de fotos",
+    "description": "Edición de imágenes de mapa de bits y posproducción fotográfica: grandes búferes 2D, filtros acelerados por GPU y muchas operaciones interactivas breves."
+  },
+  "domain_video_editing": {
+    "name": "edición y codificación de vídeo",
+    "description": "Edición de vídeo, etalonaje de color y codificación: E/S secuencial sostenida junto a pesados pipelines de codificación y decodificación acelerados por hardware."
+  },
+  "domain_3d_rendering": {
+    "name": "renderizado y animación 3D",
+    "description": "Producción de contenido 3D offline: modelado, animación y renderizado con trazado de rayos, dominado por el rendimiento en coma flotante de GPU y CPU."
+  },
+  "domain_audio_production": {
+    "name": "producción de audio y DSP",
+    "description": "Trabajo en DAW, mezcla, instrumentos por software y DSP en tiempo real: crítico en latencia, limitado por un solo hilo y sensible a la latencia de la memoria."
+  },
+  "domain_cad_engineering": {
+    "name": "CAD y simulación de ingeniería",
+    "description": "Modelado CAD y simulación de ingeniería: solucionadores con gran carga de FP64, visualización de mallas grandes y trabajos de cálculo de larga duración."
+  },
+  "domain_scientific_computing": {
+    "name": "computación científica y HPC",
+    "description": "Simulación numérica, HPC y cálculo científico: dominan el FP64 y el acceso a memoria de gran ancho de banda."
+  },
+  "domain_ai_training": {
+    "name": "entrenamiento de IA / ML",
+    "description": "Cargas de trabajo de entrenamiento de modelos: rendimiento sostenido de multiplicación de matrices en GPU/acelerador, grandes activaciones en la VRAM y alimentadores de alto ancho de banda desde el host."
+  },
+  "domain_ai_inference": {
+    "name": "inferencia de IA (LLM y difusión)",
+    "description": "Inferencia local de LLM y de difusión: generación de tokens limitada por el ancho de banda de memoria y bucles de reducción de ruido limitados por el cálculo."
+  },
+  "domain_data_science": {
+    "name": "ciencia de datos y analítica",
+    "description": "Analítica tabular, operaciones con dataframes y motores de consultas: agregación limitada por el ancho de banda de memoria sobre conjuntos de datos amplios."
+  },
+  "domain_server_virt": {
+    "name": "servidores y virtualización",
+    "description": "Cargas de trabajo multitenant, densidad de contenedores/máquinas virtuales y rendimiento de fondo sostenido entre muchos procesos concurrentes."
+  }
+}

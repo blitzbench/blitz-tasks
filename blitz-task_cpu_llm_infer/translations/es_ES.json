@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_llm_infer",
+  "short_description": "Generación de tokens a partir de un modelo de lenguaje pequeño cuantizado en la CPU.",
+  "description": "Genera texto a partir de un modelo de lenguaje pequeño cuantizado que se ejecuta íntegramente en el procesador, tal y como funcionan los asistentes locales en máquinas sin una GPU capaz. El modelo, el prompt y el número de tokens son fijos, y el trabajo está limitado en gran medida por la rapidez con la que la CPU puede mover y multiplicar los pesos del modelo.",
+  "metric_explanation": "La puntuación es el número de tokens generados por segundo durante una salida estable, expresado en tokens por segundo.",
+  "value_interpretation": "Cuanto más alto, mejor. Más tokens por segundo significan un asistente local más receptivo, ya que el texto aparece más cerca de la velocidad de lectura.",
+  "reasoning": "Ejecutar modelos de lenguaje localmente es ya un uso generalizado, y la inferencia en la CPU está limitada por el ancho de banda de memoria y las matemáticas vectoriales de un modo que refleja el rendimiento real de un asistente.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Algunos juegos experimentan con modelos de lenguaje locales para generar diálogos dinámicos."
+    },
+    "domain_office": {
+      "explanation": "Los asistentes locales de redacción y resumen forman cada vez más parte del trabajo de ofimática."
+    },
+    "domain_software_development": {
+      "explanation": "Los asistentes de programación locales ejecutan modelos de lenguaje en el propio ordenador del desarrollador."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las herramientas de diseño incorporan asistentes de lenguaje locales para subtítulos y textos."
+    },
+    "domain_video_editing": {
+      "explanation": "Los editores usan modelos locales para transcripciones y resúmenes."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Las canalizaciones de renderizado hacen poco uso de los modelos de lenguaje locales."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio recurre a los modelos de lenguaje principalmente para la transcripción."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los asistentes de ingeniería están surgiendo, pero aún no son centrales."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los investigadores usan modelos locales como apoyo para la redacción y el análisis."
+    },
+    "domain_ai_training": {
+      "explanation": "Las comprobaciones rápidas de un modelo por CPU son habituales durante el trabajo de entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "Servir modelos de lenguaje locales en la CPU es exactamente este dominio."
+    },
+    "domain_data_science": {
+      "explanation": "Los analistas ejecutan modelos locales para etiquetar, extraer y resumir datos de texto."
+    },
+    "domain_server_virt": {
+      "explanation": "Los despliegues sensibles al coste sirven modelos más pequeños desde servidores con solo CPU."
+    }
+  }
+}

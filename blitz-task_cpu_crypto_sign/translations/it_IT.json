@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_crypto_sign",
+  "short_description": "Throughput di firma e verifica Ed25519.",
+  "description": "Crea e verifica firme Ed25519 su messaggi brevi alla massima velocità consentita dal processore, su tutti i core. A differenza della crittografia di massa, si tratta di molte piccole operazioni indipendenti, ciascuna dominata dall'aritmetica su grandi numeri, ossia il modo in cui l'autenticazione e gli handshake sicuri caricano realmente una macchina.",
+  "metric_explanation": "Il throughput è il numero di operazioni di firma e verifica completate al secondo, riportato come operazioni al secondo.",
+  "value_interpretation": "Più alto è, meglio è. Un tasso più elevato significa che più richieste e connessioni autenticate possono essere gestite nello stesso tempo.",
+  "reasoning": "Le operazioni di firma si trovano sul percorso critico degli handshake sicuri, dei token e dell'autenticazione delle richieste, esattamente il tipo di lavoro che questo server svolge per le sessioni e le installazioni.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi verificano le firme solo occasionalmente per aggiornamenti e licenze."
+    },
+    "domain_office": {
+      "explanation": "Le connessioni e i documenti firmati verificano le firme dietro le quinte."
+    },
+    "domain_software_development": {
+      "explanation": "Commit, pacchetti e token firmati vengono verificati di continuo durante lo sviluppo."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di design raramente esegue operazioni di firma direttamente."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio comporta poche operazioni di firma."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il rendering non svolge quasi alcun lavoro di firma."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio raramente esegue operazioni di firma."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le approvazioni firmate e le licenze verificano le firme negli strumenti ingegneristici."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'accesso autenticato ai cluster e ai dati verifica le firme."
+    },
+    "domain_ai_training": {
+      "explanation": "L'accesso autenticato ai dati e alle risorse di calcolo utilizza le firme."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'autenticazione di ogni richiesta a un servizio di modello dipende dal throughput delle firme."
+    },
+    "domain_data_science": {
+      "explanation": "L'accesso autenticato alle fonti di dati verifica le firme."
+    },
+    "domain_server_virt": {
+      "explanation": "Gli handshake sicuri e l'autenticazione delle richieste rendono la firma un carico di lavoro server fondamentale."
+    }
+  }
+}

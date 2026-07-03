@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_int8",
+  "short_description": "Throughput intero a otto bit sul processore grafico.",
+  "description": "Esegue un kernel di calcolo intero denso a otto bit sul processore grafico, utilizzando i percorsi interi a bassa precisione che l'hardware moderno offre per il machine learning quantizzato. Il calcolo a otto bit consente ai modelli di essere eseguiti più velocemente e in forma più compatta, e questo test individua il tasso massimo di quelle unità intere.",
+  "metric_explanation": "Il throughput è il numero di operazioni intere al secondo, in miliardi, riportato in GIOPS.",
+  "value_interpretation": "Più alto è, meglio è. Un elevato throughput INT8 velocizza i modelli quantizzati, ampiamente utilizzati per eseguire l'inferenza più rapidamente e su hardware più piccolo.",
+  "reasoning": "L'inferenza quantizzata a otto bit è ormai un modo diffuso per distribuire modelli in modo efficiente e si basa su unità intere che i test in virgola mobile non misurano.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Gli upscaler e gli effetti quantizzati usano percorsi int8 sulla GPU."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio usa raramente il calcolo int8 su GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori che realizzano funzionalità di machine learning quantizzate."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alcuni strumenti generativi quantizzati funzionano su percorsi int8."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli effetti di machine learning quantizzati nel montaggio usano le unità int8."
+    },
+    "domain_3d_rendering": {
+      "explanation": "I denoiser quantizzati possono funzionare su hardware int8."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa scarso uso del calcolo int8 su GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulazione ingegneristica richiede una precisione superiore a int8."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Alcuni metodi usano il calcolo intero a bassa precisione, ma la maggior parte richiede una precisione maggiore."
+    },
+    "domain_ai_training": {
+      "explanation": "Alcune fasi dell'addestramento usano int8, anche se la maggior parte dell'addestramento resta in virgola mobile."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza quantizzata int8 è uno dei modi principali per eseguire i modelli in modo efficiente."
+    },
+    "domain_data_science": {
+      "explanation": "I modelli quantizzati accelerano lo scoring su grandi set di dati."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di inferenza a basso costo si affidano al throughput int8 per servire di più con ciascun dispositivo."
+    }
+  }
+}

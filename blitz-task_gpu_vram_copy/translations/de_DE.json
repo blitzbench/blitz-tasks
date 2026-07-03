@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_vram_copy",
+  "short_description": "Bandbreite für das Kopieren von Daten innerhalb des Speichers des Grafikprozessors.",
+  "description": "Kopiert große Puffer von einem Bereich des lokalen Speichers des Grafikprozessors in einen anderen und liest und schreibt dabei gleichzeitig über einen Arbeitssatz, der weit größer ist als jeder On-Chip-Cache. Dieses kombinierte Muster entspricht dem Verhalten der meisten GPU-Kernel: Daten lesen, transformieren und zurückschreiben.",
+  "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde bewegten Bytes unter Zählung sowohl der Lese- als auch der Schreibseite, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Die Kopier-Bandbreite spiegelt reale GPU-Datenbewegung genauer wider als Lesen oder Schreiben allein, da beide zugleich geschehen.",
+  "reasoning": "Die meisten GPU-Kernel lesen und schreiben Speicher, weshalb ein Kopiertest, der beides zugleich ausführt, das repräsentativste Einzelmaß für den Durchsatz des lokalen Speichers ist.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Verschieben und Transformieren von Textur- und Pufferdaten kombiniert pro Frame Lese- und Schreibzugriffe."
+    },
+    "domain_office": {
+      "explanation": "Büro-Arbeit bewegt kaum Daten durch den GPU-Speicher."
+    },
+    "domain_software_development": {
+      "explanation": "Vor allem relevant bei der Entwicklung GPU-beschleunigter Software."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Filtern von Bildern liest Ebenen aus dem GPU-Speicher, transformiert sie und schreibt sie zurück."
+    },
+    "domain_video_editing": {
+      "explanation": "Die Frame-Verarbeitung liest und schreibt hochauflösende Puffer gemeinsam im GPU-Speicher."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Verschieben von Szenen- und Pufferdaten kombiniert beim GPU-Rendering Lese- und Schreibzugriffe."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit bewegt kaum Daten durch den GPU-Speicher."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Viewport- und Solver-Kernel streamen Daten gleichzeitig in den und aus dem GPU-Speicher."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Stencil- und Update-Kernel lesen und schreiben große Arrays gleichzeitig im GPU-Speicher."
+    },
+    "domain_ai_training": {
+      "explanation": "Das gleichzeitige Lesen von Gewichten und Schreiben von Aktivierungen ist kopierintensive GPU-Arbeit."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Streamen von Gewichten und Aktivierungen durch den GPU-Speicher kombiniert Lese- und Schreibzugriffe."
+    },
+    "domain_data_science": {
+      "explanation": "Das Transformieren großer Arrays liest Eingaben und schreibt Ausgaben im GPU-Speicher."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemeinsam genutzte GPU-Server teilen die Kopierbandbreite auf viele Mandanten auf."
+    }
+  }
+}

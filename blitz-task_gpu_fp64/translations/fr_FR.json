@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_fp64",
+  "short_description": "Débit en virgule flottante double précision sur le processeur graphique.",
+  "description": "Exécute un noyau de calcul dense en double précision sur le processeur graphique, en maintenant les unités de double précision occupées par des multiplications-additions fusionnées. De nombreux GPU grand public exécutent la double précision bien plus lentement que la simple précision ; ce test distingue donc le matériel conçu pour le travail scientifique de celui qui ne l'est pas.",
+  "metric_explanation": "Le débit est le nombre d'opérations en double précision par seconde, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. L'écart avec le résultat en simple précision montre le sacrifice de vitesse consenti en double précision, qui peut être important sur les GPU orientés jeu.",
+  "reasoning": "Les codes d'ingénierie et scientifiques qui exigent la double précision dépendent de cette capacité, et elle varie énormément d'un GPU à l'autre ; elle mérite donc sa propre mesure.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux vidéo n'utilisent pratiquement pas le calcul en double précision."
+    },
+    "domain_office": {
+      "explanation": "La bureautique ne comporte aucune composante GPU en double précision."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent pour les développeurs de logiciels GPU scientifiques."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail graphique repose sur la simple précision plutôt que sur la double précision."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage n'exploite pas le calcul GPU en double précision."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Certaines simulations de haute précision pour l'animation exigent la double précision."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'utilise pas le calcul GPU en double précision."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulation d'ingénierie requiert souvent la précision de la double précision sur le GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le débit GPU en double précision est une exigence déterminante pour de nombreux codes scientifiques."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement recourt surtout à la précision réduite plutôt qu'à la double précision."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence n'utilise que rarement le calcul en double précision."
+    },
+    "domain_data_science": {
+      "explanation": "Les méthodes numériques de haute précision requièrent parfois la double précision sur le GPU."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs de calcul scientifique offrent la capacité de double précision à leurs utilisateurs."
+    }
+  }
+}

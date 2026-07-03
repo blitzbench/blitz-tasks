@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_ai_train",
+  "short_description": "Rendimiento de entrenamiento de una red neuronal pequeña en la GPU.",
+  "description": "Ejecuta pasos de entrenamiento repetidos de una red neuronal pequeña en el procesador gráfico, incluyendo la pasada hacia delante, la pasada hacia atrás y la actualización de pesos. El modelo, el tamaño de lote y los datos son fijos, de modo que el trabajo está dominado por el cálculo acelerado de matrices y el tráfico de memoria que lo alimenta.",
+  "metric_explanation": "La puntuación es el número de muestras de entrenamiento procesadas por segundo, expresado como operaciones por segundo.",
+  "value_interpretation": "Cuanto más alto, mejor. Más muestras por segundo significan entrenamientos más cortos y ciclos de experimentación más rápidos.",
+  "reasoning": "Un paso de entrenamiento completo con pasadas hacia delante y hacia atrás es la carga de trabajo que define el hardware de entrenamiento de aprendizaje automático, y exige cálculo y memoria igual que un entrenamiento real.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los ordenadores de juegos rara vez ejecutan entrenamiento de modelos."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática no implica el entrenamiento de modelos."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores que crean funciones de aprendizaje automático entrenan modelos como parte de su trabajo."
+    },
+    "domain_graphics_design": {
+      "explanation": "En ocasiones se entrenan localmente modelos generativos personalizados para diseño."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición rara vez implica el entrenamiento de modelos."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los reductores de ruido y los recursos aprendidos se entrenan para los flujos de renderizado."
+    },
+    "domain_audio_production": {
+      "explanation": "El entrenamiento de modelos de audio es una actividad de nicho."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los equipos de ingeniería entrenan modelos sustitutos para simulación."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El aprendizaje automático científico entrena modelos con datos de simulación y experimentales."
+    },
+    "domain_ai_training": {
+      "explanation": "Esta es la carga de trabajo que define el dominio de entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "El ajuste fino previo al despliegue comparte la misma vía de entrenamiento."
+    },
+    "domain_data_science": {
+      "explanation": "El ajuste de modelos en la GPU es una parte fundamental de la analítica avanzada."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de entrenamiento compartidos ejecutan esta carga de trabajo para muchos usuarios."
+    }
+  }
+}

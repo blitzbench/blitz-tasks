@@ -1,0 +1,55 @@
+{
+  "lang": "de_DE",
+  "domain_gaming": {
+    "name": "Gaming",
+    "description": "Interaktive 3D-Grafik-Arbeitslasten in Echtzeit – bildratengebundene Spiel-Engines auf Raster- und Raytracing-Pipelines."
+  },
+  "domain_office": {
+    "name": "Büro & Produktivität",
+    "description": "Produktivitäts-, Browsing-, E-Mail- und Dokument-Arbeitsabläufe – latenzempfindlich, aber selten durchsatzgebunden."
+  },
+  "domain_software_development": {
+    "name": "Softwareentwicklung",
+    "description": "Code-Bearbeitung, Kompilierung, Versionsverwaltung und Entwicklerwerkzeuge – hoher Integer-Durchsatz, Datei-I/O und viele kleine Lesezugriffe."
+  },
+  "domain_graphics_design": {
+    "name": "Grafik & Fotobearbeitung",
+    "description": "Rasterbildbearbeitung und Foto-Postproduktion – große 2D-Puffer, GPU-beschleunigte Filter und viele kurze interaktive Operationen."
+  },
+  "domain_video_editing": {
+    "name": "Videobearbeitung & Encoding",
+    "description": "Videobearbeitung, Color Grading und Encoding – anhaltendes sequenzielles I/O gepaart mit anspruchsvollen hardwarebeschleunigten Encode-/Decode-Pipelines."
+  },
+  "domain_3d_rendering": {
+    "name": "3D-Rendering & Animation",
+    "description": "Offline-3D-Content-Produktion – Modellierung, Animation und raytracing-basiertes Rendering, dominiert vom GPU- und CPU-Gleitkommadurchsatz."
+  },
+  "domain_audio_production": {
+    "name": "Audioproduktion & DSP",
+    "description": "DAW-Arbeit, Mixing, Software-Instrumente und Echtzeit-DSP – latenzkritisch, single-thread-gebunden und empfindlich gegenüber Speicherlatenz."
+  },
+  "domain_cad_engineering": {
+    "name": "CAD & Ingenieursimulation",
+    "description": "CAD-Modellierung und Ingenieursimulation – FP64-lastige Solver, Visualisierung großer Netze und langlaufende Rechenaufgaben."
+  },
+  "domain_scientific_computing": {
+    "name": "Wissenschaftliches Rechnen & HPC",
+    "description": "Numerische Simulation, HPC und wissenschaftliches Rechnen – FP64 und Speicherzugriffe mit hoher Bandbreite dominieren."
+  },
+  "domain_ai_training": {
+    "name": "KI-/ML-Training",
+    "description": "Arbeitslasten für das Modelltraining – anhaltender Matrixmultiplikationsdurchsatz auf GPU/Beschleuniger, große Aktivierungen im VRAM, hohe Host-Bandbreite zur Datenzufuhr."
+  },
+  "domain_ai_inference": {
+    "name": "KI-Inferenz (LLM & Diffusion)",
+    "description": "Lokale LLM- und Diffusions-Inferenz – speicherbandbreitengebundene Token-Generierung und rechengebundene Denoising-Schleifen."
+  },
+  "domain_data_science": {
+    "name": "Data Science & Analytik",
+    "description": "Tabellarische Analytik, Dataframe-Operationen, Abfrage-Engines – speicherbandbreitengebundene Aggregation über breite Datensätze."
+  },
+  "domain_server_virt": {
+    "name": "Server & Virtualisierung",
+    "description": "Mandantenfähige Arbeitslasten, Container-/VM-Dichte, anhaltender Hintergrunddurchsatz über viele parallele Prozesse."
+  }
+}

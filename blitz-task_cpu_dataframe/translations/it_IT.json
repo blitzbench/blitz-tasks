@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_dataframe",
+  "short_description": "Raggruppamento, join e ordinamento su un dataset colonnare incluso.",
+  "description": "Esegue una serie di query analitiche su un dataset colonnare incluso utilizzando un motore di query in-process, coprendo raggruppamento, join e ordinamento su tutti i core. Il dataset e le query sono fissi e il motore mantiene tutto in memoria, così il risultato riflette il processore e il suo sistema di memoria.",
+  "metric_explanation": "Il punteggio è il numero di righe elaborate al secondo nell'insieme delle query, riportato come operazioni al secondo.",
+  "value_interpretation": "Più alto è, meglio è. Più righe al secondo significano un'analisi interattiva su tabelle più grandi senza lunghe pause tra le query.",
+  "reasoning": "Raggruppamento, join e ordinamento sono il cuore dell'analisi tabellare e mettono sotto stress sia il throughput dei core sia la larghezza di banda della memoria come fanno i reali strumenti di analisi dei dati.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi svolgono poca analisi tabellare durante il gioco."
+    },
+    "domain_office": {
+      "explanation": "Fogli di calcolo e report eseguono versioni ridotte dello stesso lavoro di raggruppamento."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori interrogano log e metriche con lo stesso tipo di motore."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di design comporta poca analisi dei dati."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio non dipende da carichi di lavoro di interrogazione."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le pipeline di rendering raramente eseguono query analitiche."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio prevede poca analisi tabellare."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I team di ingegneria analizzano le tabelle dei risultati delle simulazioni."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'analisi dei risultati passa spesso attraverso gli stessi kernel di raggruppamento e join."
+    },
+    "domain_ai_training": {
+      "explanation": "Il feature engineering su grandi tabelle è una parte fondamentale della preparazione dei dati di addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le pipeline di scoring batch uniscono e aggregano gli input attorno al modello."
+    },
+    "domain_data_science": {
+      "explanation": "È il carico di lavoro quotidiano centrale per l'analisi dei dati."
+    },
+    "domain_server_virt": {
+      "explanation": "I servizi di analisi eseguono queste query di continuo su server condivisi."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "ram_inmem_analytics",
+  "short_description": "Großer Hash-Join und Sortierung vollständig im Speicher gehalten.",
+  "description": "Baut große Hash-Tabellen auf und sortiert einen großen Datensatz vollständig im Speicher, so wie eine Analytik-Engine einen Join und ein Order-by über Daten handhabt, die nicht in den Cache passen. Die Arbeit ist bewusst durch das Speichersystem begrenzt statt durch Arithmetik, sodass sie widerspiegelt, wie schnell die Maschine große Daten bewegen und umorganisieren kann.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde verbundenen und sortierten Datensätze, angegeben als Operationen pro Sekunde.",
+  "value_interpretation": "„Höher ist besser.“ Eine höhere Rate bedeutet schnellere Joins und Sortierungen über große In-Memory-Daten, wo speichergebundene Analytik ihre Zeit verbringt.",
+  "reasoning": "Das Verbinden und Sortieren großer In-Memory-Datensätze ist eine der speichergebundensten realen Arbeitslasten überhaupt, weshalb es der richtige Realwelt-Test für das Speichersystem ist.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele führen kaum umfangreiche In-Memory-Analysen durch."
+    },
+    "domain_office": {
+      "explanation": "Große Tabellen und Pivot-Operationen sind kleinere Varianten dieser Arbeitslast."
+    },
+    "domain_software_development": {
+      "explanation": "Das Abfragen großer Logs und Traces im Arbeitsspeicher folgt demselben Muster."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designarbeit erfordert kaum In-Memory-Analysen."
+    },
+    "domain_video_editing": {
+      "explanation": "Bei der Videobearbeitung werden selten große Joins oder Sortierungen ausgeführt."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Szenen- und Asset-Verwaltung erfordert gelegentlich In-Memory-Sortierungen."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit erfordert kaum In-Memory-Analysen."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Sortieren und Abgleichen großer Ergebnismengen ist Teil der Simulations-Nachverarbeitung."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Das Umstrukturieren großer Arrays im Arbeitsspeicher ist zwischen Simulationsstufen üblich."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Mischen und Verknüpfen großer Feature-Tabellen im Arbeitsspeicher versorgt das Training."
+    },
+    "domain_ai_inference": {
+      "explanation": "Batch-Inferenz verknüpft Eingaben und Features im Arbeitsspeicher vor der Bewertung."
+    },
+    "domain_data_science": {
+      "explanation": "Große In-Memory-Joins und -Sortierungen bilden den Kern analytischer Arbeitslasten."
+    },
+    "domain_server_virt": {
+      "explanation": "In-Memory-Datendienste führen diese Joins und Sortierungen auf gemeinsam genutzten Servern kontinuierlich aus."
+    }
+  }
+}

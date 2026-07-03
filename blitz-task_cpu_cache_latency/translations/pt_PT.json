@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_cache_latency",
+  "short_description": "Tempo para obter um valor da cache de último nível do processador.",
+  "description": "Percorre uma cadeia de ponteiros dependentes através de uma região dimensionada para caber dentro da cache de último nível do processador, em que cada acesso espera pelo anterior. Como os dados nunca saem da cache, o resultado isola a rapidez com que o processador consegue servir um valor que está no chip mas não na cache mais pequena e mais rápida.",
+  "metric_explanation": "A latência é o tempo médio para concluir um acesso dependente à cache, indicado em nanossegundos.",
+  "value_interpretation": "Quanto menor, melhor. Uma baixa latência de cache mantém rápidos os ciclos internos apertados, uma vez que estes passam grande parte do tempo à espera de dados que residem na cache.",
+  "reasoning": "A maior parte do código quente trabalha sobre dados que cabem na cache em vez do nível mais pequeno ou da memória principal, pelo que a latência da cache no chip molda fortemente o desempenho real de núcleo único.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os ciclos de jogo apertados operam sobre dados residentes em cache, onde a latência de acesso determina os tempos de fotograma."
+    },
+    "domain_office": {
+      "explanation": "A capacidade de resposta interativa beneficia do acesso rápido à cache durante curtos picos de trabalho."
+    },
+    "domain_software_development": {
+      "explanation": "Os ciclos internos do compilador percorrem estruturas residentes em cache que são sensíveis à latência."
+    },
+    "domain_graphics_design": {
+      "explanation": "As operações de imagem por mosaico reutilizam dados mantidos em cache, onde a latência importa."
+    },
+    "domain_video_editing": {
+      "explanation": "Os codecs por blocos operam sobre dados residentes em cache durante o processamento."
+    },
+    "domain_3d_rendering": {
+      "explanation": "O percurso e o sombreamento reutilizam conjuntos de trabalho mantidos em cache sob pressão de latência."
+    },
+    "domain_audio_production": {
+      "explanation": "Os núcleos de áudio em tempo real correm sobre pequenos buffers residentes em cache, com prazos apertados."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os blocos internos do solver operam sobre mosaicos residentes em cache, onde a latência conta."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os núcleos numéricos por blocos são afinados em torno da cache e são sensíveis à sua latência."
+    },
+    "domain_ai_training": {
+      "explanation": "O trabalho de treino do lado do anfitrião é sobretudo de streaming, com pouca pressão de latência de cache."
+    },
+    "domain_ai_inference": {
+      "explanation": "Os ciclos de inferência no CPU reutilizam pesos mantidos em cache, onde a latência de acesso importa."
+    },
+    "domain_data_science": {
+      "explanation": "As tabelas de hash e os buffers de agrupamento que cabem em cache são sensíveis à latência."
+    },
+    "domain_server_virt": {
+      "explanation": "O trabalho por pedido sobre estado residente em cache é moldado pela latência da cache."
+    }
+  }
+}

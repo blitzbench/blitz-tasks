@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_fp_single",
+  "short_description": "Débit en virgule flottante sur un seul cœur à l'aide du calcul vectoriel.",
+  "description": "Exécute un flux dense de multiplications-additions fusionnées sur un seul thread en utilisant l'unité vectorielle la plus large que le processeur prend en charge. L'ensemble de travail reste dans les registres et le cache, de sorte que le score reflète la vitesse d'exécution en virgule flottante.",
+  "metric_explanation": "Le débit en virgule flottante est le nombre d'opérations en virgule flottante par seconde, exprimé en milliards, soit en GFLOPS.",
+  "value_interpretation": "Un nombre plus élevé signifie un calcul plus rapide sur un seul cœur. C'est ce qui détermine les parties du travail créatif et d'ingénierie qui s'exécutent avant qu'une tâche ne se répartisse sur de nombreux threads.",
+  "reasoning": "La vitesse en virgule flottante sur un seul cœur donne le rythme du travail numérique sensible à la latence et des parties séquentielles de tâches parallèles plus vastes.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Physique, animation et calculs de caméra s'exécutent en flottant sur le thread du jeu."
+    },
+    "domain_office": {
+      "explanation": "Les applications de productivité effectuent très peu de calcul flottant soutenu."
+    },
+    "domain_software_development": {
+      "explanation": "L'essentiel de la compilation est borné par l'entier, avec peu de flottant dans l'outillage."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les calculs colorimétriques et les ajustements par pixel exploitent le flottant sur le thread d'édition."
+    },
+    "domain_video_editing": {
+      "explanation": "L'étalonnage et la mise à l'échelle utilisent le flottant avant l'étape d'export parallèle."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les calculs d'ombrage et de géométrie sont gourmands en flottant, même dans la phase de préparation séquentielle."
+    },
+    "domain_audio_production": {
+      "explanation": "Les effets et la synthèse temps réel exécutent leur calcul flottant sur un seul thread."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les noyaux géométriques et les boucles internes des solveurs sont dominés par le calcul flottant."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les noyaux numériques sont bornés par le flottant avant même de s'étendre à de nombreux cœurs."
+    },
+    "domain_ai_training": {
+      "explanation": "Le calcul côté hôte assiste l'accélérateur, mais n'est pas la voie principale de l'entraînement."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence sur CPU repose sur le débit flottant pour le calcul matriciel."
+    },
+    "domain_data_science": {
+      "explanation": "Les colonnes statistiques et numériques utilisent le flottant durant l'analyse."
+    },
+    "domain_server_virt": {
+      "explanation": "Le travail serveur général est surtout borné par l'entier et les E/S, plutôt que par le flottant."
+    }
+  }
+}

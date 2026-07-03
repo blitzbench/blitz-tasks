@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_conv3d",
+  "short_description": "Débito de convolução tridimensional no processador gráfico.",
+  "description": "Executa convoluções tridimensionais repetidas sobre dados em forma de volume no processador gráfico, a operação usada para vídeo, imagiologia médica e modelos volumétricos. Acrescentar uma terceira dimensão torna o padrão de acesso muito mais pesado na memória do que o caso bidimensional, o que testa um limite diferente do hardware.",
+  "metric_explanation": "O débito é o número de operações por segundo realizadas durante as convoluções, em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Quanto maior, melhor. Um forte débito de convolução 3D acelera a compreensão de vídeo, a análise médica volumétrica e outros modelos que trabalham sobre o espaço e o tempo.",
+  "reasoning": "A convolução tridimensional é muito mais exigente do que a versão bidimensional e é central para os modelos de vídeo e volumétricos, pelo que merece um teste separado e mais difícil.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos raramente usam convolução tridimensional durante o jogo."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não faz uso de convolução volumétrica."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para os programadores que criam modelos de vídeo e volumétricos."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alguns efeitos volumétricos e de sequência usam convolução tridimensional."
+    },
+    "domain_video_editing": {
+      "explanation": "Os modelos de compreensão de vídeo que abrangem vários fotogramas usam convolução tridimensional."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os efeitos e a simulação volumétricos podem usar convolução tridimensional."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio raramente usa convolução volumétrica."
+    },
+    "domain_cad_engineering": {
+      "explanation": "A inspeção e a simulação volumétricas usam convolução tridimensional."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os dados científicos volumétricos e os métodos de stencil partilham este padrão."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino de modelos de vídeo e volumétricos depende da convolução tridimensional."
+    },
+    "domain_ai_inference": {
+      "explanation": "Correr modelos de vídeo e de imagiologia médica depende deste débito."
+    },
+    "domain_data_science": {
+      "explanation": "A análise sobre dados volumétricos e de séries temporais usa convolução tridimensional."
+    },
+    "domain_server_virt": {
+      "explanation": "Os serviços de inferência de vídeo e de imagem correm esta carga de trabalho em GPUs partilhadas."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_matmul",
+  "short_description": "Débit de multiplication matricielle en demi-précision à l'aide des unités tensorielles.",
+  "description": "Multiplie de grandes matrices en demi-précision sur le processeur graphique, en exploitant les unités tensorielles ou matricielles qu'offre le matériel moderne pour cette opération précise. La multiplication matricielle est la brique fondamentale de l'apprentissage automatique, et ce test maintient les unités saturées afin de déterminer leur débit maximal.",
+  "metric_explanation": "Le débit est le nombre d'opérations en demi-précision par seconde durant la multiplication, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. C'est le chiffre qui prédit le plus directement la vitesse d'entraînement et d'inférence, toutes deux dominées par la multiplication matricielle.",
+  "reasoning": "Les tests de calcul brut ne sollicitent pas les unités matricielles dédiées, alors que ce sont elles qui déterminent les performances réelles en apprentissage automatique ; un test structuré de multiplication matricielle est donc essentiel.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'upscaling et les effets appris font appel à la multiplication matricielle sur les unités tensorielles."
+    },
+    "domain_office": {
+      "explanation": "La bureautique utilise rarement les unités matricielles."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent pour les développeurs qui conçoivent des fonctionnalités de ML."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les outils de création génératifs et appris exécutent la multiplication matricielle."
+    },
+    "domain_video_editing": {
+      "explanation": "Les effets de ML des outils de montage reposent sur la multiplication matricielle."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les débruiteurs et upscalers appris utilisés au rendu font appel aux unités matricielles."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio fait peu appel aux unités matricielles du GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Certains solveurs accélérés et modèles de substitution reposent sur la multiplication matricielle dense."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'algèbre linéaire dense sur GPU repose sur la multiplication matricielle."
+    },
+    "domain_ai_training": {
+      "explanation": "Le débit d'entraînement est essentiellement le débit de multiplication matricielle."
+    },
+    "domain_ai_inference": {
+      "explanation": "La vitesse d'inférence est dominée par les multiplications matricielles au sein de chaque couche."
+    },
+    "domain_data_science": {
+      "explanation": "Le ML sur GPU appliqué à de grandes données repose sur la multiplication matricielle."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs d'accélérateurs partagés offrent le débit matriciel à de nombreux locataires de ML."
+    }
+  }
+}

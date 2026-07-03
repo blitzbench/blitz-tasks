@@ -1,0 +1,55 @@
+{
+  "lang": "pt_PT",
+  "domain_gaming": {
+    "name": "jogos",
+    "description": "Cargas de trabalho de gráficos 3D interativos em tempo real — motores de jogo limitados pela taxa de fotogramas, em pipelines de rasterização e de ray tracing."
+  },
+  "domain_office": {
+    "name": "escritório e produtividade",
+    "description": "Produtividade, navegação, correio eletrónico e fluxos de trabalho com documentos — sensíveis à latência, mas raramente limitados pelo débito."
+  },
+  "domain_software_development": {
+    "name": "desenvolvimento de software",
+    "description": "Edição de código, compilação, controlo de versões e ferramentas de programação — exigentes em débito de inteiros, I/O de ficheiros e muitas leituras pequenas."
+  },
+  "domain_graphics_design": {
+    "name": "gráficos e edição de fotografia",
+    "description": "Edição de imagem raster e pós-produção fotográfica — grandes buffers 2D, filtros acelerados por GPU e muitas operações interativas curtas."
+  },
+  "domain_video_editing": {
+    "name": "edição e codificação de vídeo",
+    "description": "Edição de vídeo, correção de cor e codificação — I/O sequencial sustentado, aliado a pipelines intensivos de codificação/descodificação acelerados por hardware."
+  },
+  "domain_3d_rendering": {
+    "name": "renderização 3D e animação",
+    "description": "Produção de conteúdos 3D offline — modelação, animação e renderização com ray tracing, dominadas pelo débito de vírgula flutuante do GPU e do CPU."
+  },
+  "domain_audio_production": {
+    "name": "produção de áudio e dsp",
+    "description": "Trabalho em DAW, mistura, instrumentos virtuais e DSP em tempo real — crítico em latência, limitado por thread único e sensível à latência de memória."
+  },
+  "domain_cad_engineering": {
+    "name": "cad e simulação de engenharia",
+    "description": "Modelação CAD e simulação de engenharia — solvers intensivos em FP64, visualização de malhas grandes e tarefas de cálculo prolongadas."
+  },
+  "domain_scientific_computing": {
+    "name": "computação científica e hpc",
+    "description": "Simulação numérica, HPC e cálculo científico — dominados por FP64 e por acessos a memória de grande largura de banda."
+  },
+  "domain_ai_training": {
+    "name": "treino de ai / ml",
+    "description": "Cargas de trabalho de treino de modelos — débito sustentado de multiplicação de matrizes no GPU/acelerador, grandes ativações em VRAM e alimentadores de elevada largura de banda no anfitrião."
+  },
+  "domain_ai_inference": {
+    "name": "inferência de ai (llm e difusão)",
+    "description": "Inferência local de LLM e de difusão — geração de tokens limitada pela largura de banda de memória e ciclos de remoção de ruído limitados pelo cálculo."
+  },
+  "domain_data_science": {
+    "name": "ciência de dados e análise",
+    "description": "Análise tabular, operações sobre dataframes e motores de consulta — agregação limitada pela largura de banda de memória sobre conjuntos de dados extensos."
+  },
+  "domain_server_virt": {
+    "name": "servidores e virtualização",
+    "description": "Cargas de trabalho multi-inquilino, densidade de contentores/VM e débito sustentado em segundo plano em muitos processos concorrentes."
+  }
+}

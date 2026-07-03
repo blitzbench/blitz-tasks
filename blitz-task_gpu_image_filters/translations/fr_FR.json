@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_image_filters",
+  "short_description": "Filtres photo empilés appliqués à des images haute résolution fournies.",
+  "description": "Applique une pile de filtres d'édition photo courants, tels que flou, netteté, réduction de bruit et ajustement des tons, à des images haute résolution fournies sur le processeur graphique. Les images et la chaîne de filtres sont fixes, correspondant au chemin accéléré qu'empruntent les outils de photo et de conception pour les retouches en direct.",
+  "metric_explanation": "Le score est le nombre d'images filtrées produites par minute, exprimé en éléments par minute.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un débit plus élevé signifie que les retouches et ajustements apparaissent quasi instantanément lorsqu'on travaille sur de grandes images.",
+  "reasoning": "Le filtrage accéléré sur de grandes images est la charge de travail qui rend les outils de photo et de conception réactifs ; elle représente donc bien l'édition graphique et photo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le post-traitement dans les jeux utilise un filtrage d'image similaire sur le GPU."
+    },
+    "domain_office": {
+      "explanation": "De légères retouches d'image apparaissent dans le travail documentaire courant."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent pour les développeurs de logiciels d'imagerie et de création."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le filtrage de grandes images est la charge de travail interactive centrale de la retouche photo et du graphisme."
+    },
+    "domain_video_editing": {
+      "explanation": "Les filtres appliqués image par image au montage vidéo réutilisent les mêmes opérations accélérées."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le compositing et le post-traitement des images rendues font appel aux filtres d'image."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio ne comporte aucun filtrage d'image."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le post-traitement des images de conception rendues fait appel à des filtres similaires."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La science fondée sur l'image applique les mêmes filtres de type convolution."
+    },
+    "domain_ai_training": {
+      "explanation": "L'augmentation d'images pour l'entraînement réutilise ces opérations de filtrage."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le pré-traitement et le post-traitement autour des modèles de vision font appel aux filtres d'image."
+    },
+    "domain_data_science": {
+      "explanation": "L'analytique d'images applique des filtres lors de la préparation."
+    },
+    "domain_server_virt": {
+      "explanation": "Les services de traitement d'image exécutent ces filtres à grande échelle sur des serveurs partagés."
+    }
+  }
+}

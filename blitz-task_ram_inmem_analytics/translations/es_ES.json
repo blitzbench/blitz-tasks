@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "ram_inmem_analytics",
+  "short_description": "Gran hash join y ordenación mantenidos por completo en memoria.",
+  "description": "Construye grandes tablas hash y ordena un gran conjunto de datos enteramente en memoria, tal y como un motor de analítica gestiona un join y un order by sobre datos que no caben en caché. El trabajo está deliberadamente limitado por el sistema de memoria y no por la aritmética, de modo que refleja la rapidez con la que la máquina puede mover y reorganizar grandes volúmenes de datos.",
+  "metric_explanation": "La puntuación es el número de registros unidos y ordenados por segundo, expresado como operaciones por segundo.",
+  "value_interpretation": "Cuanto más alto, mejor. Una tasa más alta significa joins y ordenaciones más rápidas sobre grandes datos en memoria, que es donde la analítica limitada por memoria invierte su tiempo.",
+  "reasoning": "Unir y ordenar grandes conjuntos de datos en memoria es una de las cargas reales más limitadas por la memoria que existen, lo que la convierte en la prueba del mundo real adecuada para el sistema de memoria.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos realizan poca analítica de gran tamaño en memoria."
+    },
+    "domain_office": {
+      "explanation": "Las hojas de cálculo grandes y las operaciones de tablas dinámicas son versiones reducidas de este trabajo."
+    },
+    "domain_software_development": {
+      "explanation": "Consultar grandes registros y trazas en memoria sigue el mismo patrón."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo de diseño conlleva poca analítica en memoria."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición rara vez ejecuta grandes uniones u ordenaciones."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La gestión de escenas y recursos implica algo de ordenación en memoria."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio realiza poca analítica en memoria."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ordenar y emparejar grandes conjuntos de resultados forma parte del posprocesado de la simulación."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Reorganizar grandes arrays en memoria es habitual entre las etapas de simulación."
+    },
+    "domain_ai_training": {
+      "explanation": "Barajar y unir grandes tablas de características en memoria alimenta el entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia por lotes une entradas y características en memoria antes de la puntuación."
+    },
+    "domain_data_science": {
+      "explanation": "Las grandes uniones y ordenaciones en memoria son el núcleo de las cargas de trabajo de analítica."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servicios de datos en memoria ejecutan estas uniones y ordenaciones de forma continua en servidores compartidos."
+    }
+  }
+}

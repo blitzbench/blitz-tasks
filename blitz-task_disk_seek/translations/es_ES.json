@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "disk_seek",
+  "short_description": "Tiempo para completar una única lectura aleatoria pequeña desde el almacenamiento.",
+  "description": "Emite lecturas pequeñas a posiciones aleatorias de una en una, esperando a que cada una termine antes de iniciar la siguiente. Sin solapamiento que oculte la demora, la prueba expone el tiempo real que tarda el almacenamiento en atender una única solicitud dispersa.",
+  "metric_explanation": "La puntuación es el tiempo medio para completar un acceso aleatorio, expresado en microsegundos.",
+  "value_interpretation": "Cuanto más bajo, mejor. Una latencia de acceso baja mantiene la sensación de instantaneidad del sistema, ya que muchas esperas cortas se acumulan a lo largo del uso diario.",
+  "reasoning": "El rendimiento se oculta tras las colas de solicitudes, pero la latencia de acceso individual es lo que el usuario percibe realmente cuando una aplicación o un archivo responde, por lo que complementa la prueba de lectura aleatoria.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los tirones durante el streaming de recursos suelen deberse a la latencia de acceso."
+    },
+    "domain_office": {
+      "explanation": "La capacidad de respuesta diaria depende de la rapidez con la que responden los archivos pequeños."
+    },
+    "domain_software_development": {
+      "explanation": "Las herramientas que consultan y abren muchos archivos pequeños son sensibles a la latencia de acceso."
+    },
+    "domain_graphics_design": {
+      "explanation": "Cargar recursos pequeños y vistas previas se beneficia de una latencia baja."
+    },
+    "domain_video_editing": {
+      "explanation": "La reproducción multimedia depende más del rendimiento que de la latencia."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Reunir muchos archivos pequeños de recursos se ve afectado por la latencia de acceso."
+    },
+    "domain_audio_production": {
+      "explanation": "Activar samples bajo demanda necesita una latencia de almacenamiento baja para evitar cortes."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Abrir proyectos formados por muchas referencias pequeñas es sensible a la latencia."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El acceso aleatorio a archivos de datos grandes está limitado por la latencia."
+    },
+    "domain_ai_training": {
+      "explanation": "El acceso aleatorio a registros durante la mezcla se ve afectado por la latencia."
+    },
+    "domain_ai_inference": {
+      "explanation": "Cargar partes del modelo bajo demanda depende de la latencia del almacenamiento."
+    },
+    "domain_data_science": {
+      "explanation": "Las búsquedas puntuales en almacenes grandes están limitadas por la latencia."
+    },
+    "domain_server_virt": {
+      "explanation": "Los tiempos de respuesta de las bases de datos están estrechamente ligados a la latencia de acceso al almacenamiento."
+    }
+  }
+}

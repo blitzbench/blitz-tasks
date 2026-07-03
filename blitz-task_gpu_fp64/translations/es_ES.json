@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_fp64",
+  "short_description": "Rendimiento en coma flotante de doble precisión en el procesador gráfico.",
+  "description": "Ejecuta un kernel de cálculo denso de doble precisión en el procesador gráfico, manteniendo ocupadas las unidades de doble precisión con operaciones de multiplicación-suma fusionada. Muchas GPU de consumo ejecutan la doble precisión mucho más lentamente que la simple, por lo que esta prueba distingue el hardware diseñado para trabajo científico del que no lo está.",
+  "metric_explanation": "El rendimiento es el número de operaciones de doble precisión por segundo, en miles de millones, expresado en GFLOPS.",
+  "value_interpretation": "Cuanto más alto, mejor. La diferencia respecto al resultado de precisión simple muestra cuánta velocidad de doble precisión sacrifica el hardware, algo que puede ser notable en GPU orientadas a juegos.",
+  "reasoning": "Los códigos de ingeniería y científicos que necesitan doble precisión dependen de esta capacidad, que varía enormemente entre GPU, por lo que merece su propia medición.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos apenas hacen uso del cálculo en precisión doble."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática no tiene ningún componente de GPU en precisión doble."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para desarrolladores de software científico para GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo de diseño utiliza matemáticas de precisión simple en lugar de precisión doble."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición no utiliza cómputo en GPU de precisión doble."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Algunas simulaciones de alta exactitud para animación requieren precisión doble."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio no utiliza matemáticas de precisión doble en la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulación de ingeniería suele requerir la exactitud de la precisión doble en la GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El rendimiento de precisión doble en la GPU es un requisito determinante para muchos códigos científicos."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento utiliza principalmente precisión reducida en lugar de precisión doble."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia rara vez utiliza matemáticas de precisión doble."
+    },
+    "domain_data_science": {
+      "explanation": "Los métodos numéricos de alta exactitud necesitan ocasionalmente precisión doble en la GPU."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de cómputo científico exponen la capacidad de precisión doble a sus usuarios."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_audio_dsp",
+  "short_description": "Graphe d'effets audio en temps réel avec de nombreuses voix et greffons.",
+  "description": "Exécute une session audio chargée sous la forme d'un graphe unique en temps réel, où de nombreuses voix simultanées traversent des filtres, de la réverbération et de la convolution. Le traitement est maintenu sur un seul thread pour reproduire la manière dont l'audio en direct est géré, chaque bloc devant s'achever avant l'échéance du suivant.",
+  "metric_explanation": "Le score correspond au nombre de blocs de traitement audio traités par seconde, exprimé en opérations par seconde, ce qui reflète le nombre de voix et d'effets pouvant s'exécuter sans coupure.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un nombre plus élevé signifie que davantage de pistes et de greffons peuvent être lus simultanément à faible latence avant que l'audio ne se dégrade.",
+  "reasoning": "L'audio en direct dépend entièrement d'une performance régulière sur un seul thread soumis à une échéance stricte ; cette mesure représente donc la production musicale et audio mieux que n'importe quelle moyenne de débit.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le mixage audio et les effets spatiaux d'un jeu s'exécutent sur un thread temps réel, en parallèle du moteur."
+    },
+    "domain_office": {
+      "explanation": "La bureautique se limite à une lecture audio simple, sans traitement lourd."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs exécutent rarement des graphes audio temps réel dans leur travail."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail sur images fixes n'a que peu de rapport avec le traitement audio."
+    },
+    "domain_video_editing": {
+      "explanation": "Les monteurs appliquent effets audio et mixage en parallèle du montage vidéo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le rendu hors ligne ne dépend pas de l'audio temps réel."
+    },
+    "domain_audio_production": {
+      "explanation": "C'est la charge de travail quotidienne fondamentale des professionnels de la musique et de l'audio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le travail d'ingénierie ne comporte aucune composante audio significative."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La recherche en traitement du signal partage les mêmes noyaux de filtrage et de transformation."
+    },
+    "domain_ai_training": {
+      "explanation": "L'extraction de caractéristiques audio pour l'entraînement réutilise ces étapes d'effets et de transformation."
+    },
+    "domain_ai_inference": {
+      "explanation": "Les modèles audio temps réel effectuent leur prétraitement au travers de chaînes DSP similaires."
+    },
+    "domain_data_science": {
+      "explanation": "L'audio n'est qu'un type de données de niche au sein de l'analytique générale."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs exécutent rarement des graphes audio soumis à des contraintes de latence."
+    }
+  }
+}

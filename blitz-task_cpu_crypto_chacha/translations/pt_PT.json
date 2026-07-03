@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_crypto_chacha",
+  "short_description": "Débito de encriptação autenticada ChaCha20-Poly1305 em todos os núcleos.",
+  "description": "Encripta e autentica um buffer com ChaCha20-Poly1305 repetidamente em todos os núcleos. Esta cifra é construída a partir de aritmética simples em vez de instruções dedicadas, pelo que mostra como um processador lida com tráfego seguro quando não há aceleração de cifra por hardware em jogo, o que é comum em hardware mais leve e móvel.",
+  "metric_explanation": "O débito é o número de bytes encriptados e autenticados por segundo, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. A diferença em relação ao resultado AES mostra o quanto uma máquina depende de instruções de cifra dedicadas face à aritmética geral.",
+  "reasoning": "O ChaCha20-Poly1305 é amplamente usado em ligações seguras, especialmente onde o AES por hardware é fraco ou inexistente, pelo que captura um lado diferente e importante do desempenho criptográfico.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos usam cifragem autenticada sobretudo para o tráfego de rede."
+    },
+    "domain_office": {
+      "explanation": "A navegação e as mensagens seguras correm frequentemente sobre esta cifra."
+    },
+    "domain_software_development": {
+      "explanation": "As transferências e os túneis seguros negoceiam frequentemente esta cifra."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho de design recorre à cifragem autenticada apenas ao sincronizar."
+    },
+    "domain_video_editing": {
+      "explanation": "A entrega segura de conteúdos usa por vezes esta cifra."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A renderização quase não faz trabalho de cifragem."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio usa cifragem apenas para transferências."
+    },
+    "domain_cad_engineering": {
+      "explanation": "O trabalho de engenharia cifra sobretudo ao proteger ficheiros em trânsito."
+    },
+    "domain_scientific_computing": {
+      "explanation": "As ligações seguras entre nós podem usar esta cifra para a movimentação de dados."
+    },
+    "domain_ai_training": {
+      "explanation": "Os pipelines de treino passam pouco tempo em cifragem de transporte."
+    },
+    "domain_ai_inference": {
+      "explanation": "Servir através de ligações seguras usa cifragem autenticada a cada pedido."
+    },
+    "domain_data_science": {
+      "explanation": "Obter dados através de ligações seguras corre esta cifra."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores terminam muitas ligações seguras, frequentemente sobre esta cifra para clientes sem AES por hardware."
+    }
+  }
+}

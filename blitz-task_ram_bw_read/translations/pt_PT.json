@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "ram_bw_read",
+  "short_description": "Largura de banda de leitura sustentada da memória principal.",
+  "description": "Lê grandes arrays da memória principal em todos os núcleos, usando um conjunto de trabalho muito maior do que as caches do processador, de modo que quase todos os acessos chegam aos chips de memória. O padrão é apenas de leitura, o que isola a rapidez com que o sistema consegue puxar dados da memória.",
+  "metric_explanation": "A largura de banda é o número de bytes lidos da memória por segundo, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. A largura de banda de leitura define o teto para qualquer carga de trabalho que consome mais dados do que produz, o que abrange a maioria das tarefas de varrimento e análise.",
+  "reasoning": "A leitura é o padrão de acesso à memória mais comum, pelo que a largura de banda de leitura é o valor principal para o trabalho com muitos dados que faz streaming de entradas através dos núcleos.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Transferir texturas e dados do mundo para os núcleos mantém a largura de banda de leitura sob procura."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório lê volumes moderados de dados da memória."
+    },
+    "domain_software_development": {
+      "explanation": "As compilações grandes e as etapas de ligação leem volumes significativos de dados da memória."
+    },
+    "domain_graphics_design": {
+      "explanation": "Ler grandes buffers de imagem durante as edições é limitado pela largura de banda de leitura."
+    },
+    "domain_video_editing": {
+      "explanation": "Ler fotogramas de alta resolução para reprodução e efeitos recorre intensamente à largura de banda de leitura."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Ler grandes cenas e texturas mantém a memória ocupada durante a renderização."
+    },
+    "domain_audio_production": {
+      "explanation": "Transferir grandes bibliotecas de amostras lê continuamente a partir da memória."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ler grandes malhas e campos de resultados é limitado pela largura de banda de leitura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os kernels numéricos são muitas vezes limitados pela rapidez com que os dados de entrada são lidos da memória."
+    },
+    "domain_ai_training": {
+      "explanation": "Ler parâmetros e dados para alimentar o acelerador depende da largura de banda de leitura."
+    },
+    "domain_ai_inference": {
+      "explanation": "A velocidade de inferência em CPU é determinada em grande parte pela rapidez com que os pesos são lidos da memória."
+    },
+    "domain_data_science": {
+      "explanation": "Percorrer tabelas largas é dominado pela largura de banda de leitura."
+    },
+    "domain_server_virt": {
+      "explanation": "Muitos processos concorrentes competem pela largura de banda de leitura da memória partilhada."
+    }
+  }
+}

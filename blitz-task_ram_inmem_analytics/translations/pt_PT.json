@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "ram_inmem_analytics",
+  "short_description": "Grande hash join e ordenação mantidos inteiramente em memória.",
+  "description": "Constrói grandes tabelas de hash e ordena um grande conjunto de dados inteiramente em memória, da forma como um motor de análise trata uma junção e uma ordenação sobre dados que não cabem na cache. O trabalho é deliberadamente limitado pelo sistema de memória em vez da aritmética, pelo que reflete a rapidez com que a máquina consegue mover e reorganizar grandes volumes de dados.",
+  "metric_explanation": "A pontuação é o número de registos juntados e ordenados por segundo, indicado como operações por segundo.",
+  "value_interpretation": "Quanto maior, melhor. Uma taxa mais elevada significa junções e ordenações mais rápidas sobre grandes dados em memória, que é onde a análise limitada pela memória passa o seu tempo.",
+  "reasoning": "Juntar e ordenar grandes conjuntos de dados em memória é uma das cargas de trabalho reais mais limitadas pela memória que existem, o que faz dela o teste de mundo real certo para o sistema de memória.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos fazem pouca análise de grandes volumes em memória."
+    },
+    "domain_office": {
+      "explanation": "As grandes folhas de cálculo e as operações de tabela dinâmica são versões mais reduzidas deste trabalho."
+    },
+    "domain_software_development": {
+      "explanation": "Consultar grandes registos e rastreios em memória segue o mesmo padrão."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho de design envolve pouca análise em memória."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição raramente executa grandes junções ou ordenações."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A gestão de cenas e recursos recorre a alguma ordenação em memória."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio tem pouca análise em memória."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ordenar e corresponder grandes conjuntos de resultados faz parte do pós-processamento de simulação."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Reorganizar grandes matrizes em memória é comum entre as fases de simulação."
+    },
+    "domain_ai_training": {
+      "explanation": "Baralhar e juntar grandes tabelas de características em memória alimenta o treino."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência em lote junta entradas e características em memória antes de pontuar."
+    },
+    "domain_data_science": {
+      "explanation": "As grandes junções e ordenações em memória são o núcleo das cargas de trabalho analíticas."
+    },
+    "domain_server_virt": {
+      "explanation": "Os serviços de dados em memória executam continuamente estas junções e ordenações em servidores partilhados."
+    }
+  }
+}

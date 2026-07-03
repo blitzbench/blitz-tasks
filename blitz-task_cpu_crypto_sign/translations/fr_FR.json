@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_crypto_sign",
+  "short_description": "Débit de signature et de vérification Ed25519.",
+  "description": "Crée et vérifie des signatures Ed25519 sur de petits messages aussi vite que le processeur le permet, sur tous les cœurs. Contrairement au chiffrement en masse, il s'agit de nombreuses petites opérations indépendantes, chacune dominée par de l'arithmétique sur de grands nombres, ce qui correspond à la manière dont l'authentification et les poignées de main sécurisées sollicitent réellement une machine.",
+  "metric_explanation": "Le débit est le nombre d'opérations de signature et de vérification effectuées par seconde, exprimé en opérations par seconde.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un débit plus élevé signifie que davantage de requêtes et de connexions authentifiées peuvent être traitées dans le même temps.",
+  "reasoning": "Les opérations de signature se situent sur le chemin critique des poignées de main sécurisées, des jetons et de l'authentification des requêtes, soit exactement le type de travail que ce serveur effectue pour les sessions et les installations.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux ne vérifient des signatures qu'à l'occasion, pour les mises à jour et les licences."
+    },
+    "domain_office": {
+      "explanation": "Connexions et documents signés font vérifier des signatures en coulisses."
+    },
+    "domain_software_development": {
+      "explanation": "Commits, paquets et jetons signés sont vérifiés en permanence en développement."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail de conception effectue rarement des opérations de signature en direct."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage implique peu d'opérations de signature."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le rendu n'effectue presque aucun travail de signature."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio effectue rarement des opérations de signature."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Approbations signées et licences font vérifier des signatures dans les outils d'ingénierie."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'accès authentifié aux grappes et aux données fait vérifier des signatures."
+    },
+    "domain_ai_training": {
+      "explanation": "L'accès authentifié aux données et aux ressources de calcul fait appel aux signatures."
+    },
+    "domain_ai_inference": {
+      "explanation": "Authentifier chaque requête vers un service de modèle repose sur le débit de signature."
+    },
+    "domain_data_science": {
+      "explanation": "L'accès authentifié aux sources de données fait vérifier des signatures."
+    },
+    "domain_server_virt": {
+      "explanation": "Poignées de main sécurisées et authentification des requêtes font de la signature une charge serveur essentielle."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_crypto_sha",
+  "short_description": "Débit de hachage SHA-256 sur tous les cœurs.",
+  "description": "Hache un tampon avec SHA-256 de façon répétée sur tous les cœurs, en exploitant les instructions de hachage dédiées du processeur lorsqu'elles sont disponibles. Le tampon reste en mémoire, de sorte que le score reflète la vitesse de la fonction de hachage plutôt que celle du stockage.",
+  "metric_explanation": "Le débit est le nombre d'octets hachés par seconde, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Les processeurs dotés d'un support matériel du hachage prennent une avance nette sur ceux qui en sont dépourvus.",
+  "reasoning": "Le hachage sous-tend les contrôles d'intégrité, les signatures, la gestion de versions et les sommes de contrôle du stockage, ce qui fait de son débit un indicateur de capacité largement utile.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Vérifier les fichiers de jeu téléchargés et corrigés soumet de gros volumes de données au hachage."
+    },
+    "domain_office": {
+      "explanation": "Contrôles d'intégrité et connexions sécurisées hachent les données en coulisses."
+    },
+    "domain_software_development": {
+      "explanation": "Gestion de versions, vérification des paquets et caches de compilation hachent des fichiers sans relâche."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail de conception ne hache les données qu'à l'enregistrement et à la synchronisation."
+    },
+    "domain_video_editing": {
+      "explanation": "Vérifier les transferts de médias volumineux repose sur le hachage."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les chaînes de production d'assets hachent les fichiers pour détecter les changements et vérifier les transferts."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio hache surtout les données lors des transferts de fichiers."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les systèmes de gestion de données hachent les fichiers de pièces pour en suivre les versions."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Vérifier de vastes jeux de données et résultats fait un usage intensif du hachage."
+    },
+    "domain_ai_training": {
+      "explanation": "Dédupliquer et vérifier de vastes jeux de données d'entraînement repose sur le hachage."
+    },
+    "domain_ai_inference": {
+      "explanation": "Valider les fichiers de modèle et les entrées fait appel au hachage."
+    },
+    "domain_data_science": {
+      "explanation": "Joindre, dédupliquer et vérifier des jeux de données sollicite souvent le hachage."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs hachent en continu pour l'intégrité du stockage, la mise en cache et la sécurité."
+    }
+  }
+}

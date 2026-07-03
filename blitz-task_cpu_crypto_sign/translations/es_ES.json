@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_crypto_sign",
+  "short_description": "Rendimiento de firma y verificación Ed25519.",
+  "description": "Crea y verifica firmas Ed25519 sobre mensajes pequeños tan rápido como lo permita el procesador, en todos los núcleos. A diferencia del cifrado masivo, se trata de muchas operaciones pequeñas e independientes, cada una dominada por aritmética sobre números grandes, que es como la autenticación y los handshakes seguros cargan realmente una máquina.",
+  "metric_explanation": "El rendimiento es el número de operaciones de firma y verificación completadas por segundo, expresado como operaciones por segundo.",
+  "value_interpretation": "Cuanto más alto, mejor. Una tasa más alta significa que pueden atenderse más solicitudes y conexiones autenticadas en el mismo tiempo.",
+  "reasoning": "Las operaciones de firma están en la ruta crítica de los handshakes seguros, los tokens y la autenticación de solicitudes, que es exactamente el tipo de trabajo que este servidor realiza para las sesiones y las instalaciones.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos verifican firmas solo ocasionalmente, para actualizaciones y licencias."
+    },
+    "domain_office": {
+      "explanation": "Las conexiones y los documentos firmados verifican firmas en segundo plano."
+    },
+    "domain_software_development": {
+      "explanation": "Los commits, paquetes y tokens firmados se verifican constantemente durante el desarrollo."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo de diseño rara vez realiza operaciones de firma de forma directa."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición implica pocas operaciones de firma."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El renderizado apenas realiza trabajo de firma."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio rara vez realiza operaciones de firma."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Las aprobaciones firmadas y las licencias verifican firmas en las herramientas de ingeniería."
+    },
+    "domain_scientific_computing": {
+      "explanation": "El acceso autenticado a clústeres y datos verifica firmas."
+    },
+    "domain_ai_training": {
+      "explanation": "El acceso autenticado a los datos y al cómputo utiliza firmas."
+    },
+    "domain_ai_inference": {
+      "explanation": "Autenticar cada petición a un servicio de modelo depende del rendimiento de firma."
+    },
+    "domain_data_science": {
+      "explanation": "El acceso autenticado a las fuentes de datos verifica firmas."
+    },
+    "domain_server_virt": {
+      "explanation": "Los apretones de manos seguros y la autenticación de peticiones convierten la firma en una carga de trabajo fundamental del servidor."
+    }
+  }
+}

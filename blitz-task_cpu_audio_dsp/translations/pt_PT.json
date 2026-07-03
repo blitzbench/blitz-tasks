@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_audio_dsp",
+  "short_description": "Grafo de efeitos de áudio em tempo real com muitas vozes e plugins.",
+  "description": "Executa uma sessão de áudio intensa como um único grafo em tempo real, com muitas vozes em simultâneo a passar por filtros, reverb e convolução. O trabalho é mantido numa única thread de processamento para corresponder à forma como o áudio ao vivo é tratado, em que cada bloco tem de terminar antes de o seguinte ficar devido.",
+  "metric_explanation": "A pontuação é o número de blocos de processamento de áudio concluídos por segundo, indicado como operações por segundo, o que reflete quantas vozes e efeitos podem ser executados sem falhas.",
+  "value_interpretation": "Quanto maior, melhor. Um número mais elevado significa que mais faixas e plugins podem tocar ao mesmo tempo com baixa latência antes de o áudio começar a falhar.",
+  "reasoning": "O áudio ao vivo depende inteiramente de um desempenho estável em thread único sob um prazo rígido, pelo que isto representa a produção de música e áudio melhor do que qualquer média de débito.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "A mistura de áudio dos jogos e os efeitos espaciais correm num thread em tempo real, a par do motor."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório envolve apenas reprodução básica, não processamento de áudio pesado."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores raramente correm grafos de áudio em tempo real no seu trabalho."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho com imagem estática pouco tem a ver com o processamento de áudio."
+    },
+    "domain_video_editing": {
+      "explanation": "Os editores correm efeitos e mistura de áudio em paralelo com a linha temporal de vídeo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A renderização offline não depende de áudio em tempo real."
+    },
+    "domain_audio_production": {
+      "explanation": "Esta é a carga de trabalho central do dia a dia dos profissionais de música e áudio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "O trabalho de engenharia não tem uma componente significativa de processamento de áudio."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A investigação em processamento de sinal partilha os mesmos núcleos de filtragem e transformação."
+    },
+    "domain_ai_training": {
+      "explanation": "A extração de características de áudio para treino reutiliza estas fases de efeitos e transformação."
+    },
+    "domain_ai_inference": {
+      "explanation": "Os modelos de áudio em tempo real fazem o pré-processamento através de cadeias de DSP semelhantes."
+    },
+    "domain_data_science": {
+      "explanation": "O áudio é um tipo de dados de nicho dentro da análise geral."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores raramente correm grafos de áudio limitados pela latência."
+    }
+  }
+}

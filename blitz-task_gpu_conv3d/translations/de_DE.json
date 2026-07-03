@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_conv3d",
+  "short_description": "Durchsatz für dreidimensionale Faltung auf dem Grafikprozessor.",
+  "description": "Führt wiederholte dreidimensionale Faltungen über volumenförmige Daten auf dem Grafikprozessor aus, die Operation, die für Video, medizinische Bildgebung und volumetrische Modelle verwendet wird. Das Hinzufügen einer dritten Dimension macht das Zugriffsmuster weit speicherintensiver als der zweidimensionale Fall, was eine andere Grenze der Hardware testet.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der während der Faltungen ausgeführten Operationen pro Sekunde, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "„Höher ist besser.“ Ein starker Durchsatz bei der 3D-Faltung beschleunigt Videoverständnis, volumetrische medizinische Analyse und andere Modelle, die über Raum und Zeit arbeiten.",
+  "reasoning": "Die dreidimensionale Faltung ist weit anspruchsvoller als die zweidimensionale Variante und für Video- und volumetrische Modelle zentral, weshalb sie einen eigenen, härteren Test verdient.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele nutzen dreidimensionale Faltung während des Spielens selten."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit nutzt volumetrische Faltung nicht."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant für Entwickler von Video- und Volumenmodellen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Einige volumetrische Effekte und Sequenzeffekte nutzen dreidimensionale Faltung."
+    },
+    "domain_video_editing": {
+      "explanation": "Videoanalyse-Modelle, die mehrere Frames einbeziehen, nutzen dreidimensionale Faltung."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Volumetrische Effekte und Simulationen können dreidimensionale Faltung einsetzen."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion nutzt volumetrische Faltung selten."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Volumetrische Prüfung und Simulation nutzen dreidimensionale Faltung."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Volumetrische wissenschaftliche Daten und Stencil-Methoden teilen dieses Faltungsmuster."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Training von Video- und Volumenmodellen stützt sich auf dreidimensionale Faltung."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Ausführen von Video- und medizinischen Bildgebungsmodellen hängt von diesem Durchsatz ab."
+    },
+    "domain_data_science": {
+      "explanation": "Analytik über volumetrische und Zeitreihendaten nutzt dreidimensionale Faltung."
+    },
+    "domain_server_virt": {
+      "explanation": "Video- und Bildgebungs-Inferenzdienste führen diese Arbeitslast auf gemeinsam genutzten GPUs aus."
+    }
+  }
+}

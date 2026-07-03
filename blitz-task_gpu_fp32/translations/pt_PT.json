@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_fp32",
+  "short_description": "Débito de vírgula flutuante de precisão simples no processador gráfico.",
+  "description": "Executa um kernel de computação denso de precisão simples no processador gráfico, mantendo todas as unidades de sombreamento ocupadas com trabalho de fused multiply add. Os dados permanecem na memória rápida no chip, pelo que o resultado reflete o poder de computação puro em vez da transferência de memória.",
+  "metric_explanation": "O débito é o número de operações de precisão simples por segundo, em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Quanto maior, melhor. Este é o valor de computação principal que escala com a maioria das cargas de trabalho gráficas e gerais de GPU.",
+  "reasoning": "O débito de precisão simples é a medida mais ampla do poder da GPU e sustenta os jogos, a renderização e a maior parte do trabalho acelerado, pelo que ancora o conjunto sintético de GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "O sombreamento e os efeitos nos jogos modernos dependem diretamente do débito da GPU em precisão simples."
+    },
+    "domain_office": {
+      "explanation": "O ambiente de trabalho e a aceleração básica usam uma pequena fração da computação da GPU."
+    },
+    "domain_software_development": {
+      "explanation": "A maior parte do desenvolvimento é limitada pelo CPU, com pouco uso da computação da GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Os filtros acelerados e as operações em canvas grandes funcionam como trabalho de GPU em precisão simples."
+    },
+    "domain_video_editing": {
+      "explanation": "Os efeitos, as transições e as pré-visualizações são calculados na GPU em precisão simples."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A renderização na GPU e o trabalho de viewport são dominados pelo débito em precisão simples."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio faz pouco uso da GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os viewports de modelos grandes e alguns solvers correm na GPU em precisão simples."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Muitas simulações aceleradas usam computação da GPU em precisão simples."
+    },
+    "domain_ai_training": {
+      "explanation": "O débito em precisão simples estabelece um limite para o cálculo de treino acelerado."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência acelerada apoia-se fortemente na computação em precisão simples."
+    },
+    "domain_data_science": {
+      "explanation": "A análise acelerada por GPU usa o débito em precisão simples sobre grandes arrays."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de GPU partilhados expõem esta computação a muitos inquilinos."
+    }
+  }
+}

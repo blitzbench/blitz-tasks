@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_compile",
+  "short_description": "Tiempo para compilar desde cero un árbol fijo de código fuente C y C++.",
+  "description": "Compila desde cero un proyecto de C y C++ de tamaño medio incluido, utilizando todos los núcleos disponibles. Se emplean las mismas fuentes, opciones del compilador y nivel de paralelismo en cada máquina, de modo que la única variable es el procesador. El conjunto de herramientas incluido mantiene la carga de trabajo idéntica con independencia de lo que esté instalado localmente.",
+  "metric_explanation": "La puntuación es el tiempo de reloj para terminar la compilación desde cero hasta el final, expresado en segundos.",
+  "value_interpretation": "Cuanto más bajo, mejor. Un tiempo más corto significa menos espera entre cambios de código, que es la realidad diaria del trabajo de software.",
+  "reasoning": "La compilación combina un intenso trabajo paralelo de enteros con ráfagas de accesos a archivos, que es exactamente en lo que las máquinas de los desarrolladores invierten su tiempo, por lo que es la prueba principal del desarrollo de software.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La velocidad de compilación importa a los desarrolladores de motores, pero no a quienes solo juegan."
+    },
+    "domain_office": {
+      "explanation": "Los usuarios de ofimática casi nunca compilan software."
+    },
+    "domain_software_development": {
+      "explanation": "El tiempo de compilación es la cifra de rendimiento que más se nota en el desarrollo diario."
+    },
+    "domain_graphics_design": {
+      "explanation": "Los diseñadores rara vez ejecutan cargas de trabajo de compilación."
+    },
+    "domain_video_editing": {
+      "explanation": "Las suites de edición se utilizan tal como vienen instaladas, en lugar de compilarse en local."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los artistas técnicos a veces compilan herramientas y plugins, pero el renderizado domina su tiempo."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio rara vez implica compilar código."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los ingenieros que crean solucionadores y scripts a medida se benefician de compilaciones rápidas."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los códigos de investigación se recompilan a menudo, por lo que la velocidad de compilación marca el ciclo de trabajo."
+    },
+    "domain_ai_training": {
+      "explanation": "Compilar frameworks y núcleos a medida forma parte de la preparación de los entornos de entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "Compilar y empaquetar entornos de ejecución de inferencia es una tarea recurrente en el despliegue."
+    },
+    "domain_data_science": {
+      "explanation": "La mayoría del análisis se realiza mediante scripts, con compilaciones ocasionales de extensiones nativas."
+    },
+    "domain_server_virt": {
+      "explanation": "Compilar imágenes y servicios a partir del código fuente es habitual en las canalizaciones de servidor."
+    }
+  }
+}

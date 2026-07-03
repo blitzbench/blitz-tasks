@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_cad_solver",
+  "short_description": "Resolução de elementos finitos esparsos sobre um modelo de engenharia fixo.",
+  "description": "Resolve um modelo de elementos finitos incluído tal como o fazem as ferramentas de simulação de engenharia, montando um grande sistema esparso e executando um resolvedor iterativo até à convergência em todos os núcleos. O modelo e as tolerâncias são fixos, de modo a que os resultados se comparem diretamente entre máquinas.",
+  "metric_explanation": "A pontuação é o número de iterações do resolvedor concluídas por segundo, indicado como operações por segundo, o que reflete a rapidez com que a simulação chega a uma resposta.",
+  "value_interpretation": "Quanto maior, melhor. Mais iterações por segundo significam ciclos de projeto mais rápidos, uma vez que os engenheiros esperam por estas resoluções entre cada alteração.",
+  "reasoning": "Os resolvedores esparsos exigem muito do acesso irregular à memória e da matemática de precisão dupla no padrão que as ferramentas reais de CAD e engenharia usam, pelo que isto reflete o desempenho de simulação muito melhor do que um teste de débito limpo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "A física dos jogos partilha a ideia do solver iterativo, ainda que com precisão muito menor."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não tem componente de simulação."
+    },
+    "domain_software_development": {
+      "explanation": "Apenas os programadores de ferramentas de simulação enfrentam este tipo de carga."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho de design não corre solvers de engenharia."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição não tem qualquer relação com a resolução numérica."
+    },
+    "domain_3d_rendering": {
+      "explanation": "As simulações de tecido, fluidos e corpos deformáveis usam solvers esparsos relacionados."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não envolve resolução por elementos finitos."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Esta é a carga de trabalho pesada que define a CAD e a simulação de engenharia."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os solvers iterativos esparsos são centrais numa grande parte dos códigos científicos."
+    },
+    "domain_ai_training": {
+      "explanation": "Algum treino informado por física reutiliza núcleos do estilo de solver."
+    },
+    "domain_ai_inference": {
+      "explanation": "Os substitutos de simulação combinam ocasionalmente a inferência de modelos com passos de solver."
+    },
+    "domain_data_science": {
+      "explanation": "Os métodos de otimização e de grafos partilham alguma álgebra linear esparsa."
+    },
+    "domain_server_virt": {
+      "explanation": "Os trabalhos de simulação correm em servidores, mas não são uma carga de trabalho geral de servidor."
+    }
+  }
+}

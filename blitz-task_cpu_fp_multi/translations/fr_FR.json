@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_fp_multi",
+  "short_description": "Débit en virgule flottante avec chaque cœur exécutant du calcul vectoriel.",
+  "description": "Exécute le même flux de multiplications-additions fusionnées que le test en virgule flottante sur un seul cœur, mais sur chaque cœur et thread matériel disponible à la fois. Le résultat montre le débit de calcul soutenu maximal de l'ensemble du processeur.",
+  "metric_explanation": "Le débit en virgule flottante est le total des opérations par seconde sur tous les cœurs, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Un nombre plus élevé signifie un débit de calcul total supérieur. La comparaison avec le résultat sur un seul cœur montre à quel point le travail en virgule flottante s'adapte au nombre de cœurs.",
+  "reasoning": "Le débit en virgule flottante sur tous les cœurs reflète le plafond des tâches numériques intensives telles que la simulation, le rendu et le travail de modèle côté CPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Certains moteurs répartissent physique et calcul de particules sur plusieurs threads, mais beaucoup reste sur le thread principal."
+    },
+    "domain_office": {
+      "explanation": "La bureautique sollicite rarement un calcul flottant parallèle et soutenu."
+    },
+    "domain_software_development": {
+      "explanation": "Les chaînes de compilation voient peu de calcul flottant, même pleinement parallélisées."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les filtres par lots et les grandes opérations d'image répartissent le calcul flottant sur les cœurs."
+    },
+    "domain_video_editing": {
+      "explanation": "Les passes de colorimétrie et de mise à l'échelle à l'export exploitent le calcul flottant sur tous les cœurs."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le rendu sur CPU et les précalculs de physique sont gourmands en flottant et s'étendent à chaque cœur."
+    },
+    "domain_audio_production": {
+      "explanation": "Le mixage final hors ligne et le rendu répartissent les effets flottants sur les cœurs."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les solveurs d'ingénierie exécutent un calcul flottant multithread durant de longues simulations."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le calcul numérique de haute performance se définit par le débit flottant parallèle total."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement sur CPU et le travail sur les caractéristiques répartissent le calcul flottant sur tous les cœurs."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence multithread sur CPU repose sur le débit flottant agrégé pour le calcul matriciel."
+    },
+    "domain_data_science": {
+      "explanation": "L'analytique numérique et l'ajustement de modèles répartissent le calcul flottant sur les cœurs."
+    },
+    "domain_server_virt": {
+      "explanation": "Les parcs de serveurs mixtes voient un peu de charge flottante, mais ce n'est pas la demande principale."
+    }
+  }
+}

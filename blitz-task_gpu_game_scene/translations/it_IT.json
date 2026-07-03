@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_game_scene",
+  "short_description": "Frequenza dei fotogrammi di una scena 3D texturizzata e illuminata renderizzata come un gioco.",
+  "description": "Esegue il rendering di una scena 3D inclusa come farebbe un motore di gioco, con geometria texturizzata, illuminazione dinamica, ombre e post-processing, disegnando quanti più fotogrammi possibile a una risoluzione fissa. La scena e le impostazioni sono identiche su ogni macchina, così il risultato dipende solo dal processore grafico.",
+  "metric_explanation": "Il punteggio è il numero medio di fotogrammi disegnati al secondo durante l'esecuzione, riportato in fps.",
+  "value_interpretation": "Più alto è, meglio è. Più fotogrammi al secondo significano un gioco più fluido, con obiettivi comuni attorno a 60 e oltre per un'esperienza scorrevole.",
+  "reasoning": "Una scena completa in stile gioco mette alla prova insieme l'intera pipeline grafica, il che la rende la misura più diretta delle prestazioni di gaming.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "È il carico di lavoro che definisce le prestazioni nel gaming."
+    },
+    "domain_office": {
+      "explanation": "Le macchine da ufficio non eseguono scene di gioco."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori di giochi e motori grafici collaudano il proprio lavoro proprio su scene di questo tipo."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'anteprima in tempo reale degli asset 3D condivide lo stesso percorso di rendering."
+    },
+    "domain_video_editing": {
+      "explanation": "Le sovrimpressioni grafiche in tempo reale e le anteprime del movimento riutilizzano il rendering del motore grafico."
+    },
+    "domain_3d_rendering": {
+      "explanation": "I viewport in tempo reale e i contenuti pronti per il gioco dipendono da questa pipeline."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede rendering 3D in tempo reale."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La revisione interattiva dei progetti usa un rendering in tempo reale analogo."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualizzazione in tempo reale attinge a questo stile di rendering."
+    },
+    "domain_ai_training": {
+      "explanation": "Gli ambienti simulati per l'addestramento renderizzano scene di questo tipo."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza guida raramente il rendering in tempo reale."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi non dipende dal rendering dei giochi."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di cloud gaming e streaming renderizzano da remoto esattamente queste scene."
+    }
+  }
+}

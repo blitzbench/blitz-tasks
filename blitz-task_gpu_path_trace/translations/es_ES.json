@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_path_trace",
+  "short_description": "Render con trazado de caminos (path tracing) de una escena incluida en el procesador gráfico.",
+  "description": "Renderiza una escena incluida con un trazador de caminos (path tracer) que se ejecuta en el procesador gráfico, trazando rayos y acumulando muestras hasta obtener una imagen limpia. La escena, el presupuesto de muestras y la resolución son fijos, y el trabajo utiliza de forma conjunta las rutas de trazado de rayos y de cálculo de la GPU.",
+  "metric_explanation": "La puntuación es el número medio de fotogramas acumulados producidos por segundo, expresado en fps, que escala con la rapidez con la que converge la imagen.",
+  "value_interpretation": "Cuanto más alto, mejor. Una tasa más alta significa vistas previas más rápidas y renders finales más cortos al trabajar con iluminación por trazado de rayos.",
+  "reasoning": "El trazado de caminos en GPU es hoy central para la creación de contenido de gama alta y para los efectos de juego con trazado de rayos, y exige tanto el recorrido de rayos como el sombreado en la GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La iluminación y los reflejos con trazado de rayos son una parte cada vez mayor de los juegos modernos."
+    },
+    "domain_office": {
+      "explanation": "Los equipos de ofimática no ejecutan trazado de caminos."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante principalmente para desarrolladores que crean herramientas de renderizado."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las imágenes de producto y de concepto se renderizan cada vez más con trazado de caminos en la GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Los insertos 3D renderizados para vídeo se producen con estos motores de renderizado."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El trazado de caminos en la GPU es ahora una herramienta principal para el renderizado 3D offline."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio no tiene componente de renderizado."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La revisión de diseños fotorrealista se apoya en el renderizado con trazado de rayos en la GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualización científica de alta calidad utiliza el renderizado con trazado de rayos."
+    },
+    "domain_ai_training": {
+      "explanation": "Los datos sintéticos fotorrealistas se generan con renderizados de trazado de caminos."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia rara vez implica renderizado offline."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica no utiliza el trazado de caminos."
+    },
+    "domain_server_virt": {
+      "explanation": "Las granjas de renderizado en GPU ejecutan esta carga de trabajo en muchos nodos."
+    }
+  }
+}

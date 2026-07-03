@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_conv3d",
+  "short_description": "Débit de convolution tridimensionnelle sur le processeur graphique.",
+  "description": "Exécute des convolutions tridimensionnelles répétées sur des données en forme de volume sur le processeur graphique, l'opération utilisée pour la vidéo, l'imagerie médicale et les modèles volumétriques. L'ajout d'une troisième dimension rend le schéma d'accès bien plus lourd pour la mémoire que le cas bidimensionnel, ce qui teste une autre limite du matériel.",
+  "metric_explanation": "Le débit est le nombre d'opérations par seconde effectuées pendant les convolutions, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un fort débit de convolution 3D accélère la compréhension vidéo, l'analyse médicale volumétrique et d'autres modèles opérant dans l'espace et le temps.",
+  "reasoning": "La convolution tridimensionnelle est bien plus exigeante que la version bidimensionnelle et centrale pour les modèles vidéo et volumétriques ; elle mérite donc un test distinct et plus ardu.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux utilisent rarement la convolution tridimensionnelle en cours de jeu."
+    },
+    "domain_office": {
+      "explanation": "Le travail bureautique ne fait aucun usage de la convolution volumétrique."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent pour les développeurs qui construisent des modèles vidéo et volumétriques."
+    },
+    "domain_graphics_design": {
+      "explanation": "Certains effets volumétriques et de séquence emploient la convolution tridimensionnelle."
+    },
+    "domain_video_editing": {
+      "explanation": "Les modèles de compréhension vidéo qui s'étendent sur plusieurs images emploient la convolution tridimensionnelle."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les effets volumétriques et la simulation peuvent employer la convolution tridimensionnelle."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio utilise rarement la convolution volumétrique."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'inspection volumétrique et la simulation emploient la convolution tridimensionnelle."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les données scientifiques volumétriques et les méthodes à stencils partagent ce schéma."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement des modèles vidéo et volumétriques repose sur la convolution tridimensionnelle."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'exécution des modèles vidéo et d'imagerie médicale dépend de ce débit."
+    },
+    "domain_data_science": {
+      "explanation": "L'analytique sur données volumétriques et séries temporelles emploie la convolution tridimensionnelle."
+    },
+    "domain_server_virt": {
+      "explanation": "Les services d'inférence vidéo et d'imagerie exécutent cette charge de travail sur des GPU partagés."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "ram_bw_write",
+  "short_description": "Ancho de banda de escritura sostenido en la memoria principal.",
+  "description": "Escribe arrays grandes en la memoria principal usando todos los núcleos, con un conjunto de trabajo mucho mayor que las cachés del procesador, de modo que los datos se empujan hacia los chips de memoria. El patrón es de solo escritura, lo que aísla la rapidez con la que el sistema puede almacenar resultados de vuelta en la memoria.",
+  "metric_explanation": "El ancho de banda es el número de bytes escritos en la memoria por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de escritura importa para las cargas de trabajo que generan grandes salidas, como llenar búferes, construir estructuras de datos y producir resultados.",
+  "reasoning": "La escritura suele comportarse de forma distinta a la lectura en un sistema de memoria, por lo que una prueba de escritura dedicada captura las cargas de trabajo con muchas salidas que una prueba de lectura pasaría por alto.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Construir los datos del fotograma y del mundo escribe grandes búferes en la memoria en cada fotograma."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática escribe volúmenes moderados de datos en la memoria."
+    },
+    "domain_software_development": {
+      "explanation": "Las compilaciones construyen grandes estructuras de salida y cachés en la memoria."
+    },
+    "domain_graphics_design": {
+      "explanation": "Producir búferes de imagen editados escribe grandes volúmenes de datos en la memoria."
+    },
+    "domain_video_editing": {
+      "explanation": "Generar los fotogramas procesados escribe búferes de alta resolución en la memoria."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Escribir los búferes renderizados y los resultados intermedios está limitado por el ancho de banda de escritura."
+    },
+    "domain_audio_production": {
+      "explanation": "Escribir los búferes de audio procesados utiliza el ancho de banda de escritura de la memoria."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ensamblar grandes mallas y campos de resultados escribe intensamente en la memoria."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Producir grandes arrays de resultados hace que muchas simulaciones estén limitadas por el ancho de banda de escritura."
+    },
+    "domain_ai_training": {
+      "explanation": "Escribir activaciones y lotes procesados consume ancho de banda de escritura."
+    },
+    "domain_ai_inference": {
+      "explanation": "Escribir los resultados intermedios durante la inferencia utiliza el ancho de banda de escritura de la memoria."
+    },
+    "domain_data_science": {
+      "explanation": "Materializar tablas y resultados intermedios escribe grandes volúmenes de datos en la memoria."
+    },
+    "domain_server_virt": {
+      "explanation": "Muchos procesos que escriben a la vez compiten por el ancho de banda de escritura compartido."
+    }
+  }
+}

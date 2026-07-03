@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_int_single",
+  "short_description": "Débit arithmétique entier sur un seul cœur occupé.",
+  "description": "Exécute un mélange serré d'opérations entières d'addition, de multiplication, de décalage et de comparaison sur un seul thread pendant quelques secondes. L'ensemble de données reste à l'intérieur du cœur, de sorte que le résultat reflète la vitesse arithmétique brute plutôt que le comportement de la mémoire ou du cache.",
+  "metric_explanation": "Le débit est le nombre d'opérations entières effectuées par seconde, divisé par un million, exprimé en Mops/s.",
+  "value_interpretation": "Un nombre plus élevé signifie un cœur unique plus rapide. C'est le chiffre qui compte pour le travail que l'on ne peut répartir sur de nombreux cœurs, comme un seul onglet de navigateur ou un unique thread de jeu.",
+  "reasoning": "La vitesse entière sur un seul cœur est l'indicateur le plus clair de la réactivité ressentie d'une machine dans le travail quotidien sensible à la latence ; elle sert donc d'ancrage à la suite CPU synthétique.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La logique de jeu et le thread de mise à jour principal reposent fortement sur la vitesse entière d'un seul cœur."
+    },
+    "domain_office": {
+      "explanation": "La réactivité des documents et du navigateur dépend de la vitesse à laquelle un cœur traite de brèves rafales de travail."
+    },
+    "domain_software_development": {
+      "explanation": "De nombreuses étapes de compilation et d'outillage s'exécutent sur un seul cœur, dont dépend la réactivité de l'éditeur."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les éditions interactives sont dispatchées sur un seul thread avant tout travail du GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Le défilement de la timeline et la préparation des effets s'exécutent sur un cœur avant l'export multicœur."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La mise en place de la scène et la préparation par objet s'exécutent en monothread avant que le rendu ne se déploie."
+    },
+    "domain_audio_production": {
+      "explanation": "Les graphes audio temps réel s'exécutent sur un seul thread et sont très sensibles à la vitesse par cœur."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'édition du modèle et les mises à jour de géométrie s'exécutent sur un seul thread entre les passes de solveur."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les sections séquentielles et le code de préparation bornent des simulations par ailleurs parallèles."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement est dominé par l'accélérateur, avec une influence limitée du monocœur côté hôte."
+    },
+    "domain_ai_inference": {
+      "explanation": "La tokenisation et la gestion des requêtes s'exécutent sur un cœur autour du calcul lourd."
+    },
+    "domain_data_science": {
+      "explanation": "La préparation des requêtes interactives et le scriptage s'exécutent en monothread avant le démarrage des noyaux parallèles."
+    },
+    "domain_server_virt": {
+      "explanation": "La latence par requête dépend de la vitesse à laquelle un seul cœur traite une unité de travail."
+    }
+  }
+}

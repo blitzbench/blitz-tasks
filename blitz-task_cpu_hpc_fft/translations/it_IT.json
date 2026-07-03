@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_hpc_fft",
+  "short_description": "FFT in precisione doppia e algebra lineare densa su tutti i core.",
+  "description": "Esegue un mix di trasformate di Fourier rapide in precisione doppia e lavoro su matrici dense su tutti i core utilizzando una libreria numerica ottimizzata. Le dimensioni dei problemi sono scelte per superare la capacità della cache, così il test mette alla prova sia l'aritmetica sia il traffico di memoria, come si comportano le simulazioni reali.",
+  "metric_explanation": "Il punteggio è il throughput sostenuto in precisione doppia, riportato in GFLOPS, mediato sull'intera esecuzione.",
+  "value_interpretation": "Più alto è, meglio è. Un throughput maggiore significa che modelli più grandi e simulazioni più lunghe terminano in tempi ragionevoli.",
+  "reasoning": "Le trasformate e l'algebra lineare sono i mattoni della maggior parte dei codici numerici e ingegneristici, quindi il throughput in precisione doppia qui predice le prestazioni scientifiche reali.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi usano pochi calcoli in doppia precisione."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non ha una componente numerica intensiva."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori di software numerico ne traggono vantaggio, ma la programmazione generica no."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro su immagini usa calcoli in singola precisione anziché questo kernel."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio raramente ricorre al calcolo in doppia precisione."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La simulazione fisica per l'animazione condivide questi kernel di trasformata e solver."
+    },
+    "domain_audio_production": {
+      "explanation": "Le trasformate qui rispecchiano i calcoli spettrali usati nell'analisi audio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulazione ingegneristica si appoggia direttamente su trasformate e algebra lineare in doppia precisione."
+    },
+    "domain_scientific_computing": {
+      "explanation": "È il carico di lavoro centrale per la simulazione numerica e l'high performance computing."
+    },
+    "domain_ai_training": {
+      "explanation": "Alcuni addestramenti scientifici e pipeline di caratteristiche riutilizzano questi kernel densi."
+    },
+    "domain_ai_inference": {
+      "explanation": "Il preprocessing numerico per i modelli usa un'algebra lineare simile."
+    },
+    "domain_data_science": {
+      "explanation": "I metodi statistici e l'analisi dei segnali si affidano a trasformate e calcoli matriciali."
+    },
+    "domain_server_virt": {
+      "explanation": "I server generici eseguono pochi calcoli prolungati in doppia precisione."
+    }
+  }
+}

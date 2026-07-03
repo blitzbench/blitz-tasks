@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_int_single",
+  "short_description": "Débito de aritmética de inteiros de núcleo único numa thread ocupada.",
+  "description": "Executa uma mistura apertada de operações de adição, multiplicação, deslocamento e comparação de inteiros numa única thread durante alguns segundos. O conjunto de dados permanece dentro do núcleo, pelo que o resultado reflete a velocidade aritmética pura em vez do comportamento da memória ou da cache.",
+  "metric_explanation": "O débito é o número de operações de inteiros concluídas por segundo, dividido por um milhão, indicado em Mops/s.",
+  "value_interpretation": "Um número mais elevado significa um núcleo único mais rápido. Este é o valor que importa para o trabalho que não pode ser distribuído por muitos núcleos, como um único separador do navegador ou uma única thread de jogo.",
+  "reasoning": "A velocidade de inteiros de núcleo único é o sinal mais claro de quão ágil uma máquina parece no trabalho diário sensível à latência, pelo que ancora o conjunto sintético de CPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "A lógica do jogo e o thread principal de atualização dependem fortemente da velocidade inteira de um único núcleo."
+    },
+    "domain_office": {
+      "explanation": "A capacidade de resposta de documentos e do navegador está limitada pela rapidez com que um núcleo trata pequenos picos de trabalho."
+    },
+    "domain_software_development": {
+      "explanation": "Muitos passos de compilação e de ferramentas correm num único núcleo, e a capacidade de resposta do editor depende disso."
+    },
+    "domain_graphics_design": {
+      "explanation": "As edições interativas são despachadas num único thread antes de começar qualquer trabalho do GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "A navegação na linha temporal e a configuração de efeitos correm num único núcleo antes da exportação multinúcleo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A preparação da cena e a preparação por objeto correm em thread único antes de a renderização se distribuir."
+    },
+    "domain_audio_production": {
+      "explanation": "Os grafos de áudio em tempo real correm num único thread e são muito sensíveis à velocidade por núcleo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "A edição de modelos e as atualizações de geometria correm num único thread entre execuções do solver."
+    },
+    "domain_scientific_computing": {
+      "explanation": "As secções em série e o código de configuração condicionam simulações que, de outro modo, seriam paralelas."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino é dominado pelo acelerador, com influência limitada de um único núcleo no host."
+    },
+    "domain_ai_inference": {
+      "explanation": "A tokenização e o tratamento de pedidos correm num único núcleo em torno da computação pesada."
+    },
+    "domain_data_science": {
+      "explanation": "A configuração de consultas interativas e o scripting correm em thread único antes de iniciarem os kernels paralelos."
+    },
+    "domain_server_virt": {
+      "explanation": "A latência por pedido depende da rapidez com que um único núcleo trata uma unidade de trabalho."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_vram_read",
+  "short_description": "Larghezza di banda in lettura dalla memoria propria del processore grafico.",
+  "description": "Legge grandi buffer dalla memoria locale del processore grafico con uno schema di sola lettura, utilizzando un working set molto più grande di qualsiasi cache on-chip. Il risultato mostra la rapidità con cui la GPU può prelevare dati dalla propria memoria per alimentare le unità di calcolo.",
+  "metric_explanation": "La larghezza di banda è il numero di byte letti dalla memoria della GPU al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. La larghezza di banda in lettura limita i carichi di lavoro che caricano in streaming grandi texture, modelli e set di dati nella GPU più velocemente di quanto calcolino.",
+  "reasoning": "La lettura dalla memoria locale è lo schema di accesso GPU più comune, quindi la larghezza di banda in lettura è il dato principale per il lavoro accelerato ricco di dati.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Leggere texture e buffer verso i core dipende da rapide letture dalla memoria della GPU."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio legge pochi dati attraverso la memoria della GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante soprattutto durante lo sviluppo di software accelerato su GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Leggere grandi livelli di immagine nella GPU è vincolato dalla larghezza di banda in lettura."
+    },
+    "domain_video_editing": {
+      "explanation": "Leggere fotogrammi ad alta risoluzione nella GPU attinge alla larghezza di banda in lettura della memoria."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Leggere scene e texture di grandi dimensioni rende il rendering su GPU vincolato dalla larghezza di banda in lettura."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio legge pochi dati attraverso la memoria della GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Leggere mesh di grandi dimensioni nel viewport utilizza la larghezza di banda in lettura della GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Le simulazioni accelerate sono spesso limitate dalle letture dalla memoria della GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "La lettura di pesi e attivazioni domina il traffico di memoria durante l'addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "La velocità di generazione dei token è determinata in gran parte dalla rapidità con cui i pesi vengono letti dalla memoria della GPU."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi su GPU scandisce grandi array dalla memoria."
+    },
+    "domain_server_virt": {
+      "explanation": "I server GPU condivisi ripartiscono la larghezza di banda in lettura tra molti tenant."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_compile",
+  "short_description": "Temps de compilation à froid d'une arborescence de sources C et C++ fixe.",
+  "description": "Construit un projet C et C++ de taille moyenne fourni, à partir d'un état propre, en utilisant tous les cœurs disponibles. Les mêmes sources, options de compilation et niveau de parallélisme sont employés sur chaque machine, de sorte que la seule variable est le processeur. La chaîne d'outils fournie maintient la charge de travail identique quel que soit ce qui est installé localement.",
+  "metric_explanation": "Le score est le temps réel écoulé pour terminer la compilation, de l'état propre jusqu'à l'achèvement, exprimé en secondes.",
+  "value_interpretation": "Plus la valeur est basse, mieux c'est. Un temps plus court signifie moins d'attente entre les modifications de code, ce qui est le quotidien du travail logiciel.",
+  "reasoning": "La compilation mêle un travail entier parallèle intensif à des rafales d'accès aux fichiers, ce qui correspond exactement à la façon dont les machines de développement passent leur temps ; c'est donc le test phare du développement logiciel.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La vitesse de compilation importe aux développeurs de moteurs, non à ceux qui se contentent de jouer."
+    },
+    "domain_office": {
+      "explanation": "Les utilisateurs bureautiques ne compilent presque jamais de logiciels."
+    },
+    "domain_software_development": {
+      "explanation": "Le temps de compilation est la mesure de performance la plus ressentie au quotidien en développement."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les graphistes exécutent rarement des charges de compilation."
+    },
+    "domain_video_editing": {
+      "explanation": "Les suites de montage s'utilisent une fois installées plutôt que compilées localement."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les artistes techniques compilent parfois outils et greffons, mais le rendu occupe l'essentiel de leur temps."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio implique rarement la compilation de code."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les ingénieurs qui développent des solveurs et scripts sur mesure profitent de compilations rapides."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les codes de recherche sont recompilés souvent, si bien que la vitesse de compilation rythme le travail."
+    },
+    "domain_ai_training": {
+      "explanation": "Compiler frameworks et noyaux sur mesure fait partie de la mise en place des piles d'entraînement."
+    },
+    "domain_ai_inference": {
+      "explanation": "Construire et empaqueter les environnements d'inférence est une tâche récurrente du déploiement."
+    },
+    "domain_data_science": {
+      "explanation": "La plupart des analyses reposent sur des scripts, avec de rares compilations d'extensions natives."
+    },
+    "domain_server_virt": {
+      "explanation": "Construire images et services à partir des sources est courant dans les chaînes serveur."
+    }
+  }
+}

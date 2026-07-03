@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "disk_rand_read",
+  "short_description": "Kleine wahlfreie Leseoperationen pro Sekunde vom Datenträger.",
+  "description": "Setzt viele kleine Lesevorgänge an zufällige Positionen über einen großen Bereich des Datenträgers ab und hält dabei mehrere Anfragen gleichzeitig in Flug. Der wahlfreie Zugriff ist für den Datenträger weit schwieriger als sequenzielles Streaming und kommt der Art näher, wie Betriebssysteme und Anwendungen viele kleine Dateien tatsächlich ansprechen.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde abgeschlossenen Leseoperationen, angegeben in IOPS.",
+  "value_interpretation": "„Höher ist besser.“ Eine hohe Leistung beim wahlfreien Lesen lässt eine Maschine reaktionsschnell wirken, wenn Apps gestartet und viele kleine Dateien geöffnet werden.",
+  "reasoning": "Die Leistung beim wahlfreien Lesen trennt im täglichen Einsatz ein flinkes von einem trägen System, da der meiste alltägliche Zugriff verstreut statt sequenziell erfolgt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Streamen vieler kleiner Assets während des Spielens hängt von der wahlfreien Lesegeschwindigkeit ab."
+    },
+    "domain_office": {
+      "explanation": "Das Starten von Apps und Öffnen vieler kleiner Dateien ist durch wahlfreies Lesen begrenzt."
+    },
+    "domain_software_development": {
+      "explanation": "Builds und Tools greifen auf Tausende kleiner Quelldateien wahllos zu."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Laden vieler kleiner Pinsel, Assets und Vorschauen nutzt wahlfreies Lesen."
+    },
+    "domain_video_editing": {
+      "explanation": "Medienarbeit ist überwiegend sequenziell, mit etwas wahlfreiem Zugriff auf Proxy-Dateien."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Laden vieler kleiner Textur- und Asset-Dateien beinhaltet wahlfreies Lesen."
+    },
+    "domain_audio_production": {
+      "explanation": "Sample-Bibliotheken verursachen viele kleine wahlfreie Lesezugriffe während der Wiedergabe."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Große Projekte referenzieren viele kleine Teil- und Ressourcendateien."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Einige Datenformate nutzen wahlfreien Zugriff auf große Dateien."
+    },
+    "domain_ai_training": {
+      "explanation": "Gemischte Trainingsdaten lesen viele kleine Datensätze wahllos."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Laden von Modell-Shards und Assets beinhaltet wahlfreien Zugriff."
+    },
+    "domain_data_science": {
+      "explanation": "Indizierte Lookups und partitionierte Datensätze erzeugen wahlfreie Lesezugriffe."
+    },
+    "domain_server_virt": {
+      "explanation": "Datenbanken und viele gleichzeitige Mandanten erzeugen hohe wahlfreie Leselast."
+    }
+  }
+}

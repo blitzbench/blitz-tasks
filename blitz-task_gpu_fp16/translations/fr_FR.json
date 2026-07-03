@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_fp16",
+  "short_description": "Débit en virgule flottante demi-précision sur le processeur graphique.",
+  "description": "Exécute un noyau de calcul dense en demi-précision sur le processeur graphique, en empruntant les chemins de précision réduite et tensoriels qu'offre le matériel moderne. Les données restent sur la puce, de sorte que le score reflète le calcul de précision réduite maximal plutôt que la vitesse de la mémoire.",
+  "metric_explanation": "Le débit est le nombre d'opérations en demi-précision par seconde, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. L'écart entre cette valeur et le résultat en simple précision montre le surcroît de vitesse que le matériel obtient des chemins de précision réduite.",
+  "reasoning": "Le débit en demi-précision est ce qui anime l'apprentissage automatique moderne et de nombreux effets accélérés, où le matériel offre souvent plusieurs fois le débit en simple précision.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La mise à l'échelle et certains effets emploient des calculs en demi-précision sur le GPU."
+    },
+    "domain_office": {
+      "explanation": "Le travail bureautique utilise rarement le calcul en précision réduite."
+    },
+    "domain_software_development": {
+      "explanation": "Surtout pertinent pour les développeurs qui conçoivent des logiciels accélérés."
+    },
+    "domain_graphics_design": {
+      "explanation": "Certains filtres accélérés et outils génératifs s'exécutent en demi-précision."
+    },
+    "domain_video_editing": {
+      "explanation": "Les effets d'apprentissage automatique des logiciels de montage empruntent les chemins en précision réduite."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le débruitage et les effets appris du rendu emploient le calcul en demi-précision."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio fait peu usage des calculs GPU en précision réduite."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Certains outils d'ingénierie accélérés adoptent la précision réduite pour gagner en vitesse."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les méthodes en précision mixte accélèrent de nombreux codes scientifiques sur GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "Le débit en précision réduite est la mesure qui définit l'entraînement accéléré."
+    },
+    "domain_ai_inference": {
+      "explanation": "La plupart des inférences accélérées s'exécutent en demi-précision ou en deçà."
+    },
+    "domain_data_science": {
+      "explanation": "L'apprentissage automatique sur GPU au-dessus de grands jeux de données repose sur les calculs en précision réduite."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs à accélérateurs partagés exposent ce débit à de nombreux locataires d'apprentissage automatique."
+    }
+  }
+}

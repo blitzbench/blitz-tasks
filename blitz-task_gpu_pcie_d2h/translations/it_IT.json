@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_pcie_d2h",
+  "short_description": "Larghezza di banda per rileggere i risultati dalla GPU alla memoria di sistema.",
+  "description": "Trasferisce grandi buffer dalla memoria locale del processore grafico alla memoria di sistema attraverso il collegamento che li connette. Il test misura il percorso di download in modo isolato, ossia la strada che ogni risultato percorre una volta che la GPU ha terminato con esso.",
+  "metric_explanation": "La larghezza di banda è il numero di byte inviati dalla GPU all'host al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. La larghezza di banda di download limita la rapidità con cui fotogrammi renderizzati, dati elaborati e output dei modelli possono essere riportati per l'uso.",
+  "reasoning": "Molte pipeline sono vincolate dal recupero dei risultati dalla GPU, quindi il percorso di download merita una misurazione a sé accanto a quello di upload.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi raramente leggono grandi risultati dalla GPU durante il gioco."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio legge pochi dati di ritorno dalla GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante soprattutto durante lo sviluppo di software accelerato su GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Leggere le immagini filtrate dalla GPU utilizza la larghezza di banda in download."
+    },
+    "domain_video_editing": {
+      "explanation": "Leggere i fotogrammi elaborati dalla GPU per la codifica è vincolato dalla larghezza di banda in download."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Leggere i fotogrammi renderizzati dalla GPU utilizza il percorso di download."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio legge pochi dati di ritorno dalla GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Leggere i risultati calcolati dalla GPU utilizza il collegamento di trasferimento."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Riportare grandi array di risultati dall'acceleratore è vincolato dalla larghezza di banda in download."
+    },
+    "domain_ai_training": {
+      "explanation": "Leggere metriche e checkpoint dalla GPU utilizza il percorso di download."
+    },
+    "domain_ai_inference": {
+      "explanation": "Leggere gli output generati dalla GPU utilizza la larghezza di banda in download."
+    },
+    "domain_data_science": {
+      "explanation": "Restituire i risultati dell'analisi dalla GPU è vincolato dalla larghezza di banda in download."
+    },
+    "domain_server_virt": {
+      "explanation": "I server GPU condivisi restituiscono i risultati dei tenant su questo collegamento."
+    }
+  }
+}

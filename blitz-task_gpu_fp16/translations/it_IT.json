@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_fp16",
+  "short_description": "Throughput in virgola mobile a precisione dimezzata sul processore grafico.",
+  "description": "Esegue un kernel di calcolo denso a precisione dimezzata sul processore grafico, utilizzando i percorsi a precisione ridotta e tensoriali che l'hardware moderno offre. I dati restano sul chip, così il punteggio riflette il calcolo massimo a precisione ridotta anziché la velocità della memoria.",
+  "metric_explanation": "Il throughput è il numero di operazioni a precisione dimezzata al secondo, in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Più alto è, meglio è. Il divario tra questo risultato e quello in precisione singola mostra quanta velocità aggiuntiva l'hardware ottiene dai percorsi a precisione ridotta.",
+  "reasoning": "Il throughput a precisione dimezzata è ciò che alimenta il machine learning moderno e molti effetti accelerati, dove l'hardware offre spesso un tasso pari a diverse volte quello in precisione singola.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'upscaling e alcuni effetti usano calcoli a precisione dimezzata sulla GPU."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio usa raramente il calcolo a precisione ridotta."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante soprattutto per gli sviluppatori che realizzano software accelerato."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alcuni filtri accelerati e strumenti generativi funzionano a precisione dimezzata."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli effetti di machine learning negli strumenti di montaggio usano percorsi a precisione ridotta."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La riduzione del rumore e gli effetti basati su apprendimento nel rendering usano il calcolo a precisione dimezzata."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa scarso uso del calcolo a precisione ridotta della GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Alcuni strumenti di ingegneria accelerati adottano la precisione ridotta per guadagnare velocità."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I metodi a precisione mista accelerano molti codici scientifici su GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "Il throughput a precisione ridotta è la metrica che definisce l'addestramento accelerato."
+    },
+    "domain_ai_inference": {
+      "explanation": "La maggior parte dell'inferenza accelerata viene eseguita a precisione dimezzata o inferiore."
+    },
+    "domain_data_science": {
+      "explanation": "Il machine learning su GPU applicato a grandi set di dati si basa sul calcolo a precisione ridotta."
+    },
+    "domain_server_virt": {
+      "explanation": "I server con acceleratori condivisi mettono questo throughput a disposizione di molti tenant di machine learning."
+    }
+  }
+}

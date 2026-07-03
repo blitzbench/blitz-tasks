@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_pcie_bidir",
+  "short_description": "Kombinierte Bandbreite beim gleichzeitigen Hoch- und Herunterladen zur bzw. von der GPU.",
+  "description": "Überträgt große Puffer gleichzeitig zum Grafikprozessor und von ihm zurück über die Verbindung, die sie verbindet. Beide Richtungen zusammen auszuführen zeigt, ob die Verbindung volle Geschwindigkeit in jede Richtung gleichzeitig aufrechterhalten kann, was der Art entspricht, wie ausgelastete Pipelines sie tatsächlich nutzen.",
+  "metric_explanation": "Die Bandbreite ist die Gesamtzahl der pro Sekunde über beide Richtungen bewegten Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Eine starke bidirektionale Bandbreite hält eine Pipeline zugleich versorgt und entleert und vermeidet Stockungen, wenn sich Eingabe und Ausgabe überlappen.",
+  "reasoning": "Reale Arbeitslasten laden oft den nächsten Batch hoch, während sie das letzte Ergebnis herunterladen, weshalb die bidirektionale Kennzahl anhaltendes Pipeline-Verhalten erfasst, das eine Richtung allein übersieht.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Streamen von Assets und das gleichzeitige Zurücklesen von Ergebnissen beansprucht beide Übertragungsrichtungen."
+    },
+    "domain_office": {
+      "explanation": "Büro-Arbeit nutzt die GPU-Übertragungsstrecke kaum."
+    },
+    "domain_software_development": {
+      "explanation": "Vor allem relevant bei der Entwicklung GPU-beschleunigter Software."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Hochladen von Bildern und das Zurücklesen gefilterter Ergebnisse können sich überlappen."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Streamen von Frames zur GPU und das gleichzeitige Zurücklesen verarbeiteter Frames beansprucht beide Richtungen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Übertragen von Szenen und das Zurücklesen gerenderter Frames beansprucht beide Richtungen."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit nutzt die GPU-Übertragungsstrecke kaum."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Hochladen von Modellen und das gleichzeitige Zurücklesen von Ergebnissen beansprucht beide Richtungen."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Pipeline-Simulationen laden Eingaben hoch und laden Ergebnisse gleichzeitig herunter."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Streamen des nächsten Batches und das gleichzeitige Auslesen von Metriken hält beide Richtungen ausgelastet."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Hochladen von Eingaben und das gleichzeitige Zurückgeben von Ausgaben beansprucht beim Serving beide Richtungen."
+    },
+    "domain_data_science": {
+      "explanation": "Das Zuführen neuer Daten und das gleichzeitige Zurückgeben von Ergebnissen überlagert die Übertragungsstrecke."
+    },
+    "domain_server_virt": {
+      "explanation": "Ausgelastete gemeinsam genutzte GPU-Server übertragen Mandanten-Daten gleichzeitig in beide Richtungen."
+    }
+  }
+}

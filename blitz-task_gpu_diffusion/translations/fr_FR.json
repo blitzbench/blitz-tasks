@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_diffusion",
+  "short_description": "Génération d'images par diffusion sur le processeur graphique.",
+  "description": "Génère des images avec un modèle de diffusion sur le processeur graphique, en exécutant un nombre fixe d'étapes de débruitage par image à une résolution donnée. Le modèle et les réglages sont identiques sur chaque machine, de sorte que le résultat reflète le calcul accéléré soutenu et le débit mémoire.",
+  "metric_explanation": "Le score est le nombre d'images produites par minute, exprimé en éléments par minute.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage d'images par minute signifie moins d'attente lors de la génération ou de l'itération sur des idées visuelles.",
+  "reasoning": "La génération d'images par diffusion est l'une des charges d'apprentissage automatique locales les plus courantes, et sa boucle de débruitage est un test lourd et reproductible de l'inférence accélérée.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Des textures et des assets générés sont employés dans certaines chaînes de production de jeux."
+    },
+    "domain_office": {
+      "explanation": "Des images générées apparaissent dans les présentations et les documents."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs intègrent la génération d'images dans les applications qu'ils construisent."
+    },
+    "domain_graphics_design": {
+      "explanation": "La génération d'images fait désormais partie intégrante du flux de travail du design."
+    },
+    "domain_video_editing": {
+      "explanation": "Des images et des éléments générés sont intégrés à la vidéo montée."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Des textures et des concepts générés alimentent la production 3D."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio fait peu usage de la génération d'images."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ingénierie a rarement besoin d'images générées."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les modèles génératifs soutiennent certaines tâches d'imagerie scientifique."
+    },
+    "domain_ai_training": {
+      "explanation": "Des images générées servent à enrichir les jeux de données d'entraînement."
+    },
+    "domain_ai_inference": {
+      "explanation": "La génération par diffusion est une charge d'inférence locale essentielle."
+    },
+    "domain_data_science": {
+      "explanation": "Les données d'images synthétiques soutiennent certains travaux d'analytique et de modélisation."
+    },
+    "domain_server_virt": {
+      "explanation": "Les services de génération hébergés exécutent cette charge de travail en continu pour de nombreux utilisateurs."
+    }
+  }
+}

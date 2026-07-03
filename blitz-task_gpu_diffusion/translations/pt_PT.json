@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_diffusion",
+  "short_description": "Geração de imagens por difusão no processador gráfico.",
+  "description": "Gera imagens com um modelo de difusão no processador gráfico, executando um número fixo de passos de remoção de ruído por imagem a uma resolução definida. O modelo e as definições são idênticos em cada máquina, pelo que o resultado reflete a computação acelerada sustentada e o débito de memória.",
+  "metric_explanation": "A pontuação é o número de imagens produzidas por minuto, indicado como itens por minuto.",
+  "value_interpretation": "Quanto maior, melhor. Mais imagens por minuto significam menos espera ao gerar ou iterar sobre ideias visuais.",
+  "reasoning": "A geração de imagens por difusão é uma das cargas de trabalho de aprendizagem automática locais mais comuns, e o seu ciclo de remoção de ruído é um teste pesado e repetível de inferência acelerada.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "As texturas e os recursos gerados são usados em alguns pipelines de jogos."
+    },
+    "domain_office": {
+      "explanation": "As imagens geradas surgem em apresentações e documentos."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores integram a geração de imagens nas aplicações que criam."
+    },
+    "domain_graphics_design": {
+      "explanation": "A geração de imagens é agora uma parte habitual do fluxo de trabalho de design."
+    },
+    "domain_video_editing": {
+      "explanation": "Os fotogramas e os elementos gerados são incorporados em vídeo editado."
+    },
+    "domain_3d_rendering": {
+      "explanation": "As texturas e os conceitos gerados alimentam a produção 3D."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio faz pouco uso da geração de imagens."
+    },
+    "domain_cad_engineering": {
+      "explanation": "O trabalho de engenharia raramente precisa de imagens geradas."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os modelos generativos apoiam algumas tarefas de imagiologia científica."
+    },
+    "domain_ai_training": {
+      "explanation": "As imagens geradas são usadas para aumentar os conjuntos de dados de treino."
+    },
+    "domain_ai_inference": {
+      "explanation": "A geração por difusão é uma carga de trabalho central de inferência local."
+    },
+    "domain_data_science": {
+      "explanation": "Os dados de imagem sintéticos apoiam algum trabalho de análise e de modelação."
+    },
+    "domain_server_virt": {
+      "explanation": "Os serviços de geração alojados correm esta carga de trabalho continuamente para muitos utilizadores."
+    }
+  }
+}

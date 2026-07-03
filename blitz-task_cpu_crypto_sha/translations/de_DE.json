@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_crypto_sha",
+  "short_description": "SHA-256-Hashing-Durchsatz auf allen Kernen.",
+  "description": "Hasht einen Puffer wiederholt mit SHA-256 über alle Kerne und nutzt dabei die dedizierten Hashing-Befehle des Prozessors, sofern verfügbar. Der Puffer bleibt im Speicher, sodass der Score die Geschwindigkeit der Hash-Funktion widerspiegelt und nicht die des Speichers.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der pro Sekunde gehashten Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Prozessoren mit Hardware-Hashing-Unterstützung ziehen deutlich an denen ohne vorbei.",
+  "reasoning": "Hashing bildet die Grundlage für Integritätsprüfungen, Signaturen, Versionsverwaltung und Speicher-Prüfsummen, was seinen Durchsatz zu einem breit nutzbaren Fähigkeitssignal macht.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Verifizieren heruntergeladener und gepatchter Spieldateien führt Hashing über große Datenmengen aus."
+    },
+    "domain_office": {
+      "explanation": "Integritätsprüfungen und sichere Verbindungen hashen Daten im Hintergrund."
+    },
+    "domain_software_development": {
+      "explanation": "Versionskontrolle, Paketverifizierung und Build-Caches hashen Dateien ständig."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designarbeit hasht Daten nur beim Speichern und Synchronisieren."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Verifizieren großer Medienübertragungen ist auf Hashing angewiesen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Asset-Pipelines hashen Dateien, um Änderungen zu erkennen und Übertragungen zu verifizieren."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit hasht Daten hauptsächlich während der Dateiübertragung."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Datenverwaltungssysteme hashen Teiledateien, um Versionen zu verfolgen."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Das Verifizieren großer Datensätze und Ergebnisse setzt Hashing intensiv ein."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Deduplizieren und Verifizieren großer Trainingsdatensätze ist auf Hashing angewiesen."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Validieren von Modelldateien und Eingaben verwendet Hashing."
+    },
+    "domain_data_science": {
+      "explanation": "Das Verknüpfen, Deduplizieren und Verifizieren von Datensätzen setzt Hashing häufig ein."
+    },
+    "domain_server_virt": {
+      "explanation": "Server hashen kontinuierlich für Speicherintegrität, Caching und Sicherheit."
+    }
+  }
+}

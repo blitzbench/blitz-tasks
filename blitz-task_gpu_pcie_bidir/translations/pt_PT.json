@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_pcie_bidir",
+  "short_description": "Largura de banda combinada ao carregar para e descarregar da GPU ao mesmo tempo.",
+  "description": "Transfere grandes buffers para o processador gráfico e de volta dele ao mesmo tempo através da ligação que os liga. Correr ambas as direções em conjunto mostra se a ligação consegue sustentar a velocidade máxima em cada sentido de uma vez, que é como os pipelines ocupados realmente a usam.",
+  "metric_explanation": "A largura de banda é o total de bytes movidos por segundo nas duas direções, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. Uma forte largura de banda bidirecional mantém um pipeline alimentado e drenado ao mesmo tempo, evitando paragens quando a entrada e a saída se sobrepõem.",
+  "reasoning": "As cargas de trabalho reais muitas vezes carregam o lote seguinte enquanto descarregam o último resultado, pelo que o valor bidirecional capta o comportamento de pipeline sustentado que apenas uma direção não consegue.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Carregar recursos enquanto se leem alguns resultados de volta sobrepõe ambas as direções."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório faz pouco uso da ligação de transferência da GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Sobretudo relevante no desenvolvimento de software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Enviar imagens e ler de volta os resultados filtrados pode sobrepor-se."
+    },
+    "domain_video_editing": {
+      "explanation": "Transmitir fotogramas para a GPU enquanto se leem de volta os fotogramas processados sobrepõe ambas as direções."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Preparar cenas enquanto se leem de volta os fotogramas renderizados usa ambas as direções."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio faz pouco uso da ligação de transferência da GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Enviar modelos enquanto se leem de volta os resultados sobrepõe as duas direções."
+    },
+    "domain_scientific_computing": {
+      "explanation": "As simulações em pipeline enviam entradas enquanto descarregam resultados ao mesmo tempo."
+    },
+    "domain_ai_training": {
+      "explanation": "Carregar o lote seguinte enquanto se leem as métricas mantém ambas as direções ocupadas."
+    },
+    "domain_ai_inference": {
+      "explanation": "Enviar entradas enquanto se devolvem saídas sobrepõe ambas as direções no serviço."
+    },
+    "domain_data_science": {
+      "explanation": "Alimentar novos dados enquanto se devolvem resultados sobrepõe a ligação de transferência."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de GPU partilhados e ocupados movem dados dos inquilinos para dentro e para fora ao mesmo tempo."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_office_docs",
+  "short_description": "Recálculo de hojas de cálculo y renderizado de documentos sobre archivos incluidos.",
+  "description": "Procesa un conjunto incluido de archivos de oficina, recalculando hojas de cálculo grandes y maquetando y renderizando documentos a una salida de página fija. La carga de trabajo combina ráfagas cortas de cálculo con formato y maquetación, que es como el software de productividad carga realmente una máquina.",
+  "metric_explanation": "La puntuación es el número de documentos y recálculos completados por minuto, expresado como elementos por minuto.",
+  "value_interpretation": "Cuanto más alto, mejor. Un número más alto significa menos espera al abrir archivos grandes, recalcular hojas o exportar a formatos de página fija.",
+  "reasoning": "El trabajo de ofimática se produce a ráfagas y es sensible a la latencia, en lugar de ser una carga constante, por lo que una carga de trabajo mixta de documentos lo representa mucho mejor que una puntuación de rendimiento en bruto.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La gestión de documentos no guarda relación con el rendimiento en juegos."
+    },
+    "domain_office": {
+      "explanation": "Esta es la carga de trabajo cotidiana que define los equipos de productividad."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores dedican un tiempo real a documentos, incidencias y notas junto con el código."
+    },
+    "domain_graphics_design": {
+      "explanation": "Los diseñadores manejan briefings, maquetaciones y documentos exportados a lo largo de un proyecto."
+    },
+    "domain_video_editing": {
+      "explanation": "Los editores gestionan guiones y documentación en torno a la propia edición."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los estudios elaboran documentación e informes junto con los renderizados."
+    },
+    "domain_audio_production": {
+      "explanation": "Los profesionales del audio gestionan notas de sesión y documentación."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La ingeniería genera un flujo constante de informes, planos y especificaciones."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los investigadores dedican un tiempo considerable a redactar y dar formato a artículos e informes."
+    },
+    "domain_ai_training": {
+      "explanation": "La documentación acompaña al trabajo de entrenamiento, pero no es su carga principal."
+    },
+    "domain_ai_inference": {
+      "explanation": "La elaboración de informes acompaña al trabajo con modelos desplegados."
+    },
+    "domain_data_science": {
+      "explanation": "Los analistas elaboran numerosos informes y documentos a partir de sus hallazgos."
+    },
+    "domain_server_virt": {
+      "explanation": "La administración de servidores implica documentación, pero poco renderizado de documentos."
+    }
+  }
+}

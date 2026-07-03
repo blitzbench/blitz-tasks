@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_dataframe",
+  "short_description": "Agrupar, juntar e ordenar sobre um conjunto de dados colunar incluído.",
+  "description": "Executa um conjunto de consultas analíticas sobre um conjunto de dados colunar incluído usando um motor de consulta em processo, abrangendo agrupamento, junção e ordenação em todos os núcleos. O conjunto de dados e as consultas são fixos, e o motor mantém tudo em memória, pelo que o resultado reflete o processador e o seu sistema de memória.",
+  "metric_explanation": "A pontuação é o número de linhas processadas por segundo ao longo do conjunto de consultas, indicado como operações por segundo.",
+  "value_interpretation": "Quanto maior, melhor. Mais linhas por segundo significam análise interativa sobre tabelas maiores sem longas pausas entre consultas.",
+  "reasoning": "Agrupar, juntar e ordenar estão no centro da análise tabular, e exigem tanto do débito dos núcleos como da largura de banda da memória da forma que as ferramentas de dados reais fazem.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos realizam pouca análise tabular durante a sessão de jogo."
+    },
+    "domain_office": {
+      "explanation": "As folhas de cálculo e os relatórios executam versões mais pequenas do mesmo trabalho de agrupamento."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores consultam registos e métricas com o mesmo tipo de motor."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho de design envolve pouca análise de dados."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição não depende de cargas de trabalho de consulta."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os pipelines de renderização raramente executam consultas analíticas."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio tem pouca análise tabular."
+    },
+    "domain_cad_engineering": {
+      "explanation": "As equipas de engenharia analisam tabelas de resultados de simulação."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A análise de resultados é frequentemente executada através dos mesmos kernels de agrupamento e junção."
+    },
+    "domain_ai_training": {
+      "explanation": "A engenharia de características sobre grandes tabelas é uma parte central da preparação dos dados de treino."
+    },
+    "domain_ai_inference": {
+      "explanation": "Os pipelines de classificação em lote juntam e agregam as entradas em torno do modelo."
+    },
+    "domain_data_science": {
+      "explanation": "Esta é a carga de trabalho central diária da análise de dados."
+    },
+    "domain_server_virt": {
+      "explanation": "Os serviços de análise executam estas consultas continuamente em servidores partilhados."
+    }
+  }
+}

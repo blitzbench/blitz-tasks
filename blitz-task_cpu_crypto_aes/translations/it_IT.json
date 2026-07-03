@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_crypto_aes",
+  "short_description": "Throughput di crittografia simmetrica AES-256 su tutti i core.",
+  "description": "Cifra ripetutamente un buffer con AES-256 su tutti i core, utilizzando le istruzioni AES dedicate del processore dove disponibili. Il buffer resta residente in memoria, così il risultato riflette la velocità del cifrario stesso anziché quella dell'archiviazione o della rete.",
+  "metric_explanation": "Il throughput è il numero di byte cifrati al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. Le macchine con supporto AES hardware sono nettamente più veloci di quelle che ricorrono al software.",
+  "reasoning": "AES è il cifrario predefinito per le connessioni sicure e la crittografia dell'intero disco, quindi il suo throughput è una misura diretta di quanto facilmente una macchina possa proteggere i dati in transito e a riposo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi ricorrono alla crittografia solo marginalmente, soprattutto per download e contenuti protetti."
+    },
+    "domain_office": {
+      "explanation": "Connessioni sicure e crittografia del disco operano silenziosamente dietro il lavoro d'ufficio quotidiano."
+    },
+    "domain_software_development": {
+      "explanation": "Clonare, trasferire e pacchettizzare dati crittografati si appoggia al cifrario."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro creativo ricorre alla crittografia solo al momento del salvataggio e della sincronizzazione."
+    },
+    "domain_video_editing": {
+      "explanation": "I media protetti e la consegna sicura aggiungono un certo carico di crittografia attorno al montaggio."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il rendering di per sé non esegue quasi alcuna crittografia."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio comporta poca crittografia oltre al trasferimento dei file."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il lavoro ingegneristico cripta principalmente per proteggere i file di progetto."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Lo spostamento sicuro dei dati tra i cluster aggiunge un modesto carico di crittografia."
+    },
+    "domain_ai_training": {
+      "explanation": "I set di dati crittografati vengono decifrati all'ingresso nelle pipeline di addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'erogazione dei modelli comporta solo una leggera crittografia di trasporto."
+    },
+    "domain_data_science": {
+      "explanation": "La lettura di archivi di dati crittografati mette in esecuzione il cifrario di continuo."
+    },
+    "domain_server_virt": {
+      "explanation": "I server impiegano tempo reale a cifrare le connessioni e a proteggere i dati archiviati."
+    }
+  }
+}

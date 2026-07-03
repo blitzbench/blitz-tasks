@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_crypto_sha",
+  "short_description": "Débito de hashing SHA-256 em todos os núcleos.",
+  "description": "Calcula o hash de um buffer com SHA-256 repetidamente em todos os núcleos, usando as instruções de hashing dedicadas do processador onde estão disponíveis. O buffer permanece em memória, pelo que a pontuação reflete a velocidade da função de hash em vez do armazenamento.",
+  "metric_explanation": "O débito é o número de bytes processados por hash por segundo, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. Os processadores com suporte de hashing por hardware ficam bem à frente dos que não o têm.",
+  "reasoning": "O hashing sustenta verificações de integridade, assinaturas, controlo de versões e checksums de armazenamento, o que torna o seu débito um sinal de capacidade amplamente útil.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Verificar ficheiros de jogo descarregados e atualizados corre hashing sobre grandes volumes de dados."
+    },
+    "domain_office": {
+      "explanation": "As verificações de integridade e as ligações seguras fazem hashing de dados nos bastidores."
+    },
+    "domain_software_development": {
+      "explanation": "O controlo de versões, a verificação de pacotes e as caches de compilação fazem hashing de ficheiros constantemente."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho de design faz hashing de dados apenas ao guardar e sincronizar."
+    },
+    "domain_video_editing": {
+      "explanation": "Verificar grandes transferências de conteúdos depende do hashing."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os pipelines de recursos fazem hashing de ficheiros para detetar alterações e verificar transferências."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio faz hashing de dados sobretudo durante a transferência de ficheiros."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os sistemas de gestão de dados fazem hashing de ficheiros de peças para acompanhar versões."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Verificar grandes conjuntos de dados e resultados recorre intensamente ao hashing."
+    },
+    "domain_ai_training": {
+      "explanation": "Eliminar duplicados e verificar grandes conjuntos de dados de treino depende do hashing."
+    },
+    "domain_ai_inference": {
+      "explanation": "Validar ficheiros de modelo e entradas usa hashing."
+    },
+    "domain_data_science": {
+      "explanation": "Juntar, eliminar duplicados e verificar conjuntos de dados corre hashing com frequência."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores fazem hashing continuamente para integridade de armazenamento, cache e segurança."
+    }
+  }
+}

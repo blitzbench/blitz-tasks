@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_int_multi",
+  "short_description": "Débit arithmétique entier avec chaque cœur et thread occupé.",
+  "description": "Exécute le même mélange d'arithmétique entière que le test sur un seul cœur, mais le répartit sur chaque cœur et thread matériel disponible pendant quelques secondes. Le résultat combiné montre la quantité de travail entier que l'ensemble du processeur peut soutenir simultanément.",
+  "metric_explanation": "Le débit est le total des opérations entières par seconde sur tous les cœurs, divisé par un million, exprimé en Mops/s.",
+  "value_interpretation": "Un nombre plus élevé signifie un débit total supérieur. L'écart entre cette valeur et le résultat sur un seul cœur montre à quel point la puce s'adapte à l'ajout de cœurs.",
+  "reasoning": "Le débit entier sur tous les cœurs saisit la marge disponible pour les charges parallèles telles que la compilation, l'encodage et le traitement simultané de nombreuses requêtes.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les moteurs modernes répartissent le travail sur les cœurs pour la physique, le streaming et la soumission des appels de rendu."
+    },
+    "domain_office": {
+      "explanation": "La plupart des tâches bureautiques n'utilisent que quelques cœurs, si bien que les cœurs supplémentaires apportent peu."
+    },
+    "domain_software_development": {
+      "explanation": "Compilations parallèles et suites de tests évoluent presque directement avec le nombre de cœurs disponibles."
+    },
+    "domain_graphics_design": {
+      "explanation": "Certains filtres par lots et exports utilisent plusieurs cœurs, bien que beaucoup d'éditions restent monothread."
+    },
+    "domain_video_editing": {
+      "explanation": "L'encodage et l'export des effets se répartissent sur tous les cœurs pendant le rendu."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le rendu sur CPU et les précalculs de simulation exploitent chaque cœur disponible."
+    },
+    "domain_audio_production": {
+      "explanation": "Les grandes sessions répartissent les pistes sur les cœurs, mais la voie temps réel reste monothread."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Le maillage et de nombreux solveurs se parallélisent sur les cœurs durant de longues tâches."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les simulations numériques sont couramment parallélisées sur tous les cœurs."
+    },
+    "domain_ai_training": {
+      "explanation": "Le chargement et le prétraitement des données côté hôte alimentent l'accélérateur depuis de nombreux cœurs."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence côté CPU et le traitement par lots profitent d'une répartition sur les cœurs."
+    },
+    "domain_data_science": {
+      "explanation": "Les noyaux de regroupement, de jointure et d'agrégation se parallélisent sur les cœurs pour de vastes tables."
+    },
+    "domain_server_virt": {
+      "explanation": "Héberger de nombreux processus ou conteneurs à la fois dépend directement du débit total des cœurs."
+    }
+  }
+}

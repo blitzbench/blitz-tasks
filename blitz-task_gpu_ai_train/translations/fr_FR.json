@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_ai_train",
+  "short_description": "Débit d'entraînement d'un petit réseau de neurones sur le GPU.",
+  "description": "Exécute des étapes d'entraînement répétées d'un petit réseau de neurones sur le processeur graphique, y compris la passe avant, la passe arrière et la mise à jour des poids. Le modèle, la taille de lot et les données sont fixes, de sorte que le travail est dominé par le calcul matriciel accéléré et le trafic mémoire qui l'alimente.",
+  "metric_explanation": "Le score est le nombre d'échantillons d'entraînement traités par seconde, exprimé en opérations par seconde.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage d'échantillons par seconde signifie des entraînements plus courts et des cycles d'expérimentation plus rapides.",
+  "reasoning": "Une étape d'entraînement complète avec passes avant et arrière est la charge de travail qui définit le matériel d'entraînement en apprentissage automatique, et elle sollicite le calcul et la mémoire comme le fait un entraînement réel.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les machines de jeu procèdent rarement à l'entraînement de modèles."
+    },
+    "domain_office": {
+      "explanation": "Le travail bureautique ne comporte pas d'entraînement de modèles."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs qui construisent des fonctionnalités d'apprentissage automatique entraînent des modèles dans le cadre de leur travail."
+    },
+    "domain_graphics_design": {
+      "explanation": "Des modèles génératifs sur mesure pour le design sont parfois entraînés localement."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage implique rarement l'entraînement de modèles."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Des débruiteurs et des assets appris sont entraînés pour les chaînes de rendu."
+    },
+    "domain_audio_production": {
+      "explanation": "L'entraînement de modèles audio est une activité de niche."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les équipes d'ingénierie entraînent des modèles de substitution pour la simulation."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'apprentissage automatique scientifique entraîne des modèles sur des données de simulation et d'expérience."
+    },
+    "domain_ai_training": {
+      "explanation": "C'est la charge de travail qui définit le domaine de l'entraînement."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'affinage avant déploiement emprunte le même chemin que l'entraînement."
+    },
+    "domain_data_science": {
+      "explanation": "L'ajustement de modèles sur le GPU est un pilier de l'analytique avancée."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs d'entraînement partagés exécutent cette charge de travail pour de nombreux utilisateurs."
+    }
+  }
+}

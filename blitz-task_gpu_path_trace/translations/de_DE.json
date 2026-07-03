@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_path_trace",
+  "short_description": "Path-Tracing-Rendering einer mitgelieferten Szene auf dem Grafikprozessor.",
+  "description": "Rendert eine mitgelieferte Szene mit einem Path Tracer, der auf dem Grafikprozessor läuft, Strahlen verfolgt und Samples zu einem sauberen Bild akkumuliert. Szene, Sample-Budget und Auflösung sind fest, und die Arbeit nutzt die Raytracing- und Rechenpfade der GPU zugleich.",
+  "metric_explanation": "Der Score ist die durchschnittliche Anzahl der pro Sekunde erzeugten akkumulierten Bilder, angegeben in fps, was damit skaliert, wie schnell das Bild konvergiert.",
+  "value_interpretation": "„Höher ist besser.“ Eine höhere Rate bedeutet schnellere Vorschauen und kürzere Endrenderings bei der Arbeit mit raytracing-basierter Beleuchtung.",
+  "reasoning": "GPU-Path-Tracing ist inzwischen zentral für hochwertige Content-Erstellung und für raytracing-basierte Spieleffekte und belastet sowohl die Strahlverfolgung als auch das Shading auf der GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Raytracing-Beleuchtung und -Reflexionen gewinnen in modernen Spielen zunehmend an Bedeutung."
+    },
+    "domain_office": {
+      "explanation": "Büro-Systeme führen kein Path Tracing aus."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant vor allem für Entwickler, die Rendering-Werkzeuge erstellen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Produkt- und Konzeptvisualisierungen werden zunehmend mit GPU-basiertem Path Tracing gerendert."
+    },
+    "domain_video_editing": {
+      "explanation": "Gerenderte 3D-Einblendungen für Videos werden mit diesen Renderern erzeugt."
+    },
+    "domain_3d_rendering": {
+      "explanation": "GPU-Path Tracing ist heute ein zentrales Werkzeug für Offline-3D-Rendering."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit hat keinen Rendering-Anteil."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Photorealistische Design-Reviews setzen auf GPU-basiertes Raytracing-Rendering."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Hochwertige wissenschaftliche Visualisierungen nutzen Raytracing-Rendering."
+    },
+    "domain_ai_training": {
+      "explanation": "Fotoreale synthetische Trainingsdaten werden mit Path-Tracing-Renderings erzeugt."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenz umfasst selten Offline-Rendering."
+    },
+    "domain_data_science": {
+      "explanation": "Analytik verwendet kein Path Tracing."
+    },
+    "domain_server_virt": {
+      "explanation": "GPU-Renderfarmen verteilen diese Arbeitslast auf viele Knoten."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "ram_bw_write",
+  "short_description": "Anhaltende Schreibbandbreite in den Hauptspeicher.",
+  "description": "Schreibt große Arrays in den Hauptspeicher über alle Kerne und nutzt dabei einen Arbeitssatz, der weit größer ist als die Prozessor-Caches, sodass die Daten zu den Speicherchips hinausgeschoben werden. Das Muster ist rein schreibend, was isoliert, wie schnell das System Ergebnisse in den Speicher zurückschreiben kann.",
+  "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde in den Speicher geschriebenen Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Die Schreibbandbreite zählt für Arbeitslasten, die große Ausgaben erzeugen, etwa das Füllen von Puffern, das Aufbauen von Datenstrukturen und das Erzeugen von Ergebnissen.",
+  "reasoning": "Das Schreiben verhält sich auf einem Speichersystem oft anders als das Lesen, weshalb ein eigener Schreibtest ausgabelastige Arbeitslasten erfasst, die ein Lesetest übersehen würde.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Aufbauen von Frame- und Weltdaten schreibt pro Frame große Puffer in den Arbeitsspeicher."
+    },
+    "domain_office": {
+      "explanation": "Büro-Arbeit schreibt moderate Datenmengen in den Arbeitsspeicher."
+    },
+    "domain_software_development": {
+      "explanation": "Build-Prozesse erzeugen große Ausgabestrukturen und Caches im Arbeitsspeicher."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Erzeugen bearbeiteter Bildpuffer schreibt große Datenmengen in den Arbeitsspeicher."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Erzeugen verarbeiteter Frames schreibt hochauflösende Puffer in den Arbeitsspeicher."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Schreiben gerenderter Puffer und Zwischenergebnisse ist durch die Schreibbandbreite begrenzt."
+    },
+    "domain_audio_production": {
+      "explanation": "Das Schreiben verarbeiteter Audio-Puffer beansprucht die Arbeitsspeicher-Schreibbandbreite."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Zusammensetzen großer Netze und Ergebnisfelder schreibt erhebliche Datenmengen in den Arbeitsspeicher."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Das Erzeugen großer Ergebnis-Arrays macht viele Simulationen schreibbandbreitengebunden."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Schreiben von Aktivierungen und verarbeiteten Batches verbraucht Schreibbandbreite."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Schreiben von Zwischenergebnissen während der Inferenz beansprucht die Arbeitsspeicher-Schreibbandbreite."
+    },
+    "domain_data_science": {
+      "explanation": "Das Materialisieren von Zwischentabellen und Ergebnissen schreibt große Datenmengen in den Arbeitsspeicher."
+    },
+    "domain_server_virt": {
+      "explanation": "Viele gleichzeitig schreibende Prozesse konkurrieren um die gemeinsame Schreibbandbreite."
+    }
+  }
+}

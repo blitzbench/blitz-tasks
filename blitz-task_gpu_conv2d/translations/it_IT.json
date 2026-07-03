@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_conv2d",
+  "short_description": "Throughput di convoluzione bidimensionale sul processore grafico.",
+  "description": "Esegue ripetute convoluzioni bidimensionali su dati in forma di immagine sul processore grafico, l'operazione al cuore dei modelli per immagini e di molti filtri. Le forme sono fisse e scelte per mantenere occupate le unità di calcolo, così il risultato riflette la rapidità con cui la GPU esegue questo schema specifico.",
+  "metric_explanation": "Il throughput è il numero di operazioni al secondo eseguite durante le convoluzioni, in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Più alto è, meglio è. Un elevato throughput di convoluzione 2D velocizza il riconoscimento delle immagini, i modelli di visione e i filtri per immagini accelerati.",
+  "reasoning": "La convoluzione bidimensionale è l'operazione dominante nel machine learning basato su immagini e in molti effetti immagine su GPU, e il suo schema di accesso differisce da una semplice moltiplicazione di matrici, quindi merita un test dedicato.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'upscaling e gli effetti di post-produzione basati su convoluzione vengono eseguiti durante il gioco."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio fa scarso uso della convoluzione."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori che realizzano funzionalità di visione artificiale."
+    },
+    "domain_graphics_design": {
+      "explanation": "Molti filtri per immagini accelerati sono convoluzioni applicate sull'immagine."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli effetti a convoluzione e i filtri basati su apprendimento applicati fotogramma per fotogramma vengono eseguiti sulla GPU."
+    },
+    "domain_3d_rendering": {
+      "explanation": "I denoiser basati su convoluzione ripuliscono i fotogrammi renderizzati."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio usa raramente la convoluzione bidimensionale sulla GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Alcune attività di ispezione basate su immagini usano la convoluzione."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I metodi scientifici a stencil e basati su immagini condividono lo schema della convoluzione."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento di modelli per immagini è dominato dalla convoluzione bidimensionale."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'esecuzione di modelli per immagini e visione artificiale dipende fortemente dal throughput della convoluzione."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi delle immagini applica la convoluzione durante l'elaborazione e la modellazione."
+    },
+    "domain_server_virt": {
+      "explanation": "I servizi di inferenza per la visione artificiale eseguono la convoluzione in modo continuo su GPU condivise."
+    }
+  }
+}

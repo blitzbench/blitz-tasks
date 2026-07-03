@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "disk_seek",
+  "short_description": "Tempo para concluir uma única leitura aleatória pequena a partir do armazenamento.",
+  "description": "Emite leituras pequenas para posições aleatórias uma de cada vez, esperando que cada uma termine antes de iniciar a seguinte. Sem sobreposição para esconder o atraso, o teste expõe o tempo real que o armazenamento demora a servir um único pedido disperso.",
+  "metric_explanation": "A pontuação é o tempo médio para concluir um acesso aleatório, indicado em microssegundos.",
+  "value_interpretation": "Quanto menor, melhor. Uma baixa latência de acesso mantém um sistema com a sensação de ser instantâneo, uma vez que muitas esperas curtas se acumulam ao longo do uso diário.",
+  "reasoning": "O débito esconde-se atrás de filas de pedidos, mas a latência de um único acesso é o que o utilizador realmente sente quando uma aplicação ou ficheiro responde, pelo que complementa o teste de leitura aleatória.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os engasgos durante o streaming de recursos devem-se muitas vezes à latência de acesso."
+    },
+    "domain_office": {
+      "explanation": "A capacidade de resposta do dia a dia depende da rapidez com que os ficheiros pequenos respondem."
+    },
+    "domain_software_development": {
+      "explanation": "As ferramentas que consultam e abrem muitos ficheiros pequenos são sensíveis à latência de acesso."
+    },
+    "domain_graphics_design": {
+      "explanation": "Carregar pequenos recursos e pré-visualizações beneficia de baixa latência."
+    },
+    "domain_video_editing": {
+      "explanation": "A reprodução de média é mais limitada pelo débito do que pela latência."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Reunir muitos pequenos ficheiros de recursos é afetado pela latência de acesso."
+    },
+    "domain_audio_production": {
+      "explanation": "Desencadear samples a pedido exige baixa latência de armazenamento para evitar quebras."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Abrir projetos compostos por muitas pequenas referências é sensível à latência."
+    },
+    "domain_scientific_computing": {
+      "explanation": "O acesso aleatório dentro de grandes ficheiros de dados é limitado pela latência."
+    },
+    "domain_ai_training": {
+      "explanation": "O acesso aleatório a registos durante o baralhamento é afetado pela latência."
+    },
+    "domain_ai_inference": {
+      "explanation": "Carregar partes de modelo a pedido depende da latência de armazenamento."
+    },
+    "domain_data_science": {
+      "explanation": "As consultas pontuais a grandes repositórios são limitadas pela latência."
+    },
+    "domain_server_virt": {
+      "explanation": "Os tempos de resposta das bases de dados estão fortemente ligados à latência de acesso ao armazenamento."
+    }
+  }
+}

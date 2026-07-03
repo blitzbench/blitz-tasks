@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_vram_write",
+  "short_description": "Ancho de banda de escritura en la propia memoria del procesador gráfico.",
+  "description": "Escribe búferes grandes en la memoria local del procesador gráfico con un patrón de solo escritura, utilizando un conjunto de trabajo mucho mayor que cualquier caché en chip. El resultado muestra la rapidez con la que la GPU puede almacenar resultados de vuelta en su propia memoria.",
+  "metric_explanation": "El ancho de banda es el número de bytes escritos en la memoria de la GPU por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de escritura limita las cargas de trabajo que producen grandes salidas en la memoria de la GPU, como los búferes de render y las activaciones generadas.",
+  "reasoning": "La escritura puede comportarse de forma distinta a la lectura en un sistema de memoria de GPU, por lo que una prueba de escritura dedicada captura el trabajo acelerado con muchas salidas.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Escribir búferes de render y de fotogramas en cada fotograma utiliza el ancho de banda de escritura de la GPU."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática escribe pocos datos a través de la memoria de la GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Resulta relevante sobre todo al desarrollar software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Producir búferes de imagen editados escribe grandes volúmenes de datos en la memoria de la GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Escribir los fotogramas procesados en la memoria de la GPU utiliza el ancho de banda de escritura."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Escribir los búferes de render y los resultados intermedios está limitado por el ancho de banda de escritura."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio escribe poco a través de la memoria de la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Escribir los búferes del viewport y los resultados utiliza el ancho de banda de escritura de la GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Escribir grandes arrays de resultados hace que las simulaciones aceleradas estén limitadas por el ancho de banda de escritura."
+    },
+    "domain_ai_training": {
+      "explanation": "Escribir activaciones y gradientes consume grandes cantidades de ancho de banda de escritura."
+    },
+    "domain_ai_inference": {
+      "explanation": "Escribir las activaciones intermedias durante la inferencia utiliza el ancho de banda de escritura."
+    },
+    "domain_data_science": {
+      "explanation": "Materializar resultados en la memoria de la GPU escribe grandes volúmenes de datos."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de GPU compartida reparten el ancho de banda de escritura entre muchos inquilinos."
+    }
+  }
+}

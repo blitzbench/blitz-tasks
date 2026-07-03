@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "ram_bw_write",
+  "short_description": "Larghezza di banda in scrittura sostenuta verso la memoria principale.",
+  "description": "Scrive grandi array nella memoria principale su tutti i core, utilizzando un working set molto più grande delle cache del processore, così che i dati vengano spinti fino ai chip di memoria. Lo schema è di sola scrittura, il che isola la rapidità con cui il sistema può memorizzare i risultati in memoria.",
+  "metric_explanation": "La larghezza di banda è il numero di byte scritti in memoria al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. La larghezza di banda in scrittura è importante per i carichi di lavoro che generano output di grandi dimensioni, come il riempimento di buffer, la costruzione di strutture dati e la produzione di risultati.",
+  "reasoning": "La scrittura si comporta spesso diversamente dalla lettura in un sistema di memoria, quindi un test di scrittura dedicato cattura i carichi di lavoro ricchi di output che un test di lettura trascurerebbe.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Costruire i dati di fotogramma e mondo scrive grandi buffer nella memoria a ogni fotogramma."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio scrive quantità modeste di dati nella memoria."
+    },
+    "domain_software_development": {
+      "explanation": "Le build costruiscono grandi strutture di output e cache in memoria."
+    },
+    "domain_graphics_design": {
+      "explanation": "Produrre i buffer delle immagini modificate scrive grandi quantità di dati nella memoria."
+    },
+    "domain_video_editing": {
+      "explanation": "Generare i fotogrammi elaborati scrive buffer ad alta risoluzione nella memoria."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Scrivere i buffer renderizzati e i risultati intermedi è vincolato dalla larghezza di banda in scrittura."
+    },
+    "domain_audio_production": {
+      "explanation": "Scrivere i buffer audio elaborati utilizza la larghezza di banda in scrittura della memoria."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Assemblare mesh di grandi dimensioni e campi di risultati scrive intensamente nella memoria."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Produrre grandi array di risultati rende molte simulazioni vincolate dalla larghezza di banda in scrittura."
+    },
+    "domain_ai_training": {
+      "explanation": "Scrivere attivazioni e batch elaborati consuma larghezza di banda in scrittura."
+    },
+    "domain_ai_inference": {
+      "explanation": "Scrivere i risultati intermedi durante l'inferenza utilizza la larghezza di banda in scrittura della memoria."
+    },
+    "domain_data_science": {
+      "explanation": "Materializzare tabelle intermedie e risultati scrive grandi quantità di dati nella memoria."
+    },
+    "domain_server_virt": {
+      "explanation": "Molti processi che scrivono contemporaneamente competono per la larghezza di banda in scrittura condivisa."
+    }
+  }
+}

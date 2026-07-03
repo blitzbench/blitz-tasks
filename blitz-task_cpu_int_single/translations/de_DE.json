@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_int_single",
+  "short_description": "Single-Core-Integer-Arithmetik-Durchsatz auf einem ausgelasteten Thread.",
+  "description": "Führt eine enge Mischung aus Integer-Additions-, Multiplikations-, Verschiebungs- und Vergleichsoperationen für einige Sekunden auf einem einzelnen Thread aus. Der Datensatz bleibt innerhalb des Kerns, sodass das Ergebnis die reine Arithmetikgeschwindigkeit widerspiegelt und nicht das Verhalten von Speicher oder Cache.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der pro Sekunde abgeschlossenen Integer-Operationen, geteilt durch eine Million, angegeben in Mops/s.",
+  "value_interpretation": "Eine höhere Zahl bedeutet einen schnelleren einzelnen Kern. Dies ist die Kennzahl, die für Arbeit zählt, die nicht auf viele Kerne verteilt werden kann, etwa ein einzelner Browser-Tab oder ein einzelner Spiel-Thread.",
+  "reasoning": "Die Single-Core-Integer-Geschwindigkeit ist das klarste Signal dafür, wie flüssig sich eine Maschine bei alltäglicher, latenzsensitiver Arbeit anfühlt, weshalb sie die synthetische CPU-Reihe verankert.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiellogik und der Haupt-Update-Thread sind stark auf Integer-Geschwindigkeit eines einzelnen Kerns angewiesen."
+    },
+    "domain_office": {
+      "explanation": "Die Reaktionsfähigkeit von Dokumenten und Browser hängt davon ab, wie schnell ein Kern kurze Arbeitspitzen verarbeitet."
+    },
+    "domain_software_development": {
+      "explanation": "Viele Build- und Tool-Schritte laufen auf einem Kern, und die Reaktionsfähigkeit des Editors hängt davon ab."
+    },
+    "domain_graphics_design": {
+      "explanation": "Interaktive Bearbeitungen werden auf einem einzelnen Thread verarbeitet, bevor GPU-Arbeit beginnt."
+    },
+    "domain_video_editing": {
+      "explanation": "Timeline-Scrubbing und Effekt-Einrichtung laufen auf einem Kern, bevor der Mehr-Kern-Export beginnt."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Szenen-Setup und objektweise Vorbereitung laufen einkernig, bevor das Rendering aufgefächert wird."
+    },
+    "domain_audio_production": {
+      "explanation": "Echtzeit-Audiographen laufen auf einem Thread und reagieren sehr empfindlich auf die Geschwindigkeit eines einzelnen Kerns."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Modellbearbeitung und Geometrie-Updates laufen auf einem einzelnen Thread zwischen Solver-Läufen."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Serielle Abschnitte und Setup-Code begrenzen sonst parallele Simulationen."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Training wird vom Beschleuniger dominiert; der Einfluss eines einzelnen Host-Kerns ist begrenzt."
+    },
+    "domain_ai_inference": {
+      "explanation": "Tokenisierung und Anfragenverarbeitung laufen auf einem Kern rund um die rechenintensive Arbeit."
+    },
+    "domain_data_science": {
+      "explanation": "Interaktive Abfrage-Einrichtung und Skripting laufen einkernig, bevor parallele Kernels starten."
+    },
+    "domain_server_virt": {
+      "explanation": "Die Latenz pro Anfrage hängt davon ab, wie schnell ein einzelner Kern eine Arbeitseinheit verarbeitet."
+    }
+  }
+}

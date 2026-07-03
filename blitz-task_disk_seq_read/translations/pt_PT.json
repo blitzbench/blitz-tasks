@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "disk_seq_read",
+  "short_description": "Velocidade de leitura de ficheiros grandes e contínuos a partir do armazenamento.",
+  "description": "Lê um ficheiro grande a partir do armazenamento em grandes blocos contínuos, contornando cópias em cache de modo que os números reflitam a unidade em vez da memória. Este é o melhor cenário de padrão de acesso para o armazenamento e mostra a velocidade máxima de leitura que o dispositivo consegue entregar.",
+  "metric_explanation": "A pontuação é o número de megabytes lidos por segundo, indicado em MB/s.",
+  "value_interpretation": "Quanto maior, melhor. Leituras sequenciais rápidas encurtam o tempo de carregamento de ficheiros grandes como vídeos, níveis de jogo e conjuntos de dados.",
+  "reasoning": "A leitura sequencial é a medida mais clara de quão depressa uma máquina consegue retirar ficheiros grandes do armazenamento, o que afeta os tempos de carregamento em muitas tarefas.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Carregar grandes mundos de jogo e recursos é sobretudo leitura sequencial."
+    },
+    "domain_office": {
+      "explanation": "Abrir grandes documentos e média beneficia de leituras sequenciais rápidas."
+    },
+    "domain_software_development": {
+      "explanation": "Ler grandes repositórios e saídas de compilação envolve leituras sequenciais intensas."
+    },
+    "domain_graphics_design": {
+      "explanation": "Carregar grandes ficheiros de imagem e de projeto é limitado pela leitura."
+    },
+    "domain_video_editing": {
+      "explanation": "Reproduzir filmagens de alta resolução exige velocidade de leitura sustentada."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Carregar grandes cenas e conjuntos de texturas é intenso em leitura."
+    },
+    "domain_audio_production": {
+      "explanation": "O streaming de grandes bibliotecas de samples lê continuamente do armazenamento."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Abrir grandes montagens e ficheiros de resultados é limitado pela leitura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Carregar grandes conjuntos de dados de entrada depende da velocidade de leitura sequencial."
+    },
+    "domain_ai_training": {
+      "explanation": "O streaming de grandes conjuntos de dados de treino a partir do armazenamento é intenso em leitura."
+    },
+    "domain_ai_inference": {
+      "explanation": "Carregar grandes ficheiros de modelo a partir do armazenamento depende de leituras sequenciais."
+    },
+    "domain_data_science": {
+      "explanation": "Percorrer grandes ficheiros para análise é dominado pela velocidade de leitura."
+    },
+    "domain_server_virt": {
+      "explanation": "Carregar imagens e grandes volumes de dados recorre ao débito de leitura sequencial."
+    }
+  }
+}

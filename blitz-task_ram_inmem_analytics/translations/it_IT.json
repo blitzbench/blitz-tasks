@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "ram_inmem_analytics",
+  "short_description": "Grande hash join e ordinamento interamente in memoria.",
+  "description": "Costruisce grandi tabelle hash e ordina un grande set di dati interamente in memoria, come un motore analitico gestisce un join e un ordinamento su dati che non entrano nella cache. Il lavoro è deliberatamente vincolato dal sistema di memoria anziché dall'aritmetica, quindi riflette la rapidità con cui la macchina può spostare e riorganizzare grandi quantità di dati.",
+  "metric_explanation": "Il punteggio è il numero di record uniti e ordinati al secondo, riportato come operazioni al secondo.",
+  "value_interpretation": "Più alto è, meglio è. Un tasso più elevato significa join e ordinamenti più rapidi su grandi quantità di dati in memoria, ossia dove l'analisi vincolata alla memoria impiega il suo tempo.",
+  "reasoning": "Unire e ordinare grandi set di dati in memoria è uno dei carichi di lavoro reali più vincolati alla memoria che esistano, il che lo rende il test reale adeguato per il sistema di memoria.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi eseguono poche analisi di grandi dimensioni in memoria."
+    },
+    "domain_office": {
+      "explanation": "I grandi fogli di calcolo e le operazioni di pivot sono versioni ridotte di questo tipo di lavoro."
+    },
+    "domain_software_development": {
+      "explanation": "Interrogare grandi log e tracce in memoria segue lo stesso schema."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di design comporta poche analisi in memoria."
+    },
+    "domain_video_editing": {
+      "explanation": "L'editing raramente esegue grandi join o ordinamenti."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La gestione di scene e asset comporta alcuni ordinamenti in memoria."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio comporta poche analisi in memoria."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ordinare e abbinare grandi insiemi di risultati fa parte del post-processing delle simulazioni."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Riorganizzare grandi array in memoria è comune tra le fasi di simulazione."
+    },
+    "domain_ai_training": {
+      "explanation": "Mescolare e unire grandi tabelle di feature in memoria alimenta l'addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza in batch unisce input e feature in memoria prima dello scoring."
+    },
+    "domain_data_science": {
+      "explanation": "I grandi join e ordinamenti in memoria sono il cuore dei carichi di lavoro analitici."
+    },
+    "domain_server_virt": {
+      "explanation": "I servizi dati in memoria eseguono continuamente questi join e ordinamenti su server condivisi."
+    }
+  }
+}

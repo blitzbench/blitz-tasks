@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_audio_dsp",
+  "short_description": "Grafo de efectos de audio en tiempo real con muchas voces y plugins.",
+  "description": "Ejecuta una sesión de audio cargada como un único grafo en tiempo real, con muchas voces simultáneas que pasan por filtros, reverberación y convolución. El trabajo se mantiene en un solo hilo de procesamiento para reflejar cómo se gestiona el audio en directo, donde cada bloque debe terminar antes de que venza el siguiente.",
+  "metric_explanation": "La puntuación es el número de bloques de procesamiento de audio completados por segundo, expresado como operaciones por segundo, lo que refleja cuántas voces y efectos pueden ejecutarse sin cortes.",
+  "value_interpretation": "Cuanto más alto, mejor. Un número más alto significa que pueden reproducirse a la vez más pistas y plugins con baja latencia antes de que el audio empiece a fallar.",
+  "reasoning": "El audio en directo depende por completo de un rendimiento estable en un solo hilo bajo un plazo estricto, por lo que esto representa la producción musical y de audio mejor que cualquier media de rendimiento.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La mezcla de audio del juego y los efectos espaciales se ejecutan en un hilo en tiempo real junto al motor."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática solo implica una reproducción básica, no un procesamiento de audio intenso."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores rara vez ejecutan grafos de audio en tiempo real como parte de su trabajo."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo con imágenes fijas tiene poco que ver con el procesamiento de audio."
+    },
+    "domain_video_editing": {
+      "explanation": "Los editores ejecutan efectos de audio y mezcla en paralelo con la línea de tiempo de vídeo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El renderizado offline no depende del audio en tiempo real."
+    },
+    "domain_audio_production": {
+      "explanation": "Esta es la carga de trabajo diaria fundamental para los profesionales de la música y el audio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "El trabajo de ingeniería no tiene un componente significativo de procesamiento de audio."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La investigación en procesamiento de señales comparte los mismos núcleos de filtrado y transformación."
+    },
+    "domain_ai_training": {
+      "explanation": "La extracción de características de audio para el entrenamiento reutiliza estas etapas de efectos y transformación."
+    },
+    "domain_ai_inference": {
+      "explanation": "Los modelos de audio en tiempo real ejecutan el preprocesamiento a través de cadenas de DSP similares."
+    },
+    "domain_data_science": {
+      "explanation": "El audio es un tipo de dato muy específico dentro de la analítica general."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores rara vez ejecutan grafos de audio limitados por la latencia."
+    }
+  }
+}

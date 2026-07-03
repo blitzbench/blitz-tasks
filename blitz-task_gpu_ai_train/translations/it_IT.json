@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_ai_train",
+  "short_description": "Throughput di addestramento di una piccola rete neurale sulla GPU.",
+  "description": "Esegue ripetuti passi di addestramento di una piccola rete neurale sul processore grafico, inclusi il forward pass, il backward pass e l'aggiornamento dei pesi. Il modello, la dimensione del batch e i dati sono fissi, così il lavoro è dominato dal calcolo matriciale accelerato e dal traffico di memoria che lo alimenta.",
+  "metric_explanation": "Il punteggio è il numero di campioni di addestramento elaborati al secondo, riportato come operazioni al secondo.",
+  "value_interpretation": "Più alto è, meglio è. Più campioni al secondo significano sessioni di addestramento più brevi e cicli sperimentali più rapidi.",
+  "reasoning": "Un passo di addestramento completo con forward e backward pass è il carico di lavoro che definisce l'hardware per l'addestramento di machine learning e mette sotto stress calcolo e memoria come fa l'addestramento reale.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le macchine da gioco raramente eseguono l'addestramento di modelli."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non prevede l'addestramento di modelli."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori che realizzano funzionalità di machine learning addestrano modelli nel corso del loro lavoro."
+    },
+    "domain_graphics_design": {
+      "explanation": "I modelli generativi personalizzati per il design vengono talvolta addestrati in locale."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio raramente comporta l'addestramento di modelli."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Denoiser e asset basati su apprendimento vengono addestrati per le pipeline di rendering."
+    },
+    "domain_audio_production": {
+      "explanation": "L'addestramento di modelli audio è un'attività di nicchia."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I team di ingegneria addestrano modelli surrogati per la simulazione."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Il machine learning scientifico addestra modelli su dati di simulazione e sperimentali."
+    },
+    "domain_ai_training": {
+      "explanation": "È il carico di lavoro che definisce il dominio dell'addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "Il fine tuning prima del rilascio condivide lo stesso percorso di addestramento."
+    },
+    "domain_data_science": {
+      "explanation": "L'addestramento dei modelli su GPU è una parte centrale dell'analisi avanzata."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di addestramento condivisi eseguono questo carico di lavoro per molti utenti."
+    }
+  }
+}

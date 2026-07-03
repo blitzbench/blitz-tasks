@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_image_filters",
+  "short_description": "Gestapelte Fotofilter, angewandt auf mitgelieferte hochauflösende Bilder.",
+  "description": "Wendet einen Stapel gängiger Fotobearbeitungsfilter wie Weichzeichnen, Schärfen, Rauschreduzierung und Tonwertanpassung auf mitgelieferte hochauflösende Bilder auf dem Grafikprozessor an. Bilder und Filterkette sind fest und entsprechen dem beschleunigten Pfad, den Foto- und Designwerkzeuge für Live-Bearbeitungen nutzen.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Minute erzeugten gefilterten Bilder, angegeben als Elemente pro Minute.",
+  "value_interpretation": "„Höher ist besser.“ Eine höhere Rate bedeutet, dass Bearbeitungen und Anpassungen bei der Arbeit mit großen Bildern nahezu sofort erscheinen.",
+  "reasoning": "Beschleunigte Filterung großer Bilder ist die Arbeitslast, die Foto- und Designwerkzeuge reaktionsschnell wirken lässt, weshalb sie Grafik- und Fotobearbeitung gut abbildet.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Post-Processing in Spielen nutzt ähnliche Bildfilterung auf der GPU."
+    },
+    "domain_office": {
+      "explanation": "Einfache Bildbearbeitungen kommen im alltäglichen Dokumentenarbeiten vor."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant für Entwickler von Bildverarbeitungs- und Kreativsoftware."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Filtern großer Bilder ist die zentrale interaktive Arbeitslast für Foto- und Designarbeit."
+    },
+    "domain_video_editing": {
+      "explanation": "Frame-weise Filter in der Videobearbeitung nutzen dieselben beschleunigten Operationen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Compositing und Post-Processing gerenderter Frames nutzen Bildfilter."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion umfasst keine Bildfilterung."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Post-Processing gerenderter Designbilder nutzt ähnliche Filter."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Bildbasierte Wissenschaft setzt dieselben faltungsbasierten Filter ein."
+    },
+    "domain_ai_training": {
+      "explanation": "Bildaugmentierung für das Training greift auf dieselben Filteroperationen zurück."
+    },
+    "domain_ai_inference": {
+      "explanation": "Vor- und Nachverarbeitung rund um Sichtmodelle nutzt Bildfilter."
+    },
+    "domain_data_science": {
+      "explanation": "Bildanalytik wendet Filter bei der Datenvorbereitung an."
+    },
+    "domain_server_virt": {
+      "explanation": "Bildverarbeitungsdienste führen diese Filter skaliert auf gemeinsam genutzten Servern aus."
+    }
+  }
+}

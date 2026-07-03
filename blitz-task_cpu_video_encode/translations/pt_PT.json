@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_video_encode",
+  "short_description": "Codificação por software H.264 de um clip 1080p incluído usando x264.",
+  "description": "Codifica um clip de vídeo 1080p incluído para H.264 inteiramente no processador usando o codificador x264 com uma predefinição de qualidade fixa. A codificação por software é escolhida de propósito, de modo que o teste mede o CPU em vez de um codificador de hardware de função fixa. O clip e as definições são idênticos em cada máquina.",
+  "metric_explanation": "A pontuação é o número médio de fotogramas codificados por segundo ao longo do clip, indicado em fps.",
+  "value_interpretation": "Quanto maior, melhor. Mais fotogramas por segundo significam exportações mais rápidas e pré-visualizações mais suaves quando uma cadeia de efeitos força a codificação por software.",
+  "reasoning": "A codificação por software de alta qualidade é uma das tarefas sustentadas mais exigentes que um criador executa, o que faz dela o teste principal certo para o trabalho de vídeo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os streamers codificam a jogabilidade, recorrendo muitas vezes ao CPU quando a GPU está ocupada."
+    },
+    "domain_office": {
+      "explanation": "Os utilizadores de escritório codificam vídeo apenas ocasionalmente, para apresentações."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores raramente correm codificação de vídeo sustentada."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho de motion graphics produz vídeo que precisa de codificação na exportação."
+    },
+    "domain_video_editing": {
+      "explanation": "A velocidade da codificação por software determina diretamente a duração de uma exportação final."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A saída de animação é codificada em vídeo para entrega depois de renderizados os fotogramas."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio recorre à codificação de vídeo apenas ao sonorizar imagem."
+    },
+    "domain_cad_engineering": {
+      "explanation": "O trabalho de engenharia codifica ocasionalmente passagens animadas de simulação."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A codificação é um passo menor ao transformar a saída de simulação em vídeo."
+    },
+    "domain_ai_training": {
+      "explanation": "Os conjuntos de dados de vídeo são por vezes transcodificados durante a preparação."
+    },
+    "domain_ai_inference": {
+      "explanation": "Os pipelines que produzem saída de vídeo precisam de uma fase de codificação."
+    },
+    "domain_data_science": {
+      "explanation": "A análise raramente envolve codificação de vídeo."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de média correm transcodificação por software quando não há codificadores por hardware disponíveis."
+    }
+  }
+}

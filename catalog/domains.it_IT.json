@@ -1,0 +1,55 @@
+{
+  "lang": "it_IT",
+  "domain_gaming": {
+    "name": "Gaming",
+    "description": "Carichi di lavoro di grafica 3D interattiva in tempo reale: motori di gioco vincolati dalla frequenza dei fotogrammi su pipeline di rasterizzazione e ray tracing."
+  },
+  "domain_office": {
+    "name": "Ufficio e produttività",
+    "description": "Flussi di lavoro di produttività, navigazione web, email e documenti: sensibili alla latenza ma raramente vincolati dal throughput."
+  },
+  "domain_software_development": {
+    "name": "Sviluppo software",
+    "description": "Editing del codice, compilazione, controllo di versione e strumenti di sviluppo: molto esigenti in termini di throughput sugli interi, I/O su file e molte piccole letture."
+  },
+  "domain_graphics_design": {
+    "name": "Grafica ed editing fotografico",
+    "description": "Editing di immagini raster e post-produzione fotografica: grandi buffer 2D, filtri accelerati dalla GPU e molte brevi operazioni interattive."
+  },
+  "domain_video_editing": {
+    "name": "Editing e codifica video",
+    "description": "Editing video, correzione colore e codifica: I/O sequenziale sostenuto abbinato a pesanti pipeline di codifica/decodifica accelerate via hardware."
+  },
+  "domain_3d_rendering": {
+    "name": "Rendering 3D e animazione",
+    "description": "Produzione di contenuti 3D offline: modellazione, animazione e rendering in ray tracing, carichi dominati dal throughput in virgola mobile di GPU e CPU."
+  },
+  "domain_audio_production": {
+    "name": "Produzione audio e DSP",
+    "description": "Lavoro con DAW, mixing, strumenti software e DSP in tempo reale: critico per la latenza, vincolato al singolo thread e sensibile alla latenza della memoria."
+  },
+  "domain_cad_engineering": {
+    "name": "CAD e simulazione ingegneristica",
+    "description": "Modellazione CAD e simulazione ingegneristica: solver esigenti in FP64, visualizzazione di mesh di grandi dimensioni e job di calcolo di lunga durata."
+  },
+  "domain_scientific_computing": {
+    "name": "Calcolo scientifico e HPC",
+    "description": "Simulazione numerica, HPC e calcolo scientifico: dominano il FP64 e l'accesso alla memoria ad ampia larghezza di banda."
+  },
+  "domain_ai_training": {
+    "name": "Addestramento AI / ML",
+    "description": "Carichi di addestramento dei modelli: throughput sostenuto nella moltiplicazione di matrici su GPU/acceleratore, grandi attivazioni in VRAM ed elevata larghezza di banda dell'host per l'alimentazione dei dati."
+  },
+  "domain_ai_inference": {
+    "name": "Inferenza AI (LLM e diffusione)",
+    "description": "Inferenza locale di LLM e modelli di diffusione: generazione di token vincolata dalla larghezza di banda della memoria e cicli di denoising vincolati dal calcolo."
+  },
+  "domain_data_science": {
+    "name": "Data science e analisi dei dati",
+    "description": "Analisi tabellari, operazioni su dataframe e motori di query: aggregazioni vincolate dalla larghezza di banda della memoria su dataset ampi."
+  },
+  "domain_server_virt": {
+    "name": "Server e virtualizzazione",
+    "description": "Carichi multi-tenant, densità di container/VM e throughput di fondo sostenuto su molti processi concorrenti."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_vram_read",
+  "short_description": "Ancho de banda de lectura desde la propia memoria del procesador gráfico.",
+  "description": "Lee búferes grandes de la memoria local del procesador gráfico con un patrón de solo lectura, utilizando un conjunto de trabajo mucho mayor que cualquier caché en chip. El resultado muestra la rapidez con la que la GPU puede traer datos de su propia memoria para alimentar las unidades de cálculo.",
+  "metric_explanation": "El ancho de banda es el número de bytes leídos de la memoria de la GPU por segundo, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de lectura limita las cargas de trabajo que vuelcan grandes texturas, modelos y conjuntos de datos en la GPU más rápido de lo que los calculan.",
+  "reasoning": "Leer de la memoria local es el patrón de acceso más común en la GPU, por lo que el ancho de banda de lectura es la cifra principal para el trabajo acelerado con gran volumen de datos.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Leer texturas y búferes hacia los núcleos depende de unas lecturas rápidas de la memoria de la GPU."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática lee pocos datos a través de la memoria de la GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Resulta relevante sobre todo al desarrollar software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Leer grandes capas de imagen hacia la GPU está limitado por el ancho de banda de lectura."
+    },
+    "domain_video_editing": {
+      "explanation": "Leer fotogramas de alta resolución hacia la GPU recurre al ancho de banda de lectura de la memoria."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Leer grandes escenas y texturas hace que el renderizado en la GPU esté limitado por el ancho de banda de lectura."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio lee poco a través de la memoria de la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Leer grandes mallas hacia el viewport utiliza el ancho de banda de lectura de la GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Las simulaciones aceleradas suelen estar limitadas por las lecturas desde la memoria de la GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "Leer pesos y activaciones domina el tráfico de memoria durante el entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "La velocidad de generación de tokens viene determinada en gran medida por la rapidez con que se leen los pesos desde la memoria de la GPU."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica en GPU recorre grandes arrays desde la memoria."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de GPU compartida reparten el ancho de banda de lectura entre muchos inquilinos."
+    }
+  }
+}

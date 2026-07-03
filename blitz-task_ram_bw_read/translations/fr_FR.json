@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "ram_bw_read",
+  "short_description": "Bande passante soutenue en lecture depuis la mémoire principale.",
+  "description": "Lit de grands tableaux depuis la mémoire principale sur tous les cœurs, avec un ensemble de travail bien plus grand que les caches du processeur, de sorte que presque chaque accès atteint les puces mémoire. Le schéma est en lecture seule, ce qui isole la vitesse à laquelle le système peut extraire des données de la mémoire.",
+  "metric_explanation": "La bande passante est le nombre d'octets lus depuis la mémoire par seconde, exprimé en GB/s.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante en lecture fixe le plafond de toute charge qui consomme plus de données qu'elle n'en produit, ce qui couvre la plupart des tâches de balayage et d'analyse.",
+  "reasoning": "La lecture est le schéma d'accès mémoire le plus courant ; la bande passante en lecture est donc le chiffre phare du travail à forte composante de données qui fait défiler les entrées à travers les cœurs.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le streaming des textures et des données de monde vers les cœurs maintient la demande en bande passante en lecture."
+    },
+    "domain_office": {
+      "explanation": "La bureautique lit des quantités modestes de données depuis la mémoire."
+    },
+    "domain_software_development": {
+      "explanation": "Les grandes compilations et les étapes d'édition de liens lisent des données importantes depuis la mémoire."
+    },
+    "domain_graphics_design": {
+      "explanation": "La lecture de grands tampons d'image lors des retouches est limitée par la bande passante en lecture."
+    },
+    "domain_video_editing": {
+      "explanation": "La lecture d'images haute résolution pour la lecture et les effets sollicite fortement la bande passante en lecture."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La lecture de grandes scènes et textures maintient la mémoire occupée lors du rendu."
+    },
+    "domain_audio_production": {
+      "explanation": "Le streaming de grandes bibliothèques d'échantillons lit continuellement depuis la mémoire."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La lecture de grands maillages et champs de résultats est limitée par la bande passante en lecture."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les noyaux numériques sont souvent limités par la rapidité de lecture des entrées depuis la mémoire."
+    },
+    "domain_ai_training": {
+      "explanation": "La lecture des paramètres et des données pour alimenter l'accélérateur dépend de la bande passante en lecture."
+    },
+    "domain_ai_inference": {
+      "explanation": "La vitesse d'inférence sur CPU est largement déterminée par la rapidité de lecture des poids depuis la mémoire."
+    },
+    "domain_data_science": {
+      "explanation": "Le parcours de larges tables est dominé par la bande passante en lecture."
+    },
+    "domain_server_virt": {
+      "explanation": "De nombreux processus concurrents se disputent la bande passante en lecture de la mémoire partagée."
+    }
+  }
+}

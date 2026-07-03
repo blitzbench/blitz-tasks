@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_hpc_fft",
+  "short_description": "FFT de precisão dupla e álgebra linear densa em todos os núcleos.",
+  "description": "Executa uma combinação de transformadas rápidas de Fourier de precisão dupla e trabalho de matrizes densas em todos os núcleos usando uma biblioteca numérica otimizada. Os tamanhos do problema são escolhidos para transbordar da cache, de modo que o teste exercita tanto a aritmética como o tráfego de memória, que é como as simulações reais se comportam.",
+  "metric_explanation": "A pontuação é o débito sustentado de precisão dupla, indicado em GFLOPS, calculado como média ao longo da execução.",
+  "value_interpretation": "Quanto maior, melhor. Mais débito significa que modelos maiores e simulações mais longas terminam em tempo razoável.",
+  "reasoning": "As transformadas e a álgebra linear são os blocos de construção da maioria dos códigos numéricos e de engenharia, pelo que o débito de precisão dupla aqui prevê o desempenho científico real.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos utilizam pouca matemática de dupla precisão."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não tem uma componente numérica pesada."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores de software numérico beneficiam, mas a programação geral não."
+    },
+    "domain_graphics_design": {
+      "explanation": "O trabalho sobre imagens utiliza matemática de precisão simples em vez deste kernel."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição raramente recorre a cálculos numéricos de dupla precisão."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A simulação física para animação partilha estes kernels de transformação e de solver."
+    },
+    "domain_audio_production": {
+      "explanation": "As transformações aqui espelham a matemática espetral usada na análise de áudio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "A simulação de engenharia assenta diretamente em transformações de dupla precisão e em álgebra linear."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Esta é a carga de trabalho central da simulação numérica e da computação de alto desempenho."
+    },
+    "domain_ai_training": {
+      "explanation": "Alguns pipelines de treino científico e de características reutilizam estes kernels densos."
+    },
+    "domain_ai_inference": {
+      "explanation": "O pré-processamento numérico para modelos utiliza álgebra linear semelhante."
+    },
+    "domain_data_science": {
+      "explanation": "Os métodos estatísticos e a análise de sinais dependem de transformações e de matemática matricial."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores gerais executam pouca matemática sustentada de dupla precisão."
+    }
+  }
+}

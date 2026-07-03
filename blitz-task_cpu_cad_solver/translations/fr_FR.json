@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_cad_solver",
+  "short_description": "Résolution par éléments finis creux sur un modèle d'ingenierie fixe.",
+  "description": "Résout un modèle par éléments finis fourni de la manière dont procèdent les outils de simulation d'ingénierie, en assemblant un grand système creux et en exécutant un solveur itératif jusqu'à convergence sur tous les cœurs. Le modèle et les tolérances sont fixes afin que les résultats soient directement comparables d'une machine à l'autre.",
+  "metric_explanation": "Le score correspond au nombre d'itérations du solveur effectuées par seconde, exprimé en opérations par seconde, ce qui traduit la rapidité avec laquelle la simulation parvient à une solution.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage d'itérations par seconde signifie des cycles de conception plus rapides, car les ingénieurs attendent ces résolutions entre chaque modification.",
+  "reasoning": "Les solveurs creux sollicitent l'accès mémoire irrégulier et le calcul en double précision selon le schéma qu'emploient les véritables outils de CAO et d'ingénierie ; cette mesure reflète donc les performances de simulation bien mieux qu'un test de débit épuré.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La physique de jeu reprend le principe du solveur itératif, mais à une précision bien moindre."
+    },
+    "domain_office": {
+      "explanation": "La bureautique ne comporte aucune composante de simulation."
+    },
+    "domain_software_development": {
+      "explanation": "Seuls les développeurs d'outils de simulation rencontrent ce type de charge."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le travail de conception graphique n'exécute pas de solveurs d'ingénierie."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage n'a aucun rapport avec la résolution numérique."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La simulation de tissus, de fluides et de corps souples fait appel à des solveurs creux apparentés."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio ne fait pas intervenir de résolution par éléments finis."
+    },
+    "domain_cad_engineering": {
+      "explanation": "C'est la charge de travail lourde qui définit la CAO et la simulation d'ingénierie."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les solveurs creux itératifs sont au cœur d'une large part des codes scientifiques."
+    },
+    "domain_ai_training": {
+      "explanation": "Certains entraînements guidés par la physique réutilisent des noyaux de type solveur."
+    },
+    "domain_ai_inference": {
+      "explanation": "Les substituts de simulation associent parfois l'inférence d'un modèle à des étapes de solveur."
+    },
+    "domain_data_science": {
+      "explanation": "Les méthodes d'optimisation et de graphes partagent une part d'algèbre linéaire creuse."
+    },
+    "domain_server_virt": {
+      "explanation": "Les tâches de simulation s'exécutent sur des serveurs, mais ne constituent pas une charge serveur générale."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "ram_bw_read",
+  "short_description": "Anhaltende Lesebandbreite aus dem Hauptspeicher.",
+  "description": "Liest große Arrays aus dem Hauptspeicher über alle Kerne und nutzt dabei einen Arbeitssatz, der weit größer ist als die Prozessor-Caches, sodass nahezu jeder Zugriff die Speicherchips erreicht. Das Muster ist rein lesend, was isoliert, wie schnell das System Daten aus dem Speicher holen kann.",
+  "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde aus dem Speicher gelesenen Bytes, angegeben in GB/s.",
+  "value_interpretation": "„Höher ist besser.“ Die Lesebandbreite setzt die Obergrenze für jede Arbeitslast, die mehr Daten verbraucht als sie erzeugt, was die meisten Scan- und Analyseaufgaben abdeckt.",
+  "reasoning": "Das Lesen ist das häufigste Speicherzugriffsmuster, weshalb die Lesebandbreite die Leitkennzahl für datenintensive Arbeit ist, die Eingaben durch die Kerne streamt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Streamen von Texturen und Weltdaten in die Kerne hält die Lesebandbreite dauerhaft ausgelastet."
+    },
+    "domain_office": {
+      "explanation": "Büro-Arbeit liest moderate Datenmengen aus dem Arbeitsspeicher."
+    },
+    "domain_software_development": {
+      "explanation": "Umfangreiche Build- und Linkvorgänge lesen erhebliche Datenmengen aus dem Arbeitsspeicher."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Lesen großer Bildpuffer bei Bearbeitungsschritten ist durch die Lesebandbreite begrenzt."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Lesen hochauflösender Frames für Wiedergabe und Effekte beansprucht die Lesebandbreite stark."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Lesen großer Szenen und Texturen hält den Arbeitsspeicher beim Rendering dauerhaft ausgelastet."
+    },
+    "domain_audio_production": {
+      "explanation": "Das Streamen großer Sample-Bibliotheken liest kontinuierlich aus dem Arbeitsspeicher."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Lesen großer Netze und Ergebnisfelder ist durch die Lesebandbreite begrenzt."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Numerische Kernel sind häufig dadurch begrenzt, wie schnell Eingaben aus dem Arbeitsspeicher gelesen werden."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Lesen von Parametern und Daten zur Versorgung des Beschleunigers hängt von der Lesebandbreite ab."
+    },
+    "domain_ai_inference": {
+      "explanation": "Die CPU-Inferenzgeschwindigkeit wird maßgeblich dadurch bestimmt, wie schnell Gewichte aus dem Arbeitsspeicher gelesen werden."
+    },
+    "domain_data_science": {
+      "explanation": "Das Scannen breiter Tabellen wird durch die Lesebandbreite dominiert."
+    },
+    "domain_server_virt": {
+      "explanation": "Viele gleichzeitige Prozesse konkurrieren um die Lesebandbreite des gemeinsamen Arbeitsspeichers."
+    }
+  }
+}

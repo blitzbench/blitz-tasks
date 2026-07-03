@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_fp64",
+  "short_description": "Gleitkomma-Durchsatz mit doppelter Genauigkeit auf dem Grafikprozessor.",
+  "description": "Führt einen dichten Rechenkernel mit doppelter Genauigkeit auf dem Grafikprozessor aus und hält dabei die Einheiten für doppelte Genauigkeit mit fusionierter Multiply-Add-Arbeit ausgelastet. Viele Consumer-GPUs führen doppelte Genauigkeit weit langsamer aus als einfache, weshalb dieser Test Hardware für wissenschaftliche Arbeit von Hardware trennt, die dafür nicht gebaut ist.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der Operationen mit doppelter Genauigkeit pro Sekunde, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "„Höher ist besser.“ Der Abstand zum Ergebnis mit einfacher Genauigkeit zeigt, wie stark die Hardware die Geschwindigkeit bei doppelter Genauigkeit opfert, was bei gaming-orientierten GPUs groß sein kann.",
+  "reasoning": "Technische und wissenschaftliche Codes, die doppelte Genauigkeit benötigen, hängen von dieser Fähigkeit ab, und sie variiert enorm zwischen GPUs, weshalb sie eine eigene Messung verdient.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele nutzen Arithmetik mit doppelter Genauigkeit kaum."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit hat keinen GPU-Anteil mit doppelter Genauigkeit."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant für Entwickler wissenschaftlicher GPU-Software."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designarbeit nutzt einfache statt doppelter Genauigkeit."
+    },
+    "domain_video_editing": {
+      "explanation": "Videobearbeitung nutzt keine GPU-Rechenleistung mit doppelter Genauigkeit."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Einige hochpräzise Simulationen für Animation benötigen doppelte Genauigkeit."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion nutzt keine GPU-Arithmetik mit doppelter Genauigkeit."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieurssimulationen erfordern häufig doppelte Genauigkeit auf der GPU."
+    },
+    "domain_scientific_computing": {
+      "explanation": "GPU-Durchsatz mit doppelter Genauigkeit ist eine grundlegende Anforderung vieler wissenschaftlicher Codes."
+    },
+    "domain_ai_training": {
+      "explanation": "Training nutzt überwiegend reduzierte statt doppelter Genauigkeit."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenz nutzt Arithmetik mit doppelter Genauigkeit selten."
+    },
+    "domain_data_science": {
+      "explanation": "Hochpräzise numerische Methoden benötigen gelegentlich doppelte Genauigkeit auf der GPU."
+    },
+    "domain_server_virt": {
+      "explanation": "Wissenschaftliche Rechen-Server stellen ihren Nutzern Rechenleistung mit doppelter Genauigkeit bereit."
+    }
+  }
+}

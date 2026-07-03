@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_fp32",
+  "short_description": "Rendimiento de coma flotante de precisión simple en el procesador gráfico.",
+  "description": "Ejecuta un kernel de cálculo denso de precisión simple en el procesador gráfico, manteniendo ocupada cada unidad de sombreado con trabajo de multiplicación-suma fusionada. Los datos permanecen en la memoria rápida del chip, de modo que el resultado refleja la potencia de cálculo en bruto y no la transferencia de memoria.",
+  "metric_explanation": "El rendimiento es el número de operaciones de precisión simple por segundo, en miles de millones, expresado en GFLOPS.",
+  "value_interpretation": "Cuanto más alto, mejor. Esta es la cifra de cálculo principal que escala con la mayoría de las cargas gráficas y de GPU de propósito general.",
+  "reasoning": "El rendimiento de precisión simple es la medida más amplia de la potencia de la GPU y sustenta los juegos, el renderizado y la mayor parte del trabajo acelerado, por lo que ancla el conjunto sintético de GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "El sombreado y los efectos de los juegos modernos dependen directamente del rendimiento de la GPU en precisión simple."
+    },
+    "domain_office": {
+      "explanation": "El escritorio y la aceleración básica usan una pequeña fracción del cálculo de la GPU."
+    },
+    "domain_software_development": {
+      "explanation": "La mayor parte del desarrollo está limitada por la CPU, con un uso reducido del cálculo de la GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Los filtros acelerados y las operaciones sobre lienzos grandes se ejecutan como trabajo de la GPU en precisión simple."
+    },
+    "domain_video_editing": {
+      "explanation": "Los efectos, las transiciones y las vistas previas se calculan en la GPU en precisión simple."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El renderizado en la GPU y el trabajo en el viewport están dominados por el rendimiento en precisión simple."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio hace un uso escaso de la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los viewports de modelos grandes y algunos solucionadores se ejecutan en la GPU en precisión simple."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Muchas simulaciones aceleradas usan cálculo de la GPU en precisión simple."
+    },
+    "domain_ai_training": {
+      "explanation": "El rendimiento en precisión simple marca un techo para los cálculos de entrenamiento acelerado."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia acelerada se apoya en gran medida en el cálculo en precisión simple."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica acelerada por GPU usa el rendimiento en precisión simple sobre grandes matrices."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de GPU compartidas exponen este cálculo a numerosos usuarios."
+    }
+  }
+}

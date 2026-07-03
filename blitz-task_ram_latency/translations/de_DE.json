@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "ram_latency",
+  "short_description": "Zeit, um einen einzelnen zufälligen Wert aus dem Hauptspeicher zu laden.",
+  "description": "Verfolgt eine Kette von Zeigern durch einen Speicherbereich, der weit größer ist als jeder Cache, wobei jeder Schritt vom vorherigen abhängt. Da sich die Zugriffe nicht überlappen können, deckt der Test die tatsächliche Verzögerung auf, den Hauptspeicher für einen einzelnen Wert zu erreichen.",
+  "metric_explanation": "Die Latenz ist die durchschnittliche Zeit für einen abhängigen Speicherzugriff, angegeben in Nanosekunden.",
+  "value_interpretation": "„Niedriger ist besser.“ Eine niedrigere Latenz lässt zeigerlastige und unregelmäßige Arbeitslasten schneller wirken, da diese einen Großteil ihrer Zeit mit dem Warten auf Speicher verbringen.",
+  "reasoning": "Die Bandbreite erzählt nur die halbe Geschichte; die Latenz entscheidet über die Leistung bei den vielen Arbeitslasten, die verstreuten Referenzen folgen, statt Daten zu streamen.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiellogik verfolgt verteilte Objektreferenzen, bei denen die Latenz die Frame-Konsistenz bestimmt."
+    },
+    "domain_office": {
+      "explanation": "Die interaktive Reaktionsfähigkeit hängt davon ab, wie schnell verteilte Daten abgerufen werden."
+    },
+    "domain_software_development": {
+      "explanation": "Compiler und Werkzeuge traversieren zeigerintensive Strukturen, die empfindlich auf Latenz reagieren."
+    },
+    "domain_graphics_design": {
+      "explanation": "Bildverarbeitungsarbeit ist stärker durch die Bandbreite als durch die Latenz begrenzt."
+    },
+    "domain_video_editing": {
+      "explanation": "Streaming-Medienarbeit hängt stärker von der Bandbreite als von der Latenz einzelner Zugriffe ab."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Traversieren von Beschleunigungsstrukturen beim Rendering ist latenzempfindlich."
+    },
+    "domain_audio_production": {
+      "explanation": "Echtzeit-Audiographen greifen unter engen Zeitvorgaben auf verteilten Zustand zu."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Dünnbesetzte Datenstrukturen in Solvern folgen unregelmäßigen, latenzgebundenen Zugriffsmustern."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Unregelmäßige und graphbasierte Codes sind durch die Arbeitsspeicher-Latenz begrenzt."
+    },
+    "domain_ai_training": {
+      "explanation": "Training ist überwiegend Streaming-Arbeit, bei der Latenz eine untergeordnete Rolle spielt."
+    },
+    "domain_ai_inference": {
+      "explanation": "Manche Orchestrierungs- und Nachschlagevorgänge rund um die Inferenz sind latenzempfindlich."
+    },
+    "domain_data_science": {
+      "explanation": "Hash-Lookups und Joins folgen verteilten Speicherzugriffen, bei denen Latenz entscheidend ist."
+    },
+    "domain_server_virt": {
+      "explanation": "Anfrageverarbeitung greift auf verteilten Zustand zu, sodass Latenz die Antwortzeit bestimmt."
+    }
+  }
+}

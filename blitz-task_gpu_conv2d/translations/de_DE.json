@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_conv2d",
+  "short_description": "Durchsatz für zweidimensionale Faltung auf dem Grafikprozessor.",
+  "description": "Führt wiederholte zweidimensionale Faltungen über bildförmige Daten auf dem Grafikprozessor aus, die Operation im Herzen von Bildmodellen und vielen Filtern. Die Formen sind fest und so gewählt, dass die Recheneinheiten ausgelastet bleiben, sodass das Ergebnis widerspiegelt, wie schnell die GPU dieses spezifische Muster ausführt.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der während der Faltungen ausgeführten Operationen pro Sekunde, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "„Höher ist besser.“ Ein starker Durchsatz bei der 2D-Faltung beschleunigt Bilderkennung, Vision-Modelle und beschleunigte Bildfilter.",
+  "reasoning": "Die zweidimensionale Faltung ist die dominierende Operation im bildbasierten maschinellen Lernen und in vielen GPU-Bildeffekten, und ihr Zugriffsmuster unterscheidet sich von einer einfachen Matrixmultiplikation, weshalb sie einen eigenen Test verdient.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Faltungsbasiertes Upscaling und Post-Effekte werden während des Spielens ausgeführt."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit nutzt Faltung kaum."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant für Entwickler, die Bildverarbeitungsfunktionen implementieren."
+    },
+    "domain_graphics_design": {
+      "explanation": "Viele beschleunigte Bildfilter basieren auf Faltungen über das Bild."
+    },
+    "domain_video_editing": {
+      "explanation": "Frame-weise Faltungseffekte und gelernte Filter werden auf der GPU ausgeführt."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Faltungsbasierte Denoiser bereinigen gerenderte Frames."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioproduktion nutzt zweidimensionale Faltung auf der GPU selten."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Einige bildbasierte Prüfaufgaben nutzen Faltung."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Stencil- und bildbasierte wissenschaftliche Methoden nutzen dasselbe Faltungsmuster."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Training von Bildmodellen wird von zweidimensionaler Faltung dominiert."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Ausführen von Bild- und Sichtsystemen stützt sich stark auf den Faltungs-Durchsatz."
+    },
+    "domain_data_science": {
+      "explanation": "Bildanalytik setzt Faltung bei der Verarbeitung und Modellierung ein."
+    },
+    "domain_server_virt": {
+      "explanation": "Bilderkennungs-Inferenzdienste führen Faltungen kontinuierlich auf gemeinsam genutzten GPUs aus."
+    }
+  }
+}

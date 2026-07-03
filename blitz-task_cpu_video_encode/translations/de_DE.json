@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_video_encode",
+  "short_description": "H.264-Software-Encode eines mitgelieferten 1080p-Clips mit x264.",
+  "description": "Encodiert einen mitgelieferten 1080p-Videoclip vollständig auf dem Prozessor mit dem x264-Encoder bei einer festen Qualitätsvorgabe. Software-Encoding wird bewusst gewählt, sodass der Test die CPU misst und nicht einen Hardware-Encoder mit fester Funktion. Clip und Einstellungen sind auf jeder Maschine identisch.",
+  "metric_explanation": "Der Score ist die durchschnittliche Anzahl der pro Sekunde encodierten Bilder über den Clip, angegeben in fps.",
+  "value_interpretation": "„Höher ist besser.“ Mehr Bilder pro Sekunde bedeuten schnellere Exporte und flüssigere Vorschauen, wenn eine Effektkette Software-Encoding erzwingt.",
+  "reasoning": "Hochwertiges Software-Encoding ist eine der anspruchsvollsten anhaltenden Aufgaben, die ein Kreativer ausführt, weshalb es der richtige Leittest für Videoarbeit ist.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Streamer kodieren Gameplay, oft auf die CPU ausweichend, wenn die GPU ausgelastet ist."
+    },
+    "domain_office": {
+      "explanation": "Büronutzer kodieren Video nur gelegentlich für Präsentationen."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler führen selten anhaltende Videokodierung aus."
+    },
+    "domain_graphics_design": {
+      "explanation": "Motion-Graphics-Arbeit erzeugt Video, das beim Export kodiert werden muss."
+    },
+    "domain_video_editing": {
+      "explanation": "Die Software-Kodierungsgeschwindigkeit bestimmt direkt, wie lange ein finaler Export dauert."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Animationsausgabe wird nach dem Frame-Rendering in ablieferbares Video kodiert."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit berührt Videokodierung nur beim Vertonen von Filmszenen."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieurarbeit kodiert gelegentlich Simulations-Flythroughs."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Kodierung ist ein untergeordneter Schritt beim Umwandeln von Simulationsausgabe in Video."
+    },
+    "domain_ai_training": {
+      "explanation": "Video-Datensätze werden bei der Vorbereitung manchmal transkodiert."
+    },
+    "domain_ai_inference": {
+      "explanation": "Pipelines, die Videoausgabe erzeugen, benötigen eine Kodierungsstufe."
+    },
+    "domain_data_science": {
+      "explanation": "Analytik beinhaltet selten Videokodierung."
+    },
+    "domain_server_virt": {
+      "explanation": "Medienserver nutzen Software-Transkodierung, wenn Hardware-Encoder nicht verfügbar sind."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_raytrace",
+  "short_description": "Rendu en path tracing d'une scène fournie sur le processeur.",
+  "description": "Effectue le rendu d'une scène 3D fournie avec un moteur de path tracing s'exécutant entièrement sur le processeur, en traçant des rayons à travers une hiérarchie de volumes englobants sur tous les cœurs. La scène, le nombre d'échantillons et la résolution sont fixes, de sorte que le résultat ne dépend que du CPU.",
+  "metric_explanation": "Le score est le nombre de tuiles de rendu achevées par minute, exprimé en éléments par minute, ce qui évolue avec la rapidité de production de l'image complète.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage de tuiles par minute signifie une attente plus courte pour obtenir une image finie et une itération plus rapide sur l'éclairage et les matériaux.",
+  "reasoning": "Le path tracing sur CPU reste l'épine dorsale du rendu hors ligne de haute qualité, et il sollicite conjointement le calcul en virgule flottante, l'accès mémoire et l'ordonnancement, ce qui en fait un bon substitut de la production 3D.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Le précalcul hors ligne des lightmaps partage le même calcul de path tracing, même si le jeu s'appuie ensuite sur le GPU."
+    },
+    "domain_office": {
+      "explanation": "Les tâches bureautiques n'exécutent jamais de rendu par ray tracing."
+    },
+    "domain_software_development": {
+      "explanation": "Le rendu ne concerne que les développeurs d'outils graphiques."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les visuels de produits et d'emballages sont souvent rendus avec un path tracer."
+    },
+    "domain_video_editing": {
+      "explanation": "Des éléments 3D rendus sont composités dans les séquences montées."
+    },
+    "domain_3d_rendering": {
+      "explanation": "C'est la charge de travail qui définit le rendu et l'animation 3D hors ligne."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio ne comporte aucune composante de rendu."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les équipes d'ingénierie produisent des visualisations par ray tracing de leurs conceptions."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La visualisation scientifique emploie les mêmes techniques de rendu par lancer de rayons."
+    },
+    "domain_ai_training": {
+      "explanation": "Des images d'entraînement synthétiques sont parfois générées par des rendus en ray tracing."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence dépend rarement du rendu hors ligne."
+    },
+    "domain_data_science": {
+      "explanation": "Le travail analytique ne fait pas intervenir de ray tracing."
+    },
+    "domain_server_virt": {
+      "explanation": "Les fermes de rendu exécutent cette charge précise sur de nombreux nœuds serveurs."
+    }
+  }
+}

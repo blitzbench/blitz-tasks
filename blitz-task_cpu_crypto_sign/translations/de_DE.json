@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_crypto_sign",
+  "short_description": "Ed25519-Durchsatz für Signieren und Verifizieren.",
+  "description": "Erstellt und verifiziert Ed25519-Signaturen über kurze Nachrichten so schnell, wie es der Prozessor zulässt, über alle Kerne. Anders als bei der Massenverschlüsselung handelt es sich um viele kleine unabhängige Operationen, die jeweils von der Arithmetik mit großen Zahlen dominiert werden, was der Art entspricht, wie Authentifizierung und sichere Handshakes eine Maschine tatsächlich belasten.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der pro Sekunde abgeschlossenen Signier- und Verifizieroperationen, angegeben als Operationen pro Sekunde.",
+  "value_interpretation": "„Höher ist besser.“ Eine höhere Rate bedeutet, dass in derselben Zeit mehr authentifizierte Anfragen und Verbindungen verarbeitet werden können.",
+  "reasoning": "Signaturoperationen liegen auf dem heißen Pfad für sichere Handshakes, Tokens und die Anfrage-Authentifizierung, was genau der Art von Arbeit entspricht, die dieser Server für Sitzungen und Installationen leistet.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele überprüfen Signaturen nur gelegentlich für Updates und Lizenzierung."
+    },
+    "domain_office": {
+      "explanation": "Signierte Verbindungen und Dokumente verifizieren Signaturen im Hintergrund."
+    },
+    "domain_software_development": {
+      "explanation": "Signierte Commits, Pakete und Tokens werden in der Entwicklung ständig verifiziert."
+    },
+    "domain_graphics_design": {
+      "explanation": "Designarbeit führt Signaturoperationen selten direkt durch."
+    },
+    "domain_video_editing": {
+      "explanation": "Editieren umfasst wenige Signaturoperationen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Rendering führt kaum Signierungsarbeit durch."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit führt selten Signaturoperationen durch."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Signierte Genehmigungen und Lizenzierung verifizieren Signaturen in Ingenieurswerkzeugen."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Authentifizierter Zugriff auf Cluster und Daten verifiziert Signaturen."
+    },
+    "domain_ai_training": {
+      "explanation": "Authentifizierter Zugriff auf Daten und Rechenressourcen verwendet Signaturen."
+    },
+    "domain_ai_inference": {
+      "explanation": "Die Authentifizierung jeder Anfrage an einen Modelldienst ist auf den Signatur-Durchsatz angewiesen."
+    },
+    "domain_data_science": {
+      "explanation": "Authentifizierter Zugriff auf Datenquellen verifiziert Signaturen."
+    },
+    "domain_server_virt": {
+      "explanation": "Sichere Handshakes und Anfrage-Authentifizierung machen das Signieren zu einer zentralen Server-Arbeitslast."
+    }
+  }
+}

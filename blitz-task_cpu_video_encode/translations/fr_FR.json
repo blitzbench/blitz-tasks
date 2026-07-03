@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_video_encode",
+  "short_description": "Encodage logiciel H.264 d'un clip 1080p fourni à l'aide de x264.",
+  "description": "Encode un clip vidéo 1080p fourni en H.264 entièrement sur le processeur à l'aide de l'encodeur x264, selon un préréglage de qualité fixe. L'encodage logiciel est choisi à dessein afin que le test mesure le CPU plutôt qu'un encodeur matériel à fonction fixe. Le clip et les réglages sont identiques sur chaque machine.",
+  "metric_explanation": "Le score est le nombre moyen d'images encodées par seconde sur l'ensemble du clip, exprimé en fps.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage d'images par seconde signifie des exportations plus rapides et des aperçus plus fluides lorsqu'une chaîne d'effets impose un encodage logiciel.",
+  "reasoning": "L'encodage logiciel de haute qualité est l'une des tâches soutenues les plus exigeantes qu'exécute un créateur, ce qui en fait le test phare adapté au travail vidéo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les streamers encodent leurs parties, se rabattant souvent sur le CPU lorsque le GPU est occupé."
+    },
+    "domain_office": {
+      "explanation": "Les utilisateurs bureautiques n'encodent de la vidéo qu'occasionnellement, pour des présentations."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs procèdent rarement à de l'encodage vidéo soutenu."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le motion design produit de la vidéo qu'il faut encoder à l'export."
+    },
+    "domain_video_editing": {
+      "explanation": "La vitesse d'encodage logiciel détermine directement la durée d'un export final."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le rendu d'animation est encodé en vidéo livrable une fois les images calculées."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio ne touche à l'encodage vidéo que lors de la mise en musique à l'image."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ingénierie encode occasionnellement des survols de simulation."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'encodage n'est qu'une étape mineure lorsqu'on convertit des sorties de simulation en vidéo."
+    },
+    "domain_ai_training": {
+      "explanation": "Les jeux de données vidéo sont parfois transcodés lors de leur préparation."
+    },
+    "domain_ai_inference": {
+      "explanation": "Les chaînes qui produisent une sortie vidéo nécessitent une étape d'encodage."
+    },
+    "domain_data_science": {
+      "explanation": "L'analytique n'implique que rarement de l'encodage vidéo."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs multimédias exécutent un transcodage logiciel lorsque les encodeurs matériels sont indisponibles."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_fp_single",
+  "short_description": "Débito de vírgula flutuante de núcleo único usando matemática vetorial.",
+  "description": "Executa um fluxo denso de operações fused multiply add numa thread usando a unidade vetorial mais larga que o processador suporta. O conjunto de trabalho permanece nos registos e na cache, pelo que a pontuação reflete a velocidade de execução de vírgula flutuante.",
+  "metric_explanation": "O débito de vírgula flutuante é o número de operações de vírgula flutuante por segundo, expresso em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Um número mais elevado significa matemática mais rápida num núcleo. Isto impulsiona as partes do trabalho criativo e de engenharia que correm antes de uma tarefa se espalhar por muitas threads.",
+  "reasoning": "A velocidade de vírgula flutuante de núcleo único define o ritmo para o trabalho numérico sensível à latência e para as partes em série de tarefas paralelas maiores.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "A física, a animação e a matemática da câmara correm como trabalho de vírgula flutuante no thread do jogo."
+    },
+    "domain_office": {
+      "explanation": "As aplicações de produtividade fazem muito pouco trabalho sustentado de vírgula flutuante."
+    },
+    "domain_software_development": {
+      "explanation": "A maior parte do trabalho de compilação é limitada por operações inteiras, com pouca vírgula flutuante nas ferramentas."
+    },
+    "domain_graphics_design": {
+      "explanation": "A matemática de cor e os ajustes por pixel utilizam vírgula flutuante no thread de edição."
+    },
+    "domain_video_editing": {
+      "explanation": "A correção de cor e a escala utilizam vírgula flutuante antes da fase paralela de exportação."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A matemática de sombreamento e de geometria é intensiva em vírgula flutuante, mesmo na fase de preparação em série."
+    },
+    "domain_audio_production": {
+      "explanation": "Os efeitos em tempo real e a síntese executam matemática de vírgula flutuante num único thread."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os kernels de geometria e os ciclos internos dos solvers são dominados por matemática de vírgula flutuante."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os kernels numéricos são limitados por vírgula flutuante, mesmo antes de escalarem para muitos núcleos."
+    },
+    "domain_ai_training": {
+      "explanation": "A matemática do lado do host apoia o acelerador, mas não é o caminho principal do treino."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência por CPU depende do débito de vírgula flutuante para a matemática matricial."
+    },
+    "domain_data_science": {
+      "explanation": "As colunas estatísticas e numéricas utilizam vírgula flutuante durante a análise."
+    },
+    "domain_server_virt": {
+      "explanation": "O trabalho geral de servidor é maioritariamente limitado por operações inteiras e por E/S, e não por vírgula flutuante."
+    }
+  }
+}

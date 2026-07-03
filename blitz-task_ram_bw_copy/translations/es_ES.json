@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "ram_bw_copy",
+  "short_description": "Ancho de banda sostenido para copiar datos dentro de la memoria principal.",
+  "description": "Copia arrays grandes de una región de la memoria principal a otra usando todos los núcleos, leyendo y escribiendo a la vez sobre un conjunto de trabajo mucho mayor que las cachés. Este patrón combinado refleja el comportamiento de la mayoría del movimiento real de datos, ya que los datos suelen leerse, transformarse y volver a escribirse.",
+  "metric_explanation": "El ancho de banda es el número de bytes movidos por segundo contando tanto la lectura como la escritura, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de copia refleja el movimiento cotidiano de datos con más fidelidad que la lectura o la escritura por separado, ya que ambas ocurren juntas.",
+  "reasoning": "Las cargas reales rara vez solo leen o solo escriben, por lo que una prueba de copia que haga ambas cosas a la vez es la medida única más representativa del rendimiento de la memoria.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Trasladar y transformar datos del mundo y de texturas combina lecturas y escrituras en cada fotograma."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática mueve volúmenes moderados de datos a través de la memoria."
+    },
+    "domain_software_development": {
+      "explanation": "Las compilaciones trasladan y transforman estructuras de datos, mezclando lecturas y escrituras."
+    },
+    "domain_graphics_design": {
+      "explanation": "La edición lee los búferes de imagen, los transforma y los vuelve a escribir."
+    },
+    "domain_video_editing": {
+      "explanation": "Procesar fotogramas lee y escribe conjuntamente búferes de alta resolución."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Trasladar datos de escena y búferes combina lecturas y escrituras durante el renderizado."
+    },
+    "domain_audio_production": {
+      "explanation": "El procesamiento de audio lee búferes y escribe resultados en la misma pasada."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los solvers transmiten datos hacia y desde la memoria mientras iteran."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los kernels de cálculo estructurado y actualización leen y escriben grandes arrays de forma conjunta, lo que hace decisivo el ancho de banda de copia."
+    },
+    "domain_ai_training": {
+      "explanation": "Dar forma y trasladar los datos de entrenamiento mezcla lecturas y escrituras a través de la memoria."
+    },
+    "domain_ai_inference": {
+      "explanation": "Leer los pesos y escribir las activaciones de forma conjunta es un trabajo intensivo en copia."
+    },
+    "domain_data_science": {
+      "explanation": "Transformar tablas anchas lee la entrada y escribe la salida en la misma pasada."
+    },
+    "domain_server_virt": {
+      "explanation": "Muchos procesos que mueven datos a la vez comparten el mismo ancho de banda de copia."
+    }
+  }
+}

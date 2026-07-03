@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "disk_asset_load",
+  "short_description": "Streamen und Entpacken eines mitgelieferten Spiel-Asset-Pakets vom Datenträger.",
+  "description": "Lädt ein mitgeliefertes Paket von Spiel-Assets vom Datenträger und entpackt es in nutzbare Form, wobei große sequenzielle Lesevorgänge gepackter Daten mit den vielen kleineren Lesevorgängen und Dekomprimierungsschritten gemischt werden, die ein Spiel beim Laden eines Levels ausführt. Das Paket ist fest, sodass das Ergebnis widerspiegelt, wie sich ein realer Ladebildschirm verhält.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Minute geladenen und entpackten Asset-Bundles, angegeben als Elemente pro Minute.",
+  "value_interpretation": "„Höher ist besser.“ Eine höhere Rate bedeutet kürzere Ladebildschirme und weniger Ruckeln, wenn ein Spiel neue Bereiche streamt.",
+  "reasoning": "Das Laden von Spielen kombiniert Lesen, Suchen und Dekomprimierung in einer Arbeitslast, was den Datenträger im realen Einsatz weit besser abbildet als ein einzelnes Zugriffsmuster.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Level-Laden und World-Streaming sind genau diese Arbeitslast."
+    },
+    "domain_office": {
+      "explanation": "Das Öffnen großer gebündelter Dateien folgt demselben Lese- und Entpackmuster."
+    },
+    "domain_software_development": {
+      "explanation": "Das Entpacken großer Archive und Abhängigkeits-Caches entspricht dieser Arbeit."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Laden gepackter Asset-Bibliotheken folgt demselben Lese- und Entpack-Ablauf."
+    },
+    "domain_video_editing": {
+      "explanation": "Das Laden von Projekt-Bundles und Medien-Caches liest und entpackt große Pakete."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Laden gepackter Szenen und Textur-Sets entspricht diesem Lese- und Dekomprimier-Muster."
+    },
+    "domain_audio_production": {
+      "explanation": "Das Laden gepackter Sample- und Instrument-Bibliotheken funktioniert auf dieselbe Weise."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Öffnen gepackter Projektdateien beinhaltet Lesen und Entpacken."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Das Entpacken komprimierter Eingabe-Archive nutzt dasselbe kombinierte Muster."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Laden gepackter Trainings-Shards liest und dekomprimiert große Pakete."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Laden gepackter Modelle entpackt beim Start große Dateien."
+    },
+    "domain_data_science": {
+      "explanation": "Das Lesen und Dekomprimieren gepackter Datensätze folgt diesem Muster."
+    },
+    "domain_server_virt": {
+      "explanation": "Das Abrufen und Entpacken von Container-Images liest und dekomprimiert große Pakete."
+    }
+  }
+}

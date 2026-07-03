@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_vram_copy",
+  "short_description": "Ancho de banda para copiar datos dentro de la memoria del procesador gráfico.",
+  "description": "Copia búferes grandes de una región de la memoria local del procesador gráfico a otra, leyendo y escribiendo a la vez sobre un conjunto de trabajo mucho mayor que cualquier caché en chip. Este patrón combinado coincide con el comportamiento de la mayoría de los kernels de GPU: leer datos, transformarlos y volver a escribirlos.",
+  "metric_explanation": "El ancho de banda es el número de bytes movidos por segundo contando tanto la lectura como la escritura, expresado en GB/s.",
+  "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de copia refleja el movimiento real de datos en la GPU con más fidelidad que la lectura o la escritura por separado, ya que ambas ocurren juntas.",
+  "reasoning": "La mayoría de los kernels de GPU leen y escriben memoria, por lo que una prueba de copia que haga ambas cosas a la vez es la medida única más representativa del rendimiento de la memoria local.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Trasladar y transformar datos de texturas y búferes combina lecturas y escrituras en cada fotograma."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática mueve pocos datos a través de la memoria de la GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Resulta relevante sobre todo al desarrollar software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Filtrar imágenes lee las capas, las transforma y las vuelve a escribir en la memoria de la GPU."
+    },
+    "domain_video_editing": {
+      "explanation": "Procesar fotogramas lee y escribe conjuntamente búferes de alta resolución en la memoria de la GPU."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Trasladar datos de escena y búferes combina lecturas y escrituras durante el renderizado en la GPU."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio mueve pocos datos a través de la memoria de la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los kernels del viewport y del solver transmiten datos hacia y desde la memoria de la GPU de forma conjunta."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los kernels de cálculo estructurado y actualización leen y escriben grandes arrays de forma conjunta en la memoria de la GPU."
+    },
+    "domain_ai_training": {
+      "explanation": "Leer los pesos y escribir las activaciones de forma conjunta es un trabajo de GPU intensivo en copia."
+    },
+    "domain_ai_inference": {
+      "explanation": "Transmitir pesos y activaciones a través de la memoria de la GPU mezcla lecturas y escrituras."
+    },
+    "domain_data_science": {
+      "explanation": "Transformar grandes arrays lee la entrada y escribe la salida en la memoria de la GPU."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de GPU compartida reparten el ancho de banda de copia entre muchos inquilinos."
+    }
+  }
+}

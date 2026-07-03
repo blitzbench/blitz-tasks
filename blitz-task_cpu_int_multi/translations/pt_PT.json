@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_int_multi",
+  "short_description": "Débito de aritmética de inteiros com todos os núcleos e threads ocupados.",
+  "description": "Executa a mesma mistura de aritmética de inteiros que o teste de núcleo único, mas distribui-a por todos os núcleos e threads de hardware disponíveis durante alguns segundos. O resultado combinado mostra quanto trabalho com inteiros todo o processador consegue sustentar de uma vez.",
+  "metric_explanation": "O débito é o total de operações de inteiros por segundo em todos os núcleos, dividido por um milhão, indicado em Mops/s.",
+  "value_interpretation": "Um número mais elevado significa mais débito total. A diferença entre este e o resultado de núcleo único mostra quão bem o chip escala à medida que se acrescentam núcleos.",
+  "reasoning": "O débito de inteiros em todos os núcleos capta a margem disponível para cargas de trabalho paralelas como compilar, codificar e servir muitos pedidos ao mesmo tempo.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os motores modernos dividem o trabalho pelos núcleos para a física, o streaming e a submissão de draw calls."
+    },
+    "domain_office": {
+      "explanation": "A maior parte do trabalho de escritório usa, no máximo, alguns núcleos, pelo que núcleos adicionais acrescentam pouco."
+    },
+    "domain_software_development": {
+      "explanation": "As compilações paralelas e as suítes de testes escalam quase diretamente com os núcleos disponíveis."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alguns filtros em lote e exportações usam vários núcleos, embora muitas edições permaneçam em thread único."
+    },
+    "domain_video_editing": {
+      "explanation": "A codificação e a exportação de efeitos distribuem-se por todos os núcleos durante a renderização."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A renderização por CPU e as tarefas de bake de simulação usam todos os núcleos que conseguirem obter."
+    },
+    "domain_audio_production": {
+      "explanation": "As sessões grandes distribuem as faixas pelos núcleos, mas o caminho em tempo real permanece em thread único."
+    },
+    "domain_cad_engineering": {
+      "explanation": "A geração de malhas e muitos solvers paralelizam pelos núcleos durante tarefas prolongadas."
+    },
+    "domain_scientific_computing": {
+      "explanation": "As simulações numéricas são habitualmente distribuídas por threads em todos os núcleos."
+    },
+    "domain_ai_training": {
+      "explanation": "O carregamento e o pré-processamento de dados no host alimentam o acelerador a partir de muitos núcleos."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência do lado do CPU e o processamento em lote beneficiam da distribuição pelos núcleos."
+    },
+    "domain_data_science": {
+      "explanation": "Os kernels de agrupamento, junção e agregação paralelizam pelos núcleos sobre grandes tabelas."
+    },
+    "domain_server_virt": {
+      "explanation": "Alojar muitos processos ou contentores em simultâneo depende diretamente do débito total dos núcleos."
+    }
+  }
+}

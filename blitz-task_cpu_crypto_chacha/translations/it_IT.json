@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_crypto_chacha",
+  "short_description": "Throughput di crittografia autenticata ChaCha20-Poly1305 su tutti i core.",
+  "description": "Cifra e autentica ripetutamente un buffer con ChaCha20-Poly1305 su tutti i core. Questo cifrario si basa su semplice aritmetica anziché su istruzioni dedicate, quindi mostra come un processore gestisce il traffico sicuro quando non è disponibile alcuna accelerazione hardware del cifrario, situazione comune sull'hardware più leggero e mobile.",
+  "metric_explanation": "Il throughput è il numero di byte cifrati e autenticati al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. Il divario rispetto al risultato AES mostra quanto una macchina dipenda dalle istruzioni dedicate del cifrario rispetto all'aritmetica generica.",
+  "reasoning": "ChaCha20-Poly1305 è ampiamente utilizzato per le connessioni sicure, soprattutto dove l'AES hardware è debole o assente, quindi cattura un aspetto diverso e importante delle prestazioni crittografiche.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi usano la crittografia autenticata principalmente per il traffico di rete."
+    },
+    "domain_office": {
+      "explanation": "La navigazione e la messaggistica sicure spesso si basano su questo cifrario."
+    },
+    "domain_software_development": {
+      "explanation": "I trasferimenti e i tunnel sicuri negoziano spesso questo cifrario."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di design ricorre alla crittografia autenticata solo durante la sincronizzazione."
+    },
+    "domain_video_editing": {
+      "explanation": "La consegna sicura dei media a volte utilizza questo cifrario."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il rendering non svolge quasi alcun lavoro di crittografia."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio usa la crittografia solo per i trasferimenti."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il lavoro ingegneristico cripta principalmente per proteggere i file in transito."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I collegamenti sicuri tra nodi possono usare questo cifrario per lo spostamento dei dati."
+    },
+    "domain_ai_training": {
+      "explanation": "Le pipeline di addestramento dedicano poco tempo alla crittografia di trasporto."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'erogazione su connessioni sicure usa la crittografia autenticata a ogni richiesta."
+    },
+    "domain_data_science": {
+      "explanation": "Il recupero di dati tramite collegamenti sicuri mette in esecuzione questo cifrario."
+    },
+    "domain_server_virt": {
+      "explanation": "I server terminano molte connessioni sicure, spesso con questo cifrario per i client privi di AES hardware."
+    }
+  }
+}

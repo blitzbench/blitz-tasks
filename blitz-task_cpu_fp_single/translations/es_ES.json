@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_fp_single",
+  "short_description": "Rendimiento en coma flotante de un solo núcleo usando matemáticas vectoriales.",
+  "description": "Ejecuta un flujo denso de operaciones de multiplicación-suma fusionada en un solo hilo utilizando la unidad vectorial más ancha que admita el procesador. El conjunto de trabajo permanece en los registros y en la caché, de modo que la puntuación refleja la velocidad de ejecución en coma flotante.",
+  "metric_explanation": "El rendimiento en coma flotante es el número de operaciones en coma flotante por segundo, expresado en miles de millones, en GFLOPS.",
+  "value_interpretation": "Un número más alto significa matemáticas más rápidas en un núcleo. Esto impulsa las partes del trabajo creativo y de ingeniería que se ejecutan antes de que una tarea se reparta entre muchos hilos.",
+  "reasoning": "La velocidad en coma flotante de un solo núcleo marca el ritmo del trabajo numérico sensible a la latencia y de las partes en serie de tareas paralelas más grandes.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La física, la animación y el cálculo de la cámara se ejecutan como trabajo en coma flotante en el hilo del juego."
+    },
+    "domain_office": {
+      "explanation": "Las aplicaciones de productividad hacen muy poco trabajo sostenido en coma flotante."
+    },
+    "domain_software_development": {
+      "explanation": "La mayor parte de la compilación está limitada por enteros, con poca coma flotante en las herramientas."
+    },
+    "domain_graphics_design": {
+      "explanation": "El cálculo de color y los ajustes por píxel usan coma flotante en el hilo de edición."
+    },
+    "domain_video_editing": {
+      "explanation": "El etalonaje de color y el escalado usan coma flotante antes de la fase de exportación en paralelo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El cálculo de sombreado y geometría hace un uso intensivo de la coma flotante, incluso en la fase de preparación en serie."
+    },
+    "domain_audio_production": {
+      "explanation": "Los efectos en tiempo real y la síntesis ejecutan cálculo en coma flotante en un solo hilo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Los núcleos de geometría y los bucles internos de los solucionadores están dominados por el cálculo en coma flotante."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los núcleos numéricos están limitados por la coma flotante incluso antes de escalar a muchos núcleos."
+    },
+    "domain_ai_training": {
+      "explanation": "El cálculo del lado del host apoya al acelerador, pero no es la vía principal del entrenamiento."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia por CPU depende del rendimiento de coma flotante para el cálculo matricial."
+    },
+    "domain_data_science": {
+      "explanation": "Las columnas estadísticas y numéricas usan coma flotante durante el análisis."
+    },
+    "domain_server_virt": {
+      "explanation": "El trabajo general de servidor está limitado sobre todo por enteros y E/S, más que por coma flotante."
+    }
+  }
+}

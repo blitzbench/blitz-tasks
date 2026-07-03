@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_pcie_h2d",
+  "short_description": "Largura de banda para enviar dados da memória do sistema para a GPU.",
+  "description": "Transfere grandes buffers da memória do sistema para a memória local do processador gráfico através da ligação que os liga, normalmente o barramento PCIe. O teste mede o caminho de carregamento por si só, que é a rota que cada entrada percorre antes de a GPU poder trabalhar sobre ela.",
+  "metric_explanation": "A largura de banda é o número de bytes enviados do anfitrião para a GPU por segundo, indicado em GB/s.",
+  "value_interpretation": "Quanto maior, melhor. A largura de banda de carregamento limita a rapidez com que grandes conjuntos de dados, texturas e pesos de modelos podem ser preparados na GPU.",
+  "reasoning": "Antes de a GPU calcular fosse o que for, os dados têm de lhe chegar, e em muitos sistemas esta ligação é o verdadeiro estrangulamento em vez da própria GPU.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Carregar novos recursos para a GPU durante o jogo usa o caminho de envio."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório envia poucos dados para a GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Sobretudo relevante no desenvolvimento de software acelerado por GPU."
+    },
+    "domain_graphics_design": {
+      "explanation": "Enviar imagens grandes para a GPU para filtragem usa a largura de banda de envio."
+    },
+    "domain_video_editing": {
+      "explanation": "Enviar fotogramas de alta resolução para a GPU para efeitos é limitado pelo envio."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Preparar grandes cenas e texturas na GPU usa intensamente o caminho de envio."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio envia poucos dados para a GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Enviar modelos grandes para o viewport da GPU usa a ligação de transferência."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Alimentar grandes conjuntos de dados ao acelerador é muitas vezes limitado pela largura de banda de envio."
+    },
+    "domain_ai_training": {
+      "explanation": "Transmitir lotes de treino para a GPU torna a largura de banda de envio crítica."
+    },
+    "domain_ai_inference": {
+      "explanation": "Carregar os pesos do modelo e as entradas para a GPU usa o caminho de envio."
+    },
+    "domain_data_science": {
+      "explanation": "Mover grandes conjuntos de dados para a GPU para análise é limitado pelo envio."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de GPU partilhados movem os dados dos inquilinos para o dispositivo por esta ligação."
+    }
+  }
+}

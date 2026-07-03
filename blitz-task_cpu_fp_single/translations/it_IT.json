@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_fp_single",
+  "short_description": "Throughput in virgola mobile su singolo core mediante calcolo vettoriale.",
+  "description": "Esegue un flusso denso di operazioni fused multiply-add su un solo thread utilizzando l'unità vettoriale più ampia supportata dal processore. Il working set resta nei registri e nella cache, così il punteggio riflette la velocità di esecuzione in virgola mobile.",
+  "metric_explanation": "Il throughput in virgola mobile è il numero di operazioni in virgola mobile al secondo, espresso in miliardi, riportato in GFLOPS.",
+  "value_interpretation": "Un valore più alto indica calcoli più veloci su un singolo core. Questo determina le fasi del lavoro creativo e ingegneristico che vengono eseguite prima che un'attività si distribuisca su molti thread.",
+  "reasoning": "La velocità in virgola mobile su singolo core scandisce il ritmo del lavoro numerico sensibile alla latenza e delle parti seriali di attività parallele più ampie.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Fisica, animazione e calcoli sulla telecamera vengono eseguiti come lavoro in virgola mobile sul thread di gioco."
+    },
+    "domain_office": {
+      "explanation": "Le app di produttività svolgono pochissimo lavoro prolungato in virgola mobile."
+    },
+    "domain_software_development": {
+      "explanation": "Gran parte del lavoro di build è vincolato agli interi, con limitata virgola mobile negli strumenti."
+    },
+    "domain_graphics_design": {
+      "explanation": "I calcoli sul colore e le regolazioni per pixel usano la virgola mobile sul thread di editing."
+    },
+    "domain_video_editing": {
+      "explanation": "La correzione colore e lo scaling usano la virgola mobile prima della fase di esportazione parallela."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Lo shading e i calcoli geometrici fanno un uso intensivo della virgola mobile, anche nella fase di setup seriale."
+    },
+    "domain_audio_production": {
+      "explanation": "Gli effetti in tempo reale e la sintesi eseguono calcoli in virgola mobile su un singolo thread."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I kernel geometrici e i loop interni del solver sono dominati dai calcoli in virgola mobile."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I kernel numerici sono vincolati alla virgola mobile ancor prima di scalare su molti core."
+    },
+    "domain_ai_training": {
+      "explanation": "I calcoli lato host supportano l'acceleratore ma non costituiscono il percorso principale di addestramento."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza su CPU si affida al throughput in virgola mobile per i calcoli matriciali."
+    },
+    "domain_data_science": {
+      "explanation": "Le colonne statistiche e numeriche usano la virgola mobile durante l'analisi."
+    },
+    "domain_server_virt": {
+      "explanation": "Il lavoro server generico è per lo più vincolato agli interi e all'I/O anziché alla virgola mobile."
+    }
+  }
+}

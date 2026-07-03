@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "disk_seq_write",
+  "short_description": "Velocità di scrittura per grandi file continui sull'archiviazione.",
+  "description": "Scrive un file di grandi dimensioni sull'archiviazione in grandi blocchi continui e ne forza la scrittura sul dispositivo (flush), così che il risultato rifletta la velocità di scrittura persistente anziché il buffering in memoria. È lo schema di scrittura migliore e mostra la massima velocità di scrittura sostenuta dell'unità.",
+  "metric_explanation": "Il punteggio è il numero di megabyte scritti al secondo, riportato in MB/s.",
+  "value_interpretation": "Più alto è, meglio è. Scritture sequenziali veloci riducono i tempi di esportazione, acquisizione e salvataggio di file di grandi dimensioni.",
+  "reasoning": "La velocità di scrittura sequenziale determina la rapidità con cui una macchina può salvare output di grandi dimensioni come video renderizzati, progetti esportati e dati acquisiti.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'installazione e l'aggiornamento dei giochi scrive grandi file sull'archiviazione."
+    },
+    "domain_office": {
+      "explanation": "Il salvataggio dei documenti scrive quantità modeste di dati."
+    },
+    "domain_software_development": {
+      "explanation": "La scrittura di artefatti di build e cache crea un carico di scrittura costante."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il salvataggio di grandi file di immagini e progetti è vincolato dalla scrittura."
+    },
+    "domain_video_editing": {
+      "explanation": "L'export e l'acquisizione video scrive grandi file ad alta velocità."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La scrittura di fotogrammi renderizzati e cache sull'archiviazione è a forte carico di scrittura."
+    },
+    "domain_audio_production": {
+      "explanation": "La registrazione e il bounce dell'audio scrive di continuo sull'archiviazione."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il salvataggio di grandi assiemi e risultati di simulazione è vincolato dalla scrittura."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La scrittura di grandi set di output delle simulazioni si affida a una velocità di scrittura costante."
+    },
+    "domain_ai_training": {
+      "explanation": "Il salvataggio dei checkpoint e dei dataset elaborati scrive grandi file."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza scrive risultati e log ma è per lo più vincolata dalla lettura."
+    },
+    "domain_data_science": {
+      "explanation": "La materializzazione di tabelle intermedie e di output scrive grandi file."
+    },
+    "domain_server_virt": {
+      "explanation": "Logging, snapshot e servizi a forte carico di scrittura dipendono da una velocità di scrittura costante."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_crypto_sha",
+  "short_description": "Throughput di hashing SHA-256 su tutti i core.",
+  "description": "Applica ripetutamente l'hash SHA-256 a un buffer su tutti i core, utilizzando le istruzioni di hashing dedicate del processore dove disponibili. Il buffer resta in memoria, così il punteggio riflette la velocità della funzione di hash anziché quella dell'archiviazione.",
+  "metric_explanation": "Il throughput è il numero di byte sottoposti ad hash al secondo, riportato in GB/s.",
+  "value_interpretation": "Più alto è, meglio è. I processori con supporto hardware per l'hashing si distanziano nettamente da quelli che ne sono privi.",
+  "reasoning": "L'hashing è alla base dei controlli di integrità, delle firme, del controllo di versione e dei checksum di archiviazione, il che rende il suo throughput un indicatore di capacità ampiamente utile.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La verifica dei file di gioco scaricati e aggiornati esegue l'hashing su grandi quantità di dati."
+    },
+    "domain_office": {
+      "explanation": "I controlli di integrità e le connessioni sicure eseguono l'hashing dei dati dietro le quinte."
+    },
+    "domain_software_development": {
+      "explanation": "Il controllo di versione, la verifica dei pacchetti e le cache di build eseguono l'hashing dei file di continuo."
+    },
+    "domain_graphics_design": {
+      "explanation": "Il lavoro di design esegue l'hashing dei dati solo al salvataggio e alla sincronizzazione."
+    },
+    "domain_video_editing": {
+      "explanation": "La verifica dei trasferimenti di media di grandi dimensioni si affida all'hashing."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le pipeline degli asset eseguono l'hashing dei file per rilevare modifiche e verificare i trasferimenti."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio esegue l'hashing dei dati principalmente durante il trasferimento dei file."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I sistemi di gestione dei dati eseguono l'hashing dei file dei componenti per tracciarne le versioni."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La verifica di grandi set di dati e risultati fa un uso intensivo dell'hashing."
+    },
+    "domain_ai_training": {
+      "explanation": "La deduplicazione e la verifica di grandi set di dati di addestramento si affidano all'hashing."
+    },
+    "domain_ai_inference": {
+      "explanation": "La validazione dei file dei modelli e degli input utilizza l'hashing."
+    },
+    "domain_data_science": {
+      "explanation": "L'unione, la deduplicazione e la verifica dei set di dati eseguono l'hashing di frequente."
+    },
+    "domain_server_virt": {
+      "explanation": "I server eseguono l'hashing di continuo per l'integrità dell'archiviazione, il caching e la sicurezza."
+    }
+  }
+}

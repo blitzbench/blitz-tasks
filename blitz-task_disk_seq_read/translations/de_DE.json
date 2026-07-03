@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "disk_seq_read",
+  "short_description": "Lesegeschwindigkeit für große zusammenhängende Dateien vom Datenträger.",
+  "description": "Liest eine große Datei in großen zusammenhängenden Blöcken vom Datenträger und umgeht dabei zwischengespeicherte Kopien, sodass die Zahlen das Laufwerk widerspiegeln und nicht den Speicher. Dies ist das beste Zugriffsmuster für den Datenträger und zeigt die höchste Lesegeschwindigkeit, die das Gerät liefern kann.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde gelesenen Megabytes, angegeben in MB/s.",
+  "value_interpretation": "„Höher ist besser.“ Schnelles sequenzielles Lesen verkürzt die Zeit zum Laden großer Dateien wie Videos, Spiel-Level und Datensätze.",
+  "reasoning": "Sequenzielles Lesen ist das klarste Maß dafür, wie schnell eine Maschine große Dateien vom Datenträger holen kann, was die Ladezeiten über viele Aufgaben hinweg beeinflusst.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Das Laden großer Spielwelten und Assets ist überwiegend sequenzielles Lesen."
+    },
+    "domain_office": {
+      "explanation": "Das Öffnen großer Dokumente und Medien profitiert von schnellen sequenziellen Lesezugriffen."
+    },
+    "domain_software_development": {
+      "explanation": "Das Lesen großer Repositories und Build-Ausgaben beinhaltet intensive sequenzielle Lesezugriffe."
+    },
+    "domain_graphics_design": {
+      "explanation": "Das Laden großer Bild- und Projektdateien ist durch die Lesegeschwindigkeit begrenzt."
+    },
+    "domain_video_editing": {
+      "explanation": "Die Wiedergabe hochauflösender Aufnahmen erfordert anhaltende Lesegeschwindigkeit."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Das Laden großer Szenen und Textur-Sets ist leseintensiv."
+    },
+    "domain_audio_production": {
+      "explanation": "Das Streamen großer Sample-Bibliotheken liest kontinuierlich vom Datenträger."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Das Öffnen großer Baugruppen und Ergebnisdateien ist leselastig."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Das Laden großer Eingabedatensätze hängt von der sequenziellen Lesegeschwindigkeit ab."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Streamen großer Trainingsdatensätze vom Datenträger ist leselastig."
+    },
+    "domain_ai_inference": {
+      "explanation": "Das Laden großer Modelldateien vom Datenträger hängt von sequenziellem Lesen ab."
+    },
+    "domain_data_science": {
+      "explanation": "Das Einlesen großer Dateien zur Analyse wird von der Lesegeschwindigkeit bestimmt."
+    },
+    "domain_server_virt": {
+      "explanation": "Das Laden von Images und großen Datenmengen beansprucht den sequenziellen Lese-Durchsatz."
+    }
+  }
+}

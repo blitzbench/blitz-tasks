@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "gpu_conv2d",
+  "short_description": "Rendimiento de convolución bidimensional en el procesador gráfico.",
+  "description": "Ejecuta convoluciones bidimensionales repetidas sobre datos con forma de imagen en el procesador gráfico, la operación que está en el núcleo de los modelos de imagen y de muchos filtros. Las formas son fijas y se eligen para mantener ocupadas las unidades de cálculo, de modo que el resultado refleja la rapidez con que la GPU ejecuta este patrón concreto.",
+  "metric_explanation": "El rendimiento es el número de operaciones por segundo realizadas durante las convoluciones, en miles de millones, expresado en GFLOPS.",
+  "value_interpretation": "Cuanto más alto, mejor. Un buen rendimiento de convolución 2D acelera el reconocimiento de imágenes, los modelos de visión y los filtros de imagen acelerados.",
+  "reasoning": "La convolución bidimensional es la operación dominante en el aprendizaje automático basado en imágenes y en muchos efectos de imagen por GPU, y su patrón de acceso difiere de una multiplicación de matrices simple, por lo que merece una prueba dedicada.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "El reescalado y los efectos de posprocesado basados en convolución se ejecutan durante el juego."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática hace un uso escaso de la convolución."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para los desarrolladores que crean funciones de visión."
+    },
+    "domain_graphics_design": {
+      "explanation": "Muchos filtros de imagen acelerados son convoluciones aplicadas sobre la imagen."
+    },
+    "domain_video_editing": {
+      "explanation": "Los efectos de convolución por fotograma y los filtros aprendidos se ejecutan en la GPU."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los reductores de ruido basados en convolución limpian los fotogramas renderizados."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio rara vez usa convolución bidimensional en la GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Algunas tareas de inspección basadas en imagen utilizan convolución."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los métodos científicos basados en stencil e imagen comparten el patrón de convolución."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento de modelos de imagen está dominado por la convolución bidimensional."
+    },
+    "domain_ai_inference": {
+      "explanation": "La ejecución de modelos de imagen y visión depende en gran medida del rendimiento de la convolución."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica de imágenes aplica convolución durante el procesamiento y el modelado."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servicios de inferencia de visión ejecutan convolución de forma continua en GPU compartidas."
+    }
+  }
+}

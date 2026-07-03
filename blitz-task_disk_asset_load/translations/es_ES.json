@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "disk_asset_load",
+  "short_description": "Transmisión y descompresión de un paquete de recursos de juego incluido desde el almacenamiento.",
+  "description": "Carga un paquete incluido de recursos de juego desde el almacenamiento y lo descomprime a una forma utilizable, combinando grandes lecturas secuenciales de los datos empaquetados con las muchas lecturas más pequeñas y pasos de descompresión que un juego realiza al cargar un nivel. El paquete es fijo, de modo que el resultado refleja cómo se comporta una pantalla de carga real.",
+  "metric_explanation": "La puntuación es el número de paquetes de recursos cargados y descomprimidos por minuto, expresado como elementos por minuto.",
+  "value_interpretation": "Cuanto más alto, mejor. Una tasa más alta significa pantallas de carga más cortas y menos tirones cuando un juego transmite zonas nuevas.",
+  "reasoning": "La carga de juegos combina lectura, búsqueda y descompresión en una sola carga de trabajo, lo que representa el almacenamiento en uso real mucho mejor que cualquier patrón de acceso aislado.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La carga de niveles y el streaming del mundo son exactamente esta carga de trabajo."
+    },
+    "domain_office": {
+      "explanation": "Abrir archivos empaquetados de gran tamaño comparte el patrón de leer y descomprimir."
+    },
+    "domain_software_development": {
+      "explanation": "Descomprimir archivos comprimidos grandes y cachés de dependencias refleja este trabajo."
+    },
+    "domain_graphics_design": {
+      "explanation": "Cargar bibliotecas de recursos empaquetadas sigue el mismo flujo de leer y descomprimir."
+    },
+    "domain_video_editing": {
+      "explanation": "Cargar paquetes de proyecto y cachés multimedia lee y descomprime paquetes de gran tamaño."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Cargar escenas empaquetadas y conjuntos de texturas coincide con este patrón de leer y descomprimir."
+    },
+    "domain_audio_production": {
+      "explanation": "Cargar bibliotecas empaquetadas de samples e instrumentos funciona de la misma manera."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Abrir archivos de proyecto empaquetados implica leer y descomprimir."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Descomprimir archivos de entrada comprimidos usa el mismo patrón combinado."
+    },
+    "domain_ai_training": {
+      "explanation": "Cargar fragmentos de entrenamiento empaquetados lee y descomprime paquetes de gran tamaño."
+    },
+    "domain_ai_inference": {
+      "explanation": "Cargar modelos empaquetados descomprime archivos de gran tamaño al iniciar."
+    },
+    "domain_data_science": {
+      "explanation": "Leer y descomprimir conjuntos de datos empaquetados sigue este patrón."
+    },
+    "domain_server_virt": {
+      "explanation": "Descargar y descomprimir imágenes de contenedor lee y descomprime paquetes de gran tamaño."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_hpc_fft",
+  "short_description": "FFT de doble precisión y álgebra lineal densa en todos los núcleos.",
+  "description": "Ejecuta una mezcla de transformadas rápidas de Fourier de doble precisión y trabajo con matrices densas en todos los núcleos utilizando una biblioteca numérica optimizada. Los tamaños de problema se eligen para que se desborden de la caché, de modo que la prueba ejercita tanto la aritmética como el tráfico de memoria, que es como se comportan las simulaciones reales.",
+  "metric_explanation": "La puntuación es el rendimiento sostenido en doble precisión, expresado en GFLOPS, promediado a lo largo de la ejecución.",
+  "value_interpretation": "Cuanto más alto, mejor. Más rendimiento significa que modelos más grandes y simulaciones más largas terminan en un tiempo razonable.",
+  "reasoning": "Las transformadas y el álgebra lineal son los pilares de la mayoría de los códigos numéricos y de ingeniería, por lo que el rendimiento en doble precisión aquí predice el rendimiento científico real.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos usan poco cálculo en doble precisión."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática no tiene un componente numérico intensivo."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores de software numérico se benefician, pero la programación general no."
+    },
+    "domain_graphics_design": {
+      "explanation": "El trabajo con imágenes usa cálculo en precisión simple en lugar de este núcleo."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición rara vez recurre al cálculo numérico en doble precisión."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La simulación física para animación comparte estos núcleos de transformación y resolución."
+    },
+    "domain_audio_production": {
+      "explanation": "Las transformaciones aquí reflejan el cálculo espectral usado en el análisis de audio."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La simulación de ingeniería se apoya directamente en transformaciones de doble precisión y álgebra lineal."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Esta es la carga de trabajo central de la simulación numérica y la computación de alto rendimiento."
+    },
+    "domain_ai_training": {
+      "explanation": "Algunas canalizaciones de entrenamiento y de características científicas reutilizan estos núcleos densos."
+    },
+    "domain_ai_inference": {
+      "explanation": "El preprocesamiento numérico para los modelos usa álgebra lineal similar."
+    },
+    "domain_data_science": {
+      "explanation": "Los métodos estadísticos y el análisis de señales se apoyan en transformaciones y cálculo matricial."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores generales ejecutan poco cálculo sostenido en doble precisión."
+    }
+  }
+}

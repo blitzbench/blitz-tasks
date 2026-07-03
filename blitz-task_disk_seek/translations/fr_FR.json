@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "disk_seek",
+  "short_description": "Temps nécessaire pour effectuer une seule petite lecture aléatoire depuis le stockage.",
+  "description": "Émet de petites lectures à des positions aléatoires une à la fois, en attendant que chacune se termine avant de commencer la suivante. Sans recouvrement pour masquer le délai, le test expose le temps réel que met le stockage à servir une seule requête dispersée.",
+  "metric_explanation": "Le score est le temps moyen nécessaire pour effectuer un accès aléatoire, exprimé en microsecondes.",
+  "value_interpretation": "Plus la valeur est basse, mieux c'est. Une faible latence d'accès donne une impression d'instantanéité, car de nombreuses courtes attentes s'additionnent à l'usage quotidien.",
+  "reasoning": "Le débit se cache derrière les files de requêtes, mais la latence d'un accès unique est ce que l'utilisateur ressent réellement lorsqu'une application ou un fichier répond ; elle complète donc le test de lecture aléatoire.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les saccades lors du streaming d'assets tiennent souvent à la latence d'accès."
+    },
+    "domain_office": {
+      "explanation": "La réactivité au quotidien dépend de la rapidité de réponse des petits fichiers."
+    },
+    "domain_software_development": {
+      "explanation": "Les outils qui inspectent et ouvrent de nombreux petits fichiers sont sensibles à la latence d'accès."
+    },
+    "domain_graphics_design": {
+      "explanation": "Le chargement de petits assets et aperçus profite d'une faible latence."
+    },
+    "domain_video_editing": {
+      "explanation": "La lecture multimédia est davantage limitée par le débit que par la latence."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La collecte de nombreux petits fichiers d'assets est affectée par la latence d'accès."
+    },
+    "domain_audio_production": {
+      "explanation": "Le déclenchement d'échantillons à la demande exige une faible latence de stockage pour éviter les décrochages."
+    },
+    "domain_cad_engineering": {
+      "explanation": "L'ouverture de projets composés de nombreuses petites références est sensible à la latence."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'accès aléatoire au sein de gros fichiers de données est conditionné par la latence."
+    },
+    "domain_ai_training": {
+      "explanation": "L'accès aléatoire aux enregistrements lors du mélange est affecté par la latence."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le chargement de fragments de modèle à la demande dépend de la latence de stockage."
+    },
+    "domain_data_science": {
+      "explanation": "Les recherches ponctuelles dans de grands magasins sont limitées par la latence."
+    },
+    "domain_server_virt": {
+      "explanation": "Les temps de réponse des bases de données sont étroitement liés à la latence d'accès au stockage."
+    }
+  }
+}
