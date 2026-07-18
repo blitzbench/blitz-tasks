@@ -4,9 +4,67 @@
 #include <cstdint>
 
 #include "cpu_topology.h"
-#include "ram/synthetic_kernels.h"
 
 namespace bench {
+
+namespace detail {
+/**
+ * @fn alloc_buffer
+ * @brief Page aligned heap allocation
+ * @param bytes
+ * @return
+ */
+inline void* alloc_buffer(size_t bytes) {
+  size_t rounded = (bytes + 4095) & ~size_t(4095);
+#if defined(_WIN32)
+  return ::_aligned_malloc(rounded, 4096);
+#elif defined(__APPLE__)
+  void* p = nullptr;  // aligned_alloc needs macOS >= 10.15
+  return ::posix_memalign(&p, 4096, rounded) == 0 ? p : nullptr;
+#else
+  return ::aligned_alloc(4096, rounded);
+#endif
+}
+
+inline void free_buffer(void* p) {
+#if defined(_WIN32)
+  ::_aligned_free(p);
+#else
+  ::free(p);
+#endif
+}
+
+/**
+ * @fn splitmix64
+ * @brief Decent PRNG for fills and shuffles.
+ *
+ * @param s seed
+ * @return PRNG uint64_t
+ */
+inline uint64_t splitmix64(uint64_t& s) {
+  uint64_t z = (s += 0x9E3779B97F4A7C15ull);
+  z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9ull;
+  z = (z ^ (z >> 27)) * 0x94D049BB133111EBull;
+  return z ^ (z >> 31);
+}
+
+/**
+ * @fn init_buffer
+ * @brief Faults every page of a given buffer in and fills with PRNG data.
+ *
+ * @param buf
+ * @param bytes
+ * @param seed
+ */
+inline void init_buffer(void* buf, size_t bytes, uint64_t seed = 0x1234) {
+  uint64_t* p = static_cast<uint64_t*>(buf);
+  size_t n = bytes / 8;
+  uint64_t s = seed;
+  for (size_t i = 0; i < n; ++i) p[i] = splitmix64(s);
+  for (size_t i = n * 8; i < bytes; ++i) static_cast<char*>(buf)[i] = 1;
+}
+
+}
 
 /**
  * @class Buffer
@@ -16,7 +74,7 @@ class Buffer {
  public:
   Buffer() = default;
 
-  explicit Buffer(std::size_t bytes) : ptr_(bytes ? alloc_buffer(bytes) : nullptr), bytes_(ptr_ ? bytes : 0) {}
+  explicit Buffer(std::size_t bytes) : ptr_(bytes ? detail::alloc_buffer(bytes) : nullptr), bytes_(ptr_ ? bytes : 0) {}
 
   ~Buffer() { reset(); }
 
@@ -40,16 +98,16 @@ class Buffer {
   }
 
   void reset() noexcept {
-    if (ptr_) free_buffer(ptr_);
+    if (ptr_) detail::free_buffer(ptr_);
     ptr_ = nullptr;
     bytes_ = 0;
   }
 
   // MANDATORY before any read or copy kernel: faults every page in and fills
-  // it with pseudo-random data. Skipping it does not fail - it silently
+  // it with pseudo-random data. Skipping it does not fail but silently
   // measures L1 instead of DRAM.
   void fill(std::uint64_t seed) {
-    if (ptr_) init_buffer(ptr_, bytes_, seed);
+    if (ptr_) detail::init_buffer(ptr_, bytes_, seed);
   }
 
   [[nodiscard]] explicit operator bool() const noexcept { return ptr_ != nullptr; }
