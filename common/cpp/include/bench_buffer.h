@@ -3,6 +3,10 @@
 #include <cstddef>
 #include <cstdint>
 
+#if defined(_WIN32)
+#include <malloc.h>  // _aligned_malloc
+#endif
+
 #include "cpu_topology.h"
 
 namespace bench {
@@ -19,7 +23,7 @@ inline void* alloc_buffer(size_t bytes) {
 #if defined(_WIN32)
   return ::_aligned_malloc(rounded, 4096);
 #elif defined(__APPLE__)
-  void* p = nullptr;  // aligned_alloc needs macOS >= 10.15
+  void* p = nullptr;
   return ::posix_memalign(&p, 4096, rounded) == 0 ? p : nullptr;
 #else
   return ::aligned_alloc(4096, rounded);
@@ -57,8 +61,8 @@ inline uint64_t splitmix64(uint64_t& s) {
  * @param seed
  */
 inline void init_buffer(void* buf, size_t bytes, uint64_t seed = 0x1234) {
-  uint64_t* p = static_cast<uint64_t*>(buf);
-  size_t n = bytes / 8;
+  auto* p = static_cast<uint64_t*>(buf);
+  const size_t n = bytes / 8;
   uint64_t s = seed;
   for (size_t i = 0; i < n; ++i) p[i] = splitmix64(s);
   for (size_t i = n * 8; i < bytes; ++i) static_cast<char*>(buf)[i] = 1;
@@ -106,7 +110,7 @@ class Buffer {
   // MANDATORY before any read or copy kernel: faults every page in and fills
   // it with pseudo-random data. Skipping it does not fail but silently
   // measures L1 instead of DRAM.
-  void fill(std::uint64_t seed) {
+  void fill(const std::uint64_t seed) const {
     if (ptr_) detail::init_buffer(ptr_, bytes_, seed);
   }
 
