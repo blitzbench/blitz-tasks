@@ -27,12 +27,31 @@ namespace bench {
 
 struct CpuFeatures {
   // ------------------------- x86 --------------------------------------
-  bool sse2 = false, sse3 = false, ssse3 = false, sse41 = false, sse42 = false, popcnt = false, aes = false,
-       pclmul = false, fma = false, f16c = false, bmi1 = false, bmi2 = false, avx = false, avx2 = false,
-       avx512f = false, avx512dq = false, avx512bw = false, avx512vl = false, avx512vnni = false;
+  bool sse2 = false;
+  bool sse3 = false;
+  bool ssse3 = false;
+  bool sse41 = false;
+  bool sse42 = false;
+  bool popcnt = false;
+  bool aes = false;
+  bool pclmul = false;
+  bool fma = false;
+  bool f16c = false;
+  bool bmi1 = false;
+  bool bmi2 = false;
+  bool avx = false;
+  bool avx2 = false;
+  bool avx512f = false;
+  bool avx512dq = false;
+  bool avx512bw = false;
+  bool avx512vl = false;
+  bool avx512vnni = false;
   bool osxsave = false;
   uint64_t xcr0 = 0;
-  bool avx_usable = false, avx2_usable = false, fma_usable = false, avx512_usable = false;
+  bool avx_usable = false;
+  bool avx2_usable = false;
+  bool fma_usable = false;
+  bool avx512_usable = false;
 
   // ------------------------- ARM --------------------------------------
   bool neon = false;
@@ -240,7 +259,7 @@ inline void detect_arm32(CpuFeatures& f) {
 #endif
   f.neon = (::getauxval(AT_HWCAP) & HWCAP_NEON) != 0;
 #elif defined(__ARM_NEON)
-  f.neon = true;  // compiler guaranteed NEON at build time
+  f.neon = true;
 #endif
 }
 #endif  // BENCH_ARCH_ARM32
@@ -264,31 +283,37 @@ inline const CpuFeatures& cpu_features() {
   return f;
 }
 
-// A single struct for all ISAs. Only ever a single ISA is compiled so ordering between ISAs is irrelevant.
+// A single struct for all ISAs. A single ISA is only ever compiled, so ordering between ISAs is irrelevant.
 enum class SimdTier : int {
   Scalar = 0,
   // x86
-  SSE3 = 1,
-  SSE4 = 2,  // SSE4.1
-  AVX = 3,
-  AVX2 = 4,
-  AVX2_FMA = 5,
-  AVX512 = 6,
+  SSE2 = 1,
+  SSE3 = 2,
+  SSE4_1 = 3,
+  SSE4_2 = 4,
+  AVX = 5,
+  AVX2 = 6,
+  AVX2_FMA = 7,
+  AVX512 = 8,
   // ARM
-  NEON = 7,
-  SVE = 8,
-  SVE2 = 9,
+  NEON = 9,
+  SVE = 10,
+  SVE2 = 11,
+  ENUM_SIZE = 12
 };
-inline constexpr int kNumSimdTiers = 10;
 
 inline const char* tier_name(SimdTier t) {
   switch (t) {
     case SimdTier::Scalar:
       return "scalar";
+    case SimdTier::SSE2:
+      return "sse2";
     case SimdTier::SSE3:
       return "sse3";
-    case SimdTier::SSE4:
+    case SimdTier::SSE4_1:
       return "sse4.1";
+    case SimdTier::SSE4_2:
+      return "sse4.2";
     case SimdTier::AVX:
       return "avx";
     case SimdTier::AVX2:
@@ -303,6 +328,8 @@ inline const char* tier_name(SimdTier t) {
       return "sve";
     case SimdTier::SVE2:
       return "sve2";
+    case SimdTier::ENUM_SIZE:
+      return "ENUM_SIZE";
   }
   return "?";
 }
@@ -319,10 +346,14 @@ inline bool tier_supported(SimdTier t) {
   switch (t) {
     case SimdTier::Scalar:
       return true;
+    case SimdTier::SSE2:
+      return f.sse2;
     case SimdTier::SSE3:
       return f.sse3;
-    case SimdTier::SSE4:
+    case SimdTier::SSE4_1:
       return f.sse41;
+    case SimdTier::SSE4_2:
+      return f.sse42;
     case SimdTier::AVX:
       return f.avx_usable;
     case SimdTier::AVX2:
@@ -337,13 +368,18 @@ inline bool tier_supported(SimdTier t) {
       return f.sve;
     case SimdTier::SVE2:
       return f.sve2;
+    case SimdTier::ENUM_SIZE:
+      return false;
   }
   return false;
 }
 
 inline SimdTier max_tier() {
-  for (int t = kNumSimdTiers - 1; t > 0; --t)
-    if (tier_supported(SimdTier(t))) return SimdTier(t);
+  for (int t = static_cast<int>(SimdTier::ENUM_SIZE) - 1; t > 0; --t) {
+    if (tier_supported(static_cast<SimdTier>(t))) {
+      return static_cast<SimdTier>(t);
+    }
+  }
   return SimdTier::Scalar;
 }
 
@@ -353,9 +389,10 @@ inline SimdTier max_tier() {
  */
 struct TierList {
   [[nodiscard]] const SimdTier* begin() const { return list; }
-  [[nodiscard]] const SimdTier* end() const { return list + kNumSimdTiers; }
-  SimdTier list[kNumSimdTiers] = {SimdTier::Scalar,   SimdTier::SSE3,   SimdTier::SSE4, SimdTier::AVX, SimdTier::AVX2,
-                                  SimdTier::AVX2_FMA, SimdTier::AVX512, SimdTier::NEON, SimdTier::SVE, SimdTier::SVE2};
+  [[nodiscard]] const SimdTier* end() const { return list + static_cast<int>(SimdTier::ENUM_SIZE); }
+  SimdTier list[static_cast<int>(SimdTier::ENUM_SIZE)] = {
+      SimdTier::Scalar, SimdTier::SSE2,     SimdTier::SSE3,   SimdTier::SSE4_1, SimdTier::SSE4_2, SimdTier::AVX,
+      SimdTier::AVX2,   SimdTier::AVX2_FMA, SimdTier::AVX512, SimdTier::NEON,   SimdTier::SVE,    SimdTier::SVE2};
 };
 inline TierList all_simd_tiers() { return TierList{}; }
 
@@ -420,8 +457,10 @@ inline bool binary_baseline_ok() { return tier_supported(binary_baseline_tier())
 template <typename FnPtr>
 struct Dispatched {
   FnPtr scalar = nullptr;
+  FnPtr sse2 = nullptr;
   FnPtr sse3 = nullptr;
-  FnPtr sse4 = nullptr;
+  FnPtr sse41 = nullptr;
+  FnPtr sse42 = nullptr;
   FnPtr avx = nullptr;
   FnPtr avx2 = nullptr;
   FnPtr avx2_fma = nullptr;
@@ -439,10 +478,14 @@ struct Dispatched {
     switch (t) {
       case SimdTier::Scalar:
         return scalar;
+      case SimdTier::SSE2:
+        return sse2;
       case SimdTier::SSE3:
         return sse3;
-      case SimdTier::SSE4:
-        return sse4;
+      case SimdTier::SSE4_1:
+        return sse41;
+      case SimdTier::SSE4_2:
+        return sse42;
       case SimdTier::AVX:
         return avx;
       case SimdTier::AVX2:
@@ -457,6 +500,8 @@ struct Dispatched {
         return sve;
       case SimdTier::SVE2:
         return sve2;
+      case SimdTier::ENUM_SIZE:
+        return nullptr;
     }
     return nullptr;
   }
@@ -473,8 +518,11 @@ struct Dispatched {
    * @return the function pointer of the best supported tier.
    */
   FnPtr best() const {
-    for (int t = int(max_tier()); t >= 0; --t)
-      if (FnPtr p = get(SimdTier(t))) return p;
+    for (int t = static_cast<int>(max_tier()); t >= 0; --t) {
+      if (FnPtr p = get(static_cast<SimdTier>(t))) {
+        return p;
+      }
+    }
     return nullptr;
   }
 
@@ -484,12 +532,17 @@ struct Dispatched {
    * @return the function pointer of the best supported tier
    */
   FnPtr best(SimdTier* chosen) const {
-    for (int t = int(max_tier()); t >= 0; --t)
-      if (FnPtr p = get(SimdTier(t))) {
-        if (chosen) *chosen = SimdTier(t);
+    for (int t = int(max_tier()); t >= 0; --t) {
+      if (FnPtr p = get(static_cast<SimdTier>(t))) {
+        if (chosen) {
+          *chosen = static_cast<SimdTier>(t);
+        }
         return p;
       }
-    if (chosen) *chosen = SimdTier::Scalar;
+    }
+    if (chosen) {
+      *chosen = SimdTier::Scalar;
+    }
     return nullptr;
   }
 };
