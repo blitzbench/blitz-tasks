@@ -1,6 +1,6 @@
 # blitz-tasks
 
-Open-source benchmark task framework used by [BlitzBench](https://blitz-bench.io).
+Open-source benchmark task framework used by [BlitzBench](https://blitzbench.de).
 
 This repository ships:
 
@@ -54,4 +54,4 @@ directory.
 
 ## License
 
-TBD - placeholder pending the BlitzBench open-source release decision.
+Apache-2.0, see NOTICE
