@@ -1,5 +1,4 @@
 // Built with -mavx512f. See BlitzKernelTiers.cmake.
-#if defined(__x86_64__) || defined(__i386__)
 
 #include <immintrin.h>
 
@@ -31,5 +30,3 @@ std::uint64_t write_avx512(void* dst, std::size_t bytes) {
 }
 
 } // namespace ram_bw_write
-
-#endif

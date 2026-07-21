@@ -1,5 +1,3 @@
-#if defined(__SSE2__) || (BENCH_MEM_MSVC && defined(_M_X64))
-
 #include <immintrin.h>
 
 #include <optimization_barrier.h>
@@ -30,5 +28,3 @@ std::uint64_t write_sse2(void* dst, std::size_t bytes) {
 }
 
 }  // namespace ram_bw_write
-
-#endif

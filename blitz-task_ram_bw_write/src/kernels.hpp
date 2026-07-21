@@ -17,6 +17,7 @@ std::uint64_t write_avx512(void* dst, std::size_t bytes);
 std::uint64_t write_neon(void* dst, std::size_t bytes);
 std::uint64_t write_sve(void* dst, std::size_t bytes);
 #elif defined(__arm__) || defined(_M_ARM) || defined(_M_ARMT)
+std::uint64_t write_neon(void* dst, std::size_t bytes);
 #endif
 
 } // namespace ram_bw_write

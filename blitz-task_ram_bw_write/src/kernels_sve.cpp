@@ -1,6 +1,4 @@
 // Built with -march=armv8-a+sve (AArch64). See BlitzKernelTiers.cmake.
-#if defined(__ARM_FEATURE_SVE)
-
 #include "features.h"
 #include "kernels.hpp"
 
@@ -29,5 +27,3 @@ std::uint64_t write_sve(void* dst, std::size_t bytes) {
 }
 
 } // namespace ram_bw_write
-
-#endif

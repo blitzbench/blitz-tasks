@@ -1,6 +1,4 @@
 // Built with -mavx. See BlitzKernelTiers.cmake.
-#if defined(__x86_64__) || defined(__i386__)
-
 #include <immintrin.h>
 
 #include <optimization_barrier.h>
@@ -31,5 +29,3 @@ std::uint64_t write_avx(void* dst, std::size_t bytes) {
 }
 
 }  // namespace ram_bw_write
-
-#endif
