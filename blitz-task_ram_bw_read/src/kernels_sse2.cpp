@@ -21,7 +21,7 @@ std::uint64_t read_sse2(const void* src, std::size_t bytes) {
     a3 = _mm_xor_si128(a3, _mm_load_si128(v + 7));
   }
   a0 = _mm_xor_si128(_mm_xor_si128(a0, a1), _mm_xor_si128(a2, a3));
-  BENCH_MEM_SINK(a0, "x");
+  BLITZBENCH_MEM_SINK(a0, "x");
   return chunks * 128;
 }
 

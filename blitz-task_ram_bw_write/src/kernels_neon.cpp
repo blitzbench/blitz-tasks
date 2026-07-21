@@ -1,4 +1,4 @@
-#include <immintrin.h>
+#include <arm_neon.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"
@@ -9,8 +9,8 @@ std::uint64_t write_neon(void* dst, std::size_t bytes) {
   auto* p = static_cast<char*>(dst);
   size_t chunks = bytes / 256;
   uint8x16_t v = vdupq_n_u8(1);
-  BENCH_MEM_OPAQUE(v, "w");
-#if !BENCH_MEM_MSVC
+  BLITZBENCH_MEM_OPAQUE(v, "w");
+#if !BLITZBENCH_MSVC
   for (size_t i = 0; i < chunks; ++i) {
     const char* base = p + i * 256;
     asm volatile(
@@ -51,7 +51,7 @@ std::uint64_t write_neon(void* dst, std::size_t bytes) {
   }
   __dmb(0x0B);
 #endif
-  return (uint64_t)chunks * 256;
+  return chunks * 256;
 }
 
 }  // namespace ram_bw_write

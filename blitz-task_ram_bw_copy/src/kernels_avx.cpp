@@ -27,7 +27,7 @@ std::uint64_t copy_avx(void* __restrict dst, const void* __restrict src, const s
     _mm256_stream_ps(fd + 56, t7);
   }
   _mm_sfence();
-  BENCH_MEM_FENCE();
+  BLITZBENCH_MEM_FENCE();
   return chunks * 256;
 }
 

@@ -1,4 +1,3 @@
-#include <immintrin.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"
@@ -21,7 +20,7 @@ std::uint64_t read_scalar(const void* src, const std::size_t bytes) {
     a3 ^= q[i * 8 + 7];
   }
   uint64_t s = (a0 ^ a1) ^ (a2 ^ a3);
-  BENCH_MEM_SINK(s, "r");
+  BLITZBENCH_MEM_SINK(s, "r");
   return chunks * 64;
 }
 

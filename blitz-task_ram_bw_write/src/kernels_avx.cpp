@@ -11,7 +11,7 @@ std::uint64_t write_avx(void* dst, std::size_t bytes) {
   auto* p = static_cast<char*>(dst);
   size_t chunks = bytes / 256;
   __m256 v = _mm256_set1_ps(1.0f);
-  BENCH_MEM_OPAQUE(v, "x");
+  BLITZBENCH_MEM_OPAQUE(v, "x");
   for (size_t i = 0; i < chunks; ++i) {
     auto* f = reinterpret_cast<float*>(p + i * 256);
     _mm256_stream_ps(f + 0, v);
@@ -24,7 +24,7 @@ std::uint64_t write_avx(void* dst, std::size_t bytes) {
     _mm256_stream_ps(f + 56, v);
   }
   _mm_sfence();
-  BENCH_MEM_FENCE();
+  BLITZBENCH_MEM_FENCE();
   return chunks * 256;
 }
 

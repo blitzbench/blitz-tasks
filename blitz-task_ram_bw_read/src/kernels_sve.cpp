@@ -1,5 +1,5 @@
 // Built with -march=armv8-a+sve (AArch64). See BlitzKernelTiers.cmake.
-#include <immintrin.h>
+#include <arm_sve.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"
@@ -22,7 +22,7 @@ std::uint64_t read_sve(const void* src, std::size_t bytes) {
   }
   a0 = sveor_u8_x(pg, sveor_u8_x(pg, a0, a1), sveor_u8_x(pg, a2, a3));
   uint8_t r = svaddv_u8(pg, a0);
-  BENCH_MEM_SINK(r, "r");
+  BLITZBENCH_MEM_SINK(r, "r");
   return chunks * step;
 }
 

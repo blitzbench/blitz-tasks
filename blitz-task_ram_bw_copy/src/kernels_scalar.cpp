@@ -1,5 +1,4 @@
 // Built with no ISA flags. See BlitzKernelTiers.cmake.
-#include <immintrin.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"
@@ -15,7 +14,7 @@ std::uint64_t copy_scalar(void* __restrict dst, const void* __restrict src, std:
   for (size_t i = 0; i < chunks; ++i) {
     for (int k = 0; k < 8; ++k) qd[i * 8 + k] = qs[i * 8 + k];
   }
-  BENCH_MEM_FENCE();
+  BLITZBENCH_MEM_FENCE();
   return chunks * 64;
 }
 

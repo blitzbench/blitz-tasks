@@ -1,5 +1,5 @@
 // Built with -march=armv8-a+sve (AArch64). See BlitzKernelTiers.cmake.
-#include <immintrin.h>
+#include <arm_sve.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"

@@ -5,22 +5,22 @@
 
 #include "platform.h"
 
-#if BENCH_ARCH_X86
-#if defined(_MSC_VER) && !defined(__clang__)
+#if BLITZBENCH_ARCH_X86
+#if defined(BLITZBENCH_MSVC) && !defined(BLITZBENCH_CLANG)
 #include <intrin.h>
-#define BENCH_DISPATCH_MSVC 1
+#define BLITZBENCH_DISPATCH_MSVC 1
 #else
 #include <cpuid.h>
-#define BENCH_DISPATCH_MSVC 0
+#define BLITZBENCH_DISPATCH_MSVC 0
 #endif
 #endif
-#if (BENCH_ARCH_ARM64 || BENCH_ARCH_ARM32) && defined(__linux__)
+#if (BLITZBENCH_ARCH_ARM) && defined(BLITZBENCH_LINUX)
 #include <sys/auxv.h>
-#if BENCH_ARCH_ARM64
+#if BLITZBENCH_ARCH_ARM64
 #include <sys/prctl.h>
 #endif
 #endif
-#if BENCH_ARCH_ARM64 && defined(__APPLE__)
+#if BLITZBENCH_ARCH_ARM64 && defined(__APPLE__)
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #endif
@@ -75,9 +75,9 @@ struct CpuFeatures {
 
 namespace detail {
 
-#if BENCH_ARCH_X86
+#if BLITZBENCH_ARCH_X86
 inline uint64_t xgetbv0() {
-#if BENCH_DISPATCH_MSVC
+#if BLITZBENCH_DISPATCH_MSVC
   return (uint64_t)_xgetbv(0);
 #else
   uint32_t eax, edx;
@@ -87,7 +87,7 @@ inline uint64_t xgetbv0() {
 }
 
 inline bool cpuid(unsigned leaf, unsigned sub, unsigned& a, unsigned& b, unsigned& c, unsigned& d) {
-#if BENCH_DISPATCH_MSVC
+#if BLITZBENCH_DISPATCH_MSVC
   int r[4];
   __cpuidex(r, (int)leaf, (int)sub);
   a = (unsigned)r[0];
@@ -152,10 +152,10 @@ inline void detect_x86(CpuFeatures& f) {
     f.avx512_usable = f.avx512f && zmm && f.avx_usable;
   }
 }
-#endif  // BENCH_ARCH_X86
+#endif  // BLITZBENCH_ARCH_X86
 
-#if BENCH_ARCH_ARM64
-#if defined(__linux__)
+#if BLITZBENCH_ARCH_ARM64
+#if defined(BLITZBENCH_LINUX)
 #ifndef HWCAP_ASIMD
 #define HWCAP_ASIMD (1ul << 1)
 #endif
@@ -214,7 +214,7 @@ inline void detect_arm64_linux(CpuFeatures& f) {
 }
 #endif  // __linux__
 
-#if defined(__APPLE__)
+#if defined(BLITZBENCH_APPLE)
 inline bool sysctl_flag(const char* name) {
   int v = 0;
   size_t sz = sizeof(v);
@@ -241,21 +241,19 @@ inline void detect_arm64_apple(CpuFeatures& f) {
 #endif  // __APPLE__
 
 inline void detect_arm64(CpuFeatures& f) {
-#if defined(__linux__)
+#if defined(BLITZBENCH_LINUX)
   detect_arm64_linux(f);
-#elif defined(__APPLE__)
+#elif defined(BLITZBENCH_APPLE)
   detect_arm64_apple(f);
 #else
-  // Unknown OS (e.g., Windows-on-ARM via clang, BSD): NEON is mandated by the architecture, everything optional stays
-  // conservatively false.
   f.neon = true;
 #endif
 }
 #endif  // BENCH_ARCH_ARM64
 
-#if BENCH_ARCH_ARM32
+#if BLITZBENCH_ARCH_ARM32
 inline void detect_arm32(CpuFeatures& f) {
-#if defined(__linux__)
+#if defined(BLITZBENCH_LINUX)
 #ifndef HWCAP_NEON
 #define HWCAP_NEON (1ul << 12)
 #endif
@@ -268,11 +266,11 @@ inline void detect_arm32(CpuFeatures& f) {
 
 inline CpuFeatures detect() {
   CpuFeatures f;
-#if BENCH_ARCH_X86
+#if BLITZBENCH_ARCH_X86
   detect_x86(f);
-#elif BENCH_ARCH_ARM64
+#elif BLITZBENCH_ARCH_ARM64
   detect_arm64(f);
-#elif BENCH_ARCH_ARM32
+#elif BLITZBENCH_ARCH_ARM32
   detect_arm32(f);
 #endif
   return f;

@@ -1,5 +1,4 @@
 // Built with -mavx512f. See BlitzKernelTiers.cmake.
-
 #include <immintrin.h>
 
 #include <optimization_barrier.h>
@@ -12,7 +11,7 @@ std::uint64_t write_avx512(void* dst, std::size_t bytes) {
   auto* p = static_cast<char*>(dst);
   size_t chunks = bytes / 512;
   __m512 v = _mm512_set1_ps(1.0f);
-  BENCH_MEM_OPAQUE(v, "v");
+  BLITZBENCH_MEM_OPAQUE(v, "v");
   for (size_t i = 0; i < chunks; ++i) {
     float* f = reinterpret_cast<float*>(p + i * 512);
     _mm512_stream_ps(f + 0, v);
@@ -25,7 +24,7 @@ std::uint64_t write_avx512(void* dst, std::size_t bytes) {
     _mm512_stream_ps(f + 112, v);
   }
   _mm_sfence();
-  BENCH_MEM_FENCE();
+  BLITZBENCH_MEM_FENCE();
   return chunks * 512;
 }
 

@@ -1,5 +1,6 @@
 // Built with -march=armv8-a+sve (AArch64). See BlitzKernelTiers.cmake.
-#include "features.h"
+#include <arm_sve.h>
+
 #include "kernels.hpp"
 
 #include <optimization_barrier.h>
@@ -13,7 +14,7 @@ std::uint64_t write_sve(void* dst, std::size_t bytes) {
   const size_t step = vlb * 4;
   size_t chunks = bytes / step;
   uint64_t sval = 0x0101010101010101ull;
-  BENCH_MEM_OPAQUE(sval, "r");  // value opaque: stores are real
+  BLITZBENCH_MEM_OPAQUE(sval, "r");  // value opaque: stores are real
   svuint8_t v = svreinterpret_u8_u64(svdup_n_u64(sval));
   for (size_t i = 0; i < chunks; ++i) {
     uint8_t* q = reinterpret_cast<uint8_t*>(p + i * step);
@@ -22,8 +23,8 @@ std::uint64_t write_sve(void* dst, std::size_t bytes) {
     svstnt1_u8(pg, q + 2 * vlb, v);
     svstnt1_u8(pg, q + 3 * vlb, v);
   }
-  asm volatile("dmb ish" ::: "memory");  // stores visible before timer
-  return (uint64_t)chunks * step;
+  asm volatile("dmb ish" ::: "memory");
+  return chunks * step;
 }
 
 } // namespace ram_bw_write

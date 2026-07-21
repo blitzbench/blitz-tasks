@@ -136,7 +136,7 @@ blitz::Result RamBwCopy::run(const blitz::Callbacks& cb) {
         {"threads", std::to_string(threads)},
         {"working_set_bytes", std::to_string(ws * 2)},
         {"llc_bytes", std::to_string(bench::llc_bytes())},
-        {"counts", "read+write"},
+        {"counts", "bytes copied"},
     };
 
     if (cb.on_complete) cb.on_complete(metrics);

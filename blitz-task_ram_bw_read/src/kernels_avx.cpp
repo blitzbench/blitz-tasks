@@ -22,7 +22,7 @@ std::uint64_t read_avx(const void* src, const std::size_t bytes) {
     a3 = _mm256_xor_ps(a3, _mm256_load_ps(f + 56));
   }
   a0 = _mm256_xor_ps(_mm256_xor_ps(a0, a1), _mm256_xor_ps(a2, a3));
-  BENCH_MEM_SINK(a0, "x");
+  BLITZBENCH_MEM_SINK(a0, "x");
   return chunks * 256;
 }
 

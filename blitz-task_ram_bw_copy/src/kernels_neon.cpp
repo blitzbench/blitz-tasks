@@ -1,4 +1,4 @@
-#include <immintrin.h>
+#include <arm_neon.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"
@@ -20,7 +20,7 @@ std::uint64_t copy_neon(void* __restrict dst, const void* __restrict src, const 
     uint8x16_t t10 = vld1q_u8(qs + 160), t11 = vld1q_u8(qs + 176);
     uint8x16_t t12 = vld1q_u8(qs + 192), t13 = vld1q_u8(qs + 208);
     uint8x16_t t14 = vld1q_u8(qs + 224), t15 = vld1q_u8(qs + 240);
-#if !BENCH_MEM_MSVC
+#if !BLITZBENCH_MSVC
     asm volatile(
         "stnp %q[t0],  %q[t1],  [%[b], #0]   \n\t"
         "stnp %q[t2],  %q[t3],  [%[b], #32]  \n\t"
@@ -55,7 +55,7 @@ std::uint64_t copy_neon(void* __restrict dst, const void* __restrict src, const 
     vst1q_u8(qd + 240, t15);
 #endif
   }
-#if !BENCH_MEM_MSVC
+#if !BLITZBENCH_MSVC
   asm volatile("dmb ish" ::: "memory");
 #else
   __dmb(0x0B);

@@ -26,7 +26,7 @@ std::uint64_t copy_sse2(void* __restrict dst, const void* __restrict src, std::s
     _mm_stream_si128(vd + 7, t7);
   }
   _mm_sfence();
-  BENCH_MEM_FENCE();
+  BLITZBENCH_MEM_FENCE();
   return chunks * 128;
 }
 

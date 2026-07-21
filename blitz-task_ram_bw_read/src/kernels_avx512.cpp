@@ -22,7 +22,7 @@ std::uint64_t read_avx512(const void* src, const std::size_t bytes) {
     a3 = _mm512_xor_si512(a3, _mm512_load_si512(v + 7));
   }
   a0 = _mm512_xor_si512(_mm512_xor_si512(a0, a1), _mm512_xor_si512(a2, a3));
-  BENCH_MEM_SINK(a0, "v");
+  BLITZBENCH_MEM_SINK(a0, "v");
   return chunks * 512;
 }
 

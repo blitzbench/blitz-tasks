@@ -1,4 +1,4 @@
-#include <immintrin.h>
+#include <arm_neon.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"
@@ -29,7 +29,7 @@ std::uint64_t read_neon(const void* src, const std::size_t bytes) {
     a3 = veorq_u8(a3, vld1q_u8(q + 240));
   }
   a0 = veorq_u8(veorq_u8(a0, a1), veorq_u8(a2, a3));
-  BENCH_MEM_SINK(a0, "w");
+  BLITZBENCH_MEM_SINK(a0, "w");
   return chunks * 256;
 }
 

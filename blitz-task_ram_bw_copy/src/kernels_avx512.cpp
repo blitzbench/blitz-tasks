@@ -27,7 +27,7 @@ std::uint64_t copy_avx512(void* __restrict dst, const void* __restrict src, cons
     _mm512_stream_ps(fd + 112, t7);
   }
   _mm_sfence();
-  BENCH_MEM_FENCE();
+  BLITZBENCH_MEM_FENCE();
   return chunks * 512;
 }
 
