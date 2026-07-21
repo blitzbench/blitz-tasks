@@ -1,5 +1,24 @@
 #pragma once
 
+#if defined(__x86_64__) || defined(__i386__)
+#  define BENCH_ARCH_X86 1
+#else
+#  define BENCH_ARCH_X86 0
+#endif
+
+#if defined(__aarch64__) || defined(_M_ARM64)
+#  define BENCH_ARCH_ARM64 1
+#else
+#  define BENCH_ARCH_ARM64 0
+#endif
+
+#if defined(__arm__) && !BENCH_ARCH_ARM64
+#  define BENCH_ARCH_ARM32 1
+#else
+#  define BENCH_ARCH_ARM32 0
+#endif
+
+
 #if defined(__AVX__) || defined(__SSE2__) || (BENCH_MEM_MSVC && (defined(_M_X64) || defined(_M_IX86_FP)))
 #include <immintrin.h>
 #define BENCH_MEM_X86SIMD 1

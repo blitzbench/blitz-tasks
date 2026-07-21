@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <cstring>
 
+#include "platform.h"
+
 #if BENCH_ARCH_X86
 #if defined(_MSC_VER) && !defined(__clang__)
 #include <intrin.h>
