@@ -2,7 +2,7 @@
   "lang": "pt_PT",
   "name": "cpu_int_multi",
   "short_description": "Débito de aritmética de inteiros com todos os núcleos e threads ocupados.",
-  "description": "Executa a mesma mistura de aritmética de inteiros que o teste de núcleo único, mas distribui-a por todos os núcleos e threads de hardware disponíveis durante alguns segundos. O resultado combinado mostra quanto trabalho com inteiros todo o processador consegue sustentar de uma vez.",
+  "description": "Executa o mesmo fluxo de adições de inteiros que o teste de núcleo único, mas em todos os núcleos e threads de hardware disponíveis ao mesmo tempo. O resultado combinado mostra quanto débito de inteiros todo o processador consegue sustentar.",
   "metric_explanation": "O débito é o total de operações de inteiros por segundo em todos os núcleos, dividido por um milhão, indicado em Mops/s.",
   "value_interpretation": "Um número mais elevado significa mais débito total. A diferença entre este e o resultado de núcleo único mostra quão bem o chip escala à medida que se acrescentam núcleos.",
   "reasoning": "O débito de inteiros em todos os núcleos capta a margem disponível para cargas de trabalho paralelas como compilar, codificar e servir muitos pedidos ao mesmo tempo.",

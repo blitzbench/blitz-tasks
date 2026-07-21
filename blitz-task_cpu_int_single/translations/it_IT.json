@@ -2,7 +2,7 @@
   "lang": "it_IT",
   "name": "cpu_int_single",
   "short_description": "Throughput aritmetico intero su singolo core con un solo thread impegnato.",
-  "description": "Esegue un mix serrato di operazioni intere di addizione, moltiplicazione, shift e confronto su un singolo thread per alcuni secondi. Il set di dati resta all'interno del core, così il risultato riflette la velocità aritmetica pura anziché il comportamento della memoria o della cache.",
+  "description": "Esegue un flusso denso di somme tra interi su un singolo thread utilizzando l'unità vettoriale più ampia supportata dal processore. Molte catene di somma indipendenti vengono eseguite contemporaneamente così da mantenere sature le unità di esecuzione intera, e il working set resta nei registri, così il risultato riflette il throughput intero puro anziché il comportamento della memoria o della cache.",
   "metric_explanation": "Il throughput è il numero di operazioni intere completate al secondo, diviso per un milione, riportato in Mops/s.",
   "value_interpretation": "Un valore più alto indica un singolo core più veloce. È il dato che conta per il lavoro che non può essere distribuito su molti core, come una singola scheda del browser o un unico thread di gioco.",
   "reasoning": "La velocità intera su singolo core è l'indicatore più chiaro della reattività percepita di una macchina nel lavoro quotidiano sensibile alla latenza, quindi funge da riferimento per l'insieme dei test CPU sintetici.",

@@ -2,7 +2,7 @@
   "lang": "es_ES",
   "name": "cpu_int_multi",
   "short_description": "Rendimiento aritmético de enteros con todos los núcleos e hilos ocupados.",
-  "description": "Ejecuta la misma mezcla de aritmética de enteros que la prueba de un solo núcleo, pero la reparte entre todos los núcleos e hilos de hardware disponibles durante unos segundos. El resultado combinado muestra cuánto trabajo de enteros puede sostener a la vez todo el procesador.",
+  "description": "Ejecuta el mismo flujo de sumas de enteros que la prueba de un solo núcleo, pero en todos los núcleos e hilos de hardware disponibles a la vez. El resultado combinado muestra cuánto rendimiento de enteros puede sostener todo el procesador.",
   "metric_explanation": "El rendimiento es el total de operaciones de enteros por segundo en todos los núcleos, dividido por un millón, expresado en Mops/s.",
   "value_interpretation": "Un número más alto significa más rendimiento total. La diferencia entre este y el resultado de un solo núcleo muestra cómo escala el chip a medida que se añaden núcleos.",
   "reasoning": "El rendimiento de enteros con todos los núcleos capta el margen disponible para cargas de trabajo paralelas como compilar, codificar y atender muchas solicitudes a la vez.",

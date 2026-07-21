@@ -2,7 +2,7 @@
   "lang": "fr_FR",
   "name": "cpu_int_multi",
   "short_description": "Débit arithmétique entier avec chaque cœur et thread occupé.",
-  "description": "Exécute le même mélange d'arithmétique entière que le test sur un seul cœur, mais le répartit sur chaque cœur et thread matériel disponible pendant quelques secondes. Le résultat combiné montre la quantité de travail entier que l'ensemble du processeur peut soutenir simultanément.",
+  "description": "Exécute le même flux d'additions entières que le test sur un seul cœur, mais sur chaque cœur et thread matériel disponible à la fois. Le résultat combiné montre le débit entier que l'ensemble du processeur peut soutenir.",
   "metric_explanation": "Le débit est le total des opérations entières par seconde sur tous les cœurs, divisé par un million, exprimé en Mops/s.",
   "value_interpretation": "Un nombre plus élevé signifie un débit total supérieur. L'écart entre cette valeur et le résultat sur un seul cœur montre à quel point la puce s'adapte à l'ajout de cœurs.",
   "reasoning": "Le débit entier sur tous les cœurs saisit la marge disponible pour les charges parallèles telles que la compilation, l'encodage et le traitement simultané de nombreuses requêtes.",

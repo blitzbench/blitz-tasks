@@ -6,17 +6,17 @@
   "title": "CPU integer, single core",
   "short_description": "Single core integer arithmetic throughput on one busy thread.",
   "structured_text": {
-    "description": "Runs a tight mix of integer add, multiply, shift and compare operations on a single thread for a few seconds. The data set stays inside the core so the result reflects raw arithmetic speed rather than memory or cache behaviour.",
+    "description": "Runs a dense stream of integer add operations on one thread using the widest vector unit the processor supports. Many independent add chains run at once so the integer execution ports stay saturated, and the working set stays in registers so the score reflects raw integer throughput rather than memory or cache behaviour.",
     "metric_explanation": "Throughput is the number of integer operations completed per second, divided by one million, reported in Mops/s.",
     "value_interpretation": "A higher number means a faster single core. This is the figure that matters for work that cannot be spread across many cores, such as a single browser tab or one game thread.",
     "reasoning": "Single core integer speed is the clearest signal of how snappy a machine feels for everyday, latency sensitive work, so it anchors the synthetic CPU set."
   },
   "metric": { "id": "metric_throughput", "name": "throughput", "unit": "Mops/s", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 1200.0 },
-    { "machine_type": "desktop",  "value": 1700.0 },
-    { "machine_type": "notebook", "value": 1300.0 },
-    { "machine_type": "mobile",   "value":  800.0 }
+    { "machine_type": "any",      "value": 20000.0 },
+    { "machine_type": "desktop",  "value": 36000.0 },
+    { "machine_type": "notebook", "value": 26000.0 },
+    { "machine_type": "mobile",   "value": 14000.0 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.5, "explanation": "Game logic and the main update thread lean heavily on single core integer speed." },

@@ -2,7 +2,7 @@
   "lang": "de_DE",
   "name": "cpu_int_single",
   "short_description": "Single-Core-Integer-Arithmetik-Durchsatz auf einem ausgelasteten Thread.",
-  "description": "Führt eine enge Mischung aus Integer-Additions-, Multiplikations-, Verschiebungs- und Vergleichsoperationen für einige Sekunden auf einem einzelnen Thread aus. Der Datensatz bleibt innerhalb des Kerns, sodass das Ergebnis die reine Arithmetikgeschwindigkeit widerspiegelt und nicht das Verhalten von Speicher oder Cache.",
+  "description": "Führt einen dichten Strom aus Integer-Additionen auf einem Thread aus und nutzt dabei die breiteste vom Prozessor unterstützte Vektoreinheit. Viele unabhängige Additionsketten laufen gleichzeitig, sodass die Integer-Ausführungsports ausgelastet bleiben, und der Arbeitssatz bleibt in Registern, sodass der Score den reinen Integer-Durchsatz widerspiegelt und nicht das Verhalten von Speicher oder Cache.",
   "metric_explanation": "Der Durchsatz ist die Anzahl der pro Sekunde abgeschlossenen Integer-Operationen, geteilt durch eine Million, angegeben in Mops/s.",
   "value_interpretation": "Eine höhere Zahl bedeutet einen schnelleren einzelnen Kern. Dies ist die Kennzahl, die für Arbeit zählt, die nicht auf viele Kerne verteilt werden kann, etwa ein einzelner Browser-Tab oder ein einzelner Spiel-Thread.",
   "reasoning": "Die Single-Core-Integer-Geschwindigkeit ist das klarste Signal dafür, wie flüssig sich eine Maschine bei alltäglicher, latenzsensitiver Arbeit anfühlt, weshalb sie die synthetische CPU-Reihe verankert.",

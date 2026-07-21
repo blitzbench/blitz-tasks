@@ -2,7 +2,7 @@
   "lang": "de_DE",
   "name": "cpu_int_multi",
   "short_description": "Integer-Arithmetik-Durchsatz mit ausgelastetem Kern und Thread.",
-  "description": "Führt dieselbe Integer-Arithmetik-Mischung aus wie der Single-Core-Test, verteilt sie jedoch für einige Sekunden über alle verfügbaren Kerne und Hardware-Threads. Das kombinierte Ergebnis zeigt, wie viel Integer-Arbeit der gesamte Prozessor gleichzeitig aufrechterhalten kann.",
+  "description": "Führt denselben Integer-Additionsstrom aus wie der Single-Core-Test, jedoch auf allen verfügbaren Kernen und Hardware-Threads gleichzeitig. Das kombinierte Ergebnis zeigt, wie viel Integer-Durchsatz der gesamte Prozessor aufrechterhalten kann.",
   "metric_explanation": "Der Durchsatz ist die Gesamtzahl der Integer-Operationen pro Sekunde über alle Kerne, geteilt durch eine Million, angegeben in Mops/s.",
   "value_interpretation": "Eine höhere Zahl bedeutet mehr gesamten Durchsatz. Der Abstand zwischen diesem und dem Single-Core-Ergebnis zeigt, wie gut der Chip mit hinzugefügten Kernen skaliert.",
   "reasoning": "Der Integer-Durchsatz über alle Kerne erfasst den verfügbaren Spielraum für parallele Arbeitslasten wie Kompilieren, Encoding und das gleichzeitige Bedienen vieler Anfragen.",

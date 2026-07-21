@@ -2,7 +2,7 @@
   "lang": "pt_PT",
   "name": "cpu_int_single",
   "short_description": "Débito de aritmética de inteiros de núcleo único numa thread ocupada.",
-  "description": "Executa uma mistura apertada de operações de adição, multiplicação, deslocamento e comparação de inteiros numa única thread durante alguns segundos. O conjunto de dados permanece dentro do núcleo, pelo que o resultado reflete a velocidade aritmética pura em vez do comportamento da memória ou da cache.",
+  "description": "Executa um fluxo denso de adições de inteiros numa única thread usando a unidade vetorial mais larga que o processador suporta. Muitas cadeias de adição independentes são executadas ao mesmo tempo para manter saturadas as portas de execução de inteiros, e o conjunto de trabalho permanece nos registos, pelo que o resultado reflete o débito de inteiros em bruto em vez do comportamento da memória ou da cache.",
   "metric_explanation": "O débito é o número de operações de inteiros concluídas por segundo, dividido por um milhão, indicado em Mops/s.",
   "value_interpretation": "Um número mais elevado significa um núcleo único mais rápido. Este é o valor que importa para o trabalho que não pode ser distribuído por muitos núcleos, como um único separador do navegador ou uma única thread de jogo.",
   "reasoning": "A velocidade de inteiros de núcleo único é o sinal mais claro de quão ágil uma máquina parece no trabalho diário sensível à latência, pelo que ancora o conjunto sintético de CPU.",

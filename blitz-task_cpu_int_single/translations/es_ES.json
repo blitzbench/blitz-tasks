@@ -2,7 +2,7 @@
   "lang": "es_ES",
   "name": "cpu_int_single",
   "short_description": "Rendimiento aritmético de enteros de un solo núcleo en un hilo ocupado.",
-  "description": "Ejecuta una mezcla ajustada de operaciones de suma, multiplicación, desplazamiento y comparación de enteros en un solo hilo durante unos segundos. El conjunto de datos permanece dentro del núcleo, de modo que el resultado refleja la velocidad aritmética en bruto y no el comportamiento de la memoria o la caché.",
+  "description": "Ejecuta un flujo denso de sumas de enteros en un solo hilo utilizando la unidad vectorial más ancha que admita el procesador. Muchas cadenas de suma independientes se ejecutan a la vez para mantener saturados los puertos de ejecución de enteros, y el conjunto de trabajo permanece en los registros, de modo que el resultado refleja el rendimiento de enteros en bruto y no el comportamiento de la memoria o la caché.",
   "metric_explanation": "El rendimiento es el número de operaciones de enteros completadas por segundo, dividido por un millón, expresado en Mops/s.",
   "value_interpretation": "Un número más alto significa un núcleo individual más rápido. Esta es la cifra que importa para el trabajo que no puede repartirse entre muchos núcleos, como una sola pestaña del navegador o un único hilo de un juego.",
   "reasoning": "La velocidad de enteros de un solo núcleo es el indicador más claro de lo ágil que resulta una máquina en el trabajo diario y sensible a la latencia, por lo que ancla el conjunto sintético de CPU.",
