@@ -3,7 +3,7 @@
   "name": "ram_bw_copy",
   "short_description": "Bande passante soutenue de copie de données au sein de la mémoire principale.",
   "description": "Copie de grands tableaux d'une région de la mémoire principale vers une autre sur tous les cœurs, en lisant et en écrivant simultanément sur un ensemble de travail bien plus grand que les caches. Ce schéma combiné correspond au comportement de la plupart des mouvements de données réels, car les données sont généralement lues, transformées et réécrites.",
-  "metric_explanation": "La bande passante est le nombre d'octets déplacés par seconde en comptant à la fois la lecture et l'écriture, exprimé en GB/s.",
+  "metric_explanation": "La bande passante est le nombre d'octets déplacés par seconde, exprimé en GB/s.",
   "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante de copie reflète le mouvement quotidien des données plus fidèlement que la lecture ou l'écriture seule, puisque les deux se produisent conjointement.",
   "reasoning": "Les charges réelles se limitent rarement à lire ou à écrire ; un test de copie qui fait les deux à la fois est donc la mesure unique la plus représentative du débit de la mémoire.",
   "weights": {

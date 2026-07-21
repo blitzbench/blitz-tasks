@@ -7,7 +7,7 @@
   "short_description": "Sustained bandwidth for copying data within main memory.",
   "structured_text": {
     "description": "Copies large arrays from one region of main memory to another across all cores, reading and writing at the same time over a working set far larger than the caches. This combined pattern is how most real data movement behaves, since data is usually read, transformed and written back.",
-    "metric_explanation": "Bandwidth is the number of bytes moved per second counting both the read and the write side, reported in GB/s.",
+    "metric_explanation": "Bandwidth is the number of bytes moved per second, reported in GB/s.",
     "value_interpretation": "Higher is better. Copy bandwidth reflects everyday data movement more closely than read or write alone, since both happen together.",
     "reasoning": "Real workloads rarely only read or only write, so a copy test that does both at once is the most representative single measure of memory throughput."
   },

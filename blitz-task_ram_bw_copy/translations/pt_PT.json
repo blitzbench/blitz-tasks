@@ -3,7 +3,7 @@
   "name": "ram_bw_copy",
   "short_description": "Largura de banda sustentada para copiar dados dentro da memória principal.",
   "description": "Copia grandes arrays de uma região da memória principal para outra em todos os núcleos, lendo e escrevendo ao mesmo tempo sobre um conjunto de trabalho muito maior do que as caches. Este padrão combinado é como a maioria da movimentação real de dados se comporta, uma vez que os dados são normalmente lidos, transformados e escritos de volta.",
-  "metric_explanation": "A largura de banda é o número de bytes movidos por segundo, contando tanto o lado da leitura como o da escrita, indicado em GB/s.",
+  "metric_explanation": "A largura de banda é o número de bytes movidos por segundo, indicado em GB/s.",
   "value_interpretation": "Quanto maior, melhor. A largura de banda de cópia reflete a movimentação de dados quotidiana mais de perto do que a leitura ou a escrita isoladas, uma vez que ambas acontecem em conjunto.",
   "reasoning": "As cargas de trabalho reais raramente apenas leem ou apenas escrevem, pelo que um teste de cópia que faz ambos de uma vez é a medida única mais representativa do débito da memória.",
   "weights": {

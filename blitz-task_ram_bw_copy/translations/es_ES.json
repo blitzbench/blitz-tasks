@@ -3,7 +3,7 @@
   "name": "ram_bw_copy",
   "short_description": "Ancho de banda sostenido para copiar datos dentro de la memoria principal.",
   "description": "Copia arrays grandes de una región de la memoria principal a otra usando todos los núcleos, leyendo y escribiendo a la vez sobre un conjunto de trabajo mucho mayor que las cachés. Este patrón combinado refleja el comportamiento de la mayoría del movimiento real de datos, ya que los datos suelen leerse, transformarse y volver a escribirse.",
-  "metric_explanation": "El ancho de banda es el número de bytes movidos por segundo contando tanto la lectura como la escritura, expresado en GB/s.",
+  "metric_explanation": "El ancho de banda es el número de bytes movidos por segundo, expresado en GB/s.",
   "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de copia refleja el movimiento cotidiano de datos con más fidelidad que la lectura o la escritura por separado, ya que ambas ocurren juntas.",
   "reasoning": "Las cargas reales rara vez solo leen o solo escriben, por lo que una prueba de copia que haga ambas cosas a la vez es la medida única más representativa del rendimiento de la memoria.",
   "weights": {

@@ -3,7 +3,7 @@
   "name": "ram_bw_copy",
   "short_description": "Larghezza di banda sostenuta per copiare dati all'interno della memoria principale.",
   "description": "Copia grandi array da una regione della memoria principale a un'altra su tutti i core, leggendo e scrivendo contemporaneamente su un working set molto più grande delle cache. Questo schema combinato rispecchia il comportamento della maggior parte dei reali movimenti di dati, poiché i dati vengono solitamente letti, trasformati e riscritti.",
-  "metric_explanation": "La larghezza di banda è il numero di byte spostati al secondo contando sia il lato lettura sia il lato scrittura, riportato in GB/s.",
+  "metric_explanation": "La larghezza di banda è il numero di byte spostati al secondo, riportato in GB/s.",
   "value_interpretation": "Più alto è, meglio è. La larghezza di banda di copia riflette il movimento quotidiano dei dati più fedelmente della sola lettura o scrittura, poiché entrambe avvengono insieme.",
   "reasoning": "I carichi di lavoro reali raramente eseguono solo letture o solo scritture, quindi un test di copia che esegue entrambe contemporaneamente è la singola misura più rappresentativa del throughput della memoria.",
   "weights": {
