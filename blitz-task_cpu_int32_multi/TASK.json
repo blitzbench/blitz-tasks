@@ -1,10 +1,10 @@
 {
-  "id": "task_cpu_synthetic_int_multi",
-  "name": "cpu_int_multi",
+  "id": "task_cpu_synthetic_int32_multi",
+  "name": "cpu_int32_multi",
   "component": "cpu",
   "benchmark_type": "synthetic",
   "title": "CPU integer, all cores",
-  "short_description": "Integer arithmetic throughput with every core and thread busy.",
+  "short_description": "32-bit Integer arithmetic throughput with every core and thread busy.",
   "structured_text": {
     "description": "Runs the same integer add stream as the single core test, but on every available core and hardware thread at once. The combined result shows how much integer throughput the whole processor can sustain.",
     "metric_explanation": "Throughput is the total integer operations per second across all cores, divided by one million, reported in Mops/s.",
@@ -13,7 +13,7 @@
   },
   "metric": { "id": "metric_throughput", "name": "throughput", "unit": "Mops/s", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 200000.0 },
+    { "machine_type": "any",      "value": 460000.0 },
     { "machine_type": "desktop",  "value": 460000.0 },
     { "machine_type": "notebook", "value": 280000.0 },
     { "machine_type": "mobile",   "value":  80000.0 }

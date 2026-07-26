@@ -1,6 +1,6 @@
 {
   "lang": "it_IT",
-  "name": "cpu_int_multi",
+  "name": "cpu_int32_multi",
   "short_description": "Throughput aritmetico intero con ogni core e thread impegnato.",
   "description": "Esegue lo stesso flusso di somme tra interi del test su singolo core, ma su ogni core e thread hardware disponibile contemporaneamente. Il risultato combinato mostra quanto throughput intero l'intero processore può sostenere.",
   "metric_explanation": "Il throughput è il totale delle operazioni intere al secondo su tutti i core, diviso per un milione, riportato in Mops/s.",

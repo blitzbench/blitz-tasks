@@ -1,6 +1,6 @@
 {
   "lang": "fr_FR",
-  "name": "cpu_int_multi",
+  "name": "cpu_int32_multi",
   "short_description": "Débit arithmétique entier avec chaque cœur et thread occupé.",
   "description": "Exécute le même flux d'additions entières que le test sur un seul cœur, mais sur chaque cœur et thread matériel disponible à la fois. Le résultat combiné montre le débit entier que l'ensemble du processeur peut soutenir.",
   "metric_explanation": "Le débit est le total des opérations entières par seconde sur tous les cœurs, divisé par un million, exprimé en Mops/s.",

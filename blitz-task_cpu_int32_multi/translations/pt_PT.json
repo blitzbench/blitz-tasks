@@ -1,6 +1,6 @@
 {
   "lang": "pt_PT",
-  "name": "cpu_int_multi",
+  "name": "cpu_int32_multi",
   "short_description": "Débito de aritmética de inteiros com todos os núcleos e threads ocupados.",
   "description": "Executa o mesmo fluxo de adições de inteiros que o teste de núcleo único, mas em todos os núcleos e threads de hardware disponíveis ao mesmo tempo. O resultado combinado mostra quanto débito de inteiros todo o processador consegue sustentar.",
   "metric_explanation": "O débito é o total de operações de inteiros por segundo em todos os núcleos, dividido por um milhão, indicado em Mops/s.",
