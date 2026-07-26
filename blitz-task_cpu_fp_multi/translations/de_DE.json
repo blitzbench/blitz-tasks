@@ -1,7 +1,7 @@
 {
   "lang": "de_DE",
-  "name": "cpu_fp_multi",
-  "short_description": "Gleitkomma-Durchsatz mit Vektorrechnung auf jedem Kern.",
+  "name": "cpu_fp32_multi",
+  "short_description": "32-bit Gleitkomma-Durchsatz mit Vektorrechnung auf jedem Kern.",
   "description": "Führt denselben Strom aus fusionierten Multiply-Add-Operationen aus wie der Single-Core-Gleitkommatest, jedoch auf allen verfügbaren Kernen und Hardware-Threads gleichzeitig. Das Ergebnis zeigt den maximal anhaltbaren Rechendurchsatz des gesamten Prozessors.",
   "metric_explanation": "Der Gleitkomma-Durchsatz ist die Gesamtzahl der Operationen pro Sekunde über alle Kerne, in Milliarden, angegeben in GFLOPS.",
   "value_interpretation": "Eine höhere Zahl bedeutet mehr gesamten Rechendurchsatz. Der Vergleich mit dem Single-Core-Ergebnis zeigt, wie gut Gleitkommaarbeit mit der Kernzahl skaliert.",

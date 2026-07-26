@@ -1,6 +1,6 @@
 {
   "lang": "it_IT",
-  "name": "cpu_fp_multi",
+  "name": "cpu_fp32_multi",
   "short_description": "Throughput in virgola mobile con ogni core impegnato in calcolo vettoriale.",
   "description": "Esegue lo stesso flusso di operazioni fused multiply-add del test in virgola mobile su singolo core, ma su ogni core e thread hardware disponibile contemporaneamente. Il risultato mostra il throughput di calcolo massimo sostenuto dell'intero processore.",
   "metric_explanation": "Il throughput in virgola mobile è il totale delle operazioni al secondo su tutti i core, in miliardi, riportato in GFLOPS.",

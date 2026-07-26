@@ -1,19 +1,19 @@
 {
-  "id": "task_cpu_synthetic_fp_multi",
-  "name": "cpu_fp_multi",
+  "id": "task_cpu_synthetic_fp32_multi",
+  "name": "cpu_fp32_multi",
   "component": "cpu",
   "benchmark_type": "synthetic",
-  "title": "CPU floating point, all cores",
-  "short_description": "Floating point throughput with every core running vector math.",
+  "title": "CPU 32-bit floating point, all cores",
+  "short_description": "32-bit floating point throughput with every core running vector math.",
   "structured_text": {
-    "description": "Runs the same fused multiply add stream as the single core floating point test, but on every available core and hardware thread at once. The result shows the peak sustained math throughput of the whole processor.",
+    "description": "Runs the same fused multiply add stream as the single core 32-bit floating point test, but on every available core and hardware thread at once. The result shows the peak sustained math throughput of the whole processor.",
     "metric_explanation": "Floating point throughput is the total operations per second across all cores, in billions, reported in GFLOPS.",
     "value_interpretation": "A higher number means more total math throughput. Comparing it against the single core result shows how well floating point work scales with core count.",
     "reasoning": "All core floating point throughput reflects the ceiling for heavy numeric jobs such as simulation, rendering and CPU side model work."
   },
   "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 450.0 },
+    { "machine_type": "any",      "value": 850.0 },
     { "machine_type": "desktop",  "value": 850.0 },
     { "machine_type": "notebook", "value": 400.0 },
     { "machine_type": "mobile",   "value": 150.0 }

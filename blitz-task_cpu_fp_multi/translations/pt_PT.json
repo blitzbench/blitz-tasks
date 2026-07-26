@@ -1,7 +1,7 @@
 {
   "lang": "pt_PT",
-  "name": "cpu_fp_multi",
-  "short_description": "Débito de vírgula flutuante com todos os núcleos a executar matemática vetorial.",
+  "name": "cpu_fp32_multi",
+  "short_description": "Débito de vírgula 32-bit flutuante com todos os núcleos a executar matemática vetorial.",
   "description": "Executa o mesmo fluxo de fused multiply add que o teste de vírgula flutuante de núcleo único, mas em todos os núcleos e threads de hardware disponíveis ao mesmo tempo. O resultado mostra o pico de débito matemático sustentado de todo o processador.",
   "metric_explanation": "O débito de vírgula flutuante é o total de operações por segundo em todos os núcleos, em milhares de milhões, indicado em GFLOPS.",
   "value_interpretation": "Um número mais elevado significa mais débito matemático total. Compará-lo com o resultado de núcleo único mostra quão bem o trabalho de vírgula flutuante escala com o número de núcleos.",

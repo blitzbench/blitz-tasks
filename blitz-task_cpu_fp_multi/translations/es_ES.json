@@ -1,7 +1,7 @@
 {
   "lang": "es_ES",
-  "name": "cpu_fp_multi",
-  "short_description": "Rendimiento en coma flotante con todos los núcleos ejecutando matemáticas vectoriales.",
+  "name": "cpu_fp32_multi",
+  "short_description": "Rendimiento en coma 32-bit flotante con todos los núcleos ejecutando matemáticas vectoriales.",
   "description": "Ejecuta el mismo flujo de multiplicación-suma fusionada que la prueba de coma flotante de un solo núcleo, pero en todos los núcleos e hilos de hardware disponibles a la vez. El resultado muestra el rendimiento matemático máximo sostenido de todo el procesador.",
   "metric_explanation": "El rendimiento en coma flotante es el total de operaciones por segundo en todos los núcleos, en miles de millones, expresado en GFLOPS.",
   "value_interpretation": "Un número más alto significa más rendimiento matemático total. Compararlo con el resultado de un solo núcleo muestra cómo escala el trabajo en coma flotante con el número de núcleos.",

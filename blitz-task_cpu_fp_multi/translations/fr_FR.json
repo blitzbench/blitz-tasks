@@ -1,7 +1,7 @@
 {
   "lang": "fr_FR",
-  "name": "cpu_fp_multi",
-  "short_description": "Débit en virgule flottante avec chaque cœur exécutant du calcul vectoriel.",
+  "name": "cpu_fp32_multi",
+  "short_description": "Débit en virgule 32-bit flottante avec chaque cœur exécutant du calcul vectoriel.",
   "description": "Exécute le même flux de multiplications-additions fusionnées que le test en virgule flottante sur un seul cœur, mais sur chaque cœur et thread matériel disponible à la fois. Le résultat montre le débit de calcul soutenu maximal de l'ensemble du processeur.",
   "metric_explanation": "Le débit en virgule flottante est le total des opérations par seconde sur tous les cœurs, en milliards, exprimé en GFLOPS.",
   "value_interpretation": "Un nombre plus élevé signifie un débit de calcul total supérieur. La comparaison avec le résultat sur un seul cœur montre à quel point le travail en virgule flottante s'adapte au nombre de cœurs.",
