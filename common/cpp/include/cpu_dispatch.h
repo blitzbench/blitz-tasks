@@ -402,7 +402,7 @@ inline TierList all_simd_tiers() { return TierList{}; }
  * @return
  */
 inline SimdTier binary_baseline_tier() {
-#if BENCH_ARCH_ARM64 || BENCH_ARCH_ARM32
+#if BLITZBENCH_ARCH_ARM
 #if defined(__ARM_FEATURE_SVE2)
   return SimdTier::SVE2;
 #elif defined(__ARM_FEATURE_SVE)
@@ -422,9 +422,13 @@ inline SimdTier binary_baseline_tier() {
 #elif defined(__AVX__)
   return SimdTier::AVX;
 #elif defined(__SSE4_1__)
-  return SimdTier::SSE4;
+  return SimdTier::SSE4_1;
+#elif defined(__SSE4_2__)
+  return SimdTier::SSE4_2;
 #elif defined(__SSE3__)
   return SimdTier::SSE3;
+#elif defined(__SSE2__)
+  return SimdTier::SSE2;
 #else
   return SimdTier::Scalar;
 #endif

@@ -3,7 +3,7 @@
 #include <bench_buffer.h>
 #include <bench_harness.h>
 #include <cpu_topology.h>
-#include <ram/synthetic_kernels.h>
+#include <synthetic_chase.h>
 
 #include <chrono>
 #include <cstddef>

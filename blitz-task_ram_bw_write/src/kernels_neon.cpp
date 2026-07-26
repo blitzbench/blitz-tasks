@@ -1,3 +1,7 @@
+#include <platform.h>
+
+#if BLITZBENCH_HAS_NEON
+
 #include <arm_neon.h>
 #include <optimization_barrier.h>
 
@@ -55,3 +59,5 @@ std::uint64_t write_neon(void* dst, std::size_t bytes) {
 }
 
 }  // namespace ram_bw_write
+
+#endif

@@ -1,6 +1,9 @@
 // Built with -mavx512f. See BlitzKernelTiers.cmake.
-#include <immintrin.h>
+#include <platform.h>
 
+#if BLITZBENCH_ARCH_X86
+
+#include <immintrin.h>
 #include <optimization_barrier.h>
 
 #include "kernels.hpp"
@@ -28,4 +31,6 @@ std::uint64_t write_avx512(void* dst, std::size_t bytes) {
   return chunks * 512;
 }
 
-} // namespace ram_bw_write
+}  // namespace ram_bw_write
+
+#endif

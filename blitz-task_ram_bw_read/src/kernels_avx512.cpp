@@ -1,4 +1,8 @@
 // Built with -mavx512f. See BlitzKernelTiers.cmake.
+#include <platform.h>
+
+#if BLITZBENCH_ARCH_X86
+
 #include <immintrin.h>
 #include <optimization_barrier.h>
 
@@ -27,3 +31,5 @@ std::uint64_t read_avx512(const void* src, const std::size_t bytes) {
 }
 
 }  // namespace ram_bw_read
+
+#endif

@@ -1,3 +1,7 @@
+#include <platform.h>
+
+#if BLITZBENCH_HAS_NEON
+
 #include <arm_neon.h>
 #include <optimization_barrier.h>
 
@@ -64,3 +68,5 @@ std::uint64_t copy_neon(void* __restrict dst, const void* __restrict src, const 
 }
 
 }  // namespace ram_bw_copy
+
+#endif

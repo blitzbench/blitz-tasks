@@ -1,3 +1,7 @@
+#include <platform.h>
+
+#if BLITZBENCH_ARCH_X86
+
 #include <immintrin.h>
 #include <optimization_barrier.h>
 
@@ -26,3 +30,5 @@ std::uint64_t read_sse2(const void* src, std::size_t bytes) {
 }
 
 }  // namespace ram_bw_read
+
+#endif

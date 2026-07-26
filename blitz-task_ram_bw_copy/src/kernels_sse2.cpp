@@ -1,3 +1,7 @@
+#include <platform.h>
+
+#if BLITZBENCH_ARCH_X86
+
 #include <immintrin.h>
 #include <optimization_barrier.h>
 
@@ -31,3 +35,5 @@ std::uint64_t copy_sse2(void* __restrict dst, const void* __restrict src, std::s
 }
 
 }  // namespace ram_bw_copy
+
+#endif

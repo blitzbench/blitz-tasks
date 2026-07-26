@@ -1,4 +1,8 @@
 // Built with -mavx512f. See BlitzKernelTiers.cmake.
+#include <platform.h>
+
+#if BLITZBENCH_ARCH_X86
+
 #include <immintrin.h>
 #include <optimization_barrier.h>
 
@@ -31,4 +35,6 @@ std::uint64_t copy_avx512(void* __restrict dst, const void* __restrict src, cons
   return chunks * 512;
 }
 
-} // namespace ram_bw_copy
+}  // namespace ram_bw_copy
+
+#endif

@@ -1,4 +1,8 @@
 // Built with -march=armv8-a+sve (AArch64). See BlitzKernelTiers.cmake.
+#include <platform.h>
+
+#if BLITZBENCH_HAS_SVE
+
 #include <arm_sve.h>
 #include <optimization_barrier.h>
 
@@ -30,3 +34,5 @@ std::uint64_t copy_sve(void* __restrict dst, const void* __restrict src, const s
 }
 
 }  // namespace ram_bw_copy
+
+#endif

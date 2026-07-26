@@ -1,4 +1,8 @@
 // Built with -march=armv8-a+sve (AArch64). See BlitzKernelTiers.cmake.
+#include <platform.h>
+
+#if BLITZBENCH_HAS_SVE
+
 #include <arm_sve.h>
 #include <optimization_barrier.h>
 
@@ -26,4 +30,6 @@ std::uint64_t read_sve(const void* src, std::size_t bytes) {
   return chunks * step;
 }
 
-} // namespace ram_bw_read
+}  // namespace ram_bw_read
+
+#endif

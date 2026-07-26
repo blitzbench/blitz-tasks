@@ -1,3 +1,7 @@
+#include <platform.h>
+
+#if BLITZBENCH_HAS_NEON
+
 #include <arm_neon.h>
 #include <optimization_barrier.h>
 
@@ -34,3 +38,5 @@ std::uint64_t read_neon(const void* src, const std::size_t bytes) {
 }
 
 }  // namespace ram_bw_read
+
+#endif
