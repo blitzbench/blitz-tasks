@@ -1,6 +1,6 @@
 {
   "lang": "pt_PT",
-  "name": "cpu_fp_single",
+  "name": "cpu_fp32_single",
   "short_description": "Débito de vírgula flutuante de núcleo único usando matemática vetorial.",
   "description": "Executa um fluxo denso de operações fused multiply add numa thread usando a unidade vetorial mais larga que o processador suporta. O conjunto de trabalho permanece nos registos e na cache, pelo que a pontuação reflete a velocidade de execução de vírgula flutuante.",
   "metric_explanation": "O débito de vírgula flutuante é o número de operações de vírgula flutuante por segundo, expresso em milhares de milhões, indicado em GFLOPS.",

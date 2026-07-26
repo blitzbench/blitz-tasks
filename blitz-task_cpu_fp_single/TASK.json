@@ -1,10 +1,10 @@
 {
-  "id": "task_cpu_synthetic_fp_single",
-  "name": "cpu_fp_single",
+  "id": "task_cpu_synthetic_fp32_single",
+  "name": "cpu_fp32_single",
   "component": "cpu",
   "benchmark_type": "synthetic",
-  "title": "CPU floating point, single core",
-  "short_description": "Single core floating point throughput using vector math.",
+  "title": "CPU 32-bit floating point, single core",
+  "short_description": "Single core 32-bit floating point throughput using vector math.",
   "structured_text": {
     "description": "Runs a dense stream of fused multiply add operations on one thread using the widest vector unit the processor supports. The working set stays in registers and cache so the score reflects floating point execution speed.",
     "metric_explanation": "Floating point throughput is the number of floating point operations per second, expressed in billions, reported in GFLOPS.",
@@ -13,10 +13,10 @@
   },
   "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 60.0 },
-    { "machine_type": "desktop",  "value": 90.0 },
-    { "machine_type": "notebook", "value": 65.0 },
-    { "machine_type": "mobile",   "value": 35.0 }
+    { "machine_type": "any",      "value": 140.0 },
+    { "machine_type": "desktop",  "value": 140.0 },
+    { "machine_type": "notebook", "value": 90.0 },
+    { "machine_type": "mobile",   "value": 50.0 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.4, "explanation": "Physics, animation and camera math run as floating point work on the game thread." },

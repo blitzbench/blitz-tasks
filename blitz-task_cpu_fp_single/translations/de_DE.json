@@ -1,6 +1,6 @@
 {
   "lang": "de_DE",
-  "name": "cpu_fp_single",
+  "name": "cpu_fp32_single",
   "short_description": "Single-Core-Gleitkomma-Durchsatz mit Vektorrechnung.",
   "description": "Führt einen dichten Strom aus fusionierten Multiply-Add-Operationen auf einem Thread aus und nutzt dabei die breiteste vom Prozessor unterstützte Vektoreinheit. Der Arbeitssatz bleibt in Registern und Cache, sodass der Score die Ausführungsgeschwindigkeit für Gleitkomma widerspiegelt.",
   "metric_explanation": "Der Gleitkomma-Durchsatz ist die Anzahl der Gleitkommaoperationen pro Sekunde, ausgedrückt in Milliarden, angegeben in GFLOPS.",

@@ -1,0 +1,62 @@
+cmake_minimum_required(VERSION 3.20)
+
+set(TASK_NAME cpu_fp_single)
+
+project(${TASK_NAME} LANGUAGES CXX VERSION 0.1.0)
+
+if(NOT DEFINED BLITZ_BUILD_MODE)
+    set(BLITZ_BUILD_MODE STATIC)
+endif()
+
+if(NOT TARGET blitz_task_cpp)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../task-lib/cpp blitz_task_cpp)
+endif()
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/../common/cpp/cmake/BlitzKernelTiers.cmake)
+
+find_package(Threads REQUIRED)
+
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/TASK.json" TASK_JSON_HEX HEX)
+string(REGEX REPLACE "(..)" "0x\\1," TASK_JSON_ARRAY "${TASK_JSON_HEX}")
+set(TASK_JSON_VAR "CPU_FP_SINGLE_INFO_JSON")
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/info.cpp.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/info.cpp"
+    @ONLY
+)
+
+add_library(${TASK_NAME} ${BLITZ_BUILD_MODE}
+    src/cpu_fp_single.cpp
+    "${CMAKE_CURRENT_BINARY_DIR}/info.cpp"
+)
+target_include_directories(${TASK_NAME}
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    PRIVATE ${BLITZ_COMMON_INCLUDE} ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+target_link_libraries(${TASK_NAME} PUBLIC blitz_task_cpp Threads::Threads)
+target_compile_features(${TASK_NAME} PUBLIC cxx_std_17)
+set_target_properties(${TASK_NAME} PROPERTIES
+    CXX_VISIBILITY_PRESET hidden
+    POSITION_INDEPENDENT_CODE ON
+)
+
+# One TU per SIMD tier, each carrying only its own flags.
+blitz_add_kernel_tier(${TASK_NAME} src/kernels_scalar.cpp)
+if(BLITZ_ARCH_X86)
+    blitz_add_kernel_tier(${TASK_NAME} src/kernels_sse3.cpp -msse3)
+    blitz_add_kernel_tier(${TASK_NAME} src/kernels_sse4.cpp -msse4.1)
+    blitz_add_kernel_tier(${TASK_NAME} src/kernels_avx.cpp -mavx)
+    blitz_add_kernel_tier(${TASK_NAME} src/kernels_avx2.cpp -mavx2)
+    blitz_add_kernel_tier(${TASK_NAME} src/kernels_avx2_fma.cpp -mavx2 -mfma)
+    blitz_add_kernel_tier(${TASK_NAME} src/kernels_avx512.cpp -mavx512f)
+elseif(BLITZ_ARCH_ARM64 OR BLITZ_ARCH_ARM32)
+    blitz_add_kernel_tier(${TASK_NAME} src/kernels_neon.cpp)
+    if(BLITZ_ARCH_ARM64)
+        blitz_add_kernel_tier(${TASK_NAME} src/kernels_sve.cpp -march=armv8-a+sve)
+        blitz_add_kernel_tier(${TASK_NAME} src/kernels_sve2.cpp -march=armv8-a+sve2)
+    endif()
+endif()
+
+if(BUILD_SAMPLE_APP)
+    add_subdirectory(app)
+endif()

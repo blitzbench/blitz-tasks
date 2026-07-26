@@ -1,6 +1,6 @@
 {
   "lang": "it_IT",
-  "name": "cpu_fp_single",
+  "name": "cpu_fp32_single",
   "short_description": "Throughput in virgola mobile su singolo core mediante calcolo vettoriale.",
   "description": "Esegue un flusso denso di operazioni fused multiply-add su un solo thread utilizzando l'unità vettoriale più ampia supportata dal processore. Il working set resta nei registri e nella cache, così il punteggio riflette la velocità di esecuzione in virgola mobile.",
   "metric_explanation": "Il throughput in virgola mobile è il numero di operazioni in virgola mobile al secondo, espresso in miliardi, riportato in GFLOPS.",

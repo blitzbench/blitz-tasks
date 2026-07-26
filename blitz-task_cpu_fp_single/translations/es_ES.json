@@ -1,6 +1,6 @@
 {
   "lang": "es_ES",
-  "name": "cpu_fp_single",
+  "name": "cpu_fp32_single",
   "short_description": "Rendimiento en coma flotante de un solo núcleo usando matemáticas vectoriales.",
   "description": "Ejecuta un flujo denso de operaciones de multiplicación-suma fusionada en un solo hilo utilizando la unidad vectorial más ancha que admita el procesador. El conjunto de trabajo permanece en los registros y en la caché, de modo que la puntuación refleja la velocidad de ejecución en coma flotante.",
   "metric_explanation": "El rendimiento en coma flotante es el número de operaciones en coma flotante por segundo, expresado en miles de millones, en GFLOPS.",

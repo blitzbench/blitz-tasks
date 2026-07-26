@@ -1,6 +1,6 @@
 {
   "lang": "fr_FR",
-  "name": "cpu_fp_single",
+  "name": "cpu_fp32_single",
   "short_description": "Débit en virgule flottante sur un seul cœur à l'aide du calcul vectoriel.",
   "description": "Exécute un flux dense de multiplications-additions fusionnées sur un seul thread en utilisant l'unité vectorielle la plus large que le processeur prend en charge. L'ensemble de travail reste dans les registres et le cache, de sorte que le score reflète la vitesse d'exécution en virgule flottante.",
   "metric_explanation": "Le débit en virgule flottante est le nombre d'opérations en virgule flottante par seconde, exprimé en milliards, soit en GFLOPS.",
