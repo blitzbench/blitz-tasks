@@ -3,9 +3,9 @@
 //
 // The measurement policy shared by every synthetic CPU/RAM benchmark task:
 // how a kernel is timed, how its iteration count is sized, and how a run is
-// spread across cores. The kernels themselves (cpu/synthetic_kernels.h,
-// cpu/synthetic_kernels_neon.h, ram/synthetic_kernels.h) stay untouched - this
-// header only decides when to call them and what to do with what they return.
+// spread across cores. The kernels themselves (the per-task kernels_*.cpp
+// tiers, built on synthetic_ops.h) stay untouched - this header only decides
+// when to call them and what to do with what they return.
 //
 // ---------------------------------------------------------------------------
 // The timing rule
