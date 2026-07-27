@@ -3,7 +3,7 @@
   "name": "cpu_int_single",
   "short_description": "Débit arithmétique entier sur un seul cœur occupé.",
   "description": "Exécute un flux dense d'additions entières sur un seul thread en utilisant l'unité vectorielle la plus large que le processeur prend en charge. De nombreuses chaînes d'addition indépendantes s'exécutent simultanément pour maintenir saturés les ports d'exécution entière, et l'ensemble de travail reste dans les registres, de sorte que le résultat reflète le débit entier brut plutôt que le comportement de la mémoire ou du cache.",
-  "metric_explanation": "Le débit est le nombre d'opérations entières effectuées par seconde, divisé par un million, exprimé en Mops/s.",
+  "metric_explanation": "Le débit est le nombre d'opérations entières effectuées par seconde, exprimé en Gops/s.",
   "value_interpretation": "Un nombre plus élevé signifie un cœur unique plus rapide. C'est le chiffre qui compte pour le travail que l'on ne peut répartir sur de nombreux cœurs, comme un seul onglet de navigateur ou un unique thread de jeu.",
   "reasoning": "La vitesse entière sur un seul cœur est l'indicateur le plus clair de la réactivité ressentie d'une machine dans le travail quotidien sensible à la latence ; elle sert donc d'ancrage à la suite CPU synthétique.",
   "weights": {

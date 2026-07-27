@@ -1,4 +1,4 @@
-// cpu_int_single.cpp - single-core integer throughput (Mops/s).
+// cpu_int_single.cpp - single-core integer throughput (Gops/s).
 //
 // Adopts the blitz-task_demo_cpp structure; only the measured region differs.
 // Where the demo times its whole budget loop (so its clock-polling lands inside
@@ -108,16 +108,16 @@ blitz::Result CpuIntSingle::run(const blitz::Callbacks& cb) {
             if (!cb.on_progress) return;
             blitz::Metric m;
             m.name = "throughput";
-            m.value = a.rate() / 1e6;
-            m.unit = "Mops/s";
+            m.value = a.rate() / 1e9;
+            m.unit = "Gops/s";
             m.direction = BLITZ_DIR_HIGHER_IS_BETTER;
             cb.on_progress(m);
         });
 
     std::vector<blitz::Metric> metrics(1);
     metrics[0].name = "throughput";
-    metrics[0].value = acc.rate() / 1e6;
-    metrics[0].unit = "Mops/s";
+    metrics[0].value = acc.rate() / 1e9;
+    metrics[0].unit = "Gops/s";
     metrics[0].direction = BLITZ_DIR_HIGHER_IS_BETTER;
     metrics[0].info = {
         {"simd_tier", bench::tier_name(tier)},

@@ -13,7 +13,7 @@ namespace cpu_int_single {
  *
  * One thread runs a tight stream of i32 arithmetic with the working set
  * entirely in registers; the SIMD tier is chosen at runtime (cpu_dispatch.h).
- * Reported in Mops/s.
+ * Reported in Gops/s.
  */
 class CPP_TASK_DEMO_EXPORT CpuIntSingle : public blitz::Task {
 public:
