@@ -1,9 +1,15 @@
-#include "cpu_int_multi.hpp"
+// cpu_int_single.cpp - single-core integer throughput (Mops/s).
+//
+// Adopts the blitz-task_demo_cpp structure; only the measured region differs.
+// Where the demo times its whole budget loop (so its clock-polling lands inside
+// the measurement), here the timer brackets the kernel call alone and the
+// timeout check sits outside it - see bench_harness.h.
+
+#include "cpu_int_single.hpp"
 #include "kernels.hpp"
 
 #include <bench_harness.h>
 #include <cpu_dispatch.h>
-#include <cpu_topology.h>
 
 #include <chrono>
 #include <cstdint>
@@ -11,9 +17,9 @@
 #include <string>
 #include <vector>
 
-extern "C" const char* CPU_INT_MULTI_INFO_JSON;
+extern "C" const char* CPU_INT_SINGLE_INFO_JSON;
 
-namespace cpu_int_multi {
+namespace cpu_int_single {
 
 namespace {
 
@@ -45,25 +51,25 @@ bench::Dispatched<OpsKernel> kernel_table() {
 
 } // namespace
 
-CpuIntMulti::CpuIntMulti() : timeout_ms_(DEFAULT_BUDGET_MS) {}
+CpuIntSingle::CpuIntSingle() : timeout_ms_(DEFAULT_BUDGET_MS) {}
 
-CpuIntMulti::~CpuIntMulti() = default;
+CpuIntSingle::~CpuIntSingle() = default;
 
-std::string_view CpuIntMulti::info_json() const noexcept {
-    return CPU_INT_MULTI_INFO_JSON;
+std::string_view CpuIntSingle::info_json() const noexcept {
+    return CPU_INT_SINGLE_INFO_JSON;
 }
 
-blitz::Result CpuIntMulti::configure(const blitz::DataConfig& cfg) {
+blitz::Result CpuIntSingle::configure(const blitz::DataConfig& cfg) {
     iterations_ = cfg.iterations;
     return BLITZ_OK;
 }
 
-blitz::Result CpuIntMulti::set_timeout(std::uint64_t timeout_ms) {
+blitz::Result CpuIntSingle::set_timeout(std::uint64_t timeout_ms) {
     timeout_ms_ = timeout_ms;
     return BLITZ_OK;
 }
 
-blitz::Result CpuIntMulti::run(const blitz::Callbacks& cb) {
+blitz::Result CpuIntSingle::run(const blitz::Callbacks& cb) {
     if (cb.on_status) cb.on_status(BLITZ_STATUS_RUNNING);
     if (cb.on_start) cb.on_start();
 
@@ -89,21 +95,20 @@ blitz::Result CpuIntMulti::run(const blitz::Callbacks& cb) {
                     "no integer kernel for this architecture");
     }
 
-    const unsigned threads = bench::core_count();
     const bench::TimePoint deadline =
         bench::Clock::now() + std::chrono::milliseconds(timeout_ms_);
 
     const std::uint64_t iters =
         iterations_ ? iterations_ : bench::calibrate_iters(fn, TARGET_CALL_MS);
 
-    const double ops_per_sec = bench::run_timed_parallel(
-        threads, deadline,
-        [&](unsigned) { return [&] { return fn(iters); }; },
-        [&](double aggregate, std::uint64_t) {
+    const bench::Accum acc = bench::run_timed(
+        deadline,
+        [&] { return fn(iters); },
+        [&](const bench::Accum& a) {
             if (!cb.on_progress) return;
             blitz::Metric m;
             m.name = "throughput";
-            m.value = aggregate / 1e6;
+            m.value = a.rate() / 1e6;
             m.unit = "Mops/s";
             m.direction = BLITZ_DIR_HIGHER_IS_BETTER;
             cb.on_progress(m);
@@ -111,13 +116,14 @@ blitz::Result CpuIntMulti::run(const blitz::Callbacks& cb) {
 
     std::vector<blitz::Metric> metrics(1);
     metrics[0].name = "throughput";
-    metrics[0].value = ops_per_sec / 1e6;
+    metrics[0].value = acc.rate() / 1e6;
     metrics[0].unit = "Mops/s";
     metrics[0].direction = BLITZ_DIR_HIGHER_IS_BETTER;
     metrics[0].info = {
         {"simd_tier", bench::tier_name(tier)},
-        {"threads", std::to_string(threads)},
+        {"threads", "1"},
         {"iters_per_call", std::to_string(iters)},
+        {"rounds", std::to_string(acc.rounds)},
     };
 
     if (cb.on_complete) cb.on_complete(metrics);
@@ -125,8 +131,8 @@ blitz::Result CpuIntMulti::run(const blitz::Callbacks& cb) {
     return BLITZ_OK;
 }
 
-} // namespace cpu_int_multi
+} // namespace cpu_int_single
 
-extern "C" ::BlitzTask* cpu_int_multi_new(void) {
-    return blitz::make_c_task(std::make_unique<cpu_int_multi::CpuIntMulti>());
+extern "C" ::BlitzTask* cpu_int32_single_new(void) {
+    return blitz::make_c_task(std::make_unique<cpu_int_single::CpuIntSingle>());
 }
