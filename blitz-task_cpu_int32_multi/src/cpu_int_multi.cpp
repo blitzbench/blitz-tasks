@@ -103,16 +103,16 @@ blitz::Result CpuIntMulti::run(const blitz::Callbacks& cb) {
             if (!cb.on_progress) return;
             blitz::Metric m;
             m.name = "throughput";
-            m.value = aggregate / 1e6;
-            m.unit = "Mops/s";
+            m.value = aggregate / 1e9;
+            m.unit = "Gops/s";
             m.direction = BLITZ_DIR_HIGHER_IS_BETTER;
             cb.on_progress(m);
         });
 
     std::vector<blitz::Metric> metrics(1);
     metrics[0].name = "throughput";
-    metrics[0].value = ops_per_sec / 1e6;
-    metrics[0].unit = "Mops/s";
+    metrics[0].value = ops_per_sec / 1e9;
+    metrics[0].unit = "Gops/s";
     metrics[0].direction = BLITZ_DIR_HIGHER_IS_BETTER;
     metrics[0].info = {
         {"simd_tier", bench::tier_name(tier)},

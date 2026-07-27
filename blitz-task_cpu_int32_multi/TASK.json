@@ -7,16 +7,16 @@
   "short_description": "32-bit Integer arithmetic throughput with every core and thread busy.",
   "structured_text": {
     "description": "Runs the same integer add stream as the single core test, but on every available core and hardware thread at once. The combined result shows how much integer throughput the whole processor can sustain.",
-    "metric_explanation": "Throughput is the total integer operations per second across all cores, divided by one million, reported in Mops/s.",
+    "metric_explanation": "Throughput is the total integer operations per second across all cores, reported in Gops/s.",
     "value_interpretation": "A higher number means more total throughput. The gap between this and the single core result shows how well the chip scales as cores are added.",
     "reasoning": "All core integer throughput captures the headroom available for parallel workloads such as compiling, encoding and serving many requests at once."
   },
-  "metric": { "id": "metric_throughput", "name": "throughput", "unit": "Mops/s", "direction": "higher_is_better" },
+  "metric": { "id": "metric_throughput", "name": "throughput", "unit": "Gops/s", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 460000.0 },
-    { "machine_type": "desktop",  "value": 460000.0 },
-    { "machine_type": "notebook", "value": 280000.0 },
-    { "machine_type": "mobile",   "value":  80000.0 }
+    { "machine_type": "any",      "value": 460.0 },
+    { "machine_type": "desktop",  "value": 460.0 },
+    { "machine_type": "notebook", "value": 280.0 },
+    { "machine_type": "mobile",   "value":  80.0 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.4, "explanation": "Modern engines split work across cores for physics, streaming and draw call submission." },

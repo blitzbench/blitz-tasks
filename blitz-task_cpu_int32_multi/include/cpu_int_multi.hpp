@@ -13,7 +13,7 @@ namespace cpu_int_multi {
  *
  * The same i32 stream as cpu_int_single, run on every core and hardware
  * thread at once; the aggregate is the sum of per-thread rates. The SIMD tier
- * is chosen at runtime (cpu_dispatch.h). Reported in Mops/s.
+ * is chosen at runtime (cpu_dispatch.h). Reported in Gops/s.
  */
 class CPP_TASK_DEMO_EXPORT CpuIntMulti : public blitz::Task {
  public:
