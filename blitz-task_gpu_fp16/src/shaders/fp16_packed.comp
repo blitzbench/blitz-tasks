@@ -1,0 +1,48 @@
+// Packed-SIMD fp16 kernel — SOURCE FORM for the Vulkan (fallback) + Level Zero
+// runners. Dependent f16vec4 FMA chains mirror kernel_params.hpp exactly so the
+// shared CPU references reproduce the output. Needs shaderFloat16 for the fp16
+// ALU ops; results are written as f32 so no 16-bit storage feature is required.
+//
+// Regenerate the embedded SPIR-V (done automatically at build by
+// bench_add_shaders):
+//   glslangValidator -V --target-env vulkan1.3 fp16_packed.comp -o fp16_packed.spv
+
+#version 450
+#extension GL_EXT_shader_explicit_arithmetic_types_float16 : require
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) writeonly buffer Out { float outv[]; };
+
+layout(push_constant) uniform PC { uint n; uint iters; float mf; float af; } pc;
+
+float16_t seed(uint t, uint k, uint l) {
+    uint idx = (t + 7u * k + 13u * l) & 255u;
+    return float16_t(1.0 + float(idx) * (1.0 / 256.0));
+}
+
+void main() {
+    uint t = gl_GlobalInvocationID.x;
+    if (t >= pc.n) return;
+
+    f16vec4 mv = f16vec4(float16_t(pc.mf));
+    f16vec4 av = f16vec4(float16_t(pc.af));
+
+    f16vec4 acc[4];
+    for (uint k = 0u; k < 4u; ++k)
+        acc[k] = f16vec4(seed(t, k, 0u), seed(t, k, 1u), seed(t, k, 2u), seed(t, k, 3u));
+
+    for (uint i = 0u; i < pc.iters; ++i) {
+        for (int u = 0; u < 8; ++u) {
+            for (int k = 0; k < 4; ++k)
+                acc[k] = fma(acc[k], mv, av);
+        }
+    }
+
+    float s = 0.0;
+    for (int k = 0; k < 4; ++k) {
+        vec4 f = vec4(acc[k]);
+        s += f.x + f.y + f.z + f.w;
+    }
+    outv[t] = s;
+}
