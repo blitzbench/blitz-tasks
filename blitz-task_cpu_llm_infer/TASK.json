@@ -3,6 +3,10 @@
   "name": "cpu_llm_infer",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Local language model on CPU",
   "short_description": "Token generation from a small quantised language model on the CPU.",
   "structured_text": {

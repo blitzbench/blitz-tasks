@@ -3,6 +3,10 @@
   "name": "ram_inmem_analytics",
   "component": "ram",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "In memory analytics",
   "short_description": "Large hash join and sort held entirely in memory.",
   "structured_text": {

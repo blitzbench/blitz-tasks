@@ -3,6 +3,10 @@
   "name": "gpu_pcie_h2d",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU transfer, host to device",
   "short_description": "Bandwidth for sending data from system memory to the GPU.",
   "structured_text": {

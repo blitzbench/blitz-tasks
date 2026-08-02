@@ -3,6 +3,10 @@
   "name": "cpu_fp32_multi",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "CPU 32-bit floating point, all cores",
   "short_description": "32-bit floating point throughput with every core running vector math.",
   "structured_text": {

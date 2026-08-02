@@ -4,3 +4,7 @@ Copyright (c) 2026 Leon Freist
 Project homepage: https://blitzbench.de
 Project repository: https://github.com/blitzbench/blitz-tasks
 Author: Leon Freist <freist@blitzbench.de>
+
+Licensing: per-task, see LICENSE and LICENSES/. Default is the BlitzBench
+Source-Available License (LICENSES/LicenseRef-BlitzBench-Source-Available.txt).
+Third-party attributions: THIRD_PARTY_NOTICES.md

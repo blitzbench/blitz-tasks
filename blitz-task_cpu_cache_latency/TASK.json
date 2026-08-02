@@ -3,6 +3,10 @@
   "name": "cpu_cache_latency",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "CPU cache latency",
   "short_description": "Time to fetch a value from the processor's last level cache.",
   "structured_text": {

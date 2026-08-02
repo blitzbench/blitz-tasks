@@ -3,6 +3,10 @@
   "name": "disk_seq_read",
   "component": "disk",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Storage sequential read",
   "short_description": "Read speed for large continuous files from storage.",
   "structured_text": {

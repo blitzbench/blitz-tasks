@@ -3,6 +3,10 @@
   "name": "gpu_vram_read",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU memory read bandwidth",
   "short_description": "Read bandwidth from the graphics processor's own memory.",
   "structured_text": {

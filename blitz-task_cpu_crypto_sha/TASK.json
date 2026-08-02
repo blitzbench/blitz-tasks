@@ -3,6 +3,10 @@
   "name": "cpu_crypto_sha",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "SHA hashing",
   "short_description": "SHA-256 hashing throughput on all cores.",
   "structured_text": {

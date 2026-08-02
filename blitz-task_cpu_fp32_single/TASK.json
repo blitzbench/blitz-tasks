@@ -3,6 +3,10 @@
   "name": "cpu_fp32_single",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "CPU 32-bit floating point, single core",
   "short_description": "Single core 32-bit floating point throughput using vector math.",
   "structured_text": {

@@ -3,6 +3,10 @@
   "name": "gpu_vram_copy",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU memory copy bandwidth",
   "short_description": "Bandwidth for copying data within the graphics processor's memory.",
   "structured_text": {

@@ -3,6 +3,10 @@
   "name": "gpu_matmul",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU matrix multiplication",
   "short_description": "Half precision matrix multiplication throughput using tensor units.",
   "structured_text": {

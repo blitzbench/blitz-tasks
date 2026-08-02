@@ -3,6 +3,10 @@
   "name": "ram_bw_read",
   "component": "ram",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Memory read bandwidth",
   "short_description": "Sustained read bandwidth from main memory.",
   "structured_text": {

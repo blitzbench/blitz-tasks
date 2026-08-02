@@ -3,6 +3,10 @@
   "name": "cpu_raytrace",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "CPU ray traced rendering",
   "short_description": "Path traced render of a bundled scene on the processor.",
   "structured_text": {

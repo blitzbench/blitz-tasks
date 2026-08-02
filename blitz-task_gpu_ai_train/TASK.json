@@ -3,6 +3,10 @@
   "name": "gpu_ai_train",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Model training step",
   "short_description": "Training throughput of a small neural network on the GPU.",
   "structured_text": {

@@ -3,6 +3,24 @@
   "name": "cpu_video_encode",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "GPL-2.0-or-later",
+    "file": "LICENSES/GPL-2.0-or-later.txt",
+    "notes": "GPL because the task links the x264 encoder, which is GPL-licensed."
+  },
+  "libraries": [
+    {
+      "name": "x264",
+      "homepage": "https://www.videolan.org/developers/x264.html",
+      "source": "https://code.videolan.org/videolan/x264",
+      "version": "0.164",
+      "license": "GPL-2.0-or-later",
+      "license_file": "third_party/licenses/x264/COPYING",
+      "role": "workload",
+      "usage": "Encodes the bundled 1080p clip to H.264 at a fixed quality preset; the encode loop is the measured workload.",
+      "notes": "Built as a static library with default settings; no source modifications."
+    }
+  ],
   "title": "Software video encoding",
   "short_description": "H.264 software encode of a bundled 1080p clip using x264.",
   "structured_text": {

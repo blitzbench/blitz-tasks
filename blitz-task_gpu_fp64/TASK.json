@@ -3,6 +3,10 @@
   "name": "gpu_fp64",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU double precision compute",
   "short_description": "Double precision floating point throughput on the graphics processor.",
   "structured_text": {

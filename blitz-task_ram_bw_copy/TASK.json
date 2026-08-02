@@ -3,6 +3,10 @@
   "name": "ram_bw_copy",
   "component": "ram",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Memory copy bandwidth",
   "short_description": "Sustained bandwidth for copying data within main memory.",
   "structured_text": {

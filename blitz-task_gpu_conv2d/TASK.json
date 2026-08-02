@@ -3,6 +3,10 @@
   "name": "gpu_conv2d",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU 2D convolution",
   "short_description": "Two dimensional convolution throughput on the graphics processor.",
   "structured_text": {

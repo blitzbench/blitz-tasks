@@ -3,6 +3,10 @@
   "name": "gpu_diffusion",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Image generation",
   "short_description": "Diffusion image generation on the graphics processor.",
   "structured_text": {

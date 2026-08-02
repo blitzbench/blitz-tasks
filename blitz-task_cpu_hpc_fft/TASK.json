@@ -3,6 +3,10 @@
   "name": "cpu_hpc_fft",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Scientific compute kernel",
   "short_description": "Double precision FFT and dense linear algebra across all cores.",
   "structured_text": {

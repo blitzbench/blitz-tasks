@@ -3,6 +3,10 @@
   "name": "gpu_pcie_bidir",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU transfer, both directions",
   "short_description": "Combined bandwidth uploading to and downloading from the GPU at once.",
   "structured_text": {

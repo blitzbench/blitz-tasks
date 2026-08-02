@@ -3,6 +3,10 @@
   "name": "cpu_cad_solver",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Engineering simulation solver",
   "short_description": "Sparse finite element solve over a fixed engineering model.",
   "structured_text": {

@@ -3,6 +3,10 @@
   "name": "gpu_game_scene",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Game scene rendering",
   "short_description": "Frame rate of a textured, lit 3D scene rendered like a game.",
   "structured_text": {

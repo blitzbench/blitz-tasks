@@ -3,6 +3,10 @@
   "name": "disk_rand_read",
   "component": "disk",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Storage random read",
   "short_description": "Small random read operations per second from storage.",
   "structured_text": {

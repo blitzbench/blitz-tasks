@@ -3,6 +3,10 @@
   "name": "cpu_dataframe",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Analytics query engine",
   "short_description": "Group, join and sort over a bundled columnar dataset.",
   "structured_text": {

@@ -3,6 +3,10 @@
   "name": "disk_db_oltp",
   "component": "disk",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Database transactions",
   "short_description": "Mixed read and write transactions against a local database file.",
   "structured_text": {

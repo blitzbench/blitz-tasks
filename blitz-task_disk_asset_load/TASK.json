@@ -3,6 +3,10 @@
   "name": "disk_asset_load",
   "component": "disk",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Game asset loading",
   "short_description": "Streaming and unpacking a bundled game asset package from storage.",
   "structured_text": {

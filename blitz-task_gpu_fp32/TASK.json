@@ -3,6 +3,10 @@
   "name": "gpu_fp32",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU single precision compute",
   "short_description": "Single precision floating point throughput on the graphics processor.",
   "structured_text": {

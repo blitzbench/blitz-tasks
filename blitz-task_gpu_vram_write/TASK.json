@@ -3,6 +3,10 @@
   "name": "gpu_vram_write",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU memory write bandwidth",
   "short_description": "Write bandwidth to the graphics processor's own memory.",
   "structured_text": {

@@ -3,6 +3,10 @@
   "name": "cpu_office_docs",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Office document processing",
   "short_description": "Spreadsheet recalculation and document rendering over bundled files.",
   "structured_text": {

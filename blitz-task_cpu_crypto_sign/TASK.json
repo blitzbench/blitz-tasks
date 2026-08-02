@@ -3,6 +3,10 @@
   "name": "cpu_crypto_sign",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Digital signatures",
   "short_description": "Ed25519 signing and verification throughput.",
   "structured_text": {

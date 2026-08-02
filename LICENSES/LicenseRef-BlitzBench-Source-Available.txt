@@ -1,0 +1,44 @@
+BlitzBench Source-Available License
+
+Copyright (c) 2026 Leon Freist / BlitzBench (https://blitzbench.de)
+
+NOTE: This license text is a working draft and has not yet undergone legal
+review. Until it is finalized, treat it as "all rights reserved" with the
+viewing permission described in Section 1.
+
+1. Grant of viewing permission.
+   Permission is hereby granted to view and read the source code made
+   available in this repository, and to build and run it locally solely for
+   the purpose of evaluating it, verifying what the benchmark tasks measure,
+   and auditing their behavior.
+
+2. All other rights reserved.
+   Except as expressly permitted in Section 1, no rights are granted. In
+   particular, you may not use, copy, modify, merge, publish, distribute,
+   sublicense, sell, or incorporate this software or any portion of it into
+   other software or services without prior explicit written approval of the
+   copyright holder.
+
+3. Requesting approval.
+   Requests for usage permission can be directed to the copyright holder:
+   Leon Freist <freist@blitzbench.de>.
+
+4. Per-task licensing.
+   Individual benchmark task directories in this repository may be released
+   under a different license. Where a task's TASK.json declares a `license`
+   whose terms differ from this document, that declaration governs the
+   contents of that task directory. This document governs everything not
+   covered by such a declaration.
+
+5. Third-party components.
+   Third-party libraries used by benchmark tasks remain under their own
+   licenses; see THIRD_PARTY_NOTICES.md.
+
+6. No warranty.
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+   OR IN CONNECTION WITH THE SOFTWARE OR THE USE OF OR OTHER DEALINGS IN THE
+   SOFTWARE.

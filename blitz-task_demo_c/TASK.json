@@ -3,6 +3,10 @@
   "name": "c_task_demo",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "C task demo",
   "short_description": "Minimal C example task - busy-loop integer increment throughput.",
   "structured_text": {

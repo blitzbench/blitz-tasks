@@ -3,6 +3,10 @@
   "name": "gpu_fillrate",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU pixel fill rate",
   "short_description": "Rate at which the graphics processor can shade and write pixels.",
   "structured_text": {

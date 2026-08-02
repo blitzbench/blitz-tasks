@@ -3,6 +3,10 @@
   "name": "cpu_compile",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Code compilation",
   "short_description": "Time to compile a fixed C and C++ source tree from clean.",
   "structured_text": {

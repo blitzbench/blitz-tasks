@@ -3,6 +3,10 @@
   "name": "disk_seek",
   "component": "disk",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Storage access latency",
   "short_description": "Time to complete a single small random read from storage.",
   "structured_text": {

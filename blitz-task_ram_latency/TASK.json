@@ -3,6 +3,10 @@
   "name": "ram_latency",
   "component": "ram",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Memory latency",
   "short_description": "Time to fetch a single random value from main memory.",
   "structured_text": {

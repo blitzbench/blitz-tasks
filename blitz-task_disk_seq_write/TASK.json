@@ -3,6 +3,10 @@
   "name": "disk_seq_write",
   "component": "disk",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Storage sequential write",
   "short_description": "Write speed for large continuous files to storage.",
   "structured_text": {

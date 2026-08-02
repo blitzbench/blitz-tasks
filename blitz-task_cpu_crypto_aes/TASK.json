@@ -3,6 +3,10 @@
   "name": "cpu_crypto_aes",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "AES encryption",
   "short_description": "AES-256 symmetric encryption throughput on all cores.",
   "structured_text": {

@@ -3,6 +3,10 @@
   "name": "ram_bw_write",
   "component": "ram",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Memory write bandwidth",
   "short_description": "Sustained write bandwidth to main memory.",
   "structured_text": {

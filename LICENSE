@@ -1,0 +1,36 @@
+BlitzBench - BlitzTasks: Licensing
+
+Copyright (c) 2026 Leon Freist / BlitzBench (https://blitzbench.de)
+
+This repository is source-available and multi-licensed on a per-task basis:
+
+1. Default license.
+   Everything in this repository that is not covered by a per-task
+   declaration (task-lib/, common/, catalog/, build tooling, and every task
+   directory whose TASK.json declares the default) is licensed under the
+   BlitzBench Source-Available License:
+   LICENSES/LicenseRef-BlitzBench-Source-Available.txt
+   In short: the source may be viewed and evaluated, but any other use,
+   modification, or redistribution requires explicit written approval.
+
+2. Per-task licenses.
+   Each benchmark task directory (blitz-task_*/) declares its own license in
+   its TASK.json under the top-level "license" key ({ "spdx", "file" }); the
+   referenced text lives in LICENSES/. Some tasks are released under
+   open-source licenses (e.g. GPL) because they link third-party libraries
+   that require it (e.g. FFmpeg-based video tasks). See LICENSING.md for a
+   generated per-task summary.
+
+3. Shared framework code in per-task builds.
+   Tasks link the shared framework code in task-lib/ and common/. For any
+   task released under an open-source license, the copyright holder grants
+   the right to build, link, and distribute the shared framework code as part
+   of that task under the terms of that task's declared license.
+   [NOTE: this clause is a working draft pending legal review.]
+
+4. Third-party components.
+   Third-party libraries remain under their own licenses. See
+   THIRD_PARTY_NOTICES.md, third_party/, and each task's "libraries" metadata
+   in its TASK.json.
+
+Contact for permissions: Leon Freist <freist@blitzbench.de>

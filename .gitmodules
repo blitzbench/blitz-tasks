@@ -1,3 +1,6 @@
 [submodule "external/gpu_runtime"]
 	path = external/gpu_runtime
 	url = git@github.com:blitz-bench/gpu_runtime.git
+[submodule "external/hwinfo"]
+	path = external/hwinfo
+	url = https://github.com/lfreist/hwinfo

@@ -3,6 +3,10 @@
   "name": "gpu_int8",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "GPU int8 compute",
   "short_description": "Eight bit integer throughput on the graphics processor.",
   "structured_text": {

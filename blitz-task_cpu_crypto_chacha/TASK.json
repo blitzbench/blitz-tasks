@@ -3,6 +3,10 @@
   "name": "cpu_crypto_chacha",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "ChaCha20 encryption",
   "short_description": "ChaCha20-Poly1305 authenticated encryption throughput on all cores.",
   "structured_text": {

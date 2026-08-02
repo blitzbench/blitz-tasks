@@ -3,6 +3,10 @@
   "name": "gpu_image_filters",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "Photo filter processing",
   "short_description": "Stacked photo filters applied to bundled high resolution images.",
   "structured_text": {

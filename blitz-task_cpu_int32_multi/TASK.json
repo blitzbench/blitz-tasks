@@ -3,6 +3,10 @@
   "name": "cpu_int32_multi",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "CPU integer, all cores",
   "short_description": "32-bit Integer arithmetic throughput with every core and thread busy.",
   "structured_text": {

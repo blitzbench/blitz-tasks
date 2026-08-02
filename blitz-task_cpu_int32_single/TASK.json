@@ -3,6 +3,10 @@
   "name": "cpu_int_single",
   "component": "cpu",
   "benchmark_type": "synthetic",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
   "title": "CPU integer, single core",
   "short_description": "Single core integer arithmetic throughput on one busy thread.",
   "structured_text": {
