@@ -1,0 +1,40 @@
+// Dense dependent-FMA fp64 kernel — SOURCE FORM for the Vulkan + Level Zero
+// runners. Mirrors kernel_params.hpp / the CUDA/OpenCL kernels exactly so the
+// shared CPU reference reproduces the output. GLSL `fma` is fused.
+//
+// `double` is core in GLSL 4.00+, so #version 450 needs no extension; glslang
+// emits the Float64 capability, which requires the shaderFloat64 device feature
+// (Vulkan enables it at device creation; Level Zero gates on the L0 fp64 flag).
+//
+// Regenerate the embedded SPIR-V (done automatically at build by
+// bench_add_shaders):
+//   glslangValidator -V fp64_fma.comp -o fp64_fma.spv
+
+#version 450
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) writeonly buffer Out { double outv[]; };
+
+layout(push_constant) uniform PC { uint n; uint iters; } pc;
+
+void main() {
+    uint t = gl_GlobalInvocationID.x;
+    if (t >= pc.n) return;
+
+    double acc0 = 1.0LF + double((t + 0u) & 1023u) * (1.0LF / 2048.0LF);
+    double acc1 = 1.0LF + double((t + 1u) & 1023u) * (1.0LF / 2048.0LF);
+    double acc2 = 1.0LF + double((t + 2u) & 1023u) * (1.0LF / 2048.0LF);
+    double acc3 = 1.0LF + double((t + 3u) & 1023u) * (1.0LF / 2048.0LF);
+
+    const double m = 0.9999LF, add = 0.0001LF;
+    for (uint i = 0u; i < pc.iters; ++i) {
+        for (int u = 0; u < 8; ++u) {
+            acc0 = fma(acc0, m, add);
+            acc1 = fma(acc1, m, add);
+            acc2 = fma(acc2, m, add);
+            acc3 = fma(acc3, m, add);
+        }
+    }
+    outv[t] = acc0 + acc1 + acc2 + acc3;
+}
