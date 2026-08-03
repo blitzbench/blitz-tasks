@@ -1,0 +1,56 @@
+// Packed-SIMD int8 fallback kernel (Vulkan fallback + Level Zero) — SOURCE FORM.
+// Genuine 8-bit lanes via GL_EXT_shader_explicit_arithmetic_types_int8 (i8vec4);
+// requires the shaderInt8 device feature. Mirrors bench::i8::reference_packed:
+// per thread, kChains dependent MAC chains over a uint32 accumulator whose four
+// bytes are reinterpreted as SIGNED int8 lanes and dot-producted with the fixed
+// weight W = {1,2,3,4}, the signed dot added back with uint32 wraparound.
+//
+// CI NOTE: int8_t(uint) is assumed to wrap to two's-complement (take low 8 bits),
+// matching the CPU reference. Verified exact on well-behaved drivers; if a driver
+// saturates instead, the post-run compare reports correct=no (not a crash).
+//
+// Regenerate embedded SPIR-V (done at build by bench_add_shaders):
+//   glslangValidator -V --target-env vulkan1.3 int8_packed.comp -o int8_packed.spv
+
+#version 450
+#extension GL_EXT_shader_explicit_arithmetic_types_int8 : require
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) writeonly buffer Out { uint outv[]; };
+
+layout(push_constant) uniform PC { uint n; uint iters; } pc;
+
+i8vec4 unpack_i8(uint v) {
+    return i8vec4(int8_t(v & 0xffu),
+                  int8_t((v >> 8)  & 0xffu),
+                  int8_t((v >> 16) & 0xffu),
+                  int8_t((v >> 24) & 0xffu));
+}
+
+void main() {
+    uint t = gl_GlobalInvocationID.x;
+    if (t >= pc.n) return;
+
+    const uint W = 0x04030201u;
+    i8vec4 wb = unpack_i8(W);
+
+    uint acc0 = 0x9E3779B9u * (t + 1u) + 0x85EBCA6Bu * 1u;
+    uint acc1 = 0x9E3779B9u * (t + 1u) + 0x85EBCA6Bu * 2u;
+    uint acc2 = 0x9E3779B9u * (t + 1u) + 0x85EBCA6Bu * 3u;
+    uint acc3 = 0x9E3779B9u * (t + 1u) + 0x85EBCA6Bu * 4u;
+
+    for (uint i = 0u; i < pc.iters; ++i) {
+        for (int u = 0; u < 8; ++u) {
+            i8vec4 b0 = unpack_i8(acc0);
+            i8vec4 b1 = unpack_i8(acc1);
+            i8vec4 b2 = unpack_i8(acc2);
+            i8vec4 b3 = unpack_i8(acc3);
+            acc0 += uint(int(b0.x)*int(wb.x) + int(b0.y)*int(wb.y) + int(b0.z)*int(wb.z) + int(b0.w)*int(wb.w));
+            acc1 += uint(int(b1.x)*int(wb.x) + int(b1.y)*int(wb.y) + int(b1.z)*int(wb.z) + int(b1.w)*int(wb.w));
+            acc2 += uint(int(b2.x)*int(wb.x) + int(b2.y)*int(wb.y) + int(b2.z)*int(wb.z) + int(b2.w)*int(wb.w));
+            acc3 += uint(int(b3.x)*int(wb.x) + int(b3.y)*int(wb.y) + int(b3.z)*int(wb.z) + int(b3.w)*int(wb.w));
+        }
+    }
+    outv[t] = acc0 + acc1 + acc2 + acc3;
+}
