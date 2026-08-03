@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_matmul_fp32",
+  "short_description": "Velocità delle grandi moltiplicazioni matriciali a precisione singola tramite la libreria matematica del produttore.",
+  "description": "Moltiplica due grandi matrici a precisione singola sul processore grafico, usando la libreria matematica del produttore dell'hardware e il percorso a precisione singola più veloce che essa offre. Le matrici sono dimensionate per occupare una parte significativa della memoria grafica, quindi il risultato dipende dall'intero stack: le unità di calcolo, la gerarchia di memoria che le alimenta e la qualità del software del produttore.",
+  "metric_explanation": "La velocità è il numero di operazioni a precisione singola al secondo durante la moltiplicazione, in miliardi, espresso in GFLOPS.",
+  "value_interpretation": "Più alto è meglio. È il valore che prevede meglio l'algebra lineare densa nei codici ingegneristici e scientifici, dominata dalla moltiplicazione matriciale.",
+  "reasoning": "L'algebra lineare densa a precisione singola è la spina dorsale di simulazione, ingegneria e calcolo scientifico classico. L'hardware moderno la raggiunge tramite percorsi a precisione ridotta interni alla libreria del produttore, perciò la velocità effettiva può differire molto dal dato grezzo: solo eseguire la libreria reale lo rivela.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi eseguono raramente moltiplicazioni matriciali dense al di fuori degli effetti appresi."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non usa algebra lineare densa sulla GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori di software di simulazione o numerico."
+    },
+    "domain_graphics_design": {
+      "explanation": "Alcuni filtri accelerati si riducono ad algebra lineare densa."
+    },
+    "domain_video_editing": {
+      "explanation": "Alcuni effetti si riducono a calcolo matriciale denso a precisione singola."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'illuminazione globale e i passi di simulazione usano algebra lineare densa."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa poco uso di algebra lineare sulla GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I solutori accelerati negli strumenti ingegneristici poggiano sul calcolo matriciale denso a precisione singola."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'algebra lineare densa a precisione singola è il nucleo dei codici scientifici accelerati."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento avviene per lo più a precisione ridotta, ma la precisione singola sostiene i passi di ottimizzazione e normalizzazione."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza è in gran parte a precisione ridotta; la precisione singola copre il resto."
+    },
+    "domain_data_science": {
+      "explanation": "I metodi statistici e di fattorizzazione su grandi dati girano a precisione singola."
+    },
+    "domain_server_virt": {
+      "explanation": "I server con acceleratori condivisi espongono questa velocità a molti utenti numerici."
+    }
+  }
+}

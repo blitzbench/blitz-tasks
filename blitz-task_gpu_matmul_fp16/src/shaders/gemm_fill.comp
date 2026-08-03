@@ -1,0 +1,44 @@
+// Operand fill kernel — SOURCE FORM for the Vulkan and Level Zero runners.
+// Writes A and B from a closed-form hash of each element's coordinates, so a
+// 16384-square problem costs no host memory and no host-to-device transfer.
+//
+// gemm_operand_value mirrors bench::gemm::operand_value in
+// common/cpp/include/bench/gemm/params.hpp bit for bit; the CPU reference that
+// verifies the multiply evaluates the same function, so the two must not drift.
+// Its eight possible values are exact in fp16, so A and B hold them exactly.
+//
+//   glslangValidator -V --target-env vulkan1.3 gemm_fill.comp -o gemm_fill.spv
+
+#version 450 core
+#extension GL_EXT_shader_explicit_arithmetic_types_float16 : require
+
+layout(local_size_x = 16, local_size_y = 16) in;
+
+layout(set = 0, binding = 0, std430) writeonly buffer BufA { float16_t a[]; };
+layout(set = 0, binding = 1, std430) writeonly buffer BufB { float16_t b[]; };
+layout(set = 0, binding = 2, std430) buffer BufC { float c[]; };
+
+layout(push_constant) uniform PC { uint n; uint seed; } pc;
+
+uint gemm_operand_hash(uint row, uint col, uint which, uint seed) {
+    uint h = row * 0x9E3779B1u ^ col * 0x85EBCA77u ^ which * 0xC2B2AE3Du ^ seed;
+    h ^= h >> 15;
+    h *= 0x2C1B3C6Du;
+    h ^= h >> 12;
+    h *= 0x297A2D39u;
+    h ^= h >> 15;
+    return h;
+}
+
+float gemm_operand_value(uint row, uint col, uint which, uint seed) {
+    return (float(gemm_operand_hash(row, col, which, seed) & 7u) - 4.0) * 0.25;
+}
+
+void main() {
+    const uint row = gl_GlobalInvocationID.y;
+    const uint col = gl_GlobalInvocationID.x;
+    if (row >= pc.n || col >= pc.n) return;
+    const uint idx = row * pc.n + col;
+    a[idx] = float16_t(gemm_operand_value(row, col, 0u, pc.seed));
+    b[idx] = float16_t(gemm_operand_value(row, col, 1u, pc.seed));
+}

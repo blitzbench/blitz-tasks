@@ -1,0 +1,45 @@
+// Tiled fp32 GEMM — SOURCE FORM for the Vulkan and Level Zero runners.
+// C = A * B for square row-major matrices, fp32 throughout.
+//
+// One 16x16 output tile per workgroup, with both operand tiles staged through
+// shared memory. This is the path taken wherever no vendor BLAS exists, so it
+// favours portability over peak rate:
+// 256 invocations per workgroup stays inside the Vulkan minimum for
+// maxComputeWorkGroupInvocations, and every problem size is a multiple of the
+// tile, so no bounds checks are needed in the inner loop.
+//
+//   glslangValidator -V --target-env vulkan1.3 gemm_tiled.comp -o gemm_tiled.spv
+
+#version 450 core
+
+const uint TILE = 16u;
+
+layout(local_size_x = 16, local_size_y = 16) in;
+
+layout(set = 0, binding = 0, std430) readonly buffer BufA { float a[]; };
+layout(set = 0, binding = 1, std430) readonly buffer BufB { float b[]; };
+layout(set = 0, binding = 2, std430) writeonly buffer BufC { float c[]; };
+
+layout(push_constant) uniform PC { uint n; uint seed; } pc;
+
+shared float sa[TILE][TILE];
+shared float sb[TILE][TILE];
+
+void main() {
+    const uint row = gl_GlobalInvocationID.y;
+    const uint col = gl_GlobalInvocationID.x;
+    const uint lr = gl_LocalInvocationID.y;
+    const uint lc = gl_LocalInvocationID.x;
+
+    float acc = 0.0;
+    for (uint t = 0u; t < pc.n; t += TILE) {
+        sa[lr][lc] = a[row * pc.n + (t + lc)];
+        sb[lr][lc] = b[(t + lr) * pc.n + col];
+        barrier();
+        for (uint k = 0u; k < TILE; ++k) {
+            acc += sa[lr][k] * sb[k][lc];
+        }
+        barrier();
+    }
+    c[row * pc.n + col] = acc;
+}

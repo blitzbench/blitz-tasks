@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_matmul_fp16",
+  "short_description": "Durchsatz großer Matrixmultiplikationen mit halber Genauigkeit über die Mathematikbibliothek des Herstellers.",
+  "description": "Multipliziert zwei große Matrizen mit halber Genauigkeit auf dem Grafikprozessor und nutzt dabei die Mathematikbibliothek, die der Hardwarehersteller genau für diese Aufgabe ausliefert. Die Matrizen sind so groß gewählt, dass sie einen erheblichen Teil des Grafikspeichers belegen. Das Ergebnis hängt daher vom gesamten Stapel ab: von den Matrixeinheiten, von der Speicherhierarchie, die sie versorgt, und von der Qualität der herstellereigenen Software.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der Operationen mit halber Genauigkeit pro Sekunde während der Multiplikation, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "Höher ist besser. Dies ist die Kennzahl, die Trainings- und Inferenzgeschwindigkeit am direktesten vorhersagt, da beide in dieser Größenordnung von Matrixmultiplikation dominiert werden.",
+  "reasoning": "Die reinen Rechentests messen, wie schnell sich die Matrixeinheiten isoliert auslasten lassen. Reale Arbeit des maschinellen Lernens erreicht diese Einheiten über eine Herstellerbibliothek und auf Matrizen, die viel zu groß für den Chip sind. Wie viel der Spitzenleistung diesen Weg übersteht, entscheidet über die tatsächliche Leistung.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Upscaling und gelernte Effekte nutzen Matrixmultiplikation auf den Tensor-Einheiten."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit nutzt Matrixeinheiten kaum."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant für Entwickler, die Funktionen des maschinellen Lernens umsetzen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Generative und lernbasierte Design-Werkzeuge führen Matrixmultiplikation aus."
+    },
+    "domain_video_editing": {
+      "explanation": "Auf maschinellem Lernen basierende Effekte in Schnittprogrammen setzen auf Matrixmultiplikation."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Trainierte Denoiser und Upscaler beim Rendering nutzen die Matrixeinheiten."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit macht kaum Gebrauch von den Matrixeinheiten der GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Manche beschleunigten Solver und Ersatzmodelle beruhen auf dichter Matrixmultiplikation."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Dichte lineare Algebra auf der GPU baut auf Matrixmultiplikation auf."
+    },
+    "domain_ai_training": {
+      "explanation": "Der Trainingsdurchsatz entspricht im Wesentlichen dem Durchsatz der Matrixmultiplikation."
+    },
+    "domain_ai_inference": {
+      "explanation": "Die Inferenzgeschwindigkeit wird von den Matrixmultiplikationen in jeder Schicht bestimmt."
+    },
+    "domain_data_science": {
+      "explanation": "GPU-basiertes maschinelles Lernen über große Datenmengen beruht auf Matrixmultiplikation."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemeinsam genutzte Beschleunigerserver stellen vielen Mandanten Matrixdurchsatz bereit."
+    }
+  }
+}

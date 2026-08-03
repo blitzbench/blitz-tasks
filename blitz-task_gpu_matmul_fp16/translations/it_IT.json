@@ -1,0 +1,50 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_matmul_fp16",
+  "short_description": "Velocità delle grandi moltiplicazioni matriciali a mezza precisione tramite la libreria matematica del produttore.",
+  "description": "Moltiplica due grandi matrici a mezza precisione sul processore grafico, usando la libreria matematica che il produttore dell'hardware fornisce proprio per questo compito. Le matrici sono dimensionate per occupare una parte significativa della memoria grafica, quindi il risultato dipende dall'intero stack: le unità matriciali, la gerarchia di memoria che le alimenta e la qualità del software del produttore.",
+  "metric_explanation": "La velocità è il numero di operazioni a mezza precisione al secondo durante la moltiplicazione, in miliardi, espresso in GFLOPS.",
+  "value_interpretation": "Più alto è meglio. È il valore che prevede più direttamente la velocità di addestramento e inferenza, entrambe dominate dalla moltiplicazione matriciale a questa scala.",
+  "reasoning": "I test di calcolo puro misurano quanto velocemente si possono saturare le unità matriciali isolate. Il lavoro reale di apprendimento automatico raggiunge quelle unità attraverso una libreria del produttore, su matrici troppo grandi per stare sul chip. Quanta prestazione di picco sopravvive a questo percorso decide le prestazioni effettive.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "L'upscaling e gli effetti appresi usano la moltiplicazione matriciale sulle unità tensoriali."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio usa raramente le unità matriciali."
+    },
+    "domain_software_development": {
+      "explanation": "Rilevante per gli sviluppatori che realizzano funzioni di apprendimento automatico."
+    },
+    "domain_graphics_design": {
+      "explanation": "Gli strumenti di design generativi e appresi eseguono moltiplicazioni matriciali."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli effetti basati sull'apprendimento automatico nei programmi di montaggio si basano sulla moltiplicazione matriciale."
+    },
+    "domain_3d_rendering": {
+      "explanation": "I denoiser e gli upscaler appresi nel rendering usano le unità matriciali."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio fa poco uso delle unità matriciali della GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Alcuni solutori accelerati e modelli surrogati poggiano sulla moltiplicazione matriciale densa."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'algebra lineare densa su GPU si fonda sulla moltiplicazione matriciale."
+    },
+    "domain_ai_training": {
+      "explanation": "La velocità di addestramento coincide in sostanza con quella della moltiplicazione matriciale."
+    },
+    "domain_ai_inference": {
+      "explanation": "La velocità di inferenza è dominata dalle moltiplicazioni matriciali di ogni livello."
+    },
+    "domain_data_science": {
+      "explanation": "L'apprendimento automatico su GPU su grandi dati poggia sulla moltiplicazione matriciale."
+    },
+    "domain_server_virt": {
+      "explanation": "I server con acceleratori condivisi espongono questa velocità a molti utenti."
+    }
+  }
+}

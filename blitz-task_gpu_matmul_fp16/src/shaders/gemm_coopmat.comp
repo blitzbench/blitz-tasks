@@ -1,0 +1,48 @@
+// Cooperative-matrix fp16 GEMM — SOURCE FORM for the Vulkan tensor path.
+// C = A * B for square row-major matrices, using 16x16x16 {f16,f16,f32}
+// cooperative matrices: one subgroup accumulates one 16x16 output tile, walking
+// the full K dimension. Operands are loaded straight from global memory, which
+// keeps the kernel short at the cost of leaning on the cache hierarchy — this
+// path exists to represent what the Vulkan ecosystem delivers without a vendor
+// BLAS, not to compete with one.
+//
+// The workgroup is one subgroup wide, sized by specialization constant 0 from
+// the device's reported subgroupSize, because cooperative matrix operations
+// require subgroup-uniform control flow and the subgroup width varies by vendor.
+//
+// Compiled ONLY when glslang advertises GL_KHR_cooperative_matrix (SDK
+// >= 1.3.261 / glslang >= 13); the shaders/ CMake probes this and otherwise
+// embeds the tiled kernel alone. Compile with --target-env vulkan1.3.
+//
+//   glslangValidator -V --target-env vulkan1.3 gemm_coopmat.comp -o gemm_coopmat.spv
+
+#version 450 core
+#extension GL_KHR_cooperative_matrix : require
+#extension GL_KHR_memory_scope_semantics : require
+#extension GL_EXT_shader_explicit_arithmetic_types_float16 : require
+
+layout(local_size_x_id = 0, local_size_y = 1, local_size_z = 1) in;
+
+layout(set = 0, binding = 0, std430) readonly buffer BufA { float16_t a[]; };
+layout(set = 0, binding = 1, std430) readonly buffer BufB { float16_t b[]; };
+layout(set = 0, binding = 2, std430) writeonly buffer BufC { float c[]; };
+
+layout(push_constant) uniform PC { uint n; uint seed; } pc;
+
+void main() {
+    const uint tile_row = gl_WorkGroupID.y * 16u;
+    const uint tile_col = gl_WorkGroupID.x * 16u;
+
+    coopmat<float, gl_ScopeSubgroup, 16, 16, gl_MatrixUseAccumulator> acc =
+        coopmat<float, gl_ScopeSubgroup, 16, 16, gl_MatrixUseAccumulator>(0.0);
+
+    for (uint k = 0u; k < pc.n; k += 16u) {
+        coopmat<float16_t, gl_ScopeSubgroup, 16, 16, gl_MatrixUseA> ma;
+        coopmat<float16_t, gl_ScopeSubgroup, 16, 16, gl_MatrixUseB> mb;
+        coopMatLoad(ma, a, tile_row * pc.n + k, pc.n, gl_CooperativeMatrixLayoutRowMajor);
+        coopMatLoad(mb, b, k * pc.n + tile_col, pc.n, gl_CooperativeMatrixLayoutRowMajor);
+        acc = coopMatMulAdd(ma, mb, acc);
+    }
+
+    coopMatStore(acc, c, tile_row * pc.n + tile_col, pc.n, gl_CooperativeMatrixLayoutRowMajor);
+}

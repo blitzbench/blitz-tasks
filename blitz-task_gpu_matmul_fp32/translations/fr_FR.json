@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_matmul_fp32",
+  "short_description": "Débit des grandes multiplications matricielles en simple précision via la bibliothèque mathématique du fabricant.",
+  "description": "Multiplie deux grandes matrices en simple précision sur le processeur graphique, en utilisant la bibliothèque mathématique du fabricant du matériel et le chemin en simple précision le plus rapide qu'elle propose. Les matrices sont dimensionnées pour occuper une part significative de la mémoire graphique : le résultat dépend donc de toute la chaîne, des unités de calcul, de la hiérarchie mémoire qui les alimente et de la qualité du logiciel du fabricant.",
+  "metric_explanation": "Le débit correspond au nombre d'opérations en simple précision par seconde pendant la multiplication, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. C'est le chiffre qui prédit le mieux l'algèbre linéaire dense des codes d'ingénierie et scientifiques, dominée par la multiplication matricielle.",
+  "reasoning": "L'algèbre linéaire dense en simple précision est la colonne vertébrale de la simulation, de l'ingénierie et du calcul scientifique classique. Le matériel moderne y accède par des chemins de précision réduite au sein de la bibliothèque du fabricant, si bien que le débit réel peut différer fortement du chiffre brut ; seul l'usage de la vraie bibliothèque le révèle.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux exécutent rarement des multiplications matricielles denses hors effets appris."
+    },
+    "domain_office": {
+      "explanation": "Le travail de bureau n'utilise pas d'algèbre linéaire dense sur GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent pour les développeurs de logiciels de simulation ou numériques."
+    },
+    "domain_graphics_design": {
+      "explanation": "Certains filtres accélérés se ramènent à de l'algèbre linéaire dense."
+    },
+    "domain_video_editing": {
+      "explanation": "Quelques effets se réduisent à du calcul matriciel dense en simple précision."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'illumination globale et les étapes de simulation utilisent l'algèbre linéaire dense."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio fait peu appel à l'algèbre linéaire sur GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les solveurs accélérés des outils d'ingénierie reposent sur le calcul matriciel dense en simple précision."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'algèbre linéaire dense en simple précision est au cœur des codes scientifiques accélérés."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement se fait surtout en précision réduite, mais la simple précision porte les étapes d'optimisation et de normalisation."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence est largement en précision réduite ; la simple précision couvre le reste."
+    },
+    "domain_data_science": {
+      "explanation": "Les méthodes statistiques et de factorisation sur de grands volumes s'exécutent en simple précision."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs d'accélérateurs partagés exposent ce débit à de nombreux locataires numériques."
+    }
+  }
+}

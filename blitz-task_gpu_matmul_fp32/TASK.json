@@ -1,0 +1,120 @@
+{
+  "id": "task_gpu_real_world_matmul_fp32",
+  "name": "gpu_matmul_fp32",
+  "component": "gpu",
+  "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "libraries": [
+    {
+      "name": "cuBLAS (cuBLASLt)",
+      "homepage": "https://developer.nvidia.com/cublas",
+      "source": "https://developer.nvidia.com/cuda-toolkit",
+      "version": "CUDA Toolkit 12.x",
+      "license": "LicenseRef-NVIDIA-CUDA-EULA",
+      "license_file": "third_party/licenses/cublas/EULA.txt",
+      "role": "workload",
+      "usage": "cublasLtMatmul performs the measured matrix multiply on NVIDIA devices, fp32 operands with the TF32 compute type.",
+      "notes": "Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. Redistributed in binary form in a private application directory as permitted by Attachment A of the CUDA Toolkit EULA."
+    },
+    {
+      "name": "rocBLAS",
+      "homepage": "https://rocm.docs.amd.com/projects/rocBLAS/en/latest/",
+      "source": "https://github.com/ROCm/rocBLAS",
+      "version": "ROCm 6.x",
+      "license": "MIT AND BSD-3-Clause",
+      "license_file": "third_party/licenses/rocblas/LICENSE.md",
+      "role": "workload",
+      "usage": "rocblas_gemm_ex performs the measured matrix multiply on AMD devices, fp32 operands with the TF32 compute type.",
+      "notes": "Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. AMD's own code is MIT; the bundled Tensile-derived and reference LAPACK components carry BSD-3-Clause terms, so the shipped LICENSE.md covers both."
+    }
+  ],
+  "title": "GPU matrix multiplication (single precision)",
+  "short_description": "Large single precision matrix multiplication through the vendor's own maths library.",
+  "structured_text": {
+    "description": "Multiplies a pair of large single precision matrices on the graphics processor, using the maths library the hardware vendor ships for exactly this job and the fastest single precision path that library offers. The matrices are sized to fill a meaningful share of graphics memory, so the result depends on the whole stack: the arithmetic units, the memory hierarchy that feeds them, and the quality of the vendor's own software.",
+    "metric_explanation": "Throughput is the number of single precision operations per second during the multiply, in billions, reported in GFLOPS.",
+    "value_interpretation": "Higher is better. This is the figure that best predicts dense linear algebra work in engineering and scientific codes, which is dominated by matrix multiplication at this scale.",
+    "reasoning": "Single precision dense linear algebra is the backbone of simulation, engineering and classical scientific computing. Modern hardware reaches it through reduced precision paths inside the vendor library, so the delivered rate can differ greatly from the raw single precision figure, and only running the real library shows which."
+  },
+  "metric": {
+    "id": "metric_flops",
+    "name": "flops",
+    "unit": "GFLOPS",
+    "direction": "higher_is_better"
+  },
+  "baselines": [
+    {
+      "machine_type": "any",
+      "value": 12000.0
+    },
+    {
+      "machine_type": "desktop",
+      "value": 30000.0
+    },
+    {
+      "machine_type": "notebook",
+      "value": 12000.0
+    },
+    {
+      "machine_type": "mobile",
+      "value": 2000.0
+    }
+  ],
+  "weights": {
+    "domain_gaming": {
+      "weight": 0.2,
+      "explanation": "Games rarely run dense matrix multiplication outside learned effects."
+    },
+    "domain_office": {
+      "weight": 0.1,
+      "explanation": "Office work does not use dense linear algebra on the GPU."
+    },
+    "domain_software_development": {
+      "weight": 0.2,
+      "explanation": "Relevant to developers building simulation or numerical software."
+    },
+    "domain_graphics_design": {
+      "weight": 0.2,
+      "explanation": "Some accelerated filters resolve to dense linear algebra."
+    },
+    "domain_video_editing": {
+      "weight": 0.2,
+      "explanation": "A few effects reduce to dense matrix work at single precision."
+    },
+    "domain_3d_rendering": {
+      "weight": 0.3,
+      "explanation": "Global illumination and simulation steps use dense linear algebra."
+    },
+    "domain_audio_production": {
+      "weight": 0.1,
+      "explanation": "Audio work makes little use of GPU linear algebra."
+    },
+    "domain_cad_engineering": {
+      "weight": 0.6,
+      "explanation": "Accelerated solvers in engineering tools rest on dense single precision matrix work."
+    },
+    "domain_scientific_computing": {
+      "weight": 1.0,
+      "explanation": "Dense single precision linear algebra is the core of accelerated scientific codes."
+    },
+    "domain_ai_training": {
+      "weight": 0.5,
+      "explanation": "Training mostly runs in reduced precision, but single precision still backs optimiser and normalisation steps."
+    },
+    "domain_ai_inference": {
+      "weight": 0.4,
+      "explanation": "Inference is largely reduced precision; single precision covers the parts that are not."
+    },
+    "domain_data_science": {
+      "weight": 0.6,
+      "explanation": "Statistical and factorisation methods over large data run in single precision."
+    },
+    "domain_server_virt": {
+      "weight": 0.4,
+      "explanation": "Shared accelerator servers expose this throughput to many numerical tenants."
+    }
+  }
+}

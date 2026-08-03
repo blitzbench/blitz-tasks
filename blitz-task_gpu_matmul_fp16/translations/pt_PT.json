@@ -1,0 +1,50 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_matmul_fp16",
+  "short_description": "Débito de grandes multiplicações de matrizes em meia precisão através da biblioteca matemática do fabricante.",
+  "description": "Multiplica duas matrizes grandes em meia precisão no processador gráfico, usando a biblioteca matemática que o fabricante do hardware disponibiliza exactamente para esta tarefa. As matrizes são dimensionadas para ocupar uma parte significativa da memória gráfica, pelo que o resultado depende de toda a pilha: as unidades matriciais, a hierarquia de memória que as alimenta e a qualidade do software do próprio fabricante.",
+  "metric_explanation": "O débito é o número de operações em meia precisão por segundo durante a multiplicação, em milhares de milhões, indicado em GFLOPS.",
+  "value_interpretation": "Quanto mais alto, melhor. É o valor que prevê de forma mais directa a velocidade de treino e de inferência, ambas dominadas pela multiplicação de matrizes a esta escala.",
+  "reasoning": "Os testes de cálculo puro medem a rapidez com que as unidades matriciais podem ser saturadas isoladamente. O trabalho real de aprendizagem automática chega a essas unidades através de uma biblioteca do fabricante e sobre matrizes demasiado grandes para caberem no chip. Quanto do desempenho máximo sobrevive a esse percurso é o que decide o desempenho real.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "O upscaling e os efeitos aprendidos usam multiplicação de matrizes nas unidades tensoriais."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório raramente usa as unidades matriciais."
+    },
+    "domain_software_development": {
+      "explanation": "Relevante para programadores que criam funcionalidades de aprendizagem automática."
+    },
+    "domain_graphics_design": {
+      "explanation": "As ferramentas de design generativas e aprendidas executam multiplicações de matrizes."
+    },
+    "domain_video_editing": {
+      "explanation": "Os efeitos baseados em aprendizagem automática na edição assentam na multiplicação de matrizes."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os redutores de ruído e escaladores aprendidos usam as unidades matriciais."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio usa pouco as unidades matriciais da GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Alguns solucionadores acelerados e modelos substitutos assentam na multiplicação densa de matrizes."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A álgebra linear densa na GPU assenta na multiplicação de matrizes."
+    },
+    "domain_ai_training": {
+      "explanation": "O débito de treino corresponde essencialmente ao da multiplicação de matrizes."
+    },
+    "domain_ai_inference": {
+      "explanation": "A velocidade de inferência é dominada pelas multiplicações de matrizes em cada camada."
+    },
+    "domain_data_science": {
+      "explanation": "A aprendizagem automática em GPU sobre grandes dados assenta na multiplicação de matrizes."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de aceleradores partilhados expõem este débito a muitos inquilinos."
+    }
+  }
+}

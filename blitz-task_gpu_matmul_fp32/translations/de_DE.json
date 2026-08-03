@@ -1,0 +1,50 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_matmul_fp32",
+  "short_description": "Durchsatz großer Matrixmultiplikationen mit einfacher Genauigkeit über die Mathematikbibliothek des Herstellers.",
+  "description": "Multipliziert zwei große Matrizen mit einfacher Genauigkeit auf dem Grafikprozessor und nutzt dabei die Mathematikbibliothek des Hardwareherstellers sowie deren schnellsten Pfad für einfache Genauigkeit. Die Matrizen sind so groß gewählt, dass sie einen erheblichen Teil des Grafikspeichers belegen. Das Ergebnis hängt daher vom gesamten Stapel ab: von den Recheneinheiten, von der Speicherhierarchie, die sie versorgt, und von der Qualität der herstellereigenen Software.",
+  "metric_explanation": "Der Durchsatz ist die Anzahl der Operationen mit einfacher Genauigkeit pro Sekunde während der Multiplikation, in Milliarden, angegeben in GFLOPS.",
+  "value_interpretation": "Höher ist besser. Dies ist die Kennzahl, die dichte lineare Algebra in Ingenieur- und Wissenschaftsanwendungen am besten vorhersagt, da diese von Matrixmultiplikation dominiert wird.",
+  "reasoning": "Dichte lineare Algebra mit einfacher Genauigkeit ist das Rückgrat von Simulation, Ingenieurwesen und klassischem wissenschaftlichem Rechnen. Moderne Hardware erreicht sie über Pfade reduzierter Genauigkeit innerhalb der Herstellerbibliothek, sodass die gelieferte Rate stark von der reinen Kennzahl abweichen kann. Nur der Lauf mit der echten Bibliothek zeigt, welche gilt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele führen dichte Matrixmultiplikation selten außerhalb gelernter Effekte aus."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit nutzt keine dichte lineare Algebra auf der GPU."
+    },
+    "domain_software_development": {
+      "explanation": "Relevant für Entwickler, die Simulations- oder numerische Software bauen."
+    },
+    "domain_graphics_design": {
+      "explanation": "Manche beschleunigten Filter laufen auf dichte lineare Algebra hinaus."
+    },
+    "domain_video_editing": {
+      "explanation": "Einige Effekte reduzieren sich auf dichte Matrixarbeit mit einfacher Genauigkeit."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Globale Beleuchtung und Simulationsschritte nutzen dichte lineare Algebra."
+    },
+    "domain_audio_production": {
+      "explanation": "Audio-Arbeit macht kaum Gebrauch von linearer Algebra auf der GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Beschleunigte Solver in Ingenieurwerkzeugen beruhen auf dichter Matrixarbeit mit einfacher Genauigkeit."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Dichte lineare Algebra mit einfacher Genauigkeit ist der Kern beschleunigter wissenschaftlicher Programme."
+    },
+    "domain_ai_training": {
+      "explanation": "Training läuft überwiegend in reduzierter Genauigkeit, doch einfache Genauigkeit trägt Optimierer- und Normalisierungsschritte."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenz läuft weitgehend in reduzierter Genauigkeit; einfache Genauigkeit deckt den Rest ab."
+    },
+    "domain_data_science": {
+      "explanation": "Statistische Verfahren und Faktorisierungen über große Datenmengen laufen in einfacher Genauigkeit."
+    },
+    "domain_server_virt": {
+      "explanation": "Gemeinsam genutzte Beschleunigerserver stellen diesen Durchsatz vielen numerischen Mandanten bereit."
+    }
+  }
+}

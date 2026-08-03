@@ -1,0 +1,50 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_matmul_fp16",
+  "short_description": "Débit des grandes multiplications matricielles en demi-précision via la bibliothèque mathématique du fabricant.",
+  "description": "Multiplie deux grandes matrices en demi-précision sur le processeur graphique, en utilisant la bibliothèque mathématique que le fabricant du matériel fournit précisément pour cette tâche. Les matrices sont dimensionnées pour occuper une part significative de la mémoire graphique : le résultat dépend donc de toute la chaîne, des unités matricielles, de la hiérarchie mémoire qui les alimente et de la qualité du logiciel du fabricant.",
+  "metric_explanation": "Le débit correspond au nombre d'opérations en demi-précision par seconde pendant la multiplication, en milliards, exprimé en GFLOPS.",
+  "value_interpretation": "Plus la valeur est élevée, mieux c'est. C'est le chiffre qui prédit le plus directement la vitesse d'entraînement et d'inférence, toutes deux dominées par la multiplication matricielle à cette échelle.",
+  "reasoning": "Les tests de calcul brut mesurent la vitesse maximale des unités matricielles isolées. Le travail réel d'apprentissage automatique atteint ces unités via une bibliothèque du fabricant, sur des matrices bien trop grandes pour tenir sur la puce. Ce qui subsiste de la performance de pointe après ce parcours détermine les performances réelles.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La mise à l'échelle et les effets appris utilisent la multiplication matricielle sur les unités tensorielles."
+    },
+    "domain_office": {
+      "explanation": "Le travail de bureau utilise rarement les unités matricielles."
+    },
+    "domain_software_development": {
+      "explanation": "Pertinent pour les développeurs qui créent des fonctionnalités d'apprentissage automatique."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les outils de conception génératifs et appris exécutent des multiplications matricielles."
+    },
+    "domain_video_editing": {
+      "explanation": "Les effets fondés sur l'apprentissage automatique dans les outils de montage reposent sur la multiplication matricielle."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les débruiteurs et sur-échantillonneurs appris utilisent les unités matricielles."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio fait peu appel aux unités matricielles du GPU."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Certains solveurs accélérés et modèles de substitution reposent sur la multiplication matricielle dense."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'algèbre linéaire dense sur GPU repose sur la multiplication matricielle."
+    },
+    "domain_ai_training": {
+      "explanation": "Le débit d'entraînement correspond essentiellement au débit de multiplication matricielle."
+    },
+    "domain_ai_inference": {
+      "explanation": "La vitesse d'inférence est dominée par les multiplications matricielles de chaque couche."
+    },
+    "domain_data_science": {
+      "explanation": "L'apprentissage automatique sur GPU pour de grands volumes repose sur la multiplication matricielle."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs d'accélérateurs partagés exposent ce débit à de nombreux locataires."
+    }
+  }
+}
