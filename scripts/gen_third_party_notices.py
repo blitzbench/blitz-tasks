@@ -73,6 +73,15 @@ PERMISSIVE = {
     "CC0-1.0",
     "0BSD",
 }
+# Vendor runtimes redistributed unmodified under their own terms and loaded at
+# runtime rather than built into a task. They are not copyleft and impose no
+# condition on the task's own license, so the copyleft rule below does not apply
+# to them -- but each still needs its licence vendored under third_party/licenses/
+# and its redistribution terms honoured (see the library's `notes`).
+PROPRIETARY_REDISTRIBUTABLE = {
+    "LicenseRef-NVIDIA-CUDA-EULA",
+}
+
 WEAK_COPYLEFT_PREFIXES = ("LGPL-", "MPL-")
 STRONG_COPYLEFT_PREFIXES = ("GPL-",)
 NETWORK_COPYLEFT_PREFIXES = ("AGPL-", "SSPL-")
@@ -224,9 +233,16 @@ def validate_library(task: dict, lib: dict, report: Report) -> None:
             )
     task_spdx = task.get("license", {}).get("spdx", DEFAULT_TASK_LICENSE)
     if lib_license and plausible_spdx(lib_license) and plausible_spdx(task_spdx):
-        verdict = check_compatibility(
-            classify_expression(task_spdx), classify_expression(lib_license)
-        )
+        if all(i in PROPRIETARY_REDISTRIBUTABLE for i in spdx_ids(lib_license)):
+            verdict = (
+                "ok"
+                if classify_expression(task_spdx) in (CLASS_CUSTOM, CLASS_PERMISSIVE)
+                else "review"
+            )
+        else:
+            verdict = check_compatibility(
+                classify_expression(task_spdx), classify_expression(lib_license)
+            )
         if verdict == "error":
             report.error(
                 f"{rel}: library {name!r} ({lib_license}) is not license-compatible "
