@@ -1,0 +1,36 @@
+// Dense dependent-FMA fp32 kernel — SOURCE FORM for the Vulkan + Level Zero
+// runners. Mirrors kernel_params.hpp / the CUDA/OpenCL/Metal kernels exactly so
+// the shared CPU reference reproduces the output. GLSL `fma` is fused.
+//
+// Regenerate the embedded SPIR-V (done automatically at build by
+// bench_add_shaders):
+//   glslangValidator -V fp32_fma.comp -o fp32_fma.spv
+
+#version 450
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) writeonly buffer Out { float outv[]; };
+
+layout(push_constant) uniform PC { uint n; uint iters; } pc;
+
+void main() {
+    uint t = gl_GlobalInvocationID.x;
+    if (t >= pc.n) return;
+
+    float acc0 = 1.0 + float((t + 0u) & 1023u) * (1.0 / 2048.0);
+    float acc1 = 1.0 + float((t + 1u) & 1023u) * (1.0 / 2048.0);
+    float acc2 = 1.0 + float((t + 2u) & 1023u) * (1.0 / 2048.0);
+    float acc3 = 1.0 + float((t + 3u) & 1023u) * (1.0 / 2048.0);
+
+    const float m = 0.9999, add = 0.0001;
+    for (uint i = 0u; i < pc.iters; ++i) {
+        for (int u = 0; u < 8; ++u) {
+            acc0 = fma(acc0, m, add);
+            acc1 = fma(acc1, m, add);
+            acc2 = fma(acc2, m, add);
+            acc3 = fma(acc3, m, add);
+        }
+    }
+    outv[t] = acc0 + acc1 + acc2 + acc3;
+}
