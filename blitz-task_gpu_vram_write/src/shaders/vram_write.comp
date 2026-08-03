@@ -1,0 +1,26 @@
+// Device-local VRAM write kernel — SOURCE FORM for the Vulkan + Level Zero
+// runners. Grid-stride loop of 128-bit (uvec4) stores; for the u32 element at
+// index i the value written is i * 2654435761u, mirroring the CUDA/HIP/OpenCL/
+// Metal kernels and kernel_params.hpp so the host pattern check reproduces it.
+//
+// Regenerate the embedded SPIR-V (done automatically at build by
+// bench_add_shaders):
+//   glslangValidator -V vram_write.comp -o vram_write.spv
+
+#version 450
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) writeonly buffer Buf { uvec4 data[]; };
+
+layout(push_constant) uniform PC { uint n_vec4; } pc;
+
+const uint M = 2654435761u;
+
+void main() {
+    uint stride = gl_NumWorkGroups.x * gl_WorkGroupSize.x;
+    for (uint v = gl_GlobalInvocationID.x; v < pc.n_vec4; v += stride) {
+        uint base = v * 4u;
+        data[v] = uvec4(base * M, (base + 1u) * M, (base + 2u) * M, (base + 3u) * M);
+    }
+}

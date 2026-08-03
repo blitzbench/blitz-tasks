@@ -1,0 +1,29 @@
+// Device-local VRAM read kernel — SOURCE FORM for the Vulkan + Level Zero
+// runners. Grid-stride loop of 128-bit (uvec4) loads; each thread accumulates
+// the u32 values it reads (natural 2^32 wraparound) and writes ONE uint to the
+// out-buffer (defeats dead-code elimination). The host sums all per-thread
+// outputs and checks against the closed form in kernel_params.hpp.
+//
+// Regenerate the embedded SPIR-V (done automatically at build by
+// bench_add_shaders):
+//   glslangValidator -V vram_read.comp -o vram_read.spv
+
+#version 450
+
+layout(local_size_x = 256) in;
+
+layout(set = 0, binding = 0, std430) readonly  buffer InBuf  { uvec4 data[]; };
+layout(set = 0, binding = 1, std430) writeonly buffer OutBuf { uint  partial[]; };
+
+layout(push_constant) uniform PC { uint n_vec4; } pc;
+
+void main() {
+    uint gid    = gl_GlobalInvocationID.x;
+    uint stride = gl_NumWorkGroups.x * gl_WorkGroupSize.x;
+    uint acc = 0u;
+    for (uint v = gid; v < pc.n_vec4; v += stride) {
+        uvec4 x = data[v];
+        acc += x.x + x.y + x.z + x.w;
+    }
+    partial[gid] = acc;
+}
