@@ -184,6 +184,62 @@ pub struct DomainWeight {
     pub explanation: String,
 }
 
+/// The license the task's own source is released under.
+///
+/// The repository is multi-licensed per task: e.g. video encode/decode tasks
+/// are GPL so they may link FFmpeg, while the repository default is the
+/// BlitzBench source-available license.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TaskLicense {
+    /// SPDX id (e.g. `"GPL-2.0-or-later"`) or a `LicenseRef-…` id for custom
+    /// licenses (default: `"LicenseRef-BlitzBench-Source-Available"`).
+    pub spdx: String,
+    /// Repo-relative path to the verbatim license text (under `LICENSES/`).
+    pub file: String,
+    /// Optional rationale, e.g. why the task deviates from the default.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub notes: Option<String>,
+}
+
+/// Role a third-party library plays inside a task.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum LibraryRole {
+    /// The library's code is what the benchmark measures.
+    Workload,
+    /// Auxiliary use inside the task (data loading, format handling, …).
+    Support,
+}
+
+/// One third-party library a task depends on ([`TaskInfo::libraries`]).
+///
+/// Only workload-level dependencies are declared here; build infrastructure
+/// (task-lib itself, gpu_runtime, …) is covered by the repo-level
+/// `third_party/infrastructure.json` manifest instead.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LibraryDependency {
+    /// Display name (also the cross-task dedupe key, e.g. `"FFmpeg"`).
+    pub name: String,
+    /// Project homepage URL.
+    pub homepage: String,
+    /// Source-repository URL.
+    pub source: String,
+    /// Version the task pins/builds against.
+    pub version: String,
+    /// SPDX license expression of the library build actually used.
+    pub license: String,
+    /// Repo-relative path to the vendored verbatim license text
+    /// (under `third_party/licenses/`).
+    pub license_file: String,
+    /// What the library is for in this task.
+    pub role: LibraryRole,
+    /// What the library concretely does in this task.
+    pub usage: String,
+    /// Optional: modifications, bundled data/models, other attributions.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub notes: Option<String>,
+}
+
 /// Complete TASK.json data for one task.
 ///
 /// Built via [`parse_task_info`] from the JSON shipped alongside the task
@@ -204,6 +260,8 @@ pub struct TaskInfo {
     pub component: String,
     /// Benchmark kind (`"synthetic" | "real_world"`).
     pub benchmark_type: String,
+    /// License of the task's own source (per-task licensing).
+    pub license: TaskLicense,
     /// Human-readable title.
     pub title: String,
     /// One-line summary.
@@ -216,6 +274,9 @@ pub struct TaskInfo {
     pub baselines: Vec<TaskBaselineRow>,
     /// Per-domain weights - keyed by domain id (e.g. `"domain_gaming"`).
     pub weights: BTreeMap<String, DomainWeight>,
+    /// Third-party workload libraries the task uses (empty when absent).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub libraries: Vec<LibraryDependency>,
 }
 
 impl TaskInfo {
@@ -375,6 +436,10 @@ mod tests {
       "name": "demo",
       "component": "cpu",
       "benchmark_type": "synthetic",
+      "license": {
+        "spdx": "LicenseRef-BlitzBench-Source-Available",
+        "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+      },
       "title": "Demo",
       "short_description": "demo",
       "structured_text": {
@@ -402,6 +467,46 @@ mod tests {
         let info = parse_task_info(VALID).unwrap();
         assert_eq!(info.baselines.len(), 4);
         assert_eq!(info.baseline_for(MachineType::Desktop), Some(150.0));
+        assert_eq!(info.license.spdx, "LicenseRef-BlitzBench-Source-Available");
+        assert!(info.libraries.is_empty());
+    }
+
+    #[test]
+    fn parse_task_info_rejects_missing_license() {
+        let bad = VALID.replace(
+            r#""license": {
+        "spdx": "LicenseRef-BlitzBench-Source-Available",
+        "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+      },"#,
+            "",
+        );
+        let err = parse_task_info(&bad).unwrap_err();
+        assert!(matches!(err, TaskInfoParseError::Json(_)));
+    }
+
+    #[test]
+    fn parse_task_info_accepts_libraries() {
+        let with_libs = VALID.replace(
+            r#""weights": {"#,
+            r#""libraries": [
+        {
+          "name": "FFmpeg",
+          "homepage": "https://ffmpeg.org",
+          "source": "https://git.ffmpeg.org/ffmpeg.git",
+          "version": "7.1",
+          "license": "GPL-2.0-or-later",
+          "license_file": "third_party/licenses/ffmpeg/LICENSE",
+          "role": "workload",
+          "usage": "Runs the measured encode pipeline via libavcodec."
+        }
+      ],
+      "weights": {"#,
+        );
+        let info = parse_task_info(&with_libs).unwrap();
+        assert_eq!(info.libraries.len(), 1);
+        assert_eq!(info.libraries[0].name, "FFmpeg");
+        assert_eq!(info.libraries[0].role, LibraryRole::Workload);
+        assert_eq!(info.libraries[0].notes, None);
     }
 
     #[test]

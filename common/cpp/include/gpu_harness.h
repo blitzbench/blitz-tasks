@@ -138,6 +138,7 @@ inline blitz::Metric run_unit(const gpgpu::Setup& setup, std::uint64_t budget_ms
       {"rounds", std::to_string(rounds)},
       {"mean_score", std::to_string(sum / static_cast<double>(rounds))},
   };
+  for (const auto& kv : best.info) m.info.push_back(kv);
   add_optional(m.info, "memory_bytes", device.memory());
   if (device.integrated()) m.info.emplace_back("integrated", *device.integrated() ? "true" : "false");
   if (device.driver_version()) m.info.emplace_back("driver_version", *device.driver_version());

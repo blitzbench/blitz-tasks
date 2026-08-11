@@ -2,8 +2,13 @@
 name = "rust_task_demo"
 version = "0.1.0"
 edition = "2021"
-license = "MIT OR Apache-2.0"
+license-file = "../LICENSE"
 description = "Minimal Rust BlitzBench demo task - busy-loop integer throughput."
+publish = false
+
+# Keep this package standalone even when the repo is vendored inside another
+# Cargo workspace (e.g. blitz-server pulls blitz-tasks in as a submodule).
+[workspace]
 
 [lib]
 name = "rust_task_demo"
