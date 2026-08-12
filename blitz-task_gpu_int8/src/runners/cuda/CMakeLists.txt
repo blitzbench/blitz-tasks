@@ -20,7 +20,7 @@ set_target_properties(gpu_int8_cuda PROPERTIES
     POSITION_INDEPENDENT_CODE ON
     CUDA_STANDARD             20
     CUDA_STANDARD_REQUIRED    ON
-    CUDA_ARCHITECTURES        "50;60;70;80;90"
+    CUDA_ARCHITECTURES        "all"
 )
 target_compile_definitions(gpu_int8_cuda INTERFACE GPU_INT8_HAVE_CUDA)
 set(GPU_INT8_HAVE_CUDA TRUE PARENT_SCOPE)

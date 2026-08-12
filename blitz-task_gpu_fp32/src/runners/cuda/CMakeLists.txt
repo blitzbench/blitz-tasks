@@ -20,7 +20,7 @@ set_target_properties(gpu_fp32_cuda PROPERTIES
     POSITION_INDEPENDENT_CODE ON
     CUDA_STANDARD             20
     CUDA_STANDARD_REQUIRED    ON
-    CUDA_ARCHITECTURES        "50;60;70;80;90"
+    CUDA_ARCHITECTURES        "all"
 )
 target_compile_definitions(gpu_fp32_cuda INTERFACE GPU_FP32_HAVE_CUDA)
 set(GPU_FP32_HAVE_CUDA TRUE PARENT_SCOPE)

@@ -37,6 +37,7 @@ int main(int argc, const char **argv) {
         std::cout << "  " << p.setup.device.name()
                   << " [" << gpgpu::to_string(p.setup.backend.id()) << "]: ";
         if (p.result.correct) std::cout << p.result.score << " GB/s";
+        else if (!p.result.supported) std::cout << "unsupported";
         else std::cout << "failed: " << (p.result.error.empty() ? "incorrect result" : p.result.error);
         std::cout << std::endl;
     }

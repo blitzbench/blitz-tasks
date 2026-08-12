@@ -15,12 +15,13 @@
 #endif
 namespace bench {
 namespace detail_barrier {
+// thread_local: each worker publishes a pointer to its own stack here.
 inline const void* volatile& opaque_slot() {
-  static const void* volatile s;
+  static thread_local const void* volatile s;
   return s;
 }
 inline void* volatile& sink_slot() {
-  static void* volatile s;
+  static thread_local void* volatile s;
   return s;
 }
 template <class T>
@@ -96,8 +97,9 @@ inline void sink_val(T v) {
 #endif
 namespace bench {
 namespace detail_barrier {
+// thread_local: see opaque_slot() above.
 inline const void* volatile& reg_slot(unsigned i) {
-  static const void* volatile s[4];
+  static thread_local const void* volatile s[4];
   return s[i];
 }
 }  // namespace detail_barrier

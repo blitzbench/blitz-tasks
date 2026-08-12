@@ -26,7 +26,6 @@ This repository is source-available and multi-licensed on a per-task basis:
    task released under an open-source license, the copyright holder grants
    the right to build, link, and distribute the shared framework code as part
    of that task under the terms of that task's declared license.
-   [NOTE: this clause is a working draft pending legal review.]
 
 4. Third-party components.
    Third-party libraries remain under their own licenses. See

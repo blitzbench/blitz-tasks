@@ -93,7 +93,11 @@ __global__ void int8_wmma_kernel(unsigned* out, unsigned n, unsigned iters) {
     wmma::fill_fragment(c, 0);
     for (unsigned i = 0; i < iters; ++i)
         wmma::mma_sync(c, a, b, c);
-    if (t < n) out[t] = (unsigned)c.x[0];
+    // consume every accumulator element so ptxas can't DCE half the IMMA
+    unsigned s = 0;
+    #pragma unroll
+    for (int j = 0; j < c.num_elements; ++j) s += (unsigned)c.x[j];
+    if (t < n) out[t] = s / (unsigned)c.num_elements;
 #else
     (void)out; (void)n; (void)iters;
 #endif

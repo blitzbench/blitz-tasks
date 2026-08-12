@@ -51,6 +51,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <cstdint>
@@ -124,7 +125,8 @@ inline std::uint64_t calibrate_iters(Fn&& fn, double target_ms, std::uint64_t se
 
     // Below timer resolution: jump by the cap rather than extrapolating from noise.
     double growth = (ms > 0.05) ? (target_ms / ms) * 1.1 : kMaxGrowth;
-    growth = std::min(growth, kMaxGrowth);
+    // parenthesized to dodge a windows.h min macro
+    growth = (std::min)(growth, kMaxGrowth);
 
     const auto next = static_cast<std::uint64_t>(static_cast<double>(iters) * growth);
     iters = (next > iters) ? next : iters * 2;

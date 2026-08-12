@@ -9,7 +9,14 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#else
 #include <time.h>
+#endif
 
 /* Defined by the build-generated info.c (configure_file from info.c.in). */
 extern const char* C_TASK_DEMO_INFO_JSON;
@@ -35,11 +42,23 @@ static BlitzResult demo_set_timeout(BlitzTask* t, uint64_t ms) {
     return BLITZ_OK;
 }
 
+#ifdef _WIN32
+static double monotonic_secs(void) {
+    static LARGE_INTEGER freq; /* fixed at boot */
+    LARGE_INTEGER counter;
+    if (freq.QuadPart == 0) {
+        QueryPerformanceFrequency(&freq);
+    }
+    QueryPerformanceCounter(&counter);
+    return (double)counter.QuadPart / (double)freq.QuadPart;
+}
+#else
 static double monotonic_secs(void) {
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);
     return (double)ts.tv_sec + (double)ts.tv_nsec * 1e-9;
 }
+#endif
 
 static BlitzResult demo_run(BlitzTask* t, BlitzCallbacks cb) {
     CTaskDemo* self = (CTaskDemo*)t;

@@ -78,12 +78,12 @@ def build_rust_task(
     dest = out_dir / mode / task_dir.name
     dest.mkdir(parents=True, exist_ok=True)
     copied = _copy_artifacts(target_dir, dest, RUST_LIB_EXT[mode])
-    log(f"  → {copied} artifact(s) → {dest}")
+    log(f"  -> {copied} artifact(s) -> {dest}")
     if build_examples:
         examples_src = target_dir / "examples"
         examples_dest = dest / "examples"
         n = _copy_executables(examples_src, examples_dest)
-        log(f"  → {n} example(s) → {examples_dest}")
+        log(f"  -> {n} example(s) -> {examples_dest}")
 
 
 def build_cmake_task(
@@ -114,12 +114,12 @@ def build_cmake_task(
     dest = out_dir / mode / task_dir.name
     dest.mkdir(parents=True, exist_ok=True)
     copied = _copy_artifacts(build_dir, dest, CMAKE_LIB_EXT[mode])
-    log(f"  → {copied} artifact(s) → {dest}")
+    log(f"  -> {copied} artifact(s) -> {dest}")
     if build_examples:
         examples_src = build_dir / "app"
         examples_dest = dest / "examples"
         n = _copy_executables(examples_src, examples_dest)
-        log(f"  → {n} example(s) → {examples_dest}")
+        log(f"  -> {n} example(s) -> {examples_dest}")
 
 
 def _copy_artifacts(src_dir: Path, dest: Path, suffixes: list[str]) -> int:

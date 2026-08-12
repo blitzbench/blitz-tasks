@@ -74,8 +74,9 @@ struct CublasLtApi {
 const CublasLtApi& cublaslt_api() {
     static CublasLtApi api = [] {
         CublasLtApi a;
-        if (!a.lib.open(blas_candidates({"libcublasLt.so.12", "libcublasLt.so.11", "libcublasLt.so",
-                                         "cublasLt64_12.dll", "cublasLt64_11.dll"})))
+        if (!a.lib.open(blas_candidates({"libcublasLt.so.13", "libcublasLt.so.12", "libcublasLt.so.11",
+                                         "libcublasLt.so", "cublasLt64_13.dll", "cublasLt64_12.dll",
+                                         "cublasLt64_11.dll"})))
             return a;
         a.create        = a.lib.resolve<decltype(&cublasLtCreate)>("cublasLtCreate");
         a.destroy       = a.lib.resolve<decltype(&cublasLtDestroy)>("cublasLtDestroy");

@@ -20,7 +20,7 @@ set_target_properties(gpu_vram_copy_cuda PROPERTIES
     POSITION_INDEPENDENT_CODE ON
     CUDA_STANDARD             20
     CUDA_STANDARD_REQUIRED    ON
-    CUDA_ARCHITECTURES        "50;60;70;80;90"
+    CUDA_ARCHITECTURES        "all"
 )
 target_compile_definitions(gpu_vram_copy_cuda INTERFACE GPU_VRAM_COPY_HAVE_CUDA)
 set(GPU_VRAM_COPY_HAVE_CUDA TRUE PARENT_SCOPE)
