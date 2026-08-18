@@ -177,7 +177,7 @@ def load_tasks(report: Report) -> list[dict]:
     for task_json in sorted(REPO.glob("blitz-task_*/TASK.json")):
         rel = task_json.relative_to(REPO)
         try:
-            data = json.loads(task_json.read_text())
+            data = json.loads(task_json.read_text(encoding="utf-8"))
         except json.JSONDecodeError as e:
             report.error(f"{rel}: invalid JSON: {e}")
             continue
@@ -284,7 +284,7 @@ def load_infrastructure(report: Report) -> list[dict]:
     if not INFRASTRUCTURE_JSON.is_file():
         report.error(f"{INFRASTRUCTURE_JSON.relative_to(REPO)} is missing")
         return []
-    deps = json.loads(INFRASTRUCTURE_JSON.read_text()).get("dependencies", [])
+    deps = json.loads(INFRASTRUCTURE_JSON.read_text(encoding="utf-8")).get("dependencies", [])
     for dep in deps:
         name = dep.get("name", "<unnamed>")
         for field in ("name", "homepage", "source", "version", "license", "license_file", "used_for"):
@@ -301,7 +301,7 @@ def validate_orphans(tasks: list[dict], infra: list[dict], report: Report) -> No
         t.get("license", {}).get("file") for t in tasks if isinstance(t.get("license"), dict)
     }
     for path in sorted(LICENSES_DIR.glob("*")):
-        rel = str(path.relative_to(REPO))
+        rel = path.relative_to(REPO).as_posix()  # forward slashes to match TASK.json paths on Windows
         if rel not in referenced_license_files:
             report.error(f"{rel}: orphaned — no TASK.json license.file references it")
 
@@ -367,7 +367,7 @@ def gen_notices(tasks: list[dict], infra: list[dict]) -> str:
         for task_dir, usage in sorted(entry["used_by"]):
             out.append(f"\n  - `{task_dir}` — {usage}")
         out.append("\n\n<details><summary>License text</summary>\n\n```")
-        out.append("\n" + (REPO / lib["license_file"]).read_text().rstrip("\n"))
+        out.append("\n" + (REPO / lib["license_file"]).read_text(encoding="utf-8").rstrip("\n"))
         out.append("\n```\n\n</details>\n")
 
     out.append("\n## Build infrastructure\n")
@@ -379,7 +379,7 @@ def gen_notices(tasks: list[dict], infra: list[dict]) -> str:
         out.append(f"\n- License: `{dep['license']}` ([text]({dep['license_file']}))")
         out.append(f"\n- Used for: {dep['used_for']}")
         out.append("\n\n<details><summary>License text</summary>\n\n```")
-        out.append("\n" + (REPO / dep["license_file"]).read_text().rstrip("\n"))
+        out.append("\n" + (REPO / dep["license_file"]).read_text(encoding="utf-8").rstrip("\n"))
         out.append("\n```\n\n</details>\n")
 
     return "".join(out)
@@ -444,9 +444,9 @@ def main() -> int:
     licensing = gen_licensing(tasks)
     if args.check:
         stale = []
-        if not NOTICES_MD.is_file() or NOTICES_MD.read_text() != notices:
+        if not NOTICES_MD.is_file() or NOTICES_MD.read_text(encoding="utf-8") != notices:
             stale.append(NOTICES_MD.name)
-        if not LICENSING_MD.is_file() or LICENSING_MD.read_text() != licensing:
+        if not LICENSING_MD.is_file() or LICENSING_MD.read_text(encoding="utf-8") != licensing:
             stale.append(LICENSING_MD.name)
         if stale:
             print(
@@ -456,8 +456,8 @@ def main() -> int:
             return 1
         print(f"OK: {len(tasks)} tasks validated, generated files up to date.")
     else:
-        NOTICES_MD.write_text(notices)
-        LICENSING_MD.write_text(licensing)
+        NOTICES_MD.write_text(notices, encoding="utf-8")
+        LICENSING_MD.write_text(licensing, encoding="utf-8")
         print(f"OK: {len(tasks)} tasks validated; wrote {NOTICES_MD.name}, {LICENSING_MD.name}.")
     return 0
 

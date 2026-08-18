@@ -12,10 +12,10 @@ third-party attributions.
 | `blitz-task_cpu_cache_latency` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_cpu_cad_solver` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_cpu_compile` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
-| `blitz-task_cpu_crypto_aes` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
-| `blitz-task_cpu_crypto_chacha` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
-| `blitz-task_cpu_crypto_sha` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
-| `blitz-task_cpu_crypto_sign` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
+| `blitz-task_cpu_crypto_aes` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | OpenSSL (`Apache-2.0`) |
+| `blitz-task_cpu_crypto_chacha` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | OpenSSL (`Apache-2.0`) |
+| `blitz-task_cpu_crypto_sha` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | OpenSSL (`Apache-2.0`) |
+| `blitz-task_cpu_crypto_sign` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | OpenSSL (`Apache-2.0`) |
 | `blitz-task_cpu_dataframe` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_cpu_fp32_multi` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_cpu_fp32_single` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
@@ -25,7 +25,7 @@ third-party attributions.
 | `blitz-task_cpu_llm_infer` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_cpu_office_docs` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_cpu_raytrace` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
-| `blitz-task_cpu_video_encode` | [`GPL-2.0-or-later`](LICENSES/GPL-2.0-or-later.txt) | x264 (`GPL-2.0-or-later`) |
+| `blitz-task_cpu_video_encode` | [`GPL-2.0-or-later`](LICENSES/GPL-2.0-or-later.txt) | x264 (`GPL-2.0-or-later`), Video Codec Test: tractor (1080p25) (`CC0-1.0`) |
 | `blitz-task_demo_c` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_demo_cpp` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_demo_rust` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
@@ -46,8 +46,8 @@ third-party attributions.
 | `blitz-task_gpu_game_scene` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_gpu_image_filters` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_gpu_int8` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
-| `blitz-task_gpu_matmul_fp16` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | cuBLAS (cuBLASLt) (`LicenseRef-NVIDIA-CUDA-EULA`), rocBLAS (`MIT AND BSD-3-Clause`) |
-| `blitz-task_gpu_matmul_fp32` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | cuBLAS (cuBLASLt) (`LicenseRef-NVIDIA-CUDA-EULA`), rocBLAS (`MIT AND BSD-3-Clause`) |
+| `blitz-task_gpu_matmul_fp16` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | cuBLAS (cuBLASLt) (`LicenseRef-NVIDIA-CUDA-EULA`), rocBLAS (`MIT`) |
+| `blitz-task_gpu_matmul_fp32` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | cuBLAS (cuBLASLt) (`LicenseRef-NVIDIA-CUDA-EULA`), rocBLAS (`MIT`) |
 | `blitz-task_gpu_path_trace` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_gpu_pcie_bidir` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
 | `blitz-task_gpu_pcie_d2h` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | — |
