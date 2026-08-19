@@ -1,12 +1,25 @@
 {
-  "id": "task_cpu_synthetic_crypto_sign",
+  "id": "task_cpu_real_world_crypto_sign",
   "name": "cpu_crypto_sign",
   "component": "cpu",
-  "benchmark_type": "synthetic",
+  "benchmark_type": "real_world",
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
   },
+  "libraries": [
+    {
+      "name": "OpenSSL",
+      "homepage": "https://www.openssl.org/",
+      "source": "https://github.com/openssl/openssl",
+      "version": "3.5.5",
+      "license": "Apache-2.0",
+      "license_file": "third_party/licenses/openssl/LICENSE",
+      "role": "workload",
+      "usage": "EVP Ed25519 performs the measured sign and verify operations over a small fixed message.",
+      "notes": "Linked against a pinned OpenSSL 3.5.5 via common/cpp/cmake/BuildOpenSSL.cmake (a prebuilt libcrypto on Windows, built static from source on Linux/macOS); OpenSSL selects hardware-accelerated implementations at runtime."
+    }
+  ],
   "title": "Digital signatures",
   "short_description": "Ed25519 signing and verification throughput.",
   "structured_text": {

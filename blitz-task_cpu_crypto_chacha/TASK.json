@@ -1,12 +1,25 @@
 {
-  "id": "task_cpu_synthetic_crypto_chacha",
+  "id": "task_cpu_real_world_crypto_chacha",
   "name": "cpu_crypto_chacha",
   "component": "cpu",
-  "benchmark_type": "synthetic",
+  "benchmark_type": "real_world",
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
   },
+  "libraries": [
+    {
+      "name": "OpenSSL",
+      "homepage": "https://www.openssl.org/",
+      "source": "https://github.com/openssl/openssl",
+      "version": "3.5.5",
+      "license": "Apache-2.0",
+      "license_file": "third_party/licenses/openssl/LICENSE",
+      "role": "workload",
+      "usage": "EVP ChaCha20-Poly1305 performs the measured authenticated encryption; uses AVX2 and AVX-512 vector implementations where available.",
+      "notes": "Linked against a pinned OpenSSL 3.5.5 via common/cpp/cmake/BuildOpenSSL.cmake (a prebuilt libcrypto on Windows, built static from source on Linux/macOS); OpenSSL selects hardware-accelerated implementations at runtime."
+    }
+  ],
   "title": "ChaCha20 encryption",
   "short_description": "ChaCha20-Poly1305 authenticated encryption throughput on all cores.",
   "structured_text": {

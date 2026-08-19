@@ -13,7 +13,7 @@ their license texts.
 - Source: https://github.com/openssl/openssl
 - Version(s) in use: 3.5.5
 - License: `Apache-2.0` ([text](third_party/licenses/openssl/LICENSE))
-- Notes: Statically linked against a pinned OpenSSL build (see common/cpp/cmake/BuildOpenSSL.cmake); OpenSSL selects hardware-accelerated implementations at runtime.
+- Notes: Linked against a pinned OpenSSL 3.5.5 via common/cpp/cmake/BuildOpenSSL.cmake (a prebuilt libcrypto on Windows, built static from source on Linux/macOS); OpenSSL selects hardware-accelerated implementations at runtime.
 - Used by:
   - `blitz-task_cpu_crypto_aes` — EVP AES-256-GCM performs the measured encryption; uses AES-NI and PCLMULQDQ where available.
   - `blitz-task_cpu_crypto_chacha` — EVP ChaCha20-Poly1305 performs the measured authenticated encryption; uses AVX2 and AVX-512 vector implementations where available.

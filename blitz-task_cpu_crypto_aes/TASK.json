@@ -1,17 +1,30 @@
 {
-  "id": "task_cpu_synthetic_crypto_aes",
+  "id": "task_cpu_real_world_crypto_aes",
   "name": "cpu_crypto_aes",
   "component": "cpu",
-  "benchmark_type": "synthetic",
+  "benchmark_type": "real_world",
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
   },
+  "libraries": [
+    {
+      "name": "OpenSSL",
+      "homepage": "https://www.openssl.org/",
+      "source": "https://github.com/openssl/openssl",
+      "version": "3.5.5",
+      "license": "Apache-2.0",
+      "license_file": "third_party/licenses/openssl/LICENSE",
+      "role": "workload",
+      "usage": "EVP AES-256-GCM performs the measured encryption; uses AES-NI and PCLMULQDQ where available.",
+      "notes": "Linked against a pinned OpenSSL 3.5.5 via common/cpp/cmake/BuildOpenSSL.cmake (a prebuilt libcrypto on Windows, built static from source on Linux/macOS); OpenSSL selects hardware-accelerated implementations at runtime."
+    }
+  ],
   "title": "AES encryption",
-  "short_description": "AES-256 symmetric encryption throughput on all cores.",
+  "short_description": "AES-256-GCM authenticated encryption throughput on all cores.",
   "structured_text": {
-    "description": "Encrypts a buffer with AES-256 repeatedly across all cores, using the processor's dedicated AES instructions where they are available. The buffer stays resident in memory so the result tracks the speed of the cipher itself rather than storage or network.",
-    "metric_explanation": "Throughput is the number of bytes encrypted per second, reported in GB/s.",
+    "description": "Encrypts and authenticates a buffer with AES-256-GCM repeatedly across all cores, using the processor's dedicated AES instructions where they are available. The buffer stays resident in memory so the result tracks the speed of the cipher itself rather than storage or network.",
+    "metric_explanation": "Throughput is the number of bytes encrypted and authenticated per second, reported in GB/s.",
     "value_interpretation": "Higher is better. Machines with hardware AES support run far ahead of those that fall back to software.",
     "reasoning": "AES is the default cipher for secure connections and full disk encryption, so its throughput is a direct measure of how cheaply a machine can protect data in motion and at rest."
   },

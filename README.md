@@ -37,6 +37,28 @@ under `<build_dir>/app/`. For Rust tasks, run
 `cargo run --release --example <task_name>_app` from inside the task
 directory.
 
+### Extra build dependencies
+
+Most tasks need only the language toolchain (cargo, or CMake ≥ 3.20 + a C++17
+compiler). A few link a third-party workload library and need more:
+
+- **`cpu_video_encode`** links the x264 encoder (GPL) and bundles a clip via
+  Git LFS. It needs the `external/x264` submodule plus a POSIX shell, GNU make,
+  and nasm to build x264. On Linux/macOS the system compiler is used; on Windows
+  x264 is built with `clang-cl` (MSVC ABI) so it links into the MSVC task — no
+  MinGW required. See
+  [`blitz-task_cpu_video_encode/README.md`](blitz-task_cpu_video_encode/README.md)
+  for the full dependency list, the build lanes, and a Windows install checklist.
+
+- **`cpu_crypto_{aes,sha,chacha,sign}`** link OpenSSL (`libcrypto`, Apache-2.0) for
+  hardware-accelerated crypto, pinned to 3.5.5 via `common/cpp/cmake/BuildOpenSSL.cmake`.
+  The default lane is platform-aware: **Windows** auto-downloads a pinned prebuilt
+  (FireDaemon, shared — the `libcrypto-3-x64.dll` is copied next to sample apps and must
+  ship alongside the binaries); **Linux/macOS** build the pinned source and static-link it
+  (needs a full Perl + nasm on Windows if you switch to the source lane there — Strawberry
+  Perl, not Git's MSYS perl). Override with `-DBLITZ_OPENSSL_LANE=source|download|system`,
+  or supply your own prebuilt via `-DBLITZ_OPENSSL_LIB` / `-DBLITZ_OPENSSL_INCLUDE`.
+
 ## Layout
 
 ```
