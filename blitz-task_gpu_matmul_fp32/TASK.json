@@ -24,11 +24,11 @@
       "homepage": "https://rocm.docs.amd.com/projects/rocBLAS/en/latest/",
       "source": "https://github.com/ROCm/rocBLAS",
       "version": "ROCm 6.x",
-      "license": "MIT AND BSD-3-Clause",
+      "license": "MIT",
       "license_file": "third_party/licenses/rocblas/LICENSE.md",
       "role": "workload",
       "usage": "rocblas_gemm_ex performs the measured matrix multiply on AMD devices, fp32 operands with the TF32 compute type.",
-      "notes": "Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. AMD's own code is MIT; the bundled Tensile-derived and reference LAPACK components carry BSD-3-Clause terms, so the shipped LICENSE.md covers both."
+      "notes": "Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. rocBLAS is distributed by AMD under the MIT license (see LICENSE.md)."
     }
   ],
   "title": "GPU matrix multiplication (single precision)",
