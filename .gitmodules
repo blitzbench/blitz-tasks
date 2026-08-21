@@ -7,3 +7,9 @@
 [submodule "external/x264"]
 	path = external/x264
 	url = https://code.videolan.org/videolan/x264.git
+[submodule "external/zstd"]
+	path = external/zstd
+	url = https://github.com/facebook/zstd.git
+[submodule "external/openh264"]
+	path = external/openh264
+	url = https://github.com/cisco/openh264.git
