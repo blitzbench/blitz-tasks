@@ -45,14 +45,21 @@ RunResult run_gpu_vram_read_opencl(const gpgpu::Setup& setup) {
   r.path = "simd(uint4 loads)";
   r.score_unit = "GB/s";
 
-  cl_device_id device = find_cl_device(setup.device);
+  const gpgpu::vendor::OpenClFns* cl_fns = gpgpu::vendor::opencl();
+  if (!cl_fns) {
+    r.error = "OpenCL loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::OpenClFns& cl = *cl_fns;
+
+  cl_device_id device = find_cl_device(cl, setup.device);
   if (!device) {
     r.error = "no OpenCL device matched " + setup.device.id();
     return r;
   }
 
   cl_int err = CL_SUCCESS;
-  cl_context ctx = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
+  cl_context ctx = cl.clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
   if (!ctx) {
     r.error = "clCreateContext err=" + std::to_string(err);
     return r;
@@ -60,27 +67,27 @@ RunResult run_gpu_vram_read_opencl(const gpgpu::Setup& setup) {
 
   const cl_queue_properties qprops[] = {CL_QUEUE_PROPERTIES,
                                         static_cast<cl_queue_properties>(CL_QUEUE_PROFILING_ENABLE), 0};
-  cl_command_queue queue = clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
+  cl_command_queue queue = cl.clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
   if (!queue) {
-    clReleaseContext(ctx);
+    cl.clReleaseContext(ctx);
     r.error = "clCreateCommandQueueWithProperties err=" + std::to_string(err);
     return r;
   }
 
   std::string log;
-  cl_program program = build_program_with_log(ctx, device, kKernelSource, nullptr, log);
+  cl_program program = build_program_with_log(cl, ctx, device, kKernelSource, nullptr, log);
   if (!program) {
     r.error = "clBuildProgram failed: " + log;
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
-  cl_kernel kernel = clCreateKernel(program, "vram_read", &err);
+  cl_kernel kernel = cl.clCreateKernel(program, "vram_read", &err);
   if (!kernel) {
     r.error = "clCreateKernel err=" + std::to_string(err);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
 
@@ -90,16 +97,16 @@ RunResult run_gpu_vram_read_opencl(const gpgpu::Setup& setup) {
   const std::size_t local = vram::kBlock;
   const std::size_t global = ((vram::thread_count(setup.device) + local - 1) / local) * local;
 
-  cl_mem buf = clCreateBuffer(ctx, CL_MEM_READ_ONLY, S, nullptr, &err);
-  cl_mem out = clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, global * 4, nullptr, &err);
+  cl_mem buf = cl.clCreateBuffer(ctx, CL_MEM_READ_ONLY, S, nullptr, &err);
+  cl_mem out = cl.clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, global * 4, nullptr, &err);
 
   auto cleanup = [&]() {
-    if (buf) clReleaseMemObject(buf);
-    if (out) clReleaseMemObject(out);
-    clReleaseKernel(kernel);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    if (buf) cl.clReleaseMemObject(buf);
+    if (out) cl.clReleaseMemObject(out);
+    cl.clReleaseKernel(kernel);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
   };
   if (!buf || !out) {
     r.error = "clCreateBuffer failed";
@@ -110,28 +117,28 @@ RunResult run_gpu_vram_read_opencl(const gpgpu::Setup& setup) {
   // --- prefill buffer with the pattern (untimed) ---
   std::vector<std::uint32_t> host(N);
   for (std::uint32_t i = 0; i < N; ++i) host[i] = vram::pattern(i);
-  clEnqueueWriteBuffer(queue, buf, CL_TRUE, 0, S, host.data(), 0, nullptr, nullptr);
+  cl.clEnqueueWriteBuffer(queue, buf, CL_TRUE, 0, S, host.data(), 0, nullptr, nullptr);
 
-  clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
-  clSetKernelArg(kernel, 1, sizeof(cl_uint), &n_vec4);
-  clSetKernelArg(kernel, 2, sizeof(cl_mem), &out);
+  cl.clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
+  cl.clSetKernelArg(kernel, 1, sizeof(cl_uint), &n_vec4);
+  cl.clSetKernelArg(kernel, 2, sizeof(cl_mem), &out);
 
   auto time_reads = [&](int reps) -> double {
     cl_event first = nullptr, last = nullptr;
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
+      cl.clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
       if (i == 0) first = ev;
       if (i == reps - 1)
         last = ev;
       else if (ev && ev != first)
-        clReleaseEvent(ev);
+        cl.clReleaseEvent(ev);
     }
-    clFinish(queue);
+    cl.clFinish(queue);
     double secs = 0.0;
-    if (first && last) secs = cl_event_span(first, last).count();
-    if (first) clReleaseEvent(first);
-    if (last && last != first) clReleaseEvent(last);
+    if (first && last) secs = cl_event_span(cl, first, last).count();
+    if (first) cl.clReleaseEvent(first);
+    if (last && last != first) cl.clReleaseEvent(last);
     return secs;
   };
 
@@ -147,7 +154,7 @@ RunResult run_gpu_vram_read_opencl(const gpgpu::Setup& setup) {
   bool ok = true;
   std::string verr;
   std::vector<std::uint32_t> outv(global);
-  clEnqueueReadBuffer(queue, out, CL_TRUE, 0, global * 4, outv.data(), 0, nullptr, nullptr);
+  cl.clEnqueueReadBuffer(queue, out, CL_TRUE, 0, global * 4, outv.data(), 0, nullptr, nullptr);
   std::uint32_t sum = 0u;
   for (std::size_t i = 0; i < global; ++i) sum += outv[i];
   const std::uint32_t expected = vram::expected_sum(S);

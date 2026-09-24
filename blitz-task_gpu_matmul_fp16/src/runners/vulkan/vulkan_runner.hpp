@@ -8,8 +8,9 @@
 namespace bench {
 
 /**
- * @brief Vulkan runner for gpu_matmul_fp16. Built only when the Vulkan SDK and a GLSL
- *        compiler were detected at configure time; the lib target sets
+ * @brief Vulkan runner for gpu_matmul_fp16. Compiled whenever a GLSL compiler built the
+ *        shaders; the Vulkan runtime is bound at run time through gpgpu::vendor, so a
+ *        machine without it only loses this backend. The lib target sets
  *        GPU_MATMUL_FP16_HAVE_VULKAN which gates inclusion from the task's dispatch().
  *
  * @param setup

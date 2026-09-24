@@ -8,9 +8,10 @@
 namespace bench {
 
 /**
- * @brief OpenCL runner for gpu_matmul_fp32. Built only when an OpenCL SDK was detected
- *        at configure time; the lib target sets GPU_MATMUL_FP32_HAVE_OPENCL which gates
- *        inclusion from the task's dispatch().
+ * @brief OpenCL runner for gpu_matmul_fp32. Always compiled; the OpenCL runtime is bound
+ *        at run time through gpgpu::vendor, so a machine without it only loses this
+ *        backend. The lib target sets GPU_MATMUL_FP32_HAVE_OPENCL which gates inclusion from
+ *        the task's dispatch().
  *
  * @param setup
  * @param ctx Buffers and kernels reused across rounds; rebuilt when @p setup or the

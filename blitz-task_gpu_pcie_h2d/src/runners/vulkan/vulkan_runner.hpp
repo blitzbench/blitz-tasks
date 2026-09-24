@@ -6,9 +6,10 @@
 namespace bench {
 
 /**
- * @brief Vulkan runner for gpu_h2d. Built only when the Vulkan SDK was detected
- *        at configure time; the lib target sets {PREFIX}_HAVE_Vulkan which gates
- *        inclusion from the task's dispatch().
+ * @brief Vulkan runner for gpu_h2d. Always compiled; the Vulkan runtime is bound at run time through
+ *        gpgpu::vendor, so a machine without it only loses this backend. The lib
+ *        target sets {PREFIX}_HAVE_VULKAN which gates inclusion from the task's
+ *        dispatch().
  */
 RunResult run_gpu_h2d_vulkan(const gpgpu::Setup& setup);
 

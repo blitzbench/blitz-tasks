@@ -12,10 +12,10 @@ if(NOT CMAKE_CUDA_COMPILER)
 endif()
 enable_language(CUDA)
 
-# CUDA::cudart only: cuBLASLt is resolved with dlopen at runtime, so a binary built
+# CUDA::cudart_static only: cuBLASLt is resolved with dlopen at runtime, so a binary built
 # here still loads on a machine that carries just the driver.
 add_library(gpu_matmul_fp16_cuda STATIC cuda_runner.cu)
-target_link_libraries(gpu_matmul_fp16_cuda PUBLIC bench_common CUDA::cudart ${CMAKE_DL_LIBS})
+target_link_libraries(gpu_matmul_fp16_cuda PUBLIC bench_common CUDA::cudart_static ${CMAKE_DL_LIBS})
 target_include_directories(gpu_matmul_fp16_cuda PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(gpu_matmul_fp16_cuda PUBLIC cxx_std_20)
 set_target_properties(gpu_matmul_fp16_cuda PROPERTIES

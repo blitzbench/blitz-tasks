@@ -13,7 +13,7 @@ endif()
 enable_language(CUDA)
 
 add_library(gpu_fp64_cuda STATIC cuda_runner.cu)
-target_link_libraries(gpu_fp64_cuda PUBLIC bench_common CUDA::cudart)
+target_link_libraries(gpu_fp64_cuda PUBLIC bench_common CUDA::cudart_static)
 target_include_directories(gpu_fp64_cuda PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(gpu_fp64_cuda PUBLIC cxx_std_20)
 set_target_properties(gpu_fp64_cuda PROPERTIES

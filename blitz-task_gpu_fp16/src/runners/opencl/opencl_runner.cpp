@@ -67,13 +67,20 @@ RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
   r.score_unit = "GFLOPS";
   r.path = "unsupported(no cl_khr_fp16)";
 
-  cl_device_id device = find_cl_device(setup.device);
+  const gpgpu::vendor::OpenClFns* cl_fns = gpgpu::vendor::opencl();
+  if (!cl_fns) {
+    r.error = "OpenCL loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::OpenClFns& cl = *cl_fns;
+
+  cl_device_id device = find_cl_device(cl, setup.device);
   if (!device) {
     r.error = "no OpenCL device matched " + setup.device.id();
     return r;
   }
 
-  const std::string exts = cl_info_string(device, CL_DEVICE_EXTENSIONS);
+  const std::string exts = cl_info_string(cl, device, CL_DEVICE_EXTENSIONS);
   if (exts.find("cl_khr_fp16") == std::string::npos) {
     r.supported = false;  // clean unsupported, not an error
     return r;
@@ -81,7 +88,7 @@ RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
   r.path = "simd(half8 fma)";
 
   cl_int err = CL_SUCCESS;
-  cl_context ctx = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
+  cl_context ctx = cl.clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
   if (!ctx) {
     r.error = "clCreateContext err=" + std::to_string(err);
     return r;
@@ -89,64 +96,64 @@ RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
 
   const cl_queue_properties qprops[] = {CL_QUEUE_PROPERTIES,
                                         static_cast<cl_queue_properties>(CL_QUEUE_PROFILING_ENABLE), 0};
-  cl_command_queue queue = clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
+  cl_command_queue queue = cl.clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
   if (!queue) {
-    clReleaseContext(ctx);
+    cl.clReleaseContext(ctx);
     r.error = "clCreateCommandQueueWithProperties err=" + std::to_string(err);
     return r;
   }
 
   std::string log;
-  cl_program program = build_program_with_log(ctx, device, kKernelSource, nullptr, log);
+  cl_program program = build_program_with_log(cl, ctx, device, kKernelSource, nullptr, log);
   if (!program) {
     r.error = "clBuildProgram failed: " + log;
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
-  cl_kernel kernel = clCreateKernel(program, "fp16_fma", &err);
+  cl_kernel kernel = cl.clCreateKernel(program, "fp16_fma", &err);
   if (!kernel) {
     r.error = "clCreateKernel err=" + std::to_string(err);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
 
   const std::uint32_t T = fp16::thread_count(setup.device);
-  cl_mem buf = clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, T * sizeof(float), nullptr, &err);
+  cl_mem buf = cl.clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, T * sizeof(float), nullptr, &err);
 
   auto cleanup = [&]() {
-    clReleaseMemObject(buf);
-    clReleaseKernel(kernel);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseMemObject(buf);
+    cl.clReleaseKernel(kernel);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
   };
 
   auto time_launches = [&](cl_uint n, cl_uint iters, float mf, float af, int reps) -> double {
-    clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
-    clSetKernelArg(kernel, 1, sizeof(cl_uint), &n);
-    clSetKernelArg(kernel, 2, sizeof(cl_uint), &iters);
-    clSetKernelArg(kernel, 3, sizeof(cl_float), &mf);
-    clSetKernelArg(kernel, 4, sizeof(cl_float), &af);
+    cl.clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
+    cl.clSetKernelArg(kernel, 1, sizeof(cl_uint), &n);
+    cl.clSetKernelArg(kernel, 2, sizeof(cl_uint), &iters);
+    cl.clSetKernelArg(kernel, 3, sizeof(cl_float), &mf);
+    cl.clSetKernelArg(kernel, 4, sizeof(cl_float), &af);
     const std::size_t local = fp16::kBlock;
     const std::size_t global = ((n + local - 1) / local) * local;
     cl_event first = nullptr, last = nullptr;
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
+      cl.clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
       if (i == 0) first = ev;
       if (i == reps - 1)
         last = ev;
       else if (ev && ev != first)
-        clReleaseEvent(ev);
+        cl.clReleaseEvent(ev);
     }
-    clFinish(queue);
+    cl.clFinish(queue);
     double secs = 0.0;
-    if (first && last) secs = cl_event_span(first, last).count();
-    if (first) clReleaseEvent(first);
-    if (last && last != first) clReleaseEvent(last);
+    if (first && last) secs = cl_event_span(cl, first, last).count();
+    if (first) cl.clReleaseEvent(first);
+    if (last && last != first) cl.clReleaseEvent(last);
     return secs;
   };
 
@@ -154,8 +161,8 @@ RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
 
   // --- pre-flight exactness (m=1,a=1) ---
   time_launches(fp16::kPreflightThreads, fp16::kPreflightIters, fp16::kPreM, fp16::kPreA, 1);
-  clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, fp16::kPreflightThreads * sizeof(float), host.data(), 0, nullptr,
-                      nullptr);
+  cl.clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, fp16::kPreflightThreads * sizeof(float), host.data(), 0, nullptr,
+                         nullptr);
   for (std::uint32_t t = 0; t < fp16::kPreflightThreads; ++t) {
     const double e = fp16::simd_preflight_out(t, 8, fp16::kPreflightIters);
     if (!fp16::matches_exact(host[t], e)) {
@@ -173,7 +180,7 @@ RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
   const int reps = calibrate_repeats(t_once, kComputeTargetSeconds, kComputeRepCap);
   const double secs = time_launches(T, fp16::kIters, fp16::kMainM, fp16::kMainA, reps);
 
-  clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, T * sizeof(float), host.data(), 0, nullptr, nullptr);
+  cl.clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, T * sizeof(float), host.data(), 0, nullptr, nullptr);
   cleanup();
 
   bool ok = true;

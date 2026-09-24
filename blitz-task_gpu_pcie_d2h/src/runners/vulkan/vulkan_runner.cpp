@@ -1,6 +1,6 @@
 /**
  * @file vulkan_runner.cpp
- * @brief Vulkan device-to-host transfer runner — SDK-required variant.
+ * @brief Vulkan device-to-host transfer runner.
  *
  * A DEVICE_LOCAL source (prefilled once from a host staging buffer) is copied
  * into a HOST_VISIBLE|HOST_COHERENT destination with vkCmdCopyBuffer. The rep
@@ -66,35 +66,49 @@ RunResult run_gpu_d2h_vulkan(const gpgpu::Setup& setup) {
   r.path = "device->staging copy";
   r.score_unit = "GB/s";
 
+  const gpgpu::vendor::VulkanFns* vk_fns = gpgpu::vendor::vulkan();
+  if (!vk_fns) {
+    r.error = "Vulkan loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::VulkanFns& vk = *vk_fns;
+  gpgpu::vendor::VulkanInstanceFns vki{};
+  gpgpu::vendor::VulkanDeviceFns vkd{};
+
   VkApplicationInfo app{VK_STRUCTURE_TYPE_APPLICATION_INFO};
   app.pApplicationName = "gpu_data_transfer_d2h";
   app.apiVersion = VK_API_VERSION_1_1;
   VkInstanceCreateInfo ici{VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO};
   ici.pApplicationInfo = &app;
   VkInstance inst = VK_NULL_HANDLE;
-  if (vkCreateInstance(&ici, nullptr, &inst) != VK_SUCCESS) {
+  if (vk.vkCreateInstance(&ici, nullptr, &inst) != VK_SUCCESS) {
     r.error = "vkCreateInstance failed";
     return r;
   }
+  if (!gpgpu::vendor::load_instance_fns(vk, inst, vki)) {
+    if (vki.vkDestroyInstance) vki.vkDestroyInstance(inst, nullptr);
+    r.error = "Vulkan instance entry points unavailable";
+    return r;
+  }
 
-  VkPhysicalDevice pd = find_vk_device(inst, setup.device);
+  VkPhysicalDevice pd = find_vk_device(vki, inst, setup.device);
   if (!pd) {
-    vkDestroyInstance(inst, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
     r.error = "no Vulkan device matched " + setup.device.id();
     return r;
   }
 
   VkPhysicalDeviceProperties pd_props{};
-  vkGetPhysicalDeviceProperties(pd, &pd_props);
+  vki.vkGetPhysicalDeviceProperties(pd, &pd_props);
   const float ts_period_ns = pd_props.limits.timestampPeriod;
 
   VkPhysicalDeviceMemoryProperties mp{};
-  vkGetPhysicalDeviceMemoryProperties(pd, &mp);
+  vki.vkGetPhysicalDeviceMemoryProperties(pd, &mp);
   if (!has_discrete_heap(mp)) r.path = "device->staging copy (UMA)";
 
-  const std::uint32_t qfam = find_queue_family(pd, VK_QUEUE_COMPUTE_BIT);
+  const std::uint32_t qfam = find_queue_family(vki, pd, VK_QUEUE_COMPUTE_BIT);
   if (qfam == UINT32_MAX) {
-    vkDestroyInstance(inst, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
     r.error = "no compute/transfer queue family";
     return r;
   }
@@ -102,9 +116,9 @@ RunResult run_gpu_d2h_vulkan(const gpgpu::Setup& setup) {
   bool ts_ok = pd_props.limits.timestampComputeAndGraphics != 0;
   {
     std::uint32_t nqf = 0;
-    vkGetPhysicalDeviceQueueFamilyProperties(pd, &nqf, nullptr);
+    vki.vkGetPhysicalDeviceQueueFamilyProperties(pd, &nqf, nullptr);
     std::vector<VkQueueFamilyProperties> qfp(nqf);
-    vkGetPhysicalDeviceQueueFamilyProperties(pd, &nqf, qfp.data());
+    vki.vkGetPhysicalDeviceQueueFamilyProperties(pd, &nqf, qfp.data());
     if (qfam >= nqf || qfp[qfam].timestampValidBits == 0) ts_ok = false;
   }
 
@@ -117,13 +131,19 @@ RunResult run_gpu_d2h_vulkan(const gpgpu::Setup& setup) {
   dci.queueCreateInfoCount = 1;
   dci.pQueueCreateInfos = &qci;
   VkDevice dev = VK_NULL_HANDLE;
-  if (vkCreateDevice(pd, &dci, nullptr, &dev) != VK_SUCCESS) {
-    vkDestroyInstance(inst, nullptr);
+  if (vki.vkCreateDevice(pd, &dci, nullptr, &dev) != VK_SUCCESS) {
+    vki.vkDestroyInstance(inst, nullptr);
     r.error = "vkCreateDevice failed";
     return r;
   }
+  if (!gpgpu::vendor::load_device_fns(vki, dev, vkd)) {
+    if (vkd.vkDestroyDevice) vkd.vkDestroyDevice(dev, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
+    r.error = "Vulkan device entry points unavailable";
+    return r;
+  }
   VkQueue queue = VK_NULL_HANDLE;
-  vkGetDeviceQueue(dev, qfam, 0, &queue);
+  vkd.vkGetDeviceQueue(dev, qfam, 0, &queue);
 
   const std::size_t S = transfer_bytes(setup.device);
   const std::size_t count = S / sizeof(std::uint32_t);
@@ -131,20 +151,20 @@ RunResult run_gpu_d2h_vulkan(const gpgpu::Setup& setup) {
 
   VkBufferAlloc staging{}, src{}, dst{};
   auto teardown = [&](VkQueryPool qp, VkCommandPool cp) {
-    if (qp) vkDestroyQueryPool(dev, qp, nullptr);
-    if (cp) vkDestroyCommandPool(dev, cp, nullptr);
-    destroy_buffer(dev, dst);
-    destroy_buffer(dev, src);
-    destroy_buffer(dev, staging);
-    vkDestroyDevice(dev, nullptr);
-    vkDestroyInstance(inst, nullptr);
+    if (qp) vkd.vkDestroyQueryPool(dev, qp, nullptr);
+    if (cp) vkd.vkDestroyCommandPool(dev, cp, nullptr);
+    destroy_buffer(vkd, dev, dst);
+    destroy_buffer(vkd, dev, src);
+    destroy_buffer(vkd, dev, staging);
+    vkd.vkDestroyDevice(dev, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
   };
 
-  if (!create_buffer(dev, mp, bytes, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+  if (!create_buffer(vkd, dev, mp, bytes, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                      VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, staging) ||
-      !create_buffer(dev, mp, bytes, VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+      !create_buffer(vkd, dev, mp, bytes, VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
                      VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, src) ||
-      !create_buffer(dev, mp, bytes, VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+      !create_buffer(vkd, dev, mp, bytes, VK_BUFFER_USAGE_TRANSFER_DST_BIT,
                      VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, dst)) {
     teardown(VK_NULL_HANDLE, VK_NULL_HANDLE);
     r.error = "buffer alloc failed";
@@ -154,69 +174,69 @@ RunResult run_gpu_d2h_vulkan(const gpgpu::Setup& setup) {
   // Fill the host staging buffer with the pattern (untimed).
   {
     void* m = nullptr;
-    vkMapMemory(dev, staging.mem, 0, bytes, 0, &m);
+    vkd.vkMapMemory(dev, staging.mem, 0, bytes, 0, &m);
     std::uint32_t* p = static_cast<std::uint32_t*>(m);
     for (std::size_t i = 0; i < count; ++i) p[i] = pattern_at(i);
-    vkUnmapMemory(dev, staging.mem);
+    vkd.vkUnmapMemory(dev, staging.mem);
   }
 
-  VkQueryPool qpool = ts_ok ? create_timestamp_pool(dev, 2) : VK_NULL_HANDLE;
+  VkQueryPool qpool = ts_ok ? create_timestamp_pool(vkd, dev, 2) : VK_NULL_HANDLE;
 
   VkCommandPoolCreateInfo cpoolci{VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO};
   cpoolci.queueFamilyIndex = qfam;
   cpoolci.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
   VkCommandPool cpool = VK_NULL_HANDLE;
-  vkCreateCommandPool(dev, &cpoolci, nullptr, &cpool);
+  vkd.vkCreateCommandPool(dev, &cpoolci, nullptr, &cpool);
   VkCommandBufferAllocateInfo cbai{VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO};
   cbai.commandPool = cpool;
   cbai.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
   cbai.commandBufferCount = 1;
   VkCommandBuffer cb = VK_NULL_HANDLE;
-  vkAllocateCommandBuffers(dev, &cbai, &cb);
+  vkd.vkAllocateCommandBuffers(dev, &cbai, &cb);
 
   auto submit_wait = [&]() {
     VkSubmitInfo si{VK_STRUCTURE_TYPE_SUBMIT_INFO};
     si.commandBufferCount = 1;
     si.pCommandBuffers = &cb;
-    vkQueueSubmit(queue, 1, &si, VK_NULL_HANDLE);
-    vkQueueWaitIdle(queue);
+    vkd.vkQueueSubmit(queue, 1, &si, VK_NULL_HANDLE);
+    vkd.vkQueueWaitIdle(queue);
   };
 
   // Prefill the DEVICE_LOCAL source once, untimed: staging → src.
   {
     VkCommandBufferBeginInfo bi{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     bi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-    vkBeginCommandBuffer(cb, &bi);
+    vkd.vkBeginCommandBuffer(cb, &bi);
     VkBufferCopy region{0, 0, bytes};
-    vkCmdCopyBuffer(cb, staging.buf, src.buf, 1, &region);
-    vkEndCommandBuffer(cb);
+    vkd.vkCmdCopyBuffer(cb, staging.buf, src.buf, 1, &region);
+    vkd.vkEndCommandBuffer(cb);
     submit_wait();
   }
 
   auto time_copies = [&](int reps) -> double {
-    vkResetCommandBuffer(cb, 0);
+    vkd.vkResetCommandBuffer(cb, 0);
     VkCommandBufferBeginInfo bi{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     bi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-    vkBeginCommandBuffer(cb, &bi);
+    vkd.vkBeginCommandBuffer(cb, &bi);
     if (qpool) {
-      vkCmdResetQueryPool(cb, qpool, 0, 2);
-      vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, qpool, 0);
+      vkd.vkCmdResetQueryPool(cb, qpool, 0, 2);
+      vkd.vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, qpool, 0);
     }
     VkBufferCopy region{0, 0, bytes};
     VkMemoryBarrier mb{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
     mb.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
     mb.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
     for (int i = 0; i < reps; ++i) {
-      vkCmdCopyBuffer(cb, src.buf, dst.buf, 1, &region);
+      vkd.vkCmdCopyBuffer(cb, src.buf, dst.buf, 1, &region);
       if (i + 1 < reps)
-        vkCmdPipelineBarrier(cb, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 1, &mb, 0, nullptr,
-                             0, nullptr);
+        vkd.vkCmdPipelineBarrier(cb, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 0, 1, &mb, 0, nullptr,
+                                 0, nullptr);
     }
-    if (qpool) vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, qpool, 1);
-    vkEndCommandBuffer(cb);
+    if (qpool) vkd.vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, qpool, 1);
+    vkd.vkEndCommandBuffer(cb);
     submit_wait();
     double secs = 0.0;
-    if (qpool) read_timestamp_span(dev, qpool, ts_period_ns, secs);
+    if (qpool) read_timestamp_span(vkd, dev, qpool, ts_period_ns, secs);
     return secs;
   };
 
@@ -234,9 +254,9 @@ RunResult run_gpu_d2h_vulkan(const gpgpu::Setup& setup) {
   std::vector<std::uint32_t> host(count);
   {
     void* m = nullptr;
-    vkMapMemory(dev, dst.mem, 0, bytes, 0, &m);
+    vkd.vkMapMemory(dev, dst.mem, 0, bytes, 0, &m);
     std::memcpy(host.data(), m, S);
-    vkUnmapMemory(dev, dst.mem);
+    vkd.vkUnmapMemory(dev, dst.mem);
   }
   const bool ok = sample_ok(host.data(), count);
 

@@ -85,6 +85,7 @@ __kernel void gemm_tiled(__global const float* a, __global const float* b, __glo
  * @brief Context, queue, operand buffers and kernels for one (device, size) pair.
  */
 struct OpenClGemmContext : gemm::Context {
+  gpgpu::vendor::OpenClFns cl{};
   std::string device_id;
   std::uint32_t n{0};
   std::uint32_t seed{0};
@@ -97,14 +98,14 @@ struct OpenClGemmContext : gemm::Context {
   cl_mem a{nullptr}, b{nullptr}, c{nullptr};
 
   ~OpenClGemmContext() override {
-    if (fill_kernel) clReleaseKernel(fill_kernel);
-    if (gemm_kernel) clReleaseKernel(gemm_kernel);
-    if (program) clReleaseProgram(program);
-    if (a) clReleaseMemObject(a);
-    if (b) clReleaseMemObject(b);
-    if (c) clReleaseMemObject(c);
-    if (queue) clReleaseCommandQueue(queue);
-    if (ctx) clReleaseContext(ctx);
+    if (fill_kernel) cl.clReleaseKernel(fill_kernel);
+    if (gemm_kernel) cl.clReleaseKernel(gemm_kernel);
+    if (program) cl.clReleaseProgram(program);
+    if (a) cl.clReleaseMemObject(a);
+    if (b) cl.clReleaseMemObject(b);
+    if (c) cl.clReleaseMemObject(c);
+    if (queue) cl.clReleaseCommandQueue(queue);
+    if (ctx) cl.clReleaseContext(ctx);
   }
 
   /**
@@ -119,31 +120,31 @@ struct OpenClGemmContext : gemm::Context {
     cl_event first = nullptr, last = nullptr;
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      if (clEnqueueNDRangeKernel(queue, gemm_kernel, 2, nullptr, global, local, 0, nullptr, &ev) != CL_SUCCESS) {
-        if (first) clReleaseEvent(first);
-        if (last && last != first) clReleaseEvent(last);
+      if (cl.clEnqueueNDRangeKernel(queue, gemm_kernel, 2, nullptr, global, local, 0, nullptr, &ev) != CL_SUCCESS) {
+        if (first) cl.clReleaseEvent(first);
+        if (last && last != first) cl.clReleaseEvent(last);
         return 0.0;
       }
       if (i == 0) {
         first = ev;
       } else {
-        if (last) clReleaseEvent(last);
+        if (last) cl.clReleaseEvent(last);
         last = ev;
       }
     }
     if (!last) last = first;
-    clFinish(queue);
-    const double secs = cl_event_span(first, last).count();
-    if (first) clReleaseEvent(first);
-    if (last && last != first) clReleaseEvent(last);
+    cl.clFinish(queue);
+    const double secs = cl_event_span(cl, first, last).count();
+    if (first) cl.clReleaseEvent(first);
+    if (last && last != first) cl.clReleaseEvent(last);
     return secs;
   }
 
   void fill_operands() {
     const std::size_t global[2] = {n, n};
     const std::size_t local[2] = {kTile, kTile};
-    clEnqueueNDRangeKernel(queue, fill_kernel, 2, nullptr, global, local, 0, nullptr, nullptr);
-    clFinish(queue);
+    cl.clEnqueueNDRangeKernel(queue, fill_kernel, 2, nullptr, global, local, 0, nullptr, nullptr);
+    cl.clFinish(queue);
   }
 
   /**
@@ -153,13 +154,14 @@ struct OpenClGemmContext : gemm::Context {
    */
   void read_verify_rows(std::vector<float>& host) {
     const std::size_t bytes = static_cast<std::size_t>(gemm::kVerifyRows) * n * sizeof(float);
-    clEnqueueReadBuffer(queue, c, CL_TRUE, 0, bytes, host.data(), 0, nullptr, nullptr);
+    cl.clEnqueueReadBuffer(queue, c, CL_TRUE, 0, bytes, host.data(), 0, nullptr, nullptr);
   }
 };
 
 /**
  * @brief Build a context for @p setup at problem size @p n.
  *
+ * @param cl
  * @param setup
  * @param n
  * @param seed
@@ -167,66 +169,63 @@ struct OpenClGemmContext : gemm::Context {
  * @param error
  * @return false with @p error populated on any failure; @p out is then unusable.
  */
-bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t seed, OpenClGemmContext& out,
-                   std::string& error) {
+bool build_context(const gpgpu::vendor::OpenClFns& cl, const gpgpu::Setup& setup, std::uint32_t n,
+                   std::uint32_t seed, OpenClGemmContext& out, std::string& error) {
+  out.cl = cl;
   out.device_id = setup.device.id();
   out.n = n;
   out.seed = seed;
 
-  cl_device_id dev = find_cl_device(setup.device);
+  cl_device_id dev = find_cl_device(cl, setup.device);
   if (!dev) {
     error = "no OpenCL device matched " + setup.device.name();
     return false;
   }
 
   cl_int err = CL_SUCCESS;
-  out.ctx = clCreateContext(nullptr, 1, &dev, nullptr, nullptr, &err);
+  out.ctx = cl.clCreateContext(nullptr, 1, &dev, nullptr, nullptr, &err);
   if (!out.ctx) {
     error = "clCreateContext err=" + std::to_string(err);
     return false;
   }
-#if defined(CL_VERSION_2_0)
   const cl_queue_properties props[] = {CL_QUEUE_PROPERTIES, CL_QUEUE_PROFILING_ENABLE, 0};
-  out.queue = clCreateCommandQueueWithProperties(out.ctx, dev, props, &err);
-#else
-  out.queue = clCreateCommandQueue(out.ctx, dev, CL_QUEUE_PROFILING_ENABLE, &err);
-#endif
+  out.queue = cl.clCreateCommandQueueWithProperties(out.ctx, dev, props, &err);
   if (!out.queue) {
-    error = "clCreateCommandQueue err=" + std::to_string(err);
+    error = "clCreateCommandQueueWithProperties err=" + std::to_string(err);
     return false;
   }
 
   std::string log;
-  out.program = build_program_with_log(out.ctx, dev, kGemmSource, nullptr, log);
+  out.program = build_program_with_log(cl, out.ctx, dev, kGemmSource, nullptr, log);
   if (!out.program) {
     error = "OpenCL build failed: " + log;
     return false;
   }
-  out.fill_kernel = clCreateKernel(out.program, "gemm_fill", &err);
-  out.gemm_kernel = clCreateKernel(out.program, "gemm_tiled", &err);
+  out.fill_kernel = cl.clCreateKernel(out.program, "gemm_fill", &err);
+  out.gemm_kernel = cl.clCreateKernel(out.program, "gemm_tiled", &err);
   if (!out.fill_kernel || !out.gemm_kernel) {
     error = "clCreateKernel err=" + std::to_string(err);
     return false;
   }
 
   const std::size_t elems = static_cast<std::size_t>(n) * n;
-  out.a = clCreateBuffer(out.ctx, CL_MEM_READ_WRITE, elems * 4, nullptr, &err);
-  out.b = clCreateBuffer(out.ctx, CL_MEM_READ_WRITE, elems * 4, nullptr, &err);
-  out.c = clCreateBuffer(out.ctx, CL_MEM_READ_WRITE, elems * 4, nullptr, &err);
+  out.a = cl.clCreateBuffer(out.ctx, CL_MEM_READ_WRITE, elems * 4, nullptr, &err);
+  out.b = cl.clCreateBuffer(out.ctx, CL_MEM_READ_WRITE, elems * 4, nullptr, &err);
+  out.c = cl.clCreateBuffer(out.ctx, CL_MEM_READ_WRITE, elems * 4, nullptr, &err);
   if (!out.a || !out.b || !out.c) {
     error = "operand allocation failed at n=" + std::to_string(n);
     return false;
   }
 
-  clSetKernelArg(out.fill_kernel, 0, sizeof(cl_mem), &out.a);
-  clSetKernelArg(out.fill_kernel, 1, sizeof(cl_mem), &out.b);
-  clSetKernelArg(out.fill_kernel, 2, sizeof(std::uint32_t), &out.n);
-  clSetKernelArg(out.fill_kernel, 3, sizeof(std::uint32_t), &out.seed);
+  cl.clSetKernelArg(out.fill_kernel, 0, sizeof(cl_mem), &out.a);
+  cl.clSetKernelArg(out.fill_kernel, 1, sizeof(cl_mem), &out.b);
+  cl.clSetKernelArg(out.fill_kernel, 2, sizeof(std::uint32_t), &out.n);
+  cl.clSetKernelArg(out.fill_kernel, 3, sizeof(std::uint32_t), &out.seed);
 
-  clSetKernelArg(out.gemm_kernel, 0, sizeof(cl_mem), &out.a);
-  clSetKernelArg(out.gemm_kernel, 1, sizeof(cl_mem), &out.b);
-  clSetKernelArg(out.gemm_kernel, 2, sizeof(cl_mem), &out.c);
-  clSetKernelArg(out.gemm_kernel, 3, sizeof(std::uint32_t), &out.n);
+  cl.clSetKernelArg(out.gemm_kernel, 0, sizeof(cl_mem), &out.a);
+  cl.clSetKernelArg(out.gemm_kernel, 1, sizeof(cl_mem), &out.b);
+  cl.clSetKernelArg(out.gemm_kernel, 2, sizeof(cl_mem), &out.c);
+  cl.clSetKernelArg(out.gemm_kernel, 3, sizeof(std::uint32_t), &out.n);
 
   out.fill_operands();
   return true;
@@ -240,20 +239,27 @@ RunResult run_gpu_matmul_fp32_opencl(const gpgpu::Setup& setup, gemm::ContextPtr
   r.score_unit = "GFLOPS";
   r.path = "unsupported(fp32 gemm)";
 
-  auto* cl = dynamic_cast<OpenClGemmContext*>(ctx.get());
-  if (cl && (cl->device_id != setup.device.id() || cl->seed != params.seed)) cl = nullptr;
+  const gpgpu::vendor::OpenClFns* cl_fns = gpgpu::vendor::opencl();
+  if (!cl_fns) {
+    r.error = "OpenCL loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::OpenClFns& cl = *cl_fns;
+
+  auto* gemm_ctx = dynamic_cast<OpenClGemmContext*>(ctx.get());
+  if (gemm_ctx && (gemm_ctx->device_id != setup.device.id() || gemm_ctx->seed != params.seed)) gemm_ctx = nullptr;
 
   // Size the problem on the first round; later rounds reuse what this settled on. The
   // bottom rung is timed first and extrapolated, so a slow device is never asked to run
   // a multiply it cannot finish, and the ladder steps down again if allocation fails.
-  if (!cl) {
+  if (!gemm_ctx) {
     const std::uint32_t memory_limit_n = gemm::choose_size(gemm::Precision::Fp32, setup.device, params.cap_bytes);
     std::string error;
 
     auto build_at = [&](std::uint32_t n) -> std::unique_ptr<OpenClGemmContext> {
       while (n) {
         auto fresh = std::make_unique<OpenClGemmContext>();
-        if (build_context(setup, n, params.seed, *fresh, error)) return fresh;
+        if (build_context(cl, setup, n, params.seed, *fresh, error)) return fresh;
         n = gemm::step_down(n);
       }
       return nullptr;
@@ -276,35 +282,35 @@ RunResult run_gpu_matmul_fp32_opencl(const gpgpu::Setup& setup, gemm::ContextPtr
       }
     }
     ctx = std::move(probe_ctx);
-    cl = static_cast<OpenClGemmContext*>(ctx.get());
+    gemm_ctx = static_cast<OpenClGemmContext*>(ctx.get());
   }
 
   r.path = "tiled(local 16x16 fp32)";
 
-  for (int w = 0; w < kWarmups; ++w) cl->time_gemm(1);
-  const double t_once = cl->time_gemm(1);
+  for (int w = 0; w < kWarmups; ++w) gemm_ctx->time_gemm(1);
+  const double t_once = gemm_ctx->time_gemm(1);
   if (t_once <= 0.0) {
     r.error = "queue reported no profiling span";
     return r;
   }
   const int reps =
       params.pinned_reps > 0 ? params.pinned_reps : calibrate_repeats(t_once, kGemmTargetSeconds, kGemmRepCap);
-  const double secs = cl->time_gemm(reps);
+  const double secs = gemm_ctx->time_gemm(reps);
   if (secs <= 0.0) {
     r.error = "queue reported no profiling span";
     return r;
   }
 
-  std::vector<float> host(static_cast<std::size_t>(gemm::kVerifyRows) * cl->n);
-  cl->read_verify_rows(host);
+  std::vector<float> host(static_cast<std::size_t>(gemm::kVerifyRows) * gemm_ctx->n);
+  gemm_ctx->read_verify_rows(host);
 
   bool ok = true;
   for (std::uint32_t s = 0; s < gemm::kVerifySamples && ok; ++s) {
     const std::uint32_t row = gemm::sample_row(s);
-    const std::uint32_t col = gemm::sample_col(s, cl->n);
-    const double got = host[static_cast<std::size_t>(row) * cl->n + col];
-    const double expected = gemm::reference_element(row, col, cl->n, cl->seed);
-    if (!gemm::element_ok(got, expected, cl->n)) {
+    const std::uint32_t col = gemm::sample_col(s, gemm_ctx->n);
+    const double got = host[static_cast<std::size_t>(row) * gemm_ctx->n + col];
+    const double expected = gemm::reference_element(row, col, gemm_ctx->n, gemm_ctx->seed);
+    if (!gemm::element_ok(got, expected, gemm_ctx->n)) {
       char b[160];
       std::snprintf(b, sizeof(b), "sample mismatch at (%u,%u): got=%g expected=%g", row, col, got, expected);
       r.error = b;
@@ -312,12 +318,12 @@ RunResult run_gpu_matmul_fp32_opencl(const gpgpu::Setup& setup, gemm::ContextPtr
     }
   }
 
-  r.work = gemm::gemm_flops(cl->n, reps);
+  r.work = gemm::gemm_flops(gemm_ctx->n, reps);
   r.measured = std::chrono::duration<double>{secs};
   r.timings.kernel_compute = r.measured;
   r.score = score_giga(r.work, secs);
   r.correct = ok;
-  r.info = {{"gemm_n", std::to_string(cl->n)},
+  r.info = {{"gemm_n", std::to_string(gemm_ctx->n)},
             {"reps", std::to_string(reps)},
             {"blas_library", "none"},
             {"math_mode", "fp32 throughout"}};

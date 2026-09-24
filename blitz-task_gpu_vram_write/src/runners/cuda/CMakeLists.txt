@@ -13,7 +13,7 @@ endif()
 enable_language(CUDA)
 
 add_library(gpu_vram_write_cuda STATIC cuda_runner.cu)
-target_link_libraries(gpu_vram_write_cuda PUBLIC bench_common CUDA::cudart)
+target_link_libraries(gpu_vram_write_cuda PUBLIC bench_common CUDA::cudart_static)
 target_include_directories(gpu_vram_write_cuda PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(gpu_vram_write_cuda PUBLIC cxx_std_20)
 set_target_properties(gpu_vram_write_cuda PROPERTIES

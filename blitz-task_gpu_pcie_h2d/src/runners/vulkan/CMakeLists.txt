@@ -1,10 +1,8 @@
-find_package(Vulkan QUIET)
-if(NOT Vulkan_FOUND)
-    set(GPU_H2D_HAVE_VULKAN FALSE PARENT_SCOPE)
-    return()
-endif()
+# Headers come from gpu_runtime's vendored Vulkan-Headers (VK_NO_PROTOTYPES) and every
+# entry point is resolved at run time (gpgpu/vendor.hpp); only the shader build needs
+# a tool from the Vulkan SDK.
 add_library(gpu_h2d_vulkan STATIC vulkan_runner.cpp)
-target_link_libraries(gpu_h2d_vulkan PUBLIC bench_common Vulkan::Vulkan)
+target_link_libraries(gpu_h2d_vulkan PUBLIC bench_common)
 target_include_directories(gpu_h2d_vulkan PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )

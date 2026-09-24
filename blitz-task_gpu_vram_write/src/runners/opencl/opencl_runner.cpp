@@ -43,14 +43,21 @@ RunResult run_gpu_vram_write_opencl(const gpgpu::Setup& setup) {
   r.path = "simd(uint4 stores)";
   r.score_unit = "GB/s";
 
-  cl_device_id device = find_cl_device(setup.device);
+  const gpgpu::vendor::OpenClFns* cl_fns = gpgpu::vendor::opencl();
+  if (!cl_fns) {
+    r.error = "OpenCL loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::OpenClFns& cl = *cl_fns;
+
+  cl_device_id device = find_cl_device(cl, setup.device);
   if (!device) {
     r.error = "no OpenCL device matched " + setup.device.id();
     return r;
   }
 
   cl_int err = CL_SUCCESS;
-  cl_context ctx = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
+  cl_context ctx = cl.clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
   if (!ctx) {
     r.error = "clCreateContext err=" + std::to_string(err);
     return r;
@@ -58,27 +65,27 @@ RunResult run_gpu_vram_write_opencl(const gpgpu::Setup& setup) {
 
   const cl_queue_properties qprops[] = {CL_QUEUE_PROPERTIES,
                                         static_cast<cl_queue_properties>(CL_QUEUE_PROFILING_ENABLE), 0};
-  cl_command_queue queue = clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
+  cl_command_queue queue = cl.clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
   if (!queue) {
-    clReleaseContext(ctx);
+    cl.clReleaseContext(ctx);
     r.error = "clCreateCommandQueueWithProperties err=" + std::to_string(err);
     return r;
   }
 
   std::string log;
-  cl_program program = build_program_with_log(ctx, device, kKernelSource, nullptr, log);
+  cl_program program = build_program_with_log(cl, ctx, device, kKernelSource, nullptr, log);
   if (!program) {
     r.error = "clBuildProgram failed: " + log;
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
-  cl_kernel kernel = clCreateKernel(program, "vram_write", &err);
+  cl_kernel kernel = cl.clCreateKernel(program, "vram_write", &err);
   if (!kernel) {
     r.error = "clCreateKernel err=" + std::to_string(err);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
 
@@ -86,14 +93,14 @@ RunResult run_gpu_vram_write_opencl(const gpgpu::Setup& setup) {
   const std::uint32_t N = static_cast<std::uint32_t>(S / 4);
   const cl_uint n_vec4 = N / 4;
 
-  cl_mem buf = clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
+  cl_mem buf = cl.clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
 
   auto cleanup = [&]() {
-    if (buf) clReleaseMemObject(buf);
-    clReleaseKernel(kernel);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    if (buf) cl.clReleaseMemObject(buf);
+    cl.clReleaseKernel(kernel);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
   };
   if (!buf) {
     r.error = "clCreateBuffer failed";
@@ -101,8 +108,8 @@ RunResult run_gpu_vram_write_opencl(const gpgpu::Setup& setup) {
     return r;
   }
 
-  clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
-  clSetKernelArg(kernel, 1, sizeof(cl_uint), &n_vec4);
+  cl.clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
+  cl.clSetKernelArg(kernel, 1, sizeof(cl_uint), &n_vec4);
 
   const std::size_t local = vram::kBlock;
   const std::size_t global = ((vram::thread_count(setup.device) + local - 1) / local) * local;
@@ -111,18 +118,18 @@ RunResult run_gpu_vram_write_opencl(const gpgpu::Setup& setup) {
     cl_event first = nullptr, last = nullptr;
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
+      cl.clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
       if (i == 0) first = ev;
       if (i == reps - 1)
         last = ev;
       else if (ev && ev != first)
-        clReleaseEvent(ev);
+        cl.clReleaseEvent(ev);
     }
-    clFinish(queue);
+    cl.clFinish(queue);
     double secs = 0.0;
-    if (first && last) secs = cl_event_span(first, last).count();
-    if (first) clReleaseEvent(first);
-    if (last && last != first) clReleaseEvent(last);
+    if (first && last) secs = cl_event_span(cl, first, last).count();
+    if (first) cl.clReleaseEvent(first);
+    if (last && last != first) cl.clReleaseEvent(last);
     return secs;
   };
 
@@ -140,8 +147,8 @@ RunResult run_gpu_vram_write_opencl(const gpgpu::Setup& setup) {
   const std::uint32_t w = std::min<std::uint32_t>(vram::kWindowU32, N);
   std::vector<std::uint32_t> chk(w);
   auto check_window = [&](std::uint32_t start) {
-    clEnqueueReadBuffer(queue, buf, CL_TRUE, static_cast<std::size_t>(start) * 4, static_cast<std::size_t>(w) * 4,
-                        chk.data(), 0, nullptr, nullptr);
+    cl.clEnqueueReadBuffer(queue, buf, CL_TRUE, static_cast<std::size_t>(start) * 4, static_cast<std::size_t>(w) * 4,
+                           chk.data(), 0, nullptr, nullptr);
     for (std::uint32_t i = 0; i < w && ok; ++i) {
       const std::uint32_t idx = start + i;
       if (chk[i] != vram::pattern(idx)) {

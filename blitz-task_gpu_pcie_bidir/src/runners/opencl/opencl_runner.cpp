@@ -31,14 +31,21 @@ RunResult run_gpu_bidir_opencl(const gpgpu::Setup& setup) {
   r.path = "2 queues";
   r.score_unit = "GB/s";
 
-  cl_device_id device = find_cl_device(setup.device);
+  const gpgpu::vendor::OpenClFns* cl_fns = gpgpu::vendor::opencl();
+  if (!cl_fns) {
+    r.error = "OpenCL loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::OpenClFns& cl = *cl_fns;
+
+  cl_device_id device = find_cl_device(cl, setup.device);
   if (!device) {
     r.error = "no OpenCL device matched " + setup.device.id();
     return r;
   }
 
   cl_int err = CL_SUCCESS;
-  cl_context ctx = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
+  cl_context ctx = cl.clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
   if (!ctx) {
     r.error = "clCreateContext err=" + std::to_string(err);
     return r;
@@ -46,12 +53,12 @@ RunResult run_gpu_bidir_opencl(const gpgpu::Setup& setup) {
 
   const cl_queue_properties qprops[] = {CL_QUEUE_PROPERTIES,
                                         static_cast<cl_queue_properties>(CL_QUEUE_PROFILING_ENABLE), 0};
-  cl_command_queue qUp = clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
-  cl_command_queue qDn = clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
+  cl_command_queue qUp = cl.clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
+  cl_command_queue qDn = cl.clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
   if (!qUp || !qDn) {
-    if (qUp) clReleaseCommandQueue(qUp);
-    if (qDn) clReleaseCommandQueue(qDn);
-    clReleaseContext(ctx);
+    if (qUp) cl.clReleaseCommandQueue(qUp);
+    if (qDn) cl.clReleaseCommandQueue(qDn);
+    cl.clReleaseContext(ctx);
     r.error = "clCreateCommandQueueWithProperties failed";
     return r;
   }
@@ -59,15 +66,15 @@ RunResult run_gpu_bidir_opencl(const gpgpu::Setup& setup) {
   const std::size_t S = bidir::buffer_bytes(setup.device);
   const std::size_t N = bidir::elem_count(S);
 
-  cl_mem up_dst = clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
-  cl_mem dn_src = clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
+  cl_mem up_dst = cl.clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
+  cl_mem dn_src = cl.clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
 
   auto cleanup = [&]() {
-    if (up_dst) clReleaseMemObject(up_dst);
-    if (dn_src) clReleaseMemObject(dn_src);
-    clReleaseCommandQueue(qUp);
-    clReleaseCommandQueue(qDn);
-    clReleaseContext(ctx);
+    if (up_dst) cl.clReleaseMemObject(up_dst);
+    if (dn_src) cl.clReleaseMemObject(dn_src);
+    cl.clReleaseCommandQueue(qUp);
+    cl.clReleaseCommandQueue(qDn);
+    cl.clReleaseContext(ctx);
   };
   if (!up_dst || !dn_src) {
     r.error = "clCreateBuffer failed";
@@ -78,40 +85,40 @@ RunResult run_gpu_bidir_opencl(const gpgpu::Setup& setup) {
   std::vector<std::uint32_t> host_up(N), host_dn(N, 0);
   bidir::fill_pattern(host_up.data(), N);
   // Seed the device download source with the pattern (blocking, pre-window).
-  clEnqueueWriteBuffer(qUp, dn_src, CL_TRUE, 0, S, host_up.data(), 0, nullptr, nullptr);
+  cl.clEnqueueWriteBuffer(qUp, dn_src, CL_TRUE, 0, S, host_up.data(), 0, nullptr, nullptr);
 
   auto run_window = [&](int reps, double& h2d_secs, double& d2h_secs) -> double {
     cl_event upFirst = nullptr, upLast = nullptr, dnFirst = nullptr, dnLast = nullptr;
     const auto t0 = std::chrono::steady_clock::now();
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      clEnqueueWriteBuffer(qUp, up_dst, CL_FALSE, 0, S, host_up.data(), 0, nullptr, &ev);
+      cl.clEnqueueWriteBuffer(qUp, up_dst, CL_FALSE, 0, S, host_up.data(), 0, nullptr, &ev);
       if (i == 0) upFirst = ev;
       if (i == reps - 1)
         upLast = ev;
       else if (ev && ev != upFirst)
-        clReleaseEvent(ev);
+        cl.clReleaseEvent(ev);
     }
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      clEnqueueReadBuffer(qDn, dn_src, CL_FALSE, 0, S, host_dn.data(), 0, nullptr, &ev);
+      cl.clEnqueueReadBuffer(qDn, dn_src, CL_FALSE, 0, S, host_dn.data(), 0, nullptr, &ev);
       if (i == 0) dnFirst = ev;
       if (i == reps - 1)
         dnLast = ev;
       else if (ev && ev != dnFirst)
-        clReleaseEvent(ev);
+        cl.clReleaseEvent(ev);
     }
-    clFlush(qUp);
-    clFlush(qDn);
-    clFinish(qUp);
-    clFinish(qDn);
+    cl.clFlush(qUp);
+    cl.clFlush(qDn);
+    cl.clFinish(qUp);
+    cl.clFinish(qDn);
     const auto t1 = std::chrono::steady_clock::now();
-    h2d_secs = (upFirst && upLast) ? cl_event_span(upFirst, upLast).count() : 0.0;
-    d2h_secs = (dnFirst && dnLast) ? cl_event_span(dnFirst, dnLast).count() : 0.0;
-    if (upFirst) clReleaseEvent(upFirst);
-    if (upLast && upLast != upFirst) clReleaseEvent(upLast);
-    if (dnFirst) clReleaseEvent(dnFirst);
-    if (dnLast && dnLast != dnFirst) clReleaseEvent(dnLast);
+    h2d_secs = (upFirst && upLast) ? cl_event_span(cl, upFirst, upLast).count() : 0.0;
+    d2h_secs = (dnFirst && dnLast) ? cl_event_span(cl, dnFirst, dnLast).count() : 0.0;
+    if (upFirst) cl.clReleaseEvent(upFirst);
+    if (upLast && upLast != upFirst) cl.clReleaseEvent(upLast);
+    if (dnFirst) cl.clReleaseEvent(dnFirst);
+    if (dnLast && dnLast != dnFirst) cl.clReleaseEvent(dnLast);
     return std::chrono::duration<double>(t1 - t0).count();
   };
 
@@ -125,7 +132,7 @@ RunResult run_gpu_bidir_opencl(const gpgpu::Setup& setup) {
 
   // --- verify both directions once, outside the timed window ---
   std::vector<std::uint32_t> back(N);
-  clEnqueueReadBuffer(qUp, up_dst, CL_TRUE, 0, S, back.data(), 0, nullptr, nullptr);
+  cl.clEnqueueReadBuffer(qUp, up_dst, CL_TRUE, 0, S, back.data(), 0, nullptr, nullptr);
   const bool up_ok = bidir::verify_sample(back.data(), N);     // upload landed?
   const bool dn_ok = bidir::verify_sample(host_dn.data(), N);  // download landed?
   const bool ok = up_ok && dn_ok;

@@ -1,17 +1,15 @@
-find_package(Vulkan QUIET)
-if(NOT Vulkan_FOUND)
-    set(GPU_FP64_HAVE_VULKAN FALSE PARENT_SCOPE)
-    return()
-endif()
 if(NOT GPU_FP64_HAVE_SHADER)
     message(STATUS "    VULKAN: skipped (shader build unavailable)")
     set(GPU_FP64_HAVE_VULKAN FALSE PARENT_SCOPE)
     return()
 endif()
 
+# Headers come from gpu_runtime's vendored Vulkan-Headers (VK_NO_PROTOTYPES) and every
+# entry point is resolved at run time (gpgpu/vendor.hpp); only the shader build needs
+# a tool from the Vulkan SDK.
 add_library(gpu_fp64_vulkan STATIC vulkan_runner.cpp)
 add_dependencies(gpu_fp64_vulkan gpu_fp64_shaders)
-target_link_libraries(gpu_fp64_vulkan PUBLIC bench_common Vulkan::Vulkan)
+target_link_libraries(gpu_fp64_vulkan PUBLIC bench_common)
 target_include_directories(gpu_fp64_vulkan PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GPU_FP64_SHADER_INCDIR}

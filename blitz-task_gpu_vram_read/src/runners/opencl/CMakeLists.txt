@@ -1,11 +1,7 @@
-find_package(OpenCL QUIET)
-if(NOT OpenCL_FOUND)
-    set(GPU_VRAM_READ_HAVE_OPENCL FALSE PARENT_SCOPE)
-    return()
-endif()
-
+# Headers come from gpu_runtime's vendored OpenCL-Headers and every entry point is
+# resolved at run time (gpgpu/vendor.hpp), so no OpenCL SDK is needed to build.
 add_library(gpu_vram_read_opencl STATIC opencl_runner.cpp)
-target_link_libraries(gpu_vram_read_opencl PUBLIC bench_common OpenCL::OpenCL)
+target_link_libraries(gpu_vram_read_opencl PUBLIC bench_common)
 target_include_directories(gpu_vram_read_opencl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(gpu_vram_read_opencl PUBLIC cxx_std_20)
 target_compile_definitions(gpu_vram_read_opencl PUBLIC

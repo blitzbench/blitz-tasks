@@ -1,6 +1,6 @@
 /**
  * @file vulkan_runner.cpp
- * @brief Vulkan compute int8 throughput runner — SDK-required variant.
+ * @brief Vulkan compute int8 throughput runner.
  *
  * Tensor-first with a runtime fallback; the chosen path is recorded:
  *   VK_KHR_cooperative_matrix with a {s8,s8,s32,16,16,16,subgroup} config, the
@@ -57,9 +57,9 @@ struct PushConstants {
 
 // Does the device expose a 16x16x16 {s8,s8,s32} subgroup cooperative-matrix?
 #if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-bool has_int8_coopmat_config(VkInstance inst, VkPhysicalDevice pd) {
+bool has_int8_coopmat_config(const gpgpu::vendor::VulkanFns& vk, VkInstance inst, VkPhysicalDevice pd) {
   auto fn = reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR>(
-      vkGetInstanceProcAddr(inst, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR"));
+      vk.vkGetInstanceProcAddr(inst, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR"));
   if (!fn) return false;
   std::uint32_t n = 0;
   if (fn(pd, &n, nullptr) != VK_SUCCESS || n == 0) return false;
@@ -75,12 +75,12 @@ bool has_int8_coopmat_config(VkInstance inst, VkPhysicalDevice pd) {
 }
 #endif
 
-bool device_has_extension(VkPhysicalDevice pd, const char* name) {
+bool device_has_extension(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysicalDevice pd, const char* name) {
   std::uint32_t n = 0;
-  vkEnumerateDeviceExtensionProperties(pd, nullptr, &n, nullptr);
+  vki.vkEnumerateDeviceExtensionProperties(pd, nullptr, &n, nullptr);
   if (n == 0) return false;
   std::vector<VkExtensionProperties> ext(n);
-  vkEnumerateDeviceExtensionProperties(pd, nullptr, &n, ext.data());
+  vki.vkEnumerateDeviceExtensionProperties(pd, nullptr, &n, ext.data());
   for (const auto& e : ext)
     if (std::strcmp(e.extensionName, name) == 0) return true;
   return false;
@@ -95,26 +95,40 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   r.path = "simd(i8vec4)";
   r.score_unit = "GOPS";
 
+  const gpgpu::vendor::VulkanFns* vk_fns = gpgpu::vendor::vulkan();
+  if (!vk_fns) {
+    r.error = "Vulkan loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::VulkanFns& vk = *vk_fns;
+  gpgpu::vendor::VulkanInstanceFns vki{};
+  gpgpu::vendor::VulkanDeviceFns vkd{};
+
   VkApplicationInfo app{VK_STRUCTURE_TYPE_APPLICATION_INFO};
   app.pApplicationName = "gpu_int8";
   app.apiVersion = VK_API_VERSION_1_3;
   VkInstanceCreateInfo ici{VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO};
   ici.pApplicationInfo = &app;
   VkInstance inst = VK_NULL_HANDLE;
-  if (vkCreateInstance(&ici, nullptr, &inst) != VK_SUCCESS) {
+  if (vk.vkCreateInstance(&ici, nullptr, &inst) != VK_SUCCESS) {
     r.error = "vkCreateInstance failed";
     return r;
   }
+  if (!gpgpu::vendor::load_instance_fns(vk, inst, vki)) {
+    if (vki.vkDestroyInstance) vki.vkDestroyInstance(inst, nullptr);
+    r.error = "Vulkan instance entry points unavailable";
+    return r;
+  }
 
-  VkPhysicalDevice pd = find_vk_device(inst, setup.device);
+  VkPhysicalDevice pd = find_vk_device(vki, inst, setup.device);
   if (!pd) {
-    vkDestroyInstance(inst, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
     r.error = "no Vulkan device matched " + setup.device.id();
     return r;
   }
 
   VkPhysicalDeviceProperties pd_props{};
-  vkGetPhysicalDeviceProperties(pd, &pd_props);
+  vki.vkGetPhysicalDeviceProperties(pd, &pd_props);
   const float ts_period_ns = pd_props.limits.timestampPeriod;
   const bool ts_ok = pd_props.limits.timestampComputeAndGraphics != 0;
 
@@ -122,11 +136,11 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   VkPhysicalDeviceVulkan12Features f12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
   VkPhysicalDeviceFeatures2 feat2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
   feat2.pNext = &f12;
-  vkGetPhysicalDeviceFeatures2(pd, &feat2);
+  vki.vkGetPhysicalDeviceFeatures2(pd, &feat2);
   const bool has_int8 = f12.shaderInt8 == VK_TRUE;
 
   if (!has_int8) {
-    vkDestroyInstance(inst, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
     r.supported = false;
     r.path = "unsupported(no shaderInt8)";
     return r;
@@ -135,11 +149,11 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   // --- decide path ---
   bool use_coopmat = false;
 #if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-  if (device_has_extension(pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME) && has_int8_coopmat_config(inst, pd)) {
+  if (device_has_extension(vki, pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME) && has_int8_coopmat_config(vk, inst, pd)) {
     VkPhysicalDeviceCooperativeMatrixFeaturesKHR cmf{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR};
     VkPhysicalDeviceFeatures2 q{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
     q.pNext = &cmf;
-    vkGetPhysicalDeviceFeatures2(pd, &q);
+    vki.vkGetPhysicalDeviceFeatures2(pd, &q);
     use_coopmat = (cmf.cooperativeMatrix == VK_TRUE);
   }
 #endif
@@ -157,15 +171,15 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   }
 #endif
 
-  const std::uint32_t qfam = find_queue_family(pd, VK_QUEUE_COMPUTE_BIT);
+  const std::uint32_t qfam = find_queue_family(vki, pd, VK_QUEUE_COMPUTE_BIT);
   if (qfam == UINT32_MAX) {
-    vkDestroyInstance(inst, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
     r.error = "no compute queue family";
     return r;
   }
 
   VkPhysicalDeviceMemoryProperties mp{};
-  vkGetPhysicalDeviceMemoryProperties(pd, &mp);
+  vki.vkGetPhysicalDeviceMemoryProperties(pd, &mp);
 
   // --- device with the required feature chain ---
   VkPhysicalDeviceVulkan12Features en12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
@@ -200,23 +214,29 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   dci.enabledExtensionCount = static_cast<std::uint32_t>(dev_exts.size());
   dci.ppEnabledExtensionNames = dev_exts.empty() ? nullptr : dev_exts.data();
   VkDevice dev = VK_NULL_HANDLE;
-  if (vkCreateDevice(pd, &dci, nullptr, &dev) != VK_SUCCESS) {
-    vkDestroyInstance(inst, nullptr);
+  if (vki.vkCreateDevice(pd, &dci, nullptr, &dev) != VK_SUCCESS) {
+    vki.vkDestroyInstance(inst, nullptr);
     r.error = "vkCreateDevice failed";
     return r;
   }
+  if (!gpgpu::vendor::load_device_fns(vki, dev, vkd)) {
+    if (vkd.vkDestroyDevice) vkd.vkDestroyDevice(dev, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
+    r.error = "Vulkan device entry points unavailable";
+    return r;
+  }
   VkQueue queue = VK_NULL_HANDLE;
-  vkGetDeviceQueue(dev, qfam, 0, &queue);
+  vkd.vkGetDeviceQueue(dev, qfam, 0, &queue);
 
   const std::uint32_t T = i8::thread_count(setup.device);
   const VkDeviceSize bytes = static_cast<VkDeviceSize>(T) * sizeof(std::uint32_t);
 
   VkBufferAlloc out{};
-  if (!create_buffer(dev, mp, bytes, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
+  if (!create_buffer(vkd, dev, mp, bytes, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
                      VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, out)) {
-    destroy_buffer(dev, out);
-    vkDestroyDevice(dev, nullptr);
-    vkDestroyInstance(inst, nullptr);
+    destroy_buffer(vkd, dev, out);
+    vkd.vkDestroyDevice(dev, nullptr);
+    vki.vkDestroyInstance(inst, nullptr);
     r.error = "buffer alloc failed";
     return r;
   }
@@ -225,7 +245,7 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   smci.codeSize = spirv_len;
   smci.pCode = reinterpret_cast<const std::uint32_t*>(spirv);
   VkShaderModule shader = VK_NULL_HANDLE;
-  vkCreateShaderModule(dev, &smci, nullptr, &shader);
+  vkd.vkCreateShaderModule(dev, &smci, nullptr, &shader);
 
   VkDescriptorSetLayoutBinding bind{};
   bind.binding = 0;
@@ -236,7 +256,7 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   dslci.bindingCount = 1;
   dslci.pBindings = &bind;
   VkDescriptorSetLayout dsl = VK_NULL_HANDLE;
-  vkCreateDescriptorSetLayout(dev, &dslci, nullptr, &dsl);
+  vkd.vkCreateDescriptorSetLayout(dev, &dslci, nullptr, &dsl);
 
   VkPushConstantRange pcr{VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(PushConstants)};
   VkPipelineLayoutCreateInfo plci{VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO};
@@ -245,7 +265,7 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   plci.pushConstantRangeCount = 1;
   plci.pPushConstantRanges = &pcr;
   VkPipelineLayout pl = VK_NULL_HANDLE;
-  vkCreatePipelineLayout(dev, &plci, nullptr, &pl);
+  vkd.vkCreatePipelineLayout(dev, &plci, nullptr, &pl);
 
   VkPipelineShaderStageCreateInfo ssci{VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO};
   ssci.stage = VK_SHADER_STAGE_COMPUTE_BIT;
@@ -260,7 +280,7 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   cpci.stage = ssci;
   cpci.layout = pl;
   VkPipeline pipeline = VK_NULL_HANDLE;
-  vkCreateComputePipelines(dev, VK_NULL_HANDLE, 1, &cpci, nullptr, &pipeline);
+  vkd.vkCreateComputePipelines(dev, VK_NULL_HANDLE, 1, &cpci, nullptr, &pipeline);
 
   VkDescriptorPoolSize ps{VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1};
   VkDescriptorPoolCreateInfo dpci{VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO};
@@ -268,13 +288,13 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   dpci.poolSizeCount = 1;
   dpci.pPoolSizes = &ps;
   VkDescriptorPool dpool = VK_NULL_HANDLE;
-  vkCreateDescriptorPool(dev, &dpci, nullptr, &dpool);
+  vkd.vkCreateDescriptorPool(dev, &dpci, nullptr, &dpool);
   VkDescriptorSetAllocateInfo dsai{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO};
   dsai.descriptorPool = dpool;
   dsai.descriptorSetCount = 1;
   dsai.pSetLayouts = &dsl;
   VkDescriptorSet dset = VK_NULL_HANDLE;
-  vkAllocateDescriptorSets(dev, &dsai, &dset);
+  vkd.vkAllocateDescriptorSets(dev, &dsai, &dset);
   VkDescriptorBufferInfo dbi{out.buf, 0, VK_WHOLE_SIZE};
   VkWriteDescriptorSet wr{VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET};
   wr.dstSet = dset;
@@ -282,62 +302,62 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   wr.descriptorCount = 1;
   wr.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
   wr.pBufferInfo = &dbi;
-  vkUpdateDescriptorSets(dev, 1, &wr, 0, nullptr);
+  vkd.vkUpdateDescriptorSets(dev, 1, &wr, 0, nullptr);
 
-  VkQueryPool qpool = ts_ok ? create_timestamp_pool(dev, 2) : VK_NULL_HANDLE;
+  VkQueryPool qpool = ts_ok ? create_timestamp_pool(vkd, dev, 2) : VK_NULL_HANDLE;
 
   VkCommandPoolCreateInfo cpoolci{VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO};
   cpoolci.queueFamilyIndex = qfam;
   cpoolci.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
   VkCommandPool cpool = VK_NULL_HANDLE;
-  vkCreateCommandPool(dev, &cpoolci, nullptr, &cpool);
+  vkd.vkCreateCommandPool(dev, &cpoolci, nullptr, &cpool);
   VkCommandBufferAllocateInfo cbai{VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO};
   cbai.commandPool = cpool;
   cbai.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
   cbai.commandBufferCount = 1;
   VkCommandBuffer cb = VK_NULL_HANDLE;
-  vkAllocateCommandBuffers(dev, &cbai, &cb);
+  vkd.vkAllocateCommandBuffers(dev, &cbai, &cb);
 
   auto time_launches = [&](std::uint32_t n, std::uint32_t iters, int reps) -> double {
-    vkResetCommandBuffer(cb, 0);
+    vkd.vkResetCommandBuffer(cb, 0);
     VkCommandBufferBeginInfo bi{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     bi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-    vkBeginCommandBuffer(cb, &bi);
+    vkd.vkBeginCommandBuffer(cb, &bi);
     if (qpool) {
-      vkCmdResetQueryPool(cb, qpool, 0, 2);
-      vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, qpool, 0);
+      vkd.vkCmdResetQueryPool(cb, qpool, 0, 2);
+      vkd.vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, qpool, 0);
     }
-    vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
-    vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pl, 0, 1, &dset, 0, nullptr);
+    vkd.vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
+    vkd.vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pl, 0, 1, &dset, 0, nullptr);
     PushConstants pc{n, iters};
     const std::uint32_t groups = (n + local_x - 1) / local_x;
     VkMemoryBarrier mb{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
     mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
     mb.dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT;
     for (int i = 0; i < reps; ++i) {
-      vkCmdPushConstants(cb, pl, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(pc), &pc);
-      vkCmdDispatch(cb, groups, 1, 1);
+      vkd.vkCmdPushConstants(cb, pl, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(pc), &pc);
+      vkd.vkCmdDispatch(cb, groups, 1, 1);
       if (i + 1 < reps)
-        vkCmdPipelineBarrier(cb, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &mb,
-                             0, nullptr, 0, nullptr);
+        vkd.vkCmdPipelineBarrier(cb, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &mb,
+                                 0, nullptr, 0, nullptr);
     }
-    if (qpool) vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, qpool, 1);
-    vkEndCommandBuffer(cb);
+    if (qpool) vkd.vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, qpool, 1);
+    vkd.vkEndCommandBuffer(cb);
     VkSubmitInfo si{VK_STRUCTURE_TYPE_SUBMIT_INFO};
     si.commandBufferCount = 1;
     si.pCommandBuffers = &cb;
-    vkQueueSubmit(queue, 1, &si, VK_NULL_HANDLE);
-    vkQueueWaitIdle(queue);
+    vkd.vkQueueSubmit(queue, 1, &si, VK_NULL_HANDLE);
+    vkd.vkQueueWaitIdle(queue);
     double secs = 0.0;
-    if (qpool) read_timestamp_span(dev, qpool, ts_period_ns, secs);
+    if (qpool) read_timestamp_span(vkd, dev, qpool, ts_period_ns, secs);
     return secs;
   };
 
   auto read_back = [&](std::uint32_t count, std::vector<std::uint32_t>& host) {
     void* mapped = nullptr;
-    vkMapMemory(dev, out.mem, 0, count * sizeof(std::uint32_t), 0, &mapped);
+    vkd.vkMapMemory(dev, out.mem, 0, count * sizeof(std::uint32_t), 0, &mapped);
     std::memcpy(host.data(), mapped, count * sizeof(std::uint32_t));
-    vkUnmapMemory(dev, out.mem);
+    vkd.vkUnmapMemory(dev, out.mem);
   };
 
   std::vector<std::uint32_t> host(T);
@@ -375,16 +395,16 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
     ok = verify(kSamples, i8::kIters, stride);
   }
 
-  if (qpool) vkDestroyQueryPool(dev, qpool, nullptr);
-  vkDestroyCommandPool(dev, cpool, nullptr);
-  vkDestroyDescriptorPool(dev, dpool, nullptr);
-  vkDestroyPipeline(dev, pipeline, nullptr);
-  vkDestroyPipelineLayout(dev, pl, nullptr);
-  vkDestroyDescriptorSetLayout(dev, dsl, nullptr);
-  vkDestroyShaderModule(dev, shader, nullptr);
-  destroy_buffer(dev, out);
-  vkDestroyDevice(dev, nullptr);
-  vkDestroyInstance(inst, nullptr);
+  if (qpool) vkd.vkDestroyQueryPool(dev, qpool, nullptr);
+  vkd.vkDestroyCommandPool(dev, cpool, nullptr);
+  vkd.vkDestroyDescriptorPool(dev, dpool, nullptr);
+  vkd.vkDestroyPipeline(dev, pipeline, nullptr);
+  vkd.vkDestroyPipelineLayout(dev, pl, nullptr);
+  vkd.vkDestroyDescriptorSetLayout(dev, dsl, nullptr);
+  vkd.vkDestroyShaderModule(dev, shader, nullptr);
+  destroy_buffer(vkd, dev, out);
+  vkd.vkDestroyDevice(dev, nullptr);
+  vki.vkDestroyInstance(inst, nullptr);
 
   if (ok) {
     const std::uint32_t tiles = T / local_x;

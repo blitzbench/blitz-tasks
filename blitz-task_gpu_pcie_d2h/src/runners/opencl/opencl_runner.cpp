@@ -1,6 +1,6 @@
 /**
  * @file opencl_runner.cpp
- * @brief OpenCL device-to-host transfer runner — SDK-required variant.
+ * @brief OpenCL device-to-host transfer runner.
  *
  * A device buffer is prefilled with the pattern, then read into a pinned staging
  * buffer (CL_MEM_ALLOC_HOST_PTR, mapped once) via clEnqueueReadBuffer. Timed with
@@ -55,14 +55,21 @@ RunResult run_gpu_d2h_opencl(const gpgpu::Setup& setup) {
   r.path = "device->mapped host (ReadBuffer)";
   r.score_unit = "GB/s";
 
-  cl_device_id device = find_cl_device(setup.device);
+  const gpgpu::vendor::OpenClFns* cl_fns = gpgpu::vendor::opencl();
+  if (!cl_fns) {
+    r.error = "OpenCL loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::OpenClFns& cl = *cl_fns;
+
+  cl_device_id device = find_cl_device(cl, setup.device);
   if (!device) {
     r.error = "no OpenCL device matched " + setup.device.id();
     return r;
   }
 
   cl_int err = CL_SUCCESS;
-  cl_context ctx = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
+  cl_context ctx = cl.clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
   if (!ctx) {
     r.error = "clCreateContext err=" + std::to_string(err);
     return r;
@@ -70,9 +77,9 @@ RunResult run_gpu_d2h_opencl(const gpgpu::Setup& setup) {
 
   const cl_queue_properties qprops[] = {CL_QUEUE_PROPERTIES,
                                         static_cast<cl_queue_properties>(CL_QUEUE_PROFILING_ENABLE), 0};
-  cl_command_queue queue = clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
+  cl_command_queue queue = cl.clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
   if (!queue) {
-    clReleaseContext(ctx);
+    cl.clReleaseContext(ctx);
     r.error = "clCreateCommandQueueWithProperties err=" + std::to_string(err);
     return r;
   }
@@ -80,14 +87,14 @@ RunResult run_gpu_d2h_opencl(const gpgpu::Setup& setup) {
   const std::size_t S = transfer_bytes(setup.device);
   const std::size_t count = S / sizeof(std::uint32_t);
 
-  cl_mem dbuf = clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
-  cl_mem staging = clCreateBuffer(ctx, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, S, nullptr, &err);
+  cl_mem dbuf = cl.clCreateBuffer(ctx, CL_MEM_READ_WRITE, S, nullptr, &err);
+  cl_mem staging = cl.clCreateBuffer(ctx, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, S, nullptr, &err);
 
   auto cleanup = [&]() {
-    if (staging) clReleaseMemObject(staging);
-    if (dbuf) clReleaseMemObject(dbuf);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    if (staging) cl.clReleaseMemObject(staging);
+    if (dbuf) cl.clReleaseMemObject(dbuf);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
   };
 
   if (!dbuf || !staging) {
@@ -100,11 +107,11 @@ RunResult run_gpu_d2h_opencl(const gpgpu::Setup& setup) {
   {
     std::vector<std::uint32_t> seed(count);
     for (std::size_t i = 0; i < count; ++i) seed[i] = pattern_at(i);
-    clEnqueueWriteBuffer(queue, dbuf, CL_TRUE, 0, S, seed.data(), 0, nullptr, nullptr);
+    cl.clEnqueueWriteBuffer(queue, dbuf, CL_TRUE, 0, S, seed.data(), 0, nullptr, nullptr);
   }
 
   // Map the pinned staging buffer once; it receives every read and is verified.
-  void* mapped = clEnqueueMapBuffer(queue, staging, CL_TRUE, CL_MAP_READ, 0, S, 0, nullptr, nullptr, &err);
+  void* mapped = cl.clEnqueueMapBuffer(queue, staging, CL_TRUE, CL_MAP_READ, 0, S, 0, nullptr, nullptr, &err);
   if (!mapped) {
     r.error = "clEnqueueMapBuffer err=" + std::to_string(err);
     cleanup();
@@ -115,18 +122,18 @@ RunResult run_gpu_d2h_opencl(const gpgpu::Setup& setup) {
     cl_event first = nullptr, last = nullptr;
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      clEnqueueReadBuffer(queue, dbuf, CL_FALSE, 0, S, mapped, 0, nullptr, &ev);
+      cl.clEnqueueReadBuffer(queue, dbuf, CL_FALSE, 0, S, mapped, 0, nullptr, &ev);
       if (i == 0) first = ev;
       if (i == reps - 1)
         last = ev;
       else if (ev && ev != first)
-        clReleaseEvent(ev);
+        cl.clReleaseEvent(ev);
     }
-    clFinish(queue);
+    cl.clFinish(queue);
     double secs = 0.0;
-    if (first && last) secs = cl_event_span(first, last).count();
-    if (first) clReleaseEvent(first);
-    if (last && last != first) clReleaseEvent(last);
+    if (first && last) secs = cl_event_span(cl, first, last).count();
+    if (first) cl.clReleaseEvent(first);
+    if (last && last != first) cl.clReleaseEvent(last);
     return secs;
   };
 
@@ -146,17 +153,17 @@ RunResult run_gpu_d2h_opencl(const gpgpu::Setup& setup) {
   // region are not guaranteed coherent after a device-side DMA on every runtime.
   // Re-map it (blocking) to force a coherent host view of the received bytes;
   // fall back to a clean device read of the source if the map view is stale.
-  clEnqueueUnmapMemObject(queue, staging, mapped, 0, nullptr, nullptr);
-  clFinish(queue);
-  void* remap = clEnqueueMapBuffer(queue, staging, CL_TRUE, CL_MAP_READ, 0, S, 0, nullptr, nullptr, &err);
+  cl.clEnqueueUnmapMemObject(queue, staging, mapped, 0, nullptr, nullptr);
+  cl.clFinish(queue);
+  void* remap = cl.clEnqueueMapBuffer(queue, staging, CL_TRUE, CL_MAP_READ, 0, S, 0, nullptr, nullptr, &err);
   bool ok = remap && sample_ok(static_cast<const std::uint32_t*>(remap), count);
   if (remap) {
-    clEnqueueUnmapMemObject(queue, staging, remap, 0, nullptr, nullptr);
-    clFinish(queue);
+    cl.clEnqueueUnmapMemObject(queue, staging, remap, 0, nullptr, nullptr);
+    cl.clFinish(queue);
   }
   if (!ok) {
     std::vector<std::uint32_t> host(count);
-    clEnqueueReadBuffer(queue, dbuf, CL_TRUE, 0, S, host.data(), 0, nullptr, nullptr);
+    cl.clEnqueueReadBuffer(queue, dbuf, CL_TRUE, 0, S, host.data(), 0, nullptr, nullptr);
     ok = sample_ok(host.data(), count);
   }
   cleanup();

@@ -1,6 +1,6 @@
 /**
  * @file opencl_runner.cpp
- * @brief OpenCL int8 throughput runner — SDK-required variant.
+ * @brief OpenCL int8 throughput runner.
  *
  * Core OpenCL C has no portable int8 tensor/dot primitive, so this uses the
  * char4->int manual MAC path (path "simd(char4)"). Runtime-built kernel;
@@ -63,14 +63,21 @@ RunResult run_gpu_int8_opencl(const gpgpu::Setup& setup) {
   r.path = "simd(char4)";
   r.score_unit = "GOPS";
 
-  cl_device_id device = find_cl_device(setup.device);
+  const gpgpu::vendor::OpenClFns* cl_fns = gpgpu::vendor::opencl();
+  if (!cl_fns) {
+    r.error = "OpenCL loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::OpenClFns& cl = *cl_fns;
+
+  cl_device_id device = find_cl_device(cl, setup.device);
   if (!device) {
     r.error = "no OpenCL device matched " + setup.device.id();
     return r;
   }
 
   cl_int err = CL_SUCCESS;
-  cl_context ctx = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
+  cl_context ctx = cl.clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
   if (!ctx) {
     r.error = "clCreateContext err=" + std::to_string(err);
     return r;
@@ -78,62 +85,62 @@ RunResult run_gpu_int8_opencl(const gpgpu::Setup& setup) {
 
   const cl_queue_properties qprops[] = {CL_QUEUE_PROPERTIES,
                                         static_cast<cl_queue_properties>(CL_QUEUE_PROFILING_ENABLE), 0};
-  cl_command_queue queue = clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
+  cl_command_queue queue = cl.clCreateCommandQueueWithProperties(ctx, device, qprops, &err);
   if (!queue) {
-    clReleaseContext(ctx);
+    cl.clReleaseContext(ctx);
     r.error = "clCreateCommandQueueWithProperties err=" + std::to_string(err);
     return r;
   }
 
   std::string log;
-  cl_program program = build_program_with_log(ctx, device, kKernelSource, nullptr, log);
+  cl_program program = build_program_with_log(cl, ctx, device, kKernelSource, nullptr, log);
   if (!program) {
     r.error = "clBuildProgram failed: " + log;
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
-  cl_kernel kernel = clCreateKernel(program, "int8_packed", &err);
+  cl_kernel kernel = cl.clCreateKernel(program, "int8_packed", &err);
   if (!kernel) {
     r.error = "clCreateKernel err=" + std::to_string(err);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
     return r;
   }
 
   const std::uint32_t T = i8::thread_count(setup.device);
-  cl_mem buf = clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, T * sizeof(std::uint32_t), nullptr, &err);
+  cl_mem buf = cl.clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, T * sizeof(std::uint32_t), nullptr, &err);
 
   auto cleanup = [&]() {
-    clReleaseMemObject(buf);
-    clReleaseKernel(kernel);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(ctx);
+    cl.clReleaseMemObject(buf);
+    cl.clReleaseKernel(kernel);
+    cl.clReleaseProgram(program);
+    cl.clReleaseCommandQueue(queue);
+    cl.clReleaseContext(ctx);
   };
 
   auto time_launches = [&](cl_uint n, cl_uint iters, int reps) -> double {
-    clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
-    clSetKernelArg(kernel, 1, sizeof(cl_uint), &n);
-    clSetKernelArg(kernel, 2, sizeof(cl_uint), &iters);
+    cl.clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
+    cl.clSetKernelArg(kernel, 1, sizeof(cl_uint), &n);
+    cl.clSetKernelArg(kernel, 2, sizeof(cl_uint), &iters);
     const std::size_t local = i8::kBlock;
     const std::size_t global = ((n + local - 1) / local) * local;
     cl_event first = nullptr, last = nullptr;
     for (int i = 0; i < reps; ++i) {
       cl_event ev = nullptr;
-      clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
+      cl.clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &global, &local, 0, nullptr, &ev);
       if (i == 0) first = ev;
       if (i == reps - 1)
         last = ev;
       else if (ev && ev != first)
-        clReleaseEvent(ev);
+        cl.clReleaseEvent(ev);
     }
-    clFinish(queue);
+    cl.clFinish(queue);
     double secs = 0.0;
-    if (first && last) secs = cl_event_span(first, last).count();
-    if (first) clReleaseEvent(first);
-    if (last && last != first) clReleaseEvent(last);
+    if (first && last) secs = cl_event_span(cl, first, last).count();
+    if (first) cl.clReleaseEvent(first);
+    if (last && last != first) cl.clReleaseEvent(last);
     return secs;
   };
 
@@ -155,8 +162,8 @@ RunResult run_gpu_int8_opencl(const gpgpu::Setup& setup) {
 
   // --- pre-flight exactness ---
   time_launches(i8::kPreflightThreads, i8::kPreflightIters, 1);
-  clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, i8::kPreflightThreads * sizeof(std::uint32_t), host.data(), 0, nullptr,
-                      nullptr);
+  cl.clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, i8::kPreflightThreads * sizeof(std::uint32_t), host.data(), 0, nullptr,
+                         nullptr);
   if (!verify(i8::kPreflightThreads, i8::kPreflightIters, 1)) {
     cleanup();
     return r;
@@ -170,7 +177,7 @@ RunResult run_gpu_int8_opencl(const gpgpu::Setup& setup) {
   // --- timed run ---
   const double secs = time_launches(T, i8::kIters, reps);
 
-  clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, T * sizeof(std::uint32_t), host.data(), 0, nullptr, nullptr);
+  cl.clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, T * sizeof(std::uint32_t), host.data(), 0, nullptr, nullptr);
   cleanup();
 
   // --- post-run sampled verification ---
