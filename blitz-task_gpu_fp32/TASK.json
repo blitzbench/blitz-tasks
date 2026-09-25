@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.7, "explanation": "Shading and effects in modern games depend directly on single precision GPU throughput." },
-    "domain_office":               { "weight": 0.2, "explanation": "The desktop and basic acceleration use a small fraction of GPU compute." },
+    "domain_office":               { "weight": 0.0, "explanation": "The desktop and basic acceleration use a small fraction of GPU compute." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Most development is CPU bound, with limited GPU compute use." },
     "domain_graphics_design":       { "weight": 0.6, "explanation": "Accelerated filters and large canvas operations run as single precision GPU work." },
     "domain_video_editing":         { "weight": 0.6, "explanation": "Effects, transitions and previews are computed on the GPU in single precision." },

@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.7, "explanation": "Fill rate sets frame rate at high resolutions and with heavy transparency effects." },
-    "domain_office":               { "weight": 0.3, "explanation": "Smooth high resolution desktops and many windows depend on fill rate." },
+    "domain_office":               { "weight": 0.1, "explanation": "Smooth high resolution desktops and many windows depend on fill rate." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Multi monitor coding setups benefit modestly from fill rate." },
     "domain_graphics_design":       { "weight": 0.6, "explanation": "Large high resolution canvases with many layers are fill rate bound." },
     "domain_video_editing":         { "weight": 0.5, "explanation": "High resolution timeline previews push many pixels through the pipeline." },

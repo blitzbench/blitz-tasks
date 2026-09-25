@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.5, "explanation": "Ray traced lighting and reflections are an increasing part of modern games." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office machines do not run path tracing." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office machines do not run path tracing." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Relevant mainly to developers building rendering tools." },
     "domain_graphics_design":       { "weight": 0.4, "explanation": "Product and concept visuals are increasingly rendered with GPU path tracing." },
     "domain_video_editing":         { "weight": 0.3, "explanation": "Rendered 3D inserts for video are produced with these renderers." },

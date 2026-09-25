@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.6, "explanation": "Moving and transforming texture and buffer data combines reads and writes each frame." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office work moves little data through GPU memory." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office work moves little data through GPU memory." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
     "domain_graphics_design":       { "weight": 0.5, "explanation": "Filtering images reads layers, transforms them and writes them back in GPU memory." },
     "domain_video_editing":         { "weight": 0.6, "explanation": "Processing frames reads and writes high resolution buffers together in GPU memory." },

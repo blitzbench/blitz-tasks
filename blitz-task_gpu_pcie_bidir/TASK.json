@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.3, "explanation": "Streaming assets in while reading some results back overlaps both directions." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office work makes little use of the GPU transfer link." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office work makes little use of the GPU transfer link." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
     "domain_graphics_design":       { "weight": 0.4, "explanation": "Uploading images and reading filtered results back can overlap." },
     "domain_video_editing":         { "weight": 0.6, "explanation": "Streaming frames to the GPU while reading processed frames back overlaps both directions." },

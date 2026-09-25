@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.1, "explanation": "Game machines rarely run model training." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office work does not involve training models." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office work does not involve training models." },
     "domain_software_development":  { "weight": 0.3, "explanation": "Developers building machine learning features train models during their work." },
     "domain_graphics_design":       { "weight": 0.2, "explanation": "Custom generative models for design are sometimes trained locally." },
     "domain_video_editing":         { "weight": 0.1, "explanation": "Editing seldom involves training models." },

@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.2, "explanation": "Post processing in games uses similar image filtering on the GPU." },
-    "domain_office":               { "weight": 0.2, "explanation": "Light image edits appear in everyday document work." },
+    "domain_office":               { "weight": 0.1, "explanation": "Light image edits appear in everyday document work." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers of imaging and creative software." },
     "domain_graphics_design":       { "weight": 1.0, "explanation": "Filtering large images is the core interactive workload for photo and design work." },
     "domain_video_editing":         { "weight": 0.5, "explanation": "Per frame filters in video editing reuse the same accelerated operations." },

@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.2, "explanation": "Generated textures and assets are used in some game pipelines." },
-    "domain_office":               { "weight": 0.2, "explanation": "Generated imagery appears in presentations and documents." },
+    "domain_office":               { "weight": 0.0, "explanation": "Generated imagery appears in presentations and documents." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Developers integrate image generation into applications they build." },
     "domain_graphics_design":       { "weight": 0.7, "explanation": "Image generation is now a regular part of the design workflow." },
     "domain_video_editing":         { "weight": 0.3, "explanation": "Generated frames and elements are pulled into edited video." },

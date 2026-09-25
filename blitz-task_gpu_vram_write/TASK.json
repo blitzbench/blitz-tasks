@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.5, "explanation": "Writing render targets and frame buffers each frame uses GPU write bandwidth." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office work writes little data through GPU memory." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office work writes little data through GPU memory." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant when developing GPU accelerated software." },
     "domain_graphics_design":       { "weight": 0.5, "explanation": "Producing edited image buffers writes large data into GPU memory." },
     "domain_video_editing":         { "weight": 0.5, "explanation": "Writing processed frames into GPU memory uses write bandwidth." },

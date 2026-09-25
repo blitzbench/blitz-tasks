@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 1.0, "explanation": "This is the defining workload for gaming performance." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office machines do not run game scenes." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office machines do not run game scenes." },
     "domain_software_development":  { "weight": 0.3, "explanation": "Game and engine developers test against exactly this kind of scene." },
     "domain_graphics_design":       { "weight": 0.3, "explanation": "Real time preview of 3D assets shares the same rendering path." },
     "domain_video_editing":         { "weight": 0.2, "explanation": "Real time graphics overlays and motion previews reuse engine rendering." },

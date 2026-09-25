@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.1, "explanation": "Games make almost no use of double precision math." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office work has no double precision GPU component." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office work has no double precision GPU component." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Relevant to developers of scientific GPU software." },
     "domain_graphics_design":       { "weight": 0.1, "explanation": "Design work uses single precision rather than double precision math." },
     "domain_video_editing":         { "weight": 0.1, "explanation": "Editing does not use double precision GPU compute." },

@@ -69,7 +69,7 @@
       "explanation": "Games rarely run dense matrix multiplication outside learned effects."
     },
     "domain_office": {
-      "weight": 0.1,
+      "weight": 0.0,
       "explanation": "Office work does not use dense linear algebra on the GPU."
     },
     "domain_software_development": {

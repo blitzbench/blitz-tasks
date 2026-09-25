@@ -24,7 +24,7 @@
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.4, "explanation": "Upscaling and some effects use half precision math on the GPU." },
-    "domain_office":               { "weight": 0.1, "explanation": "Office work rarely uses reduced precision compute." },
+    "domain_office":               { "weight": 0.0, "explanation": "Office work rarely uses reduced precision compute." },
     "domain_software_development":  { "weight": 0.2, "explanation": "Mostly relevant to developers building accelerated software." },
     "domain_graphics_design":       { "weight": 0.4, "explanation": "Some accelerated filters and generative tools run in half precision." },
     "domain_video_editing":         { "weight": 0.4, "explanation": "Machine learning effects in editing tools use reduced precision paths." },

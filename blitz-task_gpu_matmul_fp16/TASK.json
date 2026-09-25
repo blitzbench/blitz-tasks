@@ -69,7 +69,7 @@
       "explanation": "Upscaling and learned effects use matrix multiplication on the tensor units."
     },
     "domain_office": {
-      "weight": 0.1,
+      "weight": 0.0,
       "explanation": "Office work rarely uses matrix units."
     },
     "domain_software_development": {
