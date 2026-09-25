@@ -7,6 +7,20 @@
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
   },
+  "libraries": [
+    {
+      "name": "CUDA Runtime (cudart_static)",
+      "homepage": "https://docs.nvidia.com/cuda/cuda-runtime-api/",
+      "source": "https://developer.nvidia.com/cuda-toolkit",
+      "version": "CUDA Toolkit 12.x",
+      "license": "LicenseRef-NVIDIA-CUDA-EULA",
+      "license_file": "third_party/licenses/cuda-runtime/EULA.txt",
+      "linkage": "static",
+      "role": "workload",
+      "usage": "cudaMemcpyAsync performs the measured concurrent host-to-device and device-to-host transfers between pinned memory (cudaHostAlloc) and the device on two non-blocking streams on NVIDIA devices; cudaDeviceSynchronize closes the host-clock window the score is taken from, and cudaEventRecord and cudaEventElapsedTime time each direction for the timing breakdown.",
+      "notes": "Linked statically through CUDA::cudart_static into the task's CUDA runner, so the task needs only the NVIDIA driver at runtime. Redistributed in binary form inside the task binary as permitted by Attachment A of the CUDA Toolkit EULA."
+    }
+  ],
   "title": "GPU transfer, both directions",
   "short_description": "Combined bandwidth uploading to and downloading from the GPU at once.",
   "structured_text": {

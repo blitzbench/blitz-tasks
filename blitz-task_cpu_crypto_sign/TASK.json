@@ -15,9 +15,10 @@
       "version": "3.5.5",
       "license": "Apache-2.0",
       "license_file": "third_party/licenses/openssl/LICENSE",
+      "linkage": "static",
       "role": "workload",
       "usage": "EVP Ed25519 performs the measured sign and verify operations over a small fixed message.",
-      "notes": "Linked against a pinned OpenSSL 3.5.5 via common/cpp/cmake/BuildOpenSSL.cmake (a prebuilt libcrypto on Windows, built static from source on Linux/macOS); OpenSSL selects hardware-accelerated implementations at runtime."
+      "notes": "Linked against a pinned OpenSSL 3.5.5 via common/cpp/cmake/BuildOpenSSL.cmake (built static from source on Linux/macOS; the default Windows lane links a prebuilt shared libcrypto DLL instead); OpenSSL selects hardware-accelerated implementations at runtime."
     }
   ],
   "title": "Digital signatures",

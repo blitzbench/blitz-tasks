@@ -7,6 +7,20 @@
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
   },
+  "libraries": [
+    {
+      "name": "CUDA Runtime (cudart_static)",
+      "homepage": "https://docs.nvidia.com/cuda/cuda-runtime-api/",
+      "source": "https://developer.nvidia.com/cuda-toolkit",
+      "version": "CUDA Toolkit 12.x",
+      "license": "LicenseRef-NVIDIA-CUDA-EULA",
+      "license_file": "third_party/licenses/cuda-runtime/EULA.txt",
+      "linkage": "static",
+      "role": "support",
+      "usage": "cudaMalloc allocates the output buffer and cudaMemcpy reads back the result, and cudaEventRecord and cudaEventElapsedTime time the task's own kernel on NVIDIA devices; the kernel is the measured workload.",
+      "notes": "Linked statically through CUDA::cudart_static into the task's CUDA runner, so the task needs only the NVIDIA driver at runtime. Redistributed in binary form inside the task binary as permitted by Attachment A of the CUDA Toolkit EULA."
+    }
+  ],
   "title": "GPU double precision compute",
   "short_description": "Double precision floating point throughput on the graphics processor.",
   "structured_text": {

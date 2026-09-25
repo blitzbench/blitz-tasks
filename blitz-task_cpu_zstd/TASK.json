@@ -16,6 +16,7 @@
       "version": "1.5.6",
       "license": "BSD-3-Clause",
       "license_file": "third_party/licenses/zstd/LICENSE",
+      "linkage": "static",
       "role": "workload",
       "usage": "Compresses the bundled corpus in fixed-size blocks with single-shot ZSTD_compressCCtx calls at the default level; the multi-threaded compression loop is the measured workload.",
       "notes": "Built as a static library from the pinned submodule; no source modifications."
@@ -27,6 +28,7 @@
       "version": "1851",
       "license": "CC0-1.0",
       "license_file": "third_party/licenses/moby-dick/LICENSE",
+      "linkage": "bundled",
       "role": "workload",
       "usage": "The bundled public-domain prose (assets/corpus.txt) that the benchmark compresses; it is the input the measured compression loop runs over.",
       "notes": "Project Gutenberg header/footer stripped and line endings normalized to LF; only the public-domain work text is redistributed."

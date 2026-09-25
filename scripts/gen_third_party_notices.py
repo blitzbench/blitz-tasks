@@ -5,16 +5,16 @@ Scans every ``blitz-task_*/TASK.json`` (``license`` + ``libraries``) and
 ``third_party/infrastructure.json``, validates the metadata, and generates:
 
 - ``THIRD_PARTY_NOTICES.md`` — attribution: every third-party library with
-  homepage/source/version(s), the tasks that use it, and its verbatim license
-  text.
+  homepage/source/version(s)/linkage, the tasks that use it, and its verbatim
+  license text.
 - ``LICENSING.md`` — the per-task license summary table.
 
 Checks (errors fail the run; warnings are printed but do not fail):
 
 - every task declares ``license`` with a plausible SPDX id and a ``file``
   that exists under ``LICENSES/``;
-- every library entry has all required fields, a valid ``role``, a plausible
-  SPDX expression, and an existing ``license_file``;
+- every library entry has all required fields, a valid ``linkage`` and
+  ``role``, a plausible SPDX expression, and an existing ``license_file``;
 - the library license is compatible with the declaring task's own license
   (e.g. a GPL library inside a source-available task is an error — the task
   itself must be GPL); unknown pairings are flagged for manual review;
@@ -53,10 +53,15 @@ LIBRARY_REQUIRED_FIELDS = (
     "version",
     "license",
     "license_file",
+    "linkage",
     "role",
     "usage",
 )
 LIBRARY_OPTIONAL_FIELDS = ("notes",)
+# How the library reaches the task: compiled/linked into the task binary,
+# resolved with dlopen/LoadLibrary at runtime (never linked), or shipped as a
+# file next to the task and read from disk at runtime.
+LIBRARY_LINKAGES = ("static", "runtime", "bundled")
 LIBRARY_ROLES = ("workload", "support")
 
 # --- License classification --------------------------------------------------
@@ -73,11 +78,12 @@ PERMISSIVE = {
     "CC0-1.0",
     "0BSD",
 }
-# Vendor runtimes redistributed unmodified under their own terms and loaded at
-# runtime rather than built into a task. They are not copyleft and impose no
-# condition on the task's own license, so the copyleft rule below does not apply
-# to them -- but each still needs its licence vendored under third_party/licenses/
-# and its redistribution terms honoured (see the library's `notes`).
+# Vendor runtimes redistributed unmodified under their own terms, whether linked
+# into a task or loaded at runtime (see the library's `linkage`). They are not
+# copyleft and impose no condition on the task's own license, so the copyleft rule
+# below does not apply to them -- but each still needs its licence vendored under
+# third_party/licenses/ and its redistribution terms honoured (see the library's
+# `notes`).
 PROPRIETARY_REDISTRIBUTABLE = {
     "LicenseRef-NVIDIA-CUDA-EULA",
 }
@@ -212,6 +218,10 @@ def validate_library(task: dict, lib: dict, report: Report) -> None:
     unknown = set(lib) - set(LIBRARY_REQUIRED_FIELDS) - set(LIBRARY_OPTIONAL_FIELDS)
     if unknown:
         report.error(f"{rel}: library {name!r}: unknown fields {sorted(unknown)}")
+    if lib.get("linkage") not in LIBRARY_LINKAGES:
+        report.error(
+            f"{rel}: library {name!r}: linkage {lib.get('linkage')!r} not in {LIBRARY_LINKAGES}"
+        )
     if lib.get("role") not in LIBRARY_ROLES:
         report.error(
             f"{rel}: library {name!r}: role {lib.get('role')!r} not in {LIBRARY_ROLES}"
@@ -345,9 +355,10 @@ def gen_notices(tasks: list[dict], infra: list[dict]) -> str:
         for lib in task.get("libraries", []):
             entry = by_name.setdefault(
                 lib["name"],
-                {"lib": lib, "versions": set(), "used_by": []},
+                {"lib": lib, "versions": set(), "linkages": set(), "used_by": []},
             )
             entry["versions"].add(lib.get("version", "?"))
+            entry["linkages"].add(lib.get("linkage", "?"))
             entry["used_by"].append((task["_dir"], lib.get("usage", "")))
 
     out.append("\n## Task libraries\n")
@@ -361,6 +372,7 @@ def gen_notices(tasks: list[dict], infra: list[dict]) -> str:
         out.append(f"\n- Source: {lib['source']}")
         out.append(f"\n- Version(s) in use: {', '.join(sorted(entry['versions']))}")
         out.append(f"\n- License: `{lib['license']}` ([text]({lib['license_file']}))")
+        out.append(f"\n- Linkage: {', '.join(f'`{l}`' for l in sorted(entry['linkages']))}")
         if lib.get("notes"):
             out.append(f"\n- Notes: {lib['notes']}")
         out.append("\n- Used by:")
@@ -400,7 +412,7 @@ def gen_licensing(tasks: list[dict]) -> str:
         spdx = lic.get("spdx", "?")
         file = lic.get("file", "")
         libs = ", ".join(
-            f"{l['name']} (`{l['license']}`)" for l in task.get("libraries", [])
+            f"{l['name']} (`{l['license']}`, `{l['linkage']}`)" for l in task.get("libraries", [])
         ) or "-"
         out.append(f"| `{task['_dir']}` | [`{spdx}`]({file}) | {libs} |\n")
     return "".join(out)

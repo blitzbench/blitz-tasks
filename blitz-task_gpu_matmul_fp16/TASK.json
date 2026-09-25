@@ -15,6 +15,7 @@
       "version": "CUDA Toolkit 12.x",
       "license": "LicenseRef-NVIDIA-CUDA-EULA",
       "license_file": "third_party/licenses/cublas/EULA.txt",
+      "linkage": "runtime",
       "role": "workload",
       "usage": "cublasLtMatmul performs the measured matrix multiply on NVIDIA devices, fp16 operands into an fp32 result.",
       "notes": "Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. Redistributed in binary form in a private application directory as permitted by Attachment A of the CUDA Toolkit EULA."
@@ -26,9 +27,22 @@
       "version": "ROCm 6.x",
       "license": "MIT",
       "license_file": "third_party/licenses/rocblas/LICENSE.md",
+      "linkage": "runtime",
       "role": "workload",
       "usage": "rocblas_gemm_ex performs the measured matrix multiply on AMD devices, fp16 operands into an fp32 result.",
       "notes": "Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. rocBLAS is distributed by AMD under the MIT license (see LICENSE.md)."
+    },
+    {
+      "name": "CUDA Runtime (cudart_static)",
+      "homepage": "https://docs.nvidia.com/cuda/cuda-runtime-api/",
+      "source": "https://developer.nvidia.com/cuda-toolkit",
+      "version": "CUDA Toolkit 12.x",
+      "license": "LicenseRef-NVIDIA-CUDA-EULA",
+      "license_file": "third_party/licenses/cuda-runtime/EULA.txt",
+      "linkage": "static",
+      "role": "support",
+      "usage": "cudaMalloc and cudaMemcpy allocate the operands and read back the verification rows, and cudaEventRecord and cudaEventSynchronize time the multiply on NVIDIA devices; the multiply itself runs in cuBLASLt or the task's tiled kernel.",
+      "notes": "Linked statically through CUDA::cudart_static into the task's CUDA runner, so the task needs only the NVIDIA driver at runtime. Redistributed in binary form inside the task binary as permitted by Attachment A of the CUDA Toolkit EULA."
     }
   ],
   "title": "GPU matrix multiplication (half precision)",

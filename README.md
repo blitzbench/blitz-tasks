@@ -112,12 +112,20 @@ every `TASK.json` carries licensing metadata:
       "version": "1.5.6",
       "license": "BSD-3-Clause",
       "license_file": "third_party/licenses/zstd/LICENSE",
+      "linkage": "static",
       "role": "workload",
       "usage": "Compresses the bundled corpus at a fixed level; the compression loop is the measured workload.",
       "notes": "Built as a static library from the pinned submodule; no source modifications."
     }
   ]
   ```
+
+  `linkage` states how the library reaches the task: `static` (compiled or
+  linked into the task binary, so it ships with it), `runtime` (never linked;
+  resolved with dlopen/LoadLibrary at runtime if present, and the task still
+  loads without it) or `bundled` (a file shipped alongside the task and read
+  from disk at runtime, e.g. a data corpus). Whether a `runtime` library is
+  also redistributed is stated in `notes`.
 
   `role` is `workload` (the library's code is what the benchmark measures) or
   `support` (auxiliary use inside the task, e.g. data loading). All fields
