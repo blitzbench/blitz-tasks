@@ -9,10 +9,10 @@
     { "id": "domain_3d_rendering",          "name": "3d rendering & animation",     "description": "Offline 3D content production - modeling, animation and ray-traced rendering workloads dominated by GPU and CPU FP throughput." },
     { "id": "domain_audio_production",      "name": "audio production & dsp",       "description": "DAW work, mixing, software instruments and real-time DSP - latency-critical, single-thread-bound and memory-latency-sensitive." },
     { "id": "domain_cad_engineering",       "name": "cad & engineering simulation", "description": "CAD modeling and engineering simulation - FP64-heavy solvers, large-mesh visualization and long-running compute jobs." },
-    { "id": "domain_scientific_computing",  "name": "scientific computing & hpc",   "description": "Numerical simulation, HPC and scientific compute - FP64 and large-bandwidth memory access dominate." },
-    { "id": "domain_ai_training",           "name": "ai / ml training",             "description": "Model training workloads - sustained matmul throughput on GPU/accelerator, large activations in VRAM, high host-bandwidth feeders." },
+    { "id": "domain_scientific_computing",  "name": "scientific computing & hpc",   "description": "Numerical simulation, HPC and scientific compute - FP64 and large-bandwidth memory access dominate.", "graphics_output": false },
+    { "id": "domain_ai_training",           "name": "ai / ml training",             "description": "Model training workloads - sustained matmul throughput on GPU/accelerator, large activations in VRAM, high host-bandwidth feeders.", "graphics_output": false },
     { "id": "domain_ai_inference",          "name": "ai inference (llm & diffusion)","description": "Local LLM and diffusion inference - memory-bandwidth-bound token generation and compute-bound denoising loops." },
-    { "id": "domain_data_science",          "name": "data science & analytics",     "description": "Tabular analytics, dataframe operations, query engines - memory-bandwidth-bound aggregation over wide datasets." },
-    { "id": "domain_server_virt",           "name": "server & virtualization",      "description": "Multi-tenant workloads, container/VM density, sustained background throughput across many concurrent processes." }
+    { "id": "domain_data_science",          "name": "data science & analytics",     "description": "Tabular analytics, dataframe operations, query engines - memory-bandwidth-bound aggregation over wide datasets.", "graphics_output": false },
+    { "id": "domain_server_virt",           "name": "server & virtualization",      "description": "Multi-tenant workloads, container/VM density, sustained background throughput across many concurrent processes.", "graphics_output": false }
   ]
 }
