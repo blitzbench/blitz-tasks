@@ -18,7 +18,7 @@
 
 #include "oneapi_runner.hpp"
 
-#include <level_zero/ze_api.h>
+#include <ze_api.h>
 
 #include "gemm_fill.spv.inl"   // gpu_matmul_fp16_shader::k_gemm_fill_spv_bytes / _len
 #include "gemm_tiled.spv.inl"  // gpu_matmul_fp16_shader::k_gemm_tiled_spv_bytes / _len
@@ -51,6 +51,7 @@ struct PushConstants {
  * @brief Context, queue, operand buffers and kernels for one (device, size) pair.
  */
 struct LevelZeroGemmContext : gemm::Context {
+    gpgpu::vendor::LevelZeroFns ze{};
     std::string device_id;
     std::uint32_t n{0};
     std::uint32_t seed{0};
@@ -70,29 +71,29 @@ struct LevelZeroGemmContext : gemm::Context {
     void* c{nullptr};
 
     ~LevelZeroGemmContext() override {
-        if (event_first) zeEventDestroy(event_first);
-        if (event_last) zeEventDestroy(event_last);
-        if (event_pool) zeEventPoolDestroy(event_pool);
-        if (fill_kernel) zeKernelDestroy(fill_kernel);
-        if (gemm_kernel) zeKernelDestroy(gemm_kernel);
-        if (fill_module) zeModuleDestroy(fill_module);
-        if (gemm_module) zeModuleDestroy(gemm_module);
-        if (list) zeCommandListDestroy(list);
-        if (queue) zeCommandQueueDestroy(queue);
+        if (event_first) ze.zeEventDestroy(event_first);
+        if (event_last) ze.zeEventDestroy(event_last);
+        if (event_pool) ze.zeEventPoolDestroy(event_pool);
+        if (fill_kernel) ze.zeKernelDestroy(fill_kernel);
+        if (gemm_kernel) ze.zeKernelDestroy(gemm_kernel);
+        if (fill_module) ze.zeModuleDestroy(fill_module);
+        if (gemm_module) ze.zeModuleDestroy(gemm_module);
+        if (list) ze.zeCommandListDestroy(list);
+        if (queue) ze.zeCommandQueueDestroy(queue);
         if (ctx) {
-            if (a) zeMemFree(ctx, a);
-            if (b) zeMemFree(ctx, b);
-            if (c) zeMemFree(ctx, c);
-            zeContextDestroy(ctx);
+            if (a) ze.zeMemFree(ctx, a);
+            if (b) ze.zeMemFree(ctx, b);
+            if (c) ze.zeMemFree(ctx, c);
+            ze.zeContextDestroy(ctx);
         }
     }
 
     // Submit the current command list and wait for it to drain.
     bool submit() {
-        if (zeCommandListClose(list) != ZE_RESULT_SUCCESS) return false;
-        if (zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr) != ZE_RESULT_SUCCESS) return false;
-        const bool ok = zeCommandQueueSynchronize(queue, UINT64_MAX) == ZE_RESULT_SUCCESS;
-        zeCommandListReset(list);
+        if (ze.zeCommandListClose(list) != ZE_RESULT_SUCCESS) return false;
+        if (ze.zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr) != ZE_RESULT_SUCCESS) return false;
+        const bool ok = ze.zeCommandQueueSynchronize(queue, UINT64_MAX) == ZE_RESULT_SUCCESS;
+        ze.zeCommandListReset(list);
         return ok;
     }
 
@@ -110,30 +111,30 @@ struct LevelZeroGemmContext : gemm::Context {
      */
     double time_gemm(int reps) {
         const PushConstants pc{n, seed};
-        zeKernelSetArgumentValue(gemm_kernel, 3, sizeof(pc), &pc);
+        ze.zeKernelSetArgumentValue(gemm_kernel, 3, sizeof(pc), &pc);
         ze_group_count_t groups{n / kTile, n / kTile, 1};
 
-        zeEventHostReset(event_first);
-        zeEventHostReset(event_last);
+        ze.zeEventHostReset(event_first);
+        ze.zeEventHostReset(event_last);
         for (int i = 0; i < reps; ++i) {
             ze_event_handle_t signal = (i == 0) ? event_first : (i + 1 == reps ? event_last : nullptr);
-            zeCommandListAppendLaunchKernel(list, gemm_kernel, &groups, signal, 0, nullptr);
-            zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
+            ze.zeCommandListAppendLaunchKernel(list, gemm_kernel, &groups, signal, 0, nullptr);
+            ze.zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
         }
         if (!submit()) return 0.0;
 
         std::uint64_t first_start = 0, first_end = 0, last_start = 0, last_end = 0;
-        l0_kernel_ticks(event_first, first_start, first_end);
-        l0_kernel_ticks(reps == 1 ? event_first : event_last, last_start, last_end);
+        l0_kernel_ticks(ze, event_first, first_start, first_end);
+        l0_kernel_ticks(ze, reps == 1 ? event_first : event_last, last_start, last_end);
         if (last_end <= first_start) return 0.0;
         return l0_timestamp_seconds(last_end - first_start, timer_res_ns);
     }
 
     void fill_operands() {
         const PushConstants pc{n, seed};
-        zeKernelSetArgumentValue(fill_kernel, 3, sizeof(pc), &pc);
+        ze.zeKernelSetArgumentValue(fill_kernel, 3, sizeof(pc), &pc);
         ze_group_count_t groups{n / kTile, n / kTile, 1};
-        zeCommandListAppendLaunchKernel(list, fill_kernel, &groups, nullptr, 0, nullptr);
+        ze.zeCommandListAppendLaunchKernel(list, fill_kernel, &groups, nullptr, 0, nullptr);
         submit();
     }
 
@@ -143,7 +144,7 @@ struct LevelZeroGemmContext : gemm::Context {
      */
     void read_verify_rows(std::vector<float>& host) {
         const std::size_t bytes = static_cast<std::size_t>(gemm::kVerifyRows) * n * sizeof(float);
-        zeCommandListAppendMemoryCopy(list, host.data(), c, bytes, nullptr, 0, nullptr);
+        ze.zeCommandListAppendMemoryCopy(list, host.data(), c, bytes, nullptr, 0, nullptr);
         submit();
     }
 };
@@ -154,15 +155,16 @@ struct LevelZeroGemmContext : gemm::Context {
  * @param ctx
  */
 void bind_buffers(ze_kernel_handle_t kernel, LevelZeroGemmContext& ctx) {
-    zeKernelSetGroupSize(kernel, kTile, kTile, 1);
-    zeKernelSetArgumentValue(kernel, 0, sizeof(void*), &ctx.a);
-    zeKernelSetArgumentValue(kernel, 1, sizeof(void*), &ctx.b);
-    zeKernelSetArgumentValue(kernel, 2, sizeof(void*), &ctx.c);
+    ctx.ze.zeKernelSetGroupSize(kernel, kTile, kTile, 1);
+    ctx.ze.zeKernelSetArgumentValue(kernel, 0, sizeof(void*), &ctx.a);
+    ctx.ze.zeKernelSetArgumentValue(kernel, 1, sizeof(void*), &ctx.b);
+    ctx.ze.zeKernelSetArgumentValue(kernel, 2, sizeof(void*), &ctx.c);
 }
 
 /**
  * @brief Build a context for @p setup at problem size @p n.
  *
+ * @param ze
  * @param setup
  * @param n
  * @param seed
@@ -170,32 +172,33 @@ void bind_buffers(ze_kernel_handle_t kernel, LevelZeroGemmContext& ctx) {
  * @param error
  * @return false with @p error populated on any failure; @p out is then unusable.
  */
-bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t seed, LevelZeroGemmContext& out,
-                   std::string& error) {
+bool build_context(const gpgpu::vendor::LevelZeroFns& ze, const gpgpu::Setup& setup, std::uint32_t n,
+                   std::uint32_t seed, LevelZeroGemmContext& out, std::string& error) {
     using namespace gpu_matmul_fp16_shader;
 
+    out.ze = ze;
     out.device_id = setup.device.id();
     out.n = n;
     out.seed = seed;
 
-    if (zeInit(0) != ZE_RESULT_SUCCESS) {
+    if (ze.zeInit(0) != ZE_RESULT_SUCCESS) {
         error = "zeInit failed";
         return false;
     }
     ze_driver_handle_t driver = nullptr;
-    if (!find_l0_device(setup.device, driver, out.device)) {
+    if (!find_l0_device(ze, setup.device, driver, out.device)) {
         error = "no Level Zero device matched " + setup.device.id();
         return false;
     }
 
     ze_device_properties_t props{};
     props.stype = ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
-    zeDeviceGetProperties(out.device, &props);
+    ze.zeDeviceGetProperties(out.device, &props);
     out.timer_res_ns = props.timerResolution;
 
     ze_context_desc_t cdesc{};
     cdesc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
-    if (zeContextCreate(driver, &cdesc, &out.ctx) != ZE_RESULT_SUCCESS) {
+    if (ze.zeContextCreate(driver, &cdesc, &out.ctx) != ZE_RESULT_SUCCESS) {
         error = "zeContextCreate failed";
         return false;
     }
@@ -203,8 +206,8 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     ze_command_queue_desc_t qdesc{};
     qdesc.stype = ZE_STRUCTURE_TYPE_COMMAND_QUEUE_DESC;
     qdesc.mode = ZE_COMMAND_QUEUE_MODE_DEFAULT;
-    if (zeCommandQueueCreate(out.ctx, out.device, &qdesc, &out.queue) != ZE_RESULT_SUCCESS ||
-        zeCommandListCreate(out.ctx, out.device, nullptr, &out.list) != ZE_RESULT_SUCCESS) {
+    if (ze.zeCommandQueueCreate(out.ctx, out.device, &qdesc, &out.queue) != ZE_RESULT_SUCCESS ||
+        ze.zeCommandListCreate(out.ctx, out.device, nullptr, &out.list) != ZE_RESULT_SUCCESS) {
         error = "Level Zero queue / command list creation failed";
         return false;
     }
@@ -213,7 +216,7 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     epdesc.stype = ZE_STRUCTURE_TYPE_EVENT_POOL_DESC;
     epdesc.flags = ZE_EVENT_POOL_FLAG_KERNEL_TIMESTAMP;
     epdesc.count = 2;
-    if (zeEventPoolCreate(out.ctx, &epdesc, 1, &out.device, &out.event_pool) != ZE_RESULT_SUCCESS) {
+    if (ze.zeEventPoolCreate(out.ctx, &epdesc, 1, &out.device, &out.event_pool) != ZE_RESULT_SUCCESS) {
         error = "Level Zero event pool creation failed";
         return false;
     }
@@ -222,7 +225,7 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
         edesc.stype = ZE_STRUCTURE_TYPE_EVENT_DESC;
         edesc.index = index;
         edesc.signal = ZE_EVENT_SCOPE_FLAG_HOST;
-        return zeEventCreate(out.event_pool, &edesc, &handle) == ZE_RESULT_SUCCESS;
+        return ze.zeEventCreate(out.event_pool, &edesc, &handle) == ZE_RESULT_SUCCESS;
     };
     if (!make_event(0, out.event_first) || !make_event(1, out.event_last)) {
         error = "Level Zero timestamp event creation failed";
@@ -232,9 +235,9 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     ze_device_mem_alloc_desc_t mdesc{};
     mdesc.stype = ZE_STRUCTURE_TYPE_DEVICE_MEM_ALLOC_DESC;
     const std::size_t elems = static_cast<std::size_t>(n) * n;
-    if (zeMemAllocDevice(out.ctx, &mdesc, elems * 2, 64, out.device, &out.a) != ZE_RESULT_SUCCESS ||
-        zeMemAllocDevice(out.ctx, &mdesc, elems * 2, 64, out.device, &out.b) != ZE_RESULT_SUCCESS ||
-        zeMemAllocDevice(out.ctx, &mdesc, elems * 4, 64, out.device, &out.c) != ZE_RESULT_SUCCESS) {
+    if (ze.zeMemAllocDevice(out.ctx, &mdesc, elems * 2, 64, out.device, &out.a) != ZE_RESULT_SUCCESS ||
+        ze.zeMemAllocDevice(out.ctx, &mdesc, elems * 2, 64, out.device, &out.b) != ZE_RESULT_SUCCESS ||
+        ze.zeMemAllocDevice(out.ctx, &mdesc, elems * 4, 64, out.device, &out.c) != ZE_RESULT_SUCCESS) {
         error = "operand allocation failed at n=" + std::to_string(n);
         return false;
     }
@@ -242,9 +245,9 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     std::string log;
     ze_result_t rc = ZE_RESULT_SUCCESS;
     out.fill_module =
-        create_module_with_log(out.ctx, out.device, k_gemm_fill_spv_bytes, k_gemm_fill_spv_bytes_len, "", log, rc);
-    out.gemm_module =
-        create_module_with_log(out.ctx, out.device, k_gemm_tiled_spv_bytes, k_gemm_tiled_spv_bytes_len, "", log, rc);
+        create_module_with_log(ze, out.ctx, out.device, k_gemm_fill_spv_bytes, k_gemm_fill_spv_bytes_len, "", log, rc);
+    out.gemm_module = create_module_with_log(ze, out.ctx, out.device, k_gemm_tiled_spv_bytes,
+                                             k_gemm_tiled_spv_bytes_len, "", log, rc);
     if (!out.fill_module || !out.gemm_module) {
         error = "zeModuleCreate failed: " + log;
         return false;
@@ -253,8 +256,8 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     ze_kernel_desc_t kdesc{};
     kdesc.stype = ZE_STRUCTURE_TYPE_KERNEL_DESC;
     kdesc.pKernelName = "main";
-    if (zeKernelCreate(out.fill_module, &kdesc, &out.fill_kernel) != ZE_RESULT_SUCCESS ||
-        zeKernelCreate(out.gemm_module, &kdesc, &out.gemm_kernel) != ZE_RESULT_SUCCESS) {
+    if (ze.zeKernelCreate(out.fill_module, &kdesc, &out.fill_kernel) != ZE_RESULT_SUCCESS ||
+        ze.zeKernelCreate(out.gemm_module, &kdesc, &out.gemm_kernel) != ZE_RESULT_SUCCESS) {
         error = "zeKernelCreate: no 'main' entry";
         return false;
     }
@@ -273,6 +276,13 @@ RunResult run_gpu_matmul_fp16_oneapi(const gpgpu::Setup& setup, gemm::ContextPtr
     r.score_unit = "GFLOPS";
     r.path = "unsupported(fp16 gemm)";
 
+    const gpgpu::vendor::LevelZeroFns* ze_fns = gpgpu::vendor::level_zero();
+    if (!ze_fns) {
+        r.error = "Level Zero loader unavailable";
+        return r;
+    }
+    const gpgpu::vendor::LevelZeroFns& ze = *ze_fns;
+
     auto* l0 = dynamic_cast<LevelZeroGemmContext*>(ctx.get());
     if (l0 && (l0->device_id != setup.device.id() || l0->seed != params.seed)) l0 = nullptr;
 
@@ -286,7 +296,7 @@ RunResult run_gpu_matmul_fp16_oneapi(const gpgpu::Setup& setup, gemm::ContextPtr
         auto build_at = [&](std::uint32_t n) -> std::unique_ptr<LevelZeroGemmContext> {
             while (n) {
                 auto fresh = std::make_unique<LevelZeroGemmContext>();
-                if (build_context(setup, n, params.seed, *fresh, error)) return fresh;
+                if (build_context(ze, setup, n, params.seed, *fresh, error)) return fresh;
                 n = gemm::step_down(n);
             }
             return nullptr;

@@ -13,7 +13,7 @@
 
 #include "oneapi_runner.hpp"
 
-#include <level_zero/ze_api.h>
+#include <ze_api.h>
 
 #include <bench/config.hpp>
 #include <bench/l0_utils.hpp>
@@ -32,29 +32,36 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
   r.path = "2 queues (ordinal 0)";
   r.score_unit = "GB/s";
 
-  if (zeInit(ZE_INIT_FLAG_GPU_ONLY) != ZE_RESULT_SUCCESS && zeInit(0) != ZE_RESULT_SUCCESS) {
+  const gpgpu::vendor::LevelZeroFns* ze_fns = gpgpu::vendor::level_zero();
+  if (!ze_fns) {
+    r.error = "Level Zero loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::LevelZeroFns& ze = *ze_fns;
+
+  if (ze.zeInit(ZE_INIT_FLAG_GPU_ONLY) != ZE_RESULT_SUCCESS && ze.zeInit(0) != ZE_RESULT_SUCCESS) {
     r.error = "zeInit failed";
     return r;
   }
 
   ze_driver_handle_t drv = nullptr;
   ze_device_handle_t dev = nullptr;
-  if (!find_l0_device(setup.device, drv, dev)) {
+  if (!find_l0_device(ze, setup.device, drv, dev)) {
     r.error = "no Level Zero device matched " + setup.device.id();
     return r;
   }
 
   ze_device_properties_t dev_props{};
   dev_props.stype = ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
-  zeDeviceGetProperties(dev, &dev_props);
+  ze.zeDeviceGetProperties(dev, &dev_props);
   const std::uint64_t timer_res_ns = dev_props.timerResolution;
 
   // --- pick queue-group ordinals ---
   std::uint32_t n_groups = 0;
-  zeDeviceGetCommandQueueGroupProperties(dev, &n_groups, nullptr);
+  ze.zeDeviceGetCommandQueueGroupProperties(dev, &n_groups, nullptr);
   std::vector<ze_command_queue_group_properties_t> groups(n_groups);
   for (auto& g : groups) g.stype = ZE_STRUCTURE_TYPE_COMMAND_QUEUE_GROUP_PROPERTIES;
-  if (n_groups) zeDeviceGetCommandQueueGroupProperties(dev, &n_groups, groups.data());
+  if (n_groups) ze.zeDeviceGetCommandQueueGroupProperties(dev, &n_groups, groups.data());
 
   std::uint32_t ordCompute = 0;  // ordinal 0 is guaranteed present
   std::uint32_t ordCopy = UINT32_MAX;
@@ -75,7 +82,7 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
   ze_context_desc_t ctx_desc{};
   ctx_desc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
   ze_context_handle_t ctx = nullptr;
-  if (zeContextCreate(drv, &ctx_desc, &ctx) != ZE_RESULT_SUCCESS) {
+  if (ze.zeContextCreate(drv, &ctx_desc, &ctx) != ZE_RESULT_SUCCESS) {
     r.error = "zeContextCreate failed";
     return r;
   }
@@ -92,17 +99,17 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
   void* h_dn = nullptr;
   void* d_up = nullptr;
   void* d_dn = nullptr;
-  zeMemAllocHost(ctx, &had, S, 16, &h_up);
-  zeMemAllocHost(ctx, &had, S, 16, &h_dn);
-  zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_up);
-  zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_dn);
+  ze.zeMemAllocHost(ctx, &had, S, 16, &h_up);
+  ze.zeMemAllocHost(ctx, &had, S, 16, &h_dn);
+  ze.zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_up);
+  ze.zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_dn);
 
   auto cleanup = [&]() {
-    if (h_up) zeMemFree(ctx, h_up);
-    if (h_dn) zeMemFree(ctx, h_dn);
-    if (d_up) zeMemFree(ctx, d_up);
-    if (d_dn) zeMemFree(ctx, d_dn);
-    zeContextDestroy(ctx);
+    if (h_up) ze.zeMemFree(ctx, h_up);
+    if (h_dn) ze.zeMemFree(ctx, h_dn);
+    if (d_up) ze.zeMemFree(ctx, d_up);
+    if (d_dn) ze.zeMemFree(ctx, d_dn);
+    ze.zeContextDestroy(ctx);
   };
   if (!h_up || !h_dn || !d_up || !d_dn) {
     r.error = "USM allocation failed";
@@ -120,7 +127,7 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
     d.mode = ZE_COMMAND_QUEUE_MODE_DEFAULT;
     d.priority = ZE_COMMAND_QUEUE_PRIORITY_NORMAL;
     ze_command_queue_handle_t q = nullptr;
-    zeCommandQueueCreate(ctx, dev, &d, &q);
+    ze.zeCommandQueueCreate(ctx, dev, &d, &q);
     return q;
   };
   auto make_list = [&](std::uint32_t ord) {
@@ -128,7 +135,7 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
     d.stype = ZE_STRUCTURE_TYPE_COMMAND_LIST_DESC;
     d.commandQueueGroupOrdinal = ord;
     ze_command_list_handle_t l = nullptr;
-    zeCommandListCreate(ctx, dev, &d, &l);
+    ze.zeCommandListCreate(ctx, dev, &d, &l);
     return l;
   };
   ze_command_queue_handle_t qUp = make_queue(ordUp), qDn = make_queue(ordDn);
@@ -140,42 +147,42 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
   epd.flags = ZE_EVENT_POOL_FLAG_KERNEL_TIMESTAMP;
   epd.count = 4;
   ze_event_pool_handle_t epool = nullptr;
-  zeEventPoolCreate(ctx, &epd, 1, &dev, &epool);
+  ze.zeEventPoolCreate(ctx, &epd, 1, &dev, &epool);
   auto make_event = [&](std::uint32_t i) {
     ze_event_desc_t ed{};
     ed.stype = ZE_STRUCTURE_TYPE_EVENT_DESC;
     ed.index = i;
     ed.signal = ZE_EVENT_SCOPE_FLAG_HOST;
     ze_event_handle_t e = nullptr;
-    zeEventCreate(epool, &ed, &e);
+    ze.zeEventCreate(epool, &ed, &e);
     return e;
   };
   ze_event_handle_t upF = make_event(0), upL = make_event(1);
   ze_event_handle_t dnF = make_event(2), dnL = make_event(3);
 
   // Seed the device download source with the pattern (pre-window).
-  zeCommandListAppendMemoryCopy(lUp, d_dn, h_up, S, nullptr, 0, nullptr);
-  zeCommandListClose(lUp);
-  zeCommandQueueExecuteCommandLists(qUp, 1, &lUp, nullptr);
-  zeCommandQueueSynchronize(qUp, UINT64_MAX);
+  ze.zeCommandListAppendMemoryCopy(lUp, d_dn, h_up, S, nullptr, 0, nullptr);
+  ze.zeCommandListClose(lUp);
+  ze.zeCommandQueueExecuteCommandLists(qUp, 1, &lUp, nullptr);
+  ze.zeCommandQueueSynchronize(qUp, UINT64_MAX);
 
   auto record = [&](ze_command_list_handle_t l, const void* src, void* dst, int reps, ze_event_handle_t evF,
                     ze_event_handle_t evL) {
-    zeCommandListReset(l);
-    zeEventHostReset(evF);
-    zeEventHostReset(evL);
+    ze.zeCommandListReset(l);
+    ze.zeEventHostReset(evF);
+    ze.zeEventHostReset(evL);
     for (int i = 0; i < reps; ++i) {
       ze_event_handle_t sig = (i == 0) ? evF : (i == reps - 1 ? evL : nullptr);
-      zeCommandListAppendMemoryCopy(l, dst, src, S, sig, 0, nullptr);
-      zeCommandListAppendBarrier(l, nullptr, 0, nullptr);
+      ze.zeCommandListAppendMemoryCopy(l, dst, src, S, sig, 0, nullptr);
+      ze.zeCommandListAppendBarrier(l, nullptr, 0, nullptr);
     }
-    zeCommandListClose(l);
+    ze.zeCommandListClose(l);
   };
 
   auto dir_secs = [&](ze_event_handle_t evF, ze_event_handle_t evL, int reps) -> double {
     std::uint64_t s0 = 0, e0 = 0, s1 = 0, e1 = 0;
-    l0_kernel_ticks(evF, s0, e0);
-    l0_kernel_ticks(reps == 1 ? evF : evL, s1, e1);
+    l0_kernel_ticks(ze, evF, s0, e0);
+    l0_kernel_ticks(ze, reps == 1 ? evF : evL, s1, e1);
     return (e1 > s0) ? l0_timestamp_seconds(e1 - s0, timer_res_ns) : 0.0;
   };
 
@@ -183,10 +190,10 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
     record(lUp, h_up, d_up, reps, upF, upL);  // host -> device
     record(lDn, d_dn, h_dn, reps, dnF, dnL);  // device -> host
     const auto t0 = std::chrono::steady_clock::now();
-    zeCommandQueueExecuteCommandLists(qUp, 1, &lUp, nullptr);
-    zeCommandQueueExecuteCommandLists(qDn, 1, &lDn, nullptr);
-    zeCommandQueueSynchronize(qUp, UINT64_MAX);
-    zeCommandQueueSynchronize(qDn, UINT64_MAX);
+    ze.zeCommandQueueExecuteCommandLists(qUp, 1, &lUp, nullptr);
+    ze.zeCommandQueueExecuteCommandLists(qDn, 1, &lDn, nullptr);
+    ze.zeCommandQueueSynchronize(qUp, UINT64_MAX);
+    ze.zeCommandQueueSynchronize(qDn, UINT64_MAX);
     const auto t1 = std::chrono::steady_clock::now();
     h2d_secs = dir_secs(upF, upL, reps);
     d2h_secs = dir_secs(dnF, dnL, reps);
@@ -205,25 +212,25 @@ RunResult run_gpu_bidir_oneapi(const gpgpu::Setup& setup) {
   const bool dn_ok = bidir::verify_sample(static_cast<std::uint32_t*>(h_dn), N);
   std::vector<std::uint32_t> back(N);
   {
-    zeCommandListReset(lUp);
-    zeCommandListAppendMemoryCopy(lUp, back.data(), d_up, S, nullptr, 0, nullptr);
-    zeCommandListClose(lUp);
-    zeCommandQueueExecuteCommandLists(qUp, 1, &lUp, nullptr);
-    zeCommandQueueSynchronize(qUp, UINT64_MAX);
+    ze.zeCommandListReset(lUp);
+    ze.zeCommandListAppendMemoryCopy(lUp, back.data(), d_up, S, nullptr, 0, nullptr);
+    ze.zeCommandListClose(lUp);
+    ze.zeCommandQueueExecuteCommandLists(qUp, 1, &lUp, nullptr);
+    ze.zeCommandQueueSynchronize(qUp, UINT64_MAX);
   }
   const bool up_ok = bidir::verify_sample(back.data(), N);
   const bool ok = up_ok && dn_ok;
   if (!ok) r.error = up_ok ? "download verification failed" : "upload verification failed";
 
-  zeEventDestroy(upF);
-  zeEventDestroy(upL);
-  zeEventDestroy(dnF);
-  zeEventDestroy(dnL);
-  zeEventPoolDestroy(epool);
-  zeCommandListDestroy(lUp);
-  zeCommandListDestroy(lDn);
-  zeCommandQueueDestroy(qUp);
-  zeCommandQueueDestroy(qDn);
+  ze.zeEventDestroy(upF);
+  ze.zeEventDestroy(upL);
+  ze.zeEventDestroy(dnF);
+  ze.zeEventDestroy(dnL);
+  ze.zeEventPoolDestroy(epool);
+  ze.zeCommandListDestroy(lUp);
+  ze.zeCommandListDestroy(lDn);
+  ze.zeCommandQueueDestroy(qUp);
+  ze.zeCommandQueueDestroy(qDn);
   cleanup();
 
   const std::uint64_t work = 2ull * static_cast<std::uint64_t>(reps) * S;

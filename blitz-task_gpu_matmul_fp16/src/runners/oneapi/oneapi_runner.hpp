@@ -8,8 +8,10 @@
 namespace bench {
 
 /**
- * @brief oneAPI (Level Zero) runner for gpu_matmul_fp16. Built only when the Level Zero
- *        loader and a GLSL compiler were detected at configure time; the lib target sets
+ * @brief oneAPI (Level Zero) runner for gpu_matmul_fp16. Compiled only with
+ *        BLITZ_GPU_ONEAPI_GLSL_SPIRV=ON (its GLSL-compiled SPIR-V makes Intel's Level Zero
+ *        compiler terminate the process) and when a GLSL compiler built the shaders; the
+ *        Level Zero runtime is bound at run time through gpgpu::vendor. The lib target sets
  *        GPU_MATMUL_FP16_HAVE_ONEAPI which gates inclusion from the task's dispatch().
  *
  * @param setup

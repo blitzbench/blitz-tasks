@@ -1,27 +1,6 @@
-set(_have FALSE)
-
-find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
-    pkg_check_modules(LEVEL_ZERO QUIET IMPORTED_TARGET libze_loader)
-    if(LEVEL_ZERO_FOUND)
-        set(_have TRUE)
-        set(_link PkgConfig::LEVEL_ZERO)
-    endif()
-endif()
-
-if(NOT _have)
-    find_path(LEVEL_ZERO_INCLUDE_DIR ze_api.h PATH_SUFFIXES level_zero)
-    find_library(LEVEL_ZERO_LIBRARY NAMES ze_loader)
-    if(LEVEL_ZERO_INCLUDE_DIR AND LEVEL_ZERO_LIBRARY)
-        set(_have TRUE)
-        add_library(_gpu_fp64_level_zero_imp INTERFACE)
-        target_include_directories(_gpu_fp64_level_zero_imp INTERFACE ${LEVEL_ZERO_INCLUDE_DIR})
-        target_link_libraries(_gpu_fp64_level_zero_imp INTERFACE ${LEVEL_ZERO_LIBRARY})
-        set(_link _gpu_fp64_level_zero_imp)
-    endif()
-endif()
-
-if(NOT _have)
+include(${CMAKE_CURRENT_LIST_DIR}/../../../../common/cpp/cmake/BlitzGpuRunners.cmake)
+if(NOT BLITZ_GPU_ONEAPI_GLSL_SPIRV)
+    message(STATUS "    ONEAPI: skipped (GLSL-compiled SPIR-V; BLITZ_GPU_ONEAPI_GLSL_SPIRV is OFF)")
     set(GPU_FP64_HAVE_ONEAPI FALSE PARENT_SCOPE)
     return()
 endif()
@@ -31,9 +10,12 @@ if(NOT GPU_FP64_HAVE_SHADER)
     return()
 endif()
 
+# Headers come from gpu_runtime's vendored Level Zero headers and every entry point is
+# resolved at run time (gpgpu/vendor.hpp); only the shader build needs a tool from the
+# Vulkan SDK.
 add_library(gpu_fp64_oneapi STATIC oneapi_runner.cpp)
 add_dependencies(gpu_fp64_oneapi gpu_fp64_shaders)
-target_link_libraries(gpu_fp64_oneapi PUBLIC bench_common ${_link})
+target_link_libraries(gpu_fp64_oneapi PUBLIC bench_common)
 target_include_directories(gpu_fp64_oneapi PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GPU_FP64_SHADER_INCDIR}

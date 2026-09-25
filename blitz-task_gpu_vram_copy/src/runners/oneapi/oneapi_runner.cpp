@@ -9,7 +9,7 @@
 
 #include "oneapi_runner.hpp"
 
-#include <level_zero/ze_api.h>
+#include <ze_api.h>
 
 #include <algorithm>
 #include <bench/config.hpp>
@@ -30,21 +30,28 @@ RunResult run_gpu_vram_copy_oneapi(const gpgpu::Setup& setup) {
   r.path = "device copy (zeMemoryCopy D2D)";
   r.score_unit = "GB/s";
 
-  if (zeInit(ZE_INIT_FLAG_GPU_ONLY) != ZE_RESULT_SUCCESS && zeInit(0) != ZE_RESULT_SUCCESS) {
+  const gpgpu::vendor::LevelZeroFns* ze_fns = gpgpu::vendor::level_zero();
+  if (!ze_fns) {
+    r.error = "Level Zero loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::LevelZeroFns& ze = *ze_fns;
+
+  if (ze.zeInit(ZE_INIT_FLAG_GPU_ONLY) != ZE_RESULT_SUCCESS && ze.zeInit(0) != ZE_RESULT_SUCCESS) {
     r.error = "zeInit failed";
     return r;
   }
 
   ze_driver_handle_t drv = nullptr;
   ze_device_handle_t dev = nullptr;
-  if (!find_l0_device(setup.device, drv, dev)) {
+  if (!find_l0_device(ze, setup.device, drv, dev)) {
     r.error = "no Level Zero device matched " + setup.device.id();
     return r;
   }
 
   ze_device_properties_t dev_props{};
   dev_props.stype = ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
-  zeDeviceGetProperties(dev, &dev_props);
+  ze.zeDeviceGetProperties(dev, &dev_props);
   const std::uint64_t timer_res_ns = dev_props.timerResolution;
   const std::uint32_t valid_bits = dev_props.timestampValidBits;
   const std::uint64_t ts_mask = (valid_bits >= 64) ? ~0ull : ((1ull << valid_bits) - 1);
@@ -52,7 +59,7 @@ RunResult run_gpu_vram_copy_oneapi(const gpgpu::Setup& setup) {
   ze_context_desc_t ctx_desc{};
   ctx_desc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
   ze_context_handle_t ctx = nullptr;
-  if (zeContextCreate(drv, &ctx_desc, &ctx) != ZE_RESULT_SUCCESS) {
+  if (ze.zeContextCreate(drv, &ctx_desc, &ctx) != ZE_RESULT_SUCCESS) {
     r.error = "zeContextCreate failed";
     return r;
   }
@@ -69,10 +76,10 @@ RunResult run_gpu_vram_copy_oneapi(const gpgpu::Setup& setup) {
   void* d_dst = nullptr;
   void* h_stage = nullptr;
   void* h_ts = nullptr;
-  zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_src);
-  zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_dst);
-  zeMemAllocHost(ctx, &had, S, 16, &h_stage);
-  zeMemAllocHost(ctx, &had, 2 * sizeof(std::uint64_t), 8, &h_ts);
+  ze.zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_src);
+  ze.zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_dst);
+  ze.zeMemAllocHost(ctx, &had, S, 16, &h_stage);
+  ze.zeMemAllocHost(ctx, &had, 2 * sizeof(std::uint64_t), 8, &h_ts);
 
   ze_command_queue_desc_t cqd{};
   cqd.stype = ZE_STRUCTURE_TYPE_COMMAND_QUEUE_DESC;
@@ -80,22 +87,22 @@ RunResult run_gpu_vram_copy_oneapi(const gpgpu::Setup& setup) {
   cqd.mode = ZE_COMMAND_QUEUE_MODE_DEFAULT;
   cqd.priority = ZE_COMMAND_QUEUE_PRIORITY_NORMAL;
   ze_command_queue_handle_t queue = nullptr;
-  zeCommandQueueCreate(ctx, dev, &cqd, &queue);
+  ze.zeCommandQueueCreate(ctx, dev, &cqd, &queue);
 
   ze_command_list_desc_t cld{};
   cld.stype = ZE_STRUCTURE_TYPE_COMMAND_LIST_DESC;
   cld.commandQueueGroupOrdinal = 0;
   ze_command_list_handle_t list = nullptr;
-  zeCommandListCreate(ctx, dev, &cld, &list);
+  ze.zeCommandListCreate(ctx, dev, &cld, &list);
 
   auto cleanup = [&]() {
-    if (list) zeCommandListDestroy(list);
-    if (queue) zeCommandQueueDestroy(queue);
-    if (d_src) zeMemFree(ctx, d_src);
-    if (d_dst) zeMemFree(ctx, d_dst);
-    if (h_stage) zeMemFree(ctx, h_stage);
-    if (h_ts) zeMemFree(ctx, h_ts);
-    zeContextDestroy(ctx);
+    if (list) ze.zeCommandListDestroy(list);
+    if (queue) ze.zeCommandQueueDestroy(queue);
+    if (d_src) ze.zeMemFree(ctx, d_src);
+    if (d_dst) ze.zeMemFree(ctx, d_dst);
+    if (h_stage) ze.zeMemFree(ctx, h_stage);
+    if (h_ts) ze.zeMemFree(ctx, h_ts);
+    ze.zeContextDestroy(ctx);
   };
 
   if (!d_src || !d_dst || !h_stage || !h_ts || !queue || !list) {
@@ -108,27 +115,27 @@ RunResult run_gpu_vram_copy_oneapi(const gpgpu::Setup& setup) {
   {
     auto* p = static_cast<std::uint32_t*>(h_stage);
     for (std::uint32_t i = 0; i < N; ++i) p[i] = vram::pattern(i);
-    zeCommandListReset(list);
-    zeCommandListAppendMemoryCopy(list, d_src, h_stage, S, nullptr, 0, nullptr);
-    zeCommandListClose(list);
-    zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
-    zeCommandQueueSynchronize(queue, UINT64_MAX);
+    ze.zeCommandListReset(list);
+    ze.zeCommandListAppendMemoryCopy(list, d_src, h_stage, S, nullptr, 0, nullptr);
+    ze.zeCommandListClose(list);
+    ze.zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
+    ze.zeCommandQueueSynchronize(queue, UINT64_MAX);
   }
 
   auto* ts = static_cast<std::uint64_t*>(h_ts);
 
   auto time_copies = [&](int reps) -> double {
-    zeCommandListReset(list);
-    zeCommandListAppendWriteGlobalTimestamp(list, &ts[0], nullptr, 0, nullptr);
-    zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
+    ze.zeCommandListReset(list);
+    ze.zeCommandListAppendWriteGlobalTimestamp(list, &ts[0], nullptr, 0, nullptr);
+    ze.zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
     for (int i = 0; i < reps; ++i) {
-      zeCommandListAppendMemoryCopy(list, d_dst, d_src, S, nullptr, 0, nullptr);
-      zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
+      ze.zeCommandListAppendMemoryCopy(list, d_dst, d_src, S, nullptr, 0, nullptr);
+      ze.zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
     }
-    zeCommandListAppendWriteGlobalTimestamp(list, &ts[1], nullptr, 0, nullptr);
-    zeCommandListClose(list);
-    zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
-    zeCommandQueueSynchronize(queue, UINT64_MAX);
+    ze.zeCommandListAppendWriteGlobalTimestamp(list, &ts[1], nullptr, 0, nullptr);
+    ze.zeCommandListClose(list);
+    ze.zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
+    ze.zeCommandQueueSynchronize(queue, UINT64_MAX);
     const std::uint64_t delta = (ts[1] - ts[0]) & ts_mask;
     return l0_timestamp_seconds(delta, timer_res_ns);
   };
@@ -146,13 +153,13 @@ RunResult run_gpu_vram_copy_oneapi(const gpgpu::Setup& setup) {
   std::string verr;
   const std::uint32_t w = std::min<std::uint32_t>(vram::kWindowU32, N);
   auto check_window = [&](std::uint32_t start) {
-    zeCommandListReset(list);
-    zeCommandListAppendMemoryCopy(list, h_stage,
-                                  static_cast<std::uint8_t*>(d_dst) + static_cast<std::size_t>(start) * 4,
-                                  static_cast<std::size_t>(w) * 4, nullptr, 0, nullptr);
-    zeCommandListClose(list);
-    zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
-    zeCommandQueueSynchronize(queue, UINT64_MAX);
+    ze.zeCommandListReset(list);
+    ze.zeCommandListAppendMemoryCopy(list, h_stage,
+                                     static_cast<std::uint8_t*>(d_dst) + static_cast<std::size_t>(start) * 4,
+                                     static_cast<std::size_t>(w) * 4, nullptr, 0, nullptr);
+    ze.zeCommandListClose(list);
+    ze.zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
+    ze.zeCommandQueueSynchronize(queue, UINT64_MAX);
     const auto* p = static_cast<const std::uint32_t*>(h_stage);
     for (std::uint32_t i = 0; i < w && ok; ++i) {
       const std::uint32_t idx = start + i;

@@ -1,16 +1,8 @@
-find_package(PkgConfig QUIET)
-if(PkgConfig_FOUND)
-    pkg_check_modules(LEVEL_ZERO QUIET libze_loader)
-endif()
-if(NOT LEVEL_ZERO_FOUND)
-    find_library(LEVEL_ZERO_LIB NAMES ze_loader)
-    find_path(LEVEL_ZERO_INC NAMES level_zero/ze_api.h)
-    if(NOT LEVEL_ZERO_LIB OR NOT LEVEL_ZERO_INC)
-        set(GPU_MATMUL_FP32_HAVE_ONEAPI FALSE PARENT_SCOPE)
-        return()
-    endif()
-    set(LEVEL_ZERO_LIBRARIES ${LEVEL_ZERO_LIB})
-    set(LEVEL_ZERO_INCLUDE_DIRS ${LEVEL_ZERO_INC})
+include(${CMAKE_CURRENT_LIST_DIR}/../../../../common/cpp/cmake/BlitzGpuRunners.cmake)
+if(NOT BLITZ_GPU_ONEAPI_GLSL_SPIRV)
+    message(STATUS "    ONEAPI: skipped (GLSL-compiled SPIR-V; BLITZ_GPU_ONEAPI_GLSL_SPIRV is OFF)")
+    set(GPU_MATMUL_FP32_HAVE_ONEAPI FALSE PARENT_SCOPE)
+    return()
 endif()
 if(NOT GPU_MATMUL_FP32_HAVE_SHADER)
     message(STATUS "    ONEAPI: skipped (shader build unavailable)")
@@ -18,13 +10,15 @@ if(NOT GPU_MATMUL_FP32_HAVE_SHADER)
     return()
 endif()
 
+# Headers come from gpu_runtime's vendored Level Zero headers and every entry point is
+# resolved at run time (gpgpu/vendor.hpp); only the shader build needs a tool from the
+# Vulkan SDK.
 add_library(gpu_matmul_fp32_oneapi STATIC oneapi_runner.cpp)
 add_dependencies(gpu_matmul_fp32_oneapi gpu_matmul_fp32_shaders)
-target_link_libraries(gpu_matmul_fp32_oneapi PUBLIC bench_common ${LEVEL_ZERO_LIBRARIES})
+target_link_libraries(gpu_matmul_fp32_oneapi PUBLIC bench_common)
 target_include_directories(gpu_matmul_fp32_oneapi PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${GPU_MATMUL_FP32_SHADER_INCDIR}
-    ${LEVEL_ZERO_INCLUDE_DIRS}
 )
 target_compile_features(gpu_matmul_fp32_oneapi PUBLIC cxx_std_20)
 set_target_properties(gpu_matmul_fp32_oneapi PROPERTIES

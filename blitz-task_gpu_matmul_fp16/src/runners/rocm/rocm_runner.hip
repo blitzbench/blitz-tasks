@@ -63,7 +63,8 @@ struct RocblasApi {
 const RocblasApi& rocblas_api() {
     static RocblasApi api = [] {
         RocblasApi a;
-        if (!a.lib.open(blas_candidates({"librocblas.so.4", "librocblas.so.3", "librocblas.so", "rocblas.dll"})))
+        if (!a.lib.open(blas_candidates({"librocblas.so.5", "librocblas.so.4", "librocblas.so.3", "librocblas.so",
+                                         "rocblas.dll"})))
             return a;
         a.create      = a.lib.resolve<decltype(&rocblas_create_handle)>("rocblas_create_handle");
         a.destroy     = a.lib.resolve<decltype(&rocblas_destroy_handle)>("rocblas_destroy_handle");

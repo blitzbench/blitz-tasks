@@ -1,3 +1,9 @@
+include(${CMAKE_CURRENT_LIST_DIR}/../../../../common/cpp/cmake/BlitzGpuRunners.cmake)
+if (NOT BLITZ_GPU_ROCM)
+    set(GPU_FP16_HAVE_ROCM FALSE PARENT_SCOPE)
+    return()
+endif ()
+
 find_package(hip CONFIG QUIET)
 if (NOT hip_FOUND)
     set(GPU_FP16_HAVE_ROCM FALSE PARENT_SCOPE)

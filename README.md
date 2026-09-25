@@ -56,6 +56,19 @@ compiler). A few link a third-party workload library and need more:
   or supply your own prebuilt via `-DBLITZ_OPENSSL_LIB` / `-DBLITZ_OPENSSL_INCLUDE`
   (plus `-DBLITZ_OPENSSL_SSL_LIB` for `OpenSSL::SSL`).
 
+- **`gpu_*`** build a ROCm runner when the HIP SDK (`find_package(hip)` plus a HIP
+  compiler) is found. It links `libamdhip64`, whose kernel registration runs before
+  `main`, so a binary carrying it does not start without ROCm; pass
+  `-DBLITZ_GPU_ROCM=OFF` to leave the ROCm runners out (AMD GPUs are then measured
+  through OpenCL / Vulkan). The kernels are compiled for the AMD targets listed in
+  `common/cpp/cmake/BlitzGpuRunners.cmake` (CDNA2, RDNA2, RDNA3) unless
+  `-DCMAKE_HIP_ARCHITECTURES=...` is given. The CUDA, OpenCL, Vulkan and Level Zero
+  runtimes are bound at run time and never needed for a binary to start.
+  The oneAPI runners of the shader-based `gpu_*` tasks are not built by default: their
+  kernels are SPIR-V compiled from GLSL, which Intel's Level Zero compiler rejects by
+  terminating the process. `-DBLITZ_GPU_ONEAPI_GLSL_SPIRV=ON` builds them anyway; the
+  oneAPI runners of `gpu_pcie_*` and `gpu_vram_copy` load no kernels and are always built.
+
 ## Layout
 
 ```

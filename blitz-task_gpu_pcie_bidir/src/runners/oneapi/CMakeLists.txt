@@ -1,32 +1,7 @@
-set(_have FALSE)
-
-find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
-    pkg_check_modules(LEVEL_ZERO QUIET IMPORTED_TARGET libze_loader)
-    if(LEVEL_ZERO_FOUND)
-        set(_have TRUE)
-        set(_link PkgConfig::LEVEL_ZERO)
-    endif()
-endif()
-
-if(NOT _have)
-    find_path(LEVEL_ZERO_INCLUDE_DIR ze_api.h PATH_SUFFIXES level_zero)
-    find_library(LEVEL_ZERO_LIBRARY NAMES ze_loader)
-    if(LEVEL_ZERO_INCLUDE_DIR AND LEVEL_ZERO_LIBRARY)
-        set(_have TRUE)
-        add_library(_gpu_bidir_level_zero_imp INTERFACE)
-        target_include_directories(_gpu_bidir_level_zero_imp INTERFACE ${LEVEL_ZERO_INCLUDE_DIR})
-        target_link_libraries(_gpu_bidir_level_zero_imp INTERFACE ${LEVEL_ZERO_LIBRARY})
-        set(_link _gpu_bidir_level_zero_imp)
-    endif()
-endif()
-
-if(NOT _have)
-    set(GPU_BIDIR_HAVE_ONEAPI FALSE PARENT_SCOPE)
-    return()
-endif()
+# Headers come from gpu_runtime's vendored Level Zero headers and every entry point is
+# resolved at run time (gpgpu/vendor.hpp), so no Level Zero SDK is needed to build.
 add_library(gpu_bidir_oneapi STATIC oneapi_runner.cpp)
-target_link_libraries(gpu_bidir_oneapi PUBLIC bench_common ${_link})
+target_link_libraries(gpu_bidir_oneapi PUBLIC bench_common)
 target_include_directories(gpu_bidir_oneapi PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )

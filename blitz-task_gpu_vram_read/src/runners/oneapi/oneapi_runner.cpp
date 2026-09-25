@@ -9,7 +9,7 @@
 
 #include "oneapi_runner.hpp"
 
-#include <level_zero/ze_api.h>
+#include <ze_api.h>
 
 #include <bench/config.hpp>
 #include <bench/l0_utils.hpp>
@@ -40,27 +40,34 @@ RunResult run_gpu_vram_read_oneapi(const gpgpu::Setup& setup) {
   r.path = "simd(uvec4 loads)";
   r.score_unit = "GB/s";
 
-  if (zeInit(ZE_INIT_FLAG_GPU_ONLY) != ZE_RESULT_SUCCESS && zeInit(0) != ZE_RESULT_SUCCESS) {
+  const gpgpu::vendor::LevelZeroFns* ze_fns = gpgpu::vendor::level_zero();
+  if (!ze_fns) {
+    r.error = "Level Zero loader unavailable";
+    return r;
+  }
+  const gpgpu::vendor::LevelZeroFns& ze = *ze_fns;
+
+  if (ze.zeInit(ZE_INIT_FLAG_GPU_ONLY) != ZE_RESULT_SUCCESS && ze.zeInit(0) != ZE_RESULT_SUCCESS) {
     r.error = "zeInit failed";
     return r;
   }
 
   ze_driver_handle_t drv = nullptr;
   ze_device_handle_t dev = nullptr;
-  if (!find_l0_device(setup.device, drv, dev)) {
+  if (!find_l0_device(ze, setup.device, drv, dev)) {
     r.error = "no Level Zero device matched " + setup.device.id();
     return r;
   }
 
   ze_device_properties_t dev_props{};
   dev_props.stype = ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
-  zeDeviceGetProperties(dev, &dev_props);
+  ze.zeDeviceGetProperties(dev, &dev_props);
   const std::uint64_t timer_res_ns = dev_props.timerResolution;
 
   ze_context_desc_t ctx_desc{};
   ctx_desc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
   ze_context_handle_t ctx = nullptr;
-  if (zeContextCreate(drv, &ctx_desc, &ctx) != ZE_RESULT_SUCCESS) {
+  if (ze.zeContextCreate(drv, &ctx_desc, &ctx) != ZE_RESULT_SUCCESS) {
     r.error = "zeContextCreate failed";
     return r;
   }
@@ -68,10 +75,10 @@ RunResult run_gpu_vram_read_oneapi(const gpgpu::Setup& setup) {
   std::string log;
   ze_result_t rc = ZE_RESULT_SUCCESS;
   ze_module_handle_t module =
-      create_module_with_log(ctx, dev, k_vram_read_spv_bytes, k_vram_read_spv_bytes_len, "", log, rc);
+      create_module_with_log(ze, ctx, dev, k_vram_read_spv_bytes, k_vram_read_spv_bytes_len, "", log, rc);
   if (!module) {
     r.error = "zeModuleCreate failed: " + log;
-    zeContextDestroy(ctx);
+    ze.zeContextDestroy(ctx);
     return r;
   }
 
@@ -79,13 +86,13 @@ RunResult run_gpu_vram_read_oneapi(const gpgpu::Setup& setup) {
   kdesc.stype = ZE_STRUCTURE_TYPE_KERNEL_DESC;
   kdesc.pKernelName = "main";
   ze_kernel_handle_t kernel = nullptr;
-  if (zeKernelCreate(module, &kdesc, &kernel) != ZE_RESULT_SUCCESS) {
+  if (ze.zeKernelCreate(module, &kdesc, &kernel) != ZE_RESULT_SUCCESS) {
     r.error = "zeKernelCreate: no 'main' entry";
-    zeModuleDestroy(module);
-    zeContextDestroy(ctx);
+    ze.zeModuleDestroy(module);
+    ze.zeContextDestroy(ctx);
     return r;
   }
-  zeKernelSetGroupSize(kernel, vram::kBlock, 1, 1);
+  ze.zeKernelSetGroupSize(kernel, vram::kBlock, 1, 1);
 
   const std::size_t S = vram::buffer_bytes(setup.device);
   const std::uint32_t N = static_cast<std::uint32_t>(S / 4);
@@ -102,9 +109,9 @@ RunResult run_gpu_vram_read_oneapi(const gpgpu::Setup& setup) {
   void* d_in = nullptr;
   void* d_out = nullptr;
   void* h_stage = nullptr;
-  zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_in);
-  zeMemAllocDevice(ctx, &mad, out_bytes, 16, dev, &d_out);
-  zeMemAllocHost(ctx, &had, S, 16, &h_stage);
+  ze.zeMemAllocDevice(ctx, &mad, S, 16, dev, &d_in);
+  ze.zeMemAllocDevice(ctx, &mad, out_bytes, 16, dev, &d_out);
+  ze.zeMemAllocHost(ctx, &had, S, 16, &h_stage);
 
   ze_command_queue_desc_t cqd{};
   cqd.stype = ZE_STRUCTURE_TYPE_COMMAND_QUEUE_DESC;
@@ -112,44 +119,44 @@ RunResult run_gpu_vram_read_oneapi(const gpgpu::Setup& setup) {
   cqd.mode = ZE_COMMAND_QUEUE_MODE_DEFAULT;
   cqd.priority = ZE_COMMAND_QUEUE_PRIORITY_NORMAL;
   ze_command_queue_handle_t queue = nullptr;
-  zeCommandQueueCreate(ctx, dev, &cqd, &queue);
+  ze.zeCommandQueueCreate(ctx, dev, &cqd, &queue);
 
   ze_command_list_desc_t cld{};
   cld.stype = ZE_STRUCTURE_TYPE_COMMAND_LIST_DESC;
   cld.commandQueueGroupOrdinal = 0;
   ze_command_list_handle_t list = nullptr;
-  zeCommandListCreate(ctx, dev, &cld, &list);
+  ze.zeCommandListCreate(ctx, dev, &cld, &list);
 
   ze_event_pool_desc_t epd{};
   epd.stype = ZE_STRUCTURE_TYPE_EVENT_POOL_DESC;
   epd.flags = ZE_EVENT_POOL_FLAG_KERNEL_TIMESTAMP;
   epd.count = 2;
   ze_event_pool_handle_t epool = nullptr;
-  zeEventPoolCreate(ctx, &epd, 1, &dev, &epool);
+  ze.zeEventPoolCreate(ctx, &epd, 1, &dev, &epool);
   auto make_event = [&](std::uint32_t i) {
     ze_event_desc_t ed{};
     ed.stype = ZE_STRUCTURE_TYPE_EVENT_DESC;
     ed.index = i;
     ed.signal = ZE_EVENT_SCOPE_FLAG_HOST;
     ze_event_handle_t e = nullptr;
-    zeEventCreate(epool, &ed, &e);
+    ze.zeEventCreate(epool, &ed, &e);
     return e;
   };
   ze_event_handle_t ev_first = make_event(0);
   ze_event_handle_t ev_last = make_event(1);
 
   auto cleanup = [&]() {
-    zeEventDestroy(ev_first);
-    zeEventDestroy(ev_last);
-    zeEventPoolDestroy(epool);
-    if (d_in) zeMemFree(ctx, d_in);
-    if (d_out) zeMemFree(ctx, d_out);
-    if (h_stage) zeMemFree(ctx, h_stage);
-    zeKernelDestroy(kernel);
-    zeModuleDestroy(module);
-    zeCommandListDestroy(list);
-    zeCommandQueueDestroy(queue);
-    zeContextDestroy(ctx);
+    ze.zeEventDestroy(ev_first);
+    ze.zeEventDestroy(ev_last);
+    ze.zeEventPoolDestroy(epool);
+    if (d_in) ze.zeMemFree(ctx, d_in);
+    if (d_out) ze.zeMemFree(ctx, d_out);
+    if (h_stage) ze.zeMemFree(ctx, h_stage);
+    ze.zeKernelDestroy(kernel);
+    ze.zeModuleDestroy(module);
+    ze.zeCommandListDestroy(list);
+    ze.zeCommandQueueDestroy(queue);
+    ze.zeContextDestroy(ctx);
   };
 
   if (!d_in || !d_out || !h_stage) {
@@ -158,41 +165,41 @@ RunResult run_gpu_vram_read_oneapi(const gpgpu::Setup& setup) {
     return r;
   }
 
-  zeKernelSetArgumentValue(kernel, 0, sizeof(void*), &d_in);
-  zeKernelSetArgumentValue(kernel, 1, sizeof(void*), &d_out);
+  ze.zeKernelSetArgumentValue(kernel, 0, sizeof(void*), &d_in);
+  ze.zeKernelSetArgumentValue(kernel, 1, sizeof(void*), &d_out);
 
   // --- prefill input buffer (untimed) ---
   {
     auto* p = static_cast<std::uint32_t*>(h_stage);
     for (std::uint32_t i = 0; i < N; ++i) p[i] = vram::pattern(i);
-    zeCommandListReset(list);
-    zeCommandListAppendMemoryCopy(list, d_in, h_stage, S, nullptr, 0, nullptr);
-    zeCommandListClose(list);
-    zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
-    zeCommandQueueSynchronize(queue, UINT64_MAX);
+    ze.zeCommandListReset(list);
+    ze.zeCommandListAppendMemoryCopy(list, d_in, h_stage, S, nullptr, 0, nullptr);
+    ze.zeCommandListClose(list);
+    ze.zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
+    ze.zeCommandQueueSynchronize(queue, UINT64_MAX);
   }
 
   auto time_reads = [&](int reps) -> double {
-    zeCommandListReset(list);
-    zeEventHostReset(ev_first);
-    zeEventHostReset(ev_last);
+    ze.zeCommandListReset(list);
+    ze.zeEventHostReset(ev_first);
+    ze.zeEventHostReset(ev_last);
     PushConstants pc{n_vec4};
-    zeKernelSetArgumentValue(kernel, 2, sizeof(pc), &pc);
+    ze.zeKernelSetArgumentValue(kernel, 2, sizeof(pc), &pc);
     ze_group_count_t gc{};
     gc.groupCountX = groups;
     gc.groupCountY = 1;
     gc.groupCountZ = 1;
     for (int i = 0; i < reps; ++i) {
       ze_event_handle_t sig = (i == 0) ? ev_first : (i == reps - 1 ? ev_last : nullptr);
-      zeCommandListAppendLaunchKernel(list, kernel, &gc, sig, 0, nullptr);
-      zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
+      ze.zeCommandListAppendLaunchKernel(list, kernel, &gc, sig, 0, nullptr);
+      ze.zeCommandListAppendBarrier(list, nullptr, 0, nullptr);
     }
-    zeCommandListClose(list);
-    zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
-    zeCommandQueueSynchronize(queue, UINT64_MAX);
+    ze.zeCommandListClose(list);
+    ze.zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
+    ze.zeCommandQueueSynchronize(queue, UINT64_MAX);
     std::uint64_t s0 = 0, e0 = 0, s1 = 0, e1 = 0;
-    l0_kernel_ticks(ev_first, s0, e0);
-    l0_kernel_ticks(reps == 1 ? ev_first : ev_last, s1, e1);
+    l0_kernel_ticks(ze, ev_first, s0, e0);
+    l0_kernel_ticks(ze, reps == 1 ? ev_first : ev_last, s1, e1);
     return (e1 > s0) ? l0_timestamp_seconds(e1 - s0, timer_res_ns) : 0.0;
   };
 
@@ -209,11 +216,11 @@ RunResult run_gpu_vram_read_oneapi(const gpgpu::Setup& setup) {
   std::string verr;
   {
     std::vector<std::uint32_t> out(T_launch);
-    zeCommandListReset(list);
-    zeCommandListAppendMemoryCopy(list, out.data(), d_out, out_bytes, nullptr, 0, nullptr);
-    zeCommandListClose(list);
-    zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
-    zeCommandQueueSynchronize(queue, UINT64_MAX);
+    ze.zeCommandListReset(list);
+    ze.zeCommandListAppendMemoryCopy(list, out.data(), d_out, out_bytes, nullptr, 0, nullptr);
+    ze.zeCommandListClose(list);
+    ze.zeCommandQueueExecuteCommandLists(queue, 1, &list, nullptr);
+    ze.zeCommandQueueSynchronize(queue, UINT64_MAX);
     std::uint32_t sum = 0u;
     for (std::uint32_t i = 0; i < T_launch; ++i) sum += out[i];
     const std::uint32_t expected = vram::expected_sum(S);
