@@ -1,13 +1,17 @@
-# Provides OpenSSL::Crypto for the crypto tasks, pinned to a fixed OpenSSL version.
+# Provides OpenSSL::Crypto for the crypto tasks, pinned to a fixed OpenSSL version, and
+# OpenSSL::SSL from the same build so TLS consumers (e.g. libcurl in a superproject) reuse
+# the pinned OpenSSL instead of linking a second one.
 # Default lane is platform-aware:
-#   Windows -> download a pinned prebuilt (FireDaemon, shared libcrypto DLL)
+#   Windows -> download a pinned prebuilt (FireDaemon, shared libcrypto/libssl DLLs)
 #   else    -> build the pinned source, static
 # Override with -DBLITZ_OPENSSL_LANE=download|source|system, or supply your own
-# prebuilt via -DBLITZ_OPENSSL_LIB / -DBLITZ_OPENSSL_INCLUDE. The source lane needs a
-# full Perl (Strawberry on Windows) plus nasm on Windows.
+# prebuilt via -DBLITZ_OPENSSL_LIB / -DBLITZ_OPENSSL_INCLUDE (plus -DBLITZ_OPENSSL_SSL_LIB
+# for OpenSSL::SSL; without it that lane provides only OpenSSL::Crypto). The source lane
+# needs a full Perl (Strawberry on Windows) plus nasm on Windows.
 
 include_guard(GLOBAL)
 
+# A caller that already provides OpenSSL::Crypto owns OpenSSL, OpenSSL::SSL included.
 if(TARGET OpenSSL::Crypto)
     return()
 endif()
@@ -19,6 +23,7 @@ set(BLITZ_OPENSSL_PREBUILT_SHA256 "3739c845f86906eed4b8e1c321a240a756e2eb5140537
     CACHE STRING "SHA256 of the FireDaemon OpenSSL prebuilt zip (download lane)")
 set(BLITZ_OPENSSL_LIB "" CACHE FILEPATH "Prebuilt libcrypto to link (prebuilt lane)")
 set(BLITZ_OPENSSL_INCLUDE "" CACHE PATH "Include dir with openssl/*.h (prebuilt lane)")
+set(BLITZ_OPENSSL_SSL_LIB "" CACHE FILEPATH "Prebuilt libssl to link (prebuilt lane, optional)")
 
 if(WIN32)
     set(_ossl_lane_default "download")
@@ -56,6 +61,12 @@ if(BLITZ_OPENSSL_LANE STREQUAL "prebuilt")
         IMPORTED_LOCATION "${BLITZ_OPENSSL_LIB}"
         INTERFACE_INCLUDE_DIRECTORIES "${BLITZ_OPENSSL_INCLUDE}")
     _blitz_openssl_syslibs(OpenSSL::Crypto)
+    if(BLITZ_OPENSSL_SSL_LIB)
+        add_library(OpenSSL::SSL STATIC IMPORTED GLOBAL)
+        set_target_properties(OpenSSL::SSL PROPERTIES
+            IMPORTED_LOCATION "${BLITZ_OPENSSL_SSL_LIB}"
+            INTERFACE_LINK_LIBRARIES OpenSSL::Crypto)
+    endif()
     return()
 endif()
 
@@ -85,13 +96,20 @@ if(BLITZ_OPENSSL_LANE STREQUAL "download")
         file(ARCHIVE_EXTRACT INPUT "${_ossl_dir}.zip" DESTINATION "${_ossl_dir}")
     endif()
     set(_ossl_dll "${_ossl_root}/bin/libcrypto-3-${_ossl_arch}.dll")
+    set(_ossl_ssl_dll "${_ossl_root}/bin/libssl-3-${_ossl_arch}.dll")
     add_library(OpenSSL::Crypto SHARED IMPORTED GLOBAL)
     set_target_properties(OpenSSL::Crypto PROPERTIES
         IMPORTED_IMPLIB "${_ossl_root}/lib/libcrypto.lib"
         IMPORTED_LOCATION "${_ossl_dll}"
         INTERFACE_INCLUDE_DIRECTORIES "${_ossl_root}/include")
+    add_library(OpenSSL::SSL SHARED IMPORTED GLOBAL)
+    set_target_properties(OpenSSL::SSL PROPERTIES
+        IMPORTED_IMPLIB "${_ossl_root}/lib/libssl.lib"
+        IMPORTED_LOCATION "${_ossl_ssl_dll}"
+        INTERFACE_LINK_LIBRARIES OpenSSL::Crypto)
     # Consumers link a DLL: expose it so sample apps can copy it next to the exe.
     set(BLITZ_OPENSSL_RUNTIME_DLL "${_ossl_dll}")
+    set(BLITZ_OPENSSL_SSL_RUNTIME_DLL "${_ossl_ssl_dll}")
     return()
 endif()
 
@@ -122,11 +140,13 @@ set(_ossl_common no-shared no-tests no-apps no-docs --prefix=<INSTALL_DIR> --lib
 
 if(WIN32 AND MSVC)
     set(_ossl_lib "${_ossl_install}/lib/libcrypto.lib")
+    set(_ossl_ssl_lib "${_ossl_install}/lib/libssl.lib")
     set(_ossl_configure "${_ossl_perl}" <SOURCE_DIR>/Configure VC-WIN64A ${_ossl_common})
     set(_ossl_build nmake)
     set(_ossl_install_cmd nmake install_sw)
 else()
     set(_ossl_lib "${_ossl_install}/lib/libcrypto.a")
+    set(_ossl_ssl_lib "${_ossl_install}/lib/libssl.a")
     set(_ossl_configure "${_ossl_perl}" <SOURCE_DIR>/Configure ${_ossl_common})
     set(_ossl_build make -j)
     set(_ossl_install_cmd make install_sw)
@@ -140,7 +160,7 @@ ExternalProject_Add(openssl_ep
     CONFIGURE_COMMAND ${_ossl_configure}
     BUILD_COMMAND ${_ossl_build}
     INSTALL_COMMAND ${_ossl_install_cmd}
-    BUILD_BYPRODUCTS "${_ossl_lib}"
+    BUILD_BYPRODUCTS "${_ossl_lib}" "${_ossl_ssl_lib}"
     BUILD_IN_SOURCE 1
     LOG_DOWNLOAD 1
     LOG_CONFIGURE 1
@@ -156,3 +176,9 @@ target_include_directories(openssl_built INTERFACE "${_ossl_install}/include")
 target_link_libraries(openssl_built INTERFACE "${_ossl_lib}")
 _blitz_openssl_syslibs(openssl_built)
 add_library(OpenSSL::Crypto ALIAS openssl_built)
+
+# libssl depends on libcrypto, so it links first and pulls OpenSSL::Crypto after it.
+add_library(openssl_ssl_built INTERFACE)
+add_dependencies(openssl_ssl_built openssl_ep)
+target_link_libraries(openssl_ssl_built INTERFACE "${_ossl_ssl_lib}" OpenSSL::Crypto)
+add_library(OpenSSL::SSL ALIAS openssl_ssl_built)
