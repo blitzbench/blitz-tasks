@@ -177,8 +177,8 @@ target_link_libraries(openssl_built INTERFACE "${_ossl_lib}")
 _blitz_openssl_syslibs(openssl_built)
 add_library(OpenSSL::Crypto ALIAS openssl_built)
 
-# libssl depends on libcrypto, so it links first and pulls OpenSSL::Crypto after it.
-add_library(openssl_ssl_built INTERFACE)
-add_dependencies(openssl_ssl_built openssl_ep)
-target_link_libraries(openssl_ssl_built INTERFACE "${_ossl_ssl_lib}" OpenSSL::Crypto)
-add_library(OpenSSL::SSL ALIAS openssl_ssl_built)
+add_library(OpenSSL::SSL STATIC IMPORTED GLOBAL)
+add_dependencies(OpenSSL::SSL openssl_ep)
+set_target_properties(OpenSSL::SSL PROPERTIES
+    IMPORTED_LOCATION "${_ossl_ssl_lib}"
+    INTERFACE_LINK_LIBRARIES OpenSSL::Crypto)

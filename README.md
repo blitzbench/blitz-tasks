@@ -53,7 +53,8 @@ compiler). A few link a third-party workload library and need more:
   ship alongside the binaries); **Linux/macOS** build the pinned source and static-link it
   (needs a full Perl + nasm on Windows if you switch to the source lane there — Strawberry
   Perl, not Git's MSYS perl). Override with `-DBLITZ_OPENSSL_LANE=source|download|system`,
-  or supply your own prebuilt via `-DBLITZ_OPENSSL_LIB` / `-DBLITZ_OPENSSL_INCLUDE`.
+  or supply your own prebuilt via `-DBLITZ_OPENSSL_LIB` / `-DBLITZ_OPENSSL_INCLUDE`
+  (plus `-DBLITZ_OPENSSL_SSL_LIB` for `OpenSSL::SSL`).
 
 ## Layout
 
