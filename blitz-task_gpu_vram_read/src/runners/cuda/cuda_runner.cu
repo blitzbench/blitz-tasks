@@ -13,7 +13,7 @@
 #include "../../kernel_params.hpp"
 
 #include <bench/config.hpp>
-#include <bench/cuda_match.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstddef>
@@ -44,7 +44,7 @@ RunResult run_gpu_vram_read_cuda(const gpgpu::Setup& setup) {
     r.path       = "simd(uint4 loads)";
     r.score_unit = "GB/s";
 
-    const int dev = find_cuda_device(setup.device);
+    const int dev = gpgpu::vendor::find_cuda_device(setup.device).value_or(-1);
     if (dev < 0) { r.error = "no CUDA device matched " + setup.device.id(); return r; }
     if (cudaSetDevice(dev) != cudaSuccess) { r.error = "cudaSetDevice failed"; return r; }
 

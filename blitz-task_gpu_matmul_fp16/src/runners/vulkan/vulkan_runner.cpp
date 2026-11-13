@@ -294,7 +294,7 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
     return false;
   }
 
-  VkPhysicalDevice pd = find_vk_device(vki, out.inst, setup.device);
+  VkPhysicalDevice pd = gpgpu::vendor::find_vulkan_device(vki, out.inst, setup.device);
   if (!pd) {
     error = "no Vulkan device matched " + setup.device.id();
     return false;

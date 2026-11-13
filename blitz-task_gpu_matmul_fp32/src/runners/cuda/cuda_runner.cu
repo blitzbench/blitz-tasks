@@ -33,8 +33,9 @@
 
 #include <bench/blas_loader.hpp>
 #include <bench/config.hpp>
-#include <bench/cuda_match.hpp>
+#include <bench/cuda_utils.hpp>
 #include <bench/gemm/params.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -254,7 +255,7 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     out.n = n;
     out.seed = seed;
 
-    out.device = find_cuda_device(setup.device);
+    out.device = gpgpu::vendor::find_cuda_device(setup.device).value_or(-1);
     if (out.device < 0) { error = "no CUDA device matched " + setup.device.id(); return false; }
     if (cudaSetDevice(out.device) != cudaSuccess) { error = "cudaSetDevice failed"; return false; }
 

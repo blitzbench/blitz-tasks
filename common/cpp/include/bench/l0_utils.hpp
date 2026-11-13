@@ -2,7 +2,7 @@
 
 /**
  * @file l0_utils.hpp
- * @brief Level Zero device matching + module / timestamp utilities. Included ONLY from
+ * @brief Level Zero module / timestamp utilities. Included ONLY from
  *        an oneAPI/L0 runner TU. Every call goes through the run-time-bound entry-point
  *        table (`gpgpu::vendor::level_zero()`), so a runner never carries a link-time
  *        dependency on the Level Zero loader.
@@ -22,50 +22,6 @@
 namespace bench {
 
 using LevelZeroFns = gpgpu::vendor::LevelZeroFns;
-
-inline std::string l0_format_uuid(const std::uint8_t u[ZE_MAX_DEVICE_UUID_SIZE]) {
-    char buf[40];
-    std::snprintf(buf, sizeof(buf),
-                  "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-                  u[0], u[1], u[2], u[3], u[4], u[5], u[6], u[7],
-                  u[8], u[9], u[10], u[11], u[12], u[13], u[14], u[15]);
-    return buf;
-}
-
-// Match a gpgpu::Device to an (driver, device) handle pair by the
-// "ze-%04x:%04x-<uuid>" id the gpgpu L0 backend emits. Caller must have already
-// called zeInit(). Returns false if no device matches.
-inline bool find_l0_device(const LevelZeroFns&  ze,
-                           const gpgpu::Device& target,
-                           ze_driver_handle_t&  out_driver,
-                           ze_device_handle_t&  out_device) {
-    std::uint32_t n_drv = 0;
-    ze.zeDriverGet(&n_drv, nullptr);
-    if (n_drv == 0) return false;
-    std::vector<ze_driver_handle_t> drivers(n_drv);
-    ze.zeDriverGet(&n_drv, drivers.data());
-    for (auto drv : drivers) {
-        std::uint32_t n_dev = 0;
-        ze.zeDeviceGet(drv, &n_dev, nullptr);
-        if (n_dev == 0) continue;
-        std::vector<ze_device_handle_t> devs(n_dev);
-        ze.zeDeviceGet(drv, &n_dev, devs.data());
-        for (auto d : devs) {
-            ze_device_properties_t p{};
-            p.stype = ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
-            if (ze.zeDeviceGetProperties(d, &p) != ZE_RESULT_SUCCESS) continue;
-            char id[80];
-            std::snprintf(id, sizeof(id), "ze-%04x:%04x-%s", p.vendorId, p.deviceId,
-                          l0_format_uuid(p.uuid.id).c_str());
-            if (target.id() == id) {
-                out_driver = drv;
-                out_device = d;
-                return true;
-            }
-        }
-    }
-    return false;
-}
 
 // Build a SPIR-V module. On failure returns nullptr and fills `log_out`;
 // `rc_out` receives the zeModuleCreate result. `build_flags` may be "".

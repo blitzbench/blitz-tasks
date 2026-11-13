@@ -29,7 +29,8 @@
 #include <bench/blas_loader.hpp>
 #include <bench/config.hpp>
 #include <bench/gemm/params.hpp>
-#include <bench/hip_match.hpp>
+#include <bench/hip_utils.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -223,7 +224,7 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     out.n = n;
     out.seed = seed;
 
-    out.device = find_hip_device(setup.device);
+    out.device = gpgpu::vendor::find_hip_device(setup.device).value_or(-1);
     if (out.device < 0) { error = "no HIP device matched " + setup.device.id(); return false; }
     if (hipSetDevice(out.device) != hipSuccess) { error = "hipSetDevice failed"; return false; }
 

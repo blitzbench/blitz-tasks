@@ -10,7 +10,7 @@
 #include <cuda_runtime.h>
 
 #include <bench/config.hpp>
-#include <bench/cuda_match.hpp>
+#include <gpgpu/vendor.hpp>
 #include <chrono>
 #include <cstdint>
 #include <cstdio>
@@ -84,7 +84,7 @@ RunResult run_gpu_fp32_cuda(const gpgpu::Setup& setup) {
   r.path = "simd(fp32 fma)";
   r.score_unit = "GFLOPS";
 
-  const int dev = find_cuda_device(setup.device);
+  const int dev = gpgpu::vendor::find_cuda_device(setup.device).value_or(-1);
   if (dev < 0) {
     r.error = "no CUDA device matched " + setup.device.id();
     return r;

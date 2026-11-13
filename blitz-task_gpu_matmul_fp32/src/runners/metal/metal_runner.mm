@@ -23,7 +23,7 @@
 
 #include <bench/config.hpp>
 #include <bench/gemm/params.hpp>
-#include <bench/metal_match.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -153,7 +153,7 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     out.n = n;
     out.seed = seed;
 
-    out.device = find_metal_device(setup.device);
+    out.device = gpgpu::vendor::find_metal_device(setup.device);
     if (!out.device) { error = "no Metal device matched " + setup.device.id(); return false; }
     out.queue = [out.device newCommandQueue];
     if (!out.queue) { error = "newCommandQueue failed"; return false; }
