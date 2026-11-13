@@ -27,8 +27,8 @@ third-party attributions.
 | `blitz-task_demo_c` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_demo_cpp` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_demo_rust` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
-| `blitz-task_disk_asset_load` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
-| `blitz-task_disk_db_oltp` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_disk_asset_load` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | zstd (`BSD-3-Clause`, `static`) |
+| `blitz-task_disk_db_oltp` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | SQLite (`blessing`, `static`) |
 | `blitz-task_disk_rand_read` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_disk_seek` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_disk_seq_read` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |

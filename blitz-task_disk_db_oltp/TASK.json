@@ -5,8 +5,23 @@
   "benchmark_type": "real_world",
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
-    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt",
+    "notes": "Task source stays source-available; SQLite is in the public domain, so linking it imposes no conditions."
   },
+  "libraries": [
+    {
+      "name": "SQLite",
+      "homepage": "https://sqlite.org",
+      "source": "https://github.com/sqlite/sqlite",
+      "version": "3.54.1",
+      "license": "blessing",
+      "license_file": "third_party/licenses/sqlite/LICENSE.md",
+      "linkage": "static",
+      "role": "workload",
+      "usage": "Runs the durable read, update and insert transactions against a WAL-mode database file in the target directory; the commit loop is the measured workload.",
+      "notes": "The amalgamation is generated at build time from the pinned submodule with SQLite's own build and compiled as a static library; no source modifications."
+    }
+  ],
   "title": "Database transactions",
   "short_description": "Mixed read and write transactions against a local database file.",
   "structured_text": {

@@ -69,6 +69,38 @@ compiler). A few link a third-party workload library and need more:
   terminating the process. `-DBLITZ_GPU_ONEAPI_GLSL_SPIRV=ON` builds them anyway; the
   oneAPI runners of `gpu_pcie_*` and `gpu_vram_copy` load no kernels and are always built.
 
+- **`disk_db_oltp`** links SQLite (public domain) from the `external/sqlite` submodule, a
+  mirror of the official SQLite sources. The single-file amalgamation is generated once per
+  build tree with SQLite's own build (`configure && make sqlite3.c`, or
+  `nmake /f Makefile.msc sqlite3.c` on Windows), which needs `make`/`nmake` and a C
+  compiler but no TCL installation.
+
+- **`disk_asset_load`** links zstd like `cpu_zstd`.
+
+## Disk tasks
+
+Disk tasks measure the storage device behind a directory, so the caller selects one before
+running them. Each `disk_*` task class has
+
+```cpp
+blitz::Result setTarget(const std::filesystem::path& dir);
+```
+
+which creates the task's test data in `dir` (an existing, writable directory on the device
+to measure) and must succeed before `run()`. It is not part of the C ABI: a host constructs
+the concrete class, as it does for the GPU tasks' `setSetup`. The test data is deleted when
+the task is destroyed.
+
+- I/O bypasses the OS page cache (`O_DIRECT` / `F_NOCACHE` / `FILE_FLAG_NO_BUFFERING`), and
+  writes are flushed to the device (`fdatasync` / `F_FULLFSYNC` / `FlushFileBuffers`).
+  `disk_db_oltp` goes through SQLite, which uses the page cache for reads but commits every
+  transaction durably.
+- A filesystem that refuses uncached I/O, and any memory-backed filesystem (tmpfs, ramfs),
+  is rejected with `BLITZ_ERR_UNSUPPORTED`.
+- Free space needed in the target: about 1 GiB for `disk_seq_read`, `disk_seq_write`,
+  `disk_rand_read` and `disk_seek`, about 700 MiB for `disk_asset_load` and 256 MiB for
+  `disk_db_oltp`.
+
 ## Layout
 
 ```

@@ -77,6 +77,8 @@ PERMISSIVE = {
     "Unlicense",
     "CC0-1.0",
     "0BSD",
+    # SQLite's public-domain dedication.
+    "blessing",
 }
 # Vendor runtimes redistributed unmodified under their own terms, whether linked
 # into a task or loaded at runtime (see the library's `linkage`). They are not

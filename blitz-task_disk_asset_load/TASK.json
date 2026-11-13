@@ -5,8 +5,23 @@
   "benchmark_type": "real_world",
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
-    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt",
+    "notes": "Task source stays source-available; Zstandard is BSD-3-Clause (permissive), so linking it imposes no copyleft."
   },
+  "libraries": [
+    {
+      "name": "zstd",
+      "homepage": "https://github.com/facebook/zstd",
+      "source": "https://github.com/facebook/zstd",
+      "version": "1.5.6",
+      "license": "BSD-3-Clause",
+      "license_file": "third_party/licenses/zstd/LICENSE",
+      "linkage": "static",
+      "role": "workload",
+      "usage": "Compresses the generated asset package once during setup; every measured load decompresses each asset with ZSTD_decompressDCtx, which together with the uncached reads is the measured workload.",
+      "notes": "Built as a static library from the pinned submodule; no source modifications."
+    }
+  ],
   "title": "Game asset loading",
   "short_description": "Streaming and unpacking a bundled game asset package from storage.",
   "structured_text": {
