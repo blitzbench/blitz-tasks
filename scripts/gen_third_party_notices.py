@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Validate per-task license metadata and generate license reports.
+"""Validate per-task metadata and generate license reports.
 
-Scans every ``blitz-task_*/TASK.json`` (``license`` + ``libraries``) and
-``third_party/infrastructure.json``, validates the metadata, and generates:
+Scans every ``blitz-task_*/TASK.json`` (``license``, ``libraries`` and
+``gpu_requires``) and ``third_party/infrastructure.json``, validates the
+metadata, and generates:
 
 - ``THIRD_PARTY_NOTICES.md`` — attribution: every third-party library with
   homepage/source/version(s)/linkage, the tasks that use it, and its verbatim
@@ -21,7 +22,9 @@ Checks (errors fail the run; warnings are printed but do not fail):
 - the same library ``name`` used by multiple tasks agrees on ``source``,
   ``license`` and ``license_file`` (versions may differ);
 - no orphans: every ``third_party/licenses/*`` dir and every ``LICENSES/*``
-  file is referenced from somewhere.
+  file is referenced from somewhere;
+- every GPU task (``"component": "gpu"``) declares ``gpu_requires``, an array of
+  distinct capability tokens from ``GPU_CAPABILITIES``; no other task carries it.
 
 Usage:
     scripts/gen_third_party_notices.py            # validate + (re)generate
@@ -63,6 +66,10 @@ LIBRARY_OPTIONAL_FIELDS = ("notes",)
 # file next to the task and read from disk at runtime.
 LIBRARY_LINKAGES = ("static", "runtime", "bundled")
 LIBRARY_ROLES = ("workload", "support")
+# Device capabilities a GPU task cannot run without. The tokens name gpu_runtime's
+# Device capability flags (supports_fp16/fp64/int8/tensor_cores), so a host can skip a
+# device that lacks one before running the task.
+GPU_CAPABILITIES = ("fp16", "fp64", "int8", "tensor_cores")
 
 # --- License classification --------------------------------------------------
 
@@ -272,6 +279,27 @@ def validate_library(task: dict, lib: dict, report: Report) -> None:
             )
 
 
+def validate_gpu_requires(task: dict, report: Report) -> None:
+    rel = task["_path"]
+    if task.get("component") != "gpu":
+        if "gpu_requires" in task:
+            report.error(f"{rel}: 'gpu_requires' is only allowed on GPU tasks")
+        return
+    if "gpu_requires" not in task:
+        report.error(f"{rel}: GPU task is missing required 'gpu_requires' array")
+        return
+    requires = task["gpu_requires"]
+    if not isinstance(requires, list):
+        report.error(f"{rel}: 'gpu_requires' must be an array")
+        return
+    for token in requires:
+        if token not in GPU_CAPABILITIES:
+            report.error(f"{rel}: gpu_requires token {token!r} not in {GPU_CAPABILITIES}")
+    duplicates = sorted({t for t in requires if isinstance(t, str) and requires.count(t) > 1})
+    if duplicates:
+        report.error(f"{rel}: gpu_requires lists {duplicates} more than once")
+
+
 def validate_cross_task(tasks: list[dict], report: Report) -> None:
     seen: dict[str, tuple] = {}
     for task in tasks:
@@ -434,6 +462,7 @@ def main() -> int:
     tasks = load_tasks(report)
     for task in tasks:
         validate_task_license(task, report)
+        validate_gpu_requires(task, report)
         libs = task.get("libraries", [])
         if not isinstance(libs, list):
             report.error(f"{task['_path']}: 'libraries' must be an array")

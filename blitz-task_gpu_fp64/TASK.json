@@ -3,6 +3,7 @@
   "name": "gpu_fp64",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "gpu_requires": ["fp64"],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
