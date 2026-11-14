@@ -179,7 +179,7 @@ bool build_context(const gpgpu::vendor::OpenClFns& cl, const gpgpu::Setup& setup
   out.n = n;
   out.seed = seed;
 
-  cl_device_id dev = find_cl_device(cl, setup.device);
+  cl_device_id dev = gpgpu::vendor::find_opencl_device(cl, setup.device);
   if (!dev) {
     error = "no OpenCL device matched " + setup.device.name();
     return false;

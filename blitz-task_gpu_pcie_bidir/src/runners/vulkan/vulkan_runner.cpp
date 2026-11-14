@@ -73,7 +73,7 @@ RunResult run_gpu_bidir_vulkan(const gpgpu::Setup& setup) {
     return r;
   }
 
-  VkPhysicalDevice pd = find_vk_device(vki, inst, setup.device);
+  VkPhysicalDevice pd = gpgpu::vendor::find_vulkan_device(vki, inst, setup.device);
   if (!pd) {
     vki.vkDestroyInstance(inst, nullptr);
     r.error = "no Vulkan device matched " + setup.device.id();

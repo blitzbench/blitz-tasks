@@ -2,7 +2,7 @@
 
 /**
  * @file vk_utils.hpp
- * @brief Vulkan device matching + buffer / queue / timestamp utilities. Included ONLY
+ * @brief Vulkan buffer / queue / timestamp utilities. Included ONLY
  *        from a Vulkan runner TU. Every call goes through the run-time-bound entry-point
  *        tables (`gpgpu::vendor::vulkan()` and the instance / device tables loaded from
  *        it), so a runner never carries a link-time dependency on the Vulkan loader.
@@ -24,33 +24,6 @@ namespace bench {
 using VulkanFns         = gpgpu::vendor::VulkanFns;
 using VulkanInstanceFns = gpgpu::vendor::VulkanInstanceFns;
 using VulkanDeviceFns   = gpgpu::vendor::VulkanDeviceFns;
-
-// Stable Vulkan device id string, matching what the gpgpu Vulkan backend emits.
-inline std::string vk_format_id(const VkPhysicalDeviceProperties& p) {
-    const auto& u = p.pipelineCacheUUID;
-    char buf[80];
-    std::snprintf(buf, sizeof(buf),
-                  "vk-%04x:%04x-%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-                  p.vendorID, p.deviceID,
-                  u[0], u[1], u[2], u[3], u[4], u[5], u[6], u[7],
-                  u[8], u[9], u[10], u[11], u[12], u[13], u[14], u[15]);
-    return buf;
-}
-
-inline VkPhysicalDevice find_vk_device(const VulkanInstanceFns& vki, VkInstance inst,
-                                       const gpgpu::Device& target) {
-    std::uint32_t n = 0;
-    vki.vkEnumeratePhysicalDevices(inst, &n, nullptr);
-    if (n == 0) return VK_NULL_HANDLE;
-    std::vector<VkPhysicalDevice> phys(n);
-    vki.vkEnumeratePhysicalDevices(inst, &n, phys.data());
-    for (auto pd : phys) {
-        VkPhysicalDeviceProperties props{};
-        vki.vkGetPhysicalDeviceProperties(pd, &props);
-        if (vk_format_id(props) == target.id()) return pd;
-    }
-    return VK_NULL_HANDLE;
-}
 
 // First queue family holding ALL bits in `flags`, or UINT32_MAX.
 inline std::uint32_t find_queue_family(const VulkanInstanceFns& vki, VkPhysicalDevice pd,

@@ -70,7 +70,7 @@ RunResult run_gpu_int8_opencl(const gpgpu::Setup& setup) {
   }
   const gpgpu::vendor::OpenClFns& cl = *cl_fns;
 
-  cl_device_id device = find_cl_device(cl, setup.device);
+  cl_device_id device = gpgpu::vendor::find_opencl_device(cl, setup.device);
   if (!device) {
     r.error = "no OpenCL device matched " + setup.device.id();
     return r;

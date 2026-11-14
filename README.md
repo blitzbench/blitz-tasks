@@ -182,15 +182,31 @@ every `TASK.json` carries licensing metadata:
   Khronos headers, …) is *not* declared per task; it lives in
   `third_party/infrastructure.json`.
 
-After touching any license metadata, run
+GPU tasks (`"component": "gpu"`) additionally declare the device capabilities
+they cannot run without:
+
+- **`gpu_requires`** (required on GPU tasks, forbidden on all others) — an array
+  of distinct tokens from `fp16`, `fp64`, `int8` and `tensor_cores`, naming
+  gpu_runtime's `Device` capability flags (`supports_fp16()`, `supports_fp64()`,
+  `supports_int8()`, `supports_tensor_cores()`). A capability is listed only if
+  every backend runner of the task needs it; a runner with a fallback path for a
+  missing capability keeps it off the list. `[]` means the task needs nothing
+  beyond a GPU. A host uses it to skip a device that lacks a capability before
+  running the task:
+
+  ```json
+  "gpu_requires": ["fp64"]
+  ```
+
+After touching any license metadata or `gpu_requires`, run
 
 ```
 python3 scripts/gen_third_party_notices.py
 ```
 
 to re-validate (existence of license texts, cross-task consistency,
-task-vs-library license compatibility) and regenerate `THIRD_PARTY_NOTICES.md`
-and `LICENSING.md`. CI can use `--check`.
+task-vs-library license compatibility, `gpu_requires` tokens) and regenerate
+`THIRD_PARTY_NOTICES.md` and `LICENSING.md`. CI can use `--check`.
 
 ## License
 

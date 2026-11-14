@@ -16,7 +16,7 @@
 #include "../../kernel_params.hpp"
 
 #include <bench/config.hpp>
-#include <bench/metal_match.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <algorithm>
 #include <chrono>
@@ -62,7 +62,7 @@ RunResult run_gpu_fp32_metal(const gpgpu::Setup& setup) {
     r.score_unit = "GFLOPS";
 
     @autoreleasepool {
-        id<MTLDevice> device = find_metal_device(setup.device);
+        id<MTLDevice> device = gpgpu::vendor::find_metal_device(setup.device);
         if (!device) { r.error = "no Metal device matched " + setup.device.id(); return r; }
         id<MTLCommandQueue> queue = [device newCommandQueue];
         if (!queue) { r.error = "newCommandQueue failed"; return r; }

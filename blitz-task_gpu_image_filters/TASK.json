@@ -3,6 +3,7 @@
   "name": "gpu_image_filters",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "gpu_requires": [],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"

@@ -23,7 +23,7 @@
 
 #include <bench/config.hpp>
 #include <bench/gemm/params.hpp>
-#include <bench/metal_match.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -86,15 +86,20 @@ struct MetalGemmContext : gemm::Context {
     MPSMatrixMultiplication* matmul{nil};
     MPSMatrix *ma{nil}, *mb{nil}, *mc{nil};
 
+    // This file is compiled without ARC: the context owns one reference to every handle above
+    // (build_context retains the looked-up device; every other handle comes from a new / alloc
+    // call) and releases them here. A handle left nil by a failed build_context is a no-op.
     ~MetalGemmContext() override {
-        // Every handle is an ARC-managed Objective-C object; dropping the references is
-        // all that is required.
-        matmul = nil;
-        ma = mb = mc = nil;
-        a = b = c = nil;
-        fill_pipeline = nil;
-        queue = nil;
-        device = nil;
+        [matmul release];
+        [ma release];
+        [mb release];
+        [mc release];
+        [a release];
+        [b release];
+        [c release];
+        [fill_pipeline release];
+        [queue release];
+        [device release];
     }
 
     /**
@@ -153,7 +158,10 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     out.n = n;
     out.seed = seed;
 
-    out.device = find_metal_device(setup.device);
+    // find_metal_device returns the device autoreleased; the context keeps it beyond the pool.
+    @autoreleasepool {
+        out.device = [gpgpu::vendor::find_metal_device(setup.device) retain];
+    }
     if (!out.device) { error = "no Metal device matched " + setup.device.id(); return false; }
     out.queue = [out.device newCommandQueue];
     if (!out.queue) { error = "newCommandQueue failed"; return false; }
@@ -168,6 +176,8 @@ bool build_context(const gpgpu::Setup& setup, std::uint32_t n, std::uint32_t see
     }
     id<MTLFunction> fn = [lib newFunctionWithName:@"gemm_fill"];
     out.fill_pipeline = [out.device newComputePipelineStateWithFunction:fn error:&err];
+    [fn release];
+    [lib release];
     if (!out.fill_pipeline) { error = "newComputePipelineState failed"; return false; }
 
     const std::size_t elems = static_cast<std::size_t>(n) * n;

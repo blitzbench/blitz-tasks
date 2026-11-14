@@ -16,7 +16,7 @@
 #include "../../kernel_params.hpp"
 
 #include <bench/config.hpp>
-#include <bench/hip_match.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -86,7 +86,7 @@ RunResult run_gpu_fp64_rocm(const gpgpu::Setup& setup) {
     r.path       = "simd(fp64 fma)";
     r.score_unit = "GFLOPS";
 
-    const int dev = find_hip_device(setup.device);
+    const int dev = gpgpu::vendor::find_hip_device(setup.device).value_or(-1);
     if (dev < 0) { r.error = "no HIP device matched " + setup.device.id(); return r; }
     if (hipSetDevice(dev) != hipSuccess) { r.error = "hipSetDevice failed"; return r; }
 

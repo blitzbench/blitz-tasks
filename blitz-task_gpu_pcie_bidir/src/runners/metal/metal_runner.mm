@@ -24,7 +24,7 @@
 #include "../../bidir_params.hpp"
 
 #include <bench/config.hpp>
-#include <bench/metal_match.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -40,7 +40,7 @@ RunResult run_gpu_bidir_metal(const gpgpu::Setup& setup) {
     r.score_unit = "GB/s";
 
     @autoreleasepool {
-        id<MTLDevice> device = find_metal_device(setup.device);
+        id<MTLDevice> device = gpgpu::vendor::find_metal_device(setup.device);
         if (!device) { r.error = "no Metal device matched " + setup.device.id(); return r; }
 
         id<MTLCommandQueue> qUp = [device newCommandQueue];

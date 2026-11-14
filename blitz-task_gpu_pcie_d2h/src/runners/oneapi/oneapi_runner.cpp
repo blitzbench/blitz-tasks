@@ -68,7 +68,7 @@ RunResult run_gpu_d2h_oneapi(const gpgpu::Setup& setup) {
 
   ze_driver_handle_t drv = nullptr;
   ze_device_handle_t dev = nullptr;
-  if (!find_l0_device(ze, setup.device, drv, dev)) {
+  if (!gpgpu::vendor::find_level_zero_device(ze, setup.device, drv, dev)) {
     r.error = "no Level Zero device matched " + setup.device.id();
     return r;
   }

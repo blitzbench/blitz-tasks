@@ -2,7 +2,7 @@
 
 /**
  * @file cl_utils.hpp
- * @brief OpenCL device matching + build/profiling utilities. Included ONLY from an
+ * @brief OpenCL build/profiling utilities. Included ONLY from an
  *        OpenCL runner TU. Every call goes through the run-time-bound entry-point table
  *        (`gpgpu::vendor::opencl()`), so a runner never carries a link-time dependency on
  *        the ICD loader.
@@ -30,37 +30,6 @@ inline std::string cl_info_string(const OpenClFns& cl, cl_device_id dev, cl_devi
     if (cl.clGetDeviceInfo(dev, key, n, s.data(), nullptr) != CL_SUCCESS) return {};
     if (!s.empty() && s.back() == '\0') s.pop_back();
     return s;
-}
-
-template <typename T>
-inline T cl_info_scalar(const OpenClFns& cl, cl_device_id dev, cl_device_info key) {
-    T v{};
-    cl.clGetDeviceInfo(dev, key, sizeof(T), &v, nullptr);
-    return v;
-}
-
-// Match a gpgpu::Device to a cl_device_id by (name, global-mem-size).
-inline cl_device_id find_cl_device(const OpenClFns& cl, const gpgpu::Device& target) {
-    cl_uint n_platforms = 0;
-    if (cl.clGetPlatformIDs(0, nullptr, &n_platforms) != CL_SUCCESS || n_platforms == 0)
-        return nullptr;
-    std::vector<cl_platform_id> platforms(n_platforms);
-    cl.clGetPlatformIDs(n_platforms, platforms.data(), nullptr);
-    for (cl_platform_id p : platforms) {
-        cl_uint n_devs = 0;
-        if (cl.clGetDeviceIDs(p, CL_DEVICE_TYPE_ALL, 0, nullptr, &n_devs) != CL_SUCCESS) continue;
-        if (n_devs == 0) continue;
-        std::vector<cl_device_id> devs(n_devs);
-        cl.clGetDeviceIDs(p, CL_DEVICE_TYPE_ALL, n_devs, devs.data(), nullptr);
-        for (cl_device_id d : devs) {
-            const std::string name = cl_info_string(cl, d, CL_DEVICE_NAME);
-            const cl_ulong   mem   = cl_info_scalar<cl_ulong>(cl, d, CL_DEVICE_GLOBAL_MEM_SIZE);
-            const bool name_ok = (name == target.name());
-            const bool mem_ok  = (!target.memory().has_value() || mem == *target.memory());
-            if (name_ok && mem_ok) return d;
-        }
-    }
-    return nullptr;
 }
 
 // Seconds spanned by a profiling event pair (START of `start`, END of `end`).

@@ -13,8 +13,8 @@
 // Setup selection and measurement are separate steps, driven by the host:
 //
 //   1. gpgpu::Runtime::query() enumerates every (device, backend) setup.
-//   2. probe_setups() runs each candidate setup once and returns the results
-//      ranked best-first (a correct result always beats an incorrect one, then
+//   2. probe_setups() runs each distinct candidate setup once and returns the
+//      results ranked best-first (a correct result always beats an incorrect one, then
 //      by score). Failed setups are included at the tail so the host can
 //      surface their error strings.
 //   3. The host pins its pick via the task's setSetup() (which goes through
@@ -44,6 +44,7 @@
 #include <gpgpu/device.hpp>
 #include <gpgpu/runtime.hpp>
 #include <gpgpu/setup.hpp>
+#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -140,7 +141,7 @@ inline blitz::Metric run_unit(const gpgpu::Setup& setup, std::uint64_t budget_ms
   };
   for (const auto& kv : best.info) m.info.push_back(kv);
   add_optional(m.info, "memory_bytes", device.memory());
-  if (device.integrated()) m.info.emplace_back("integrated", *device.integrated() ? "true" : "false");
+  m.info.emplace_back("device_type", std::string(gpgpu::to_string(device.type())));
   if (device.driver_version()) m.info.emplace_back("driver_version", *device.driver_version());
   if (!best.error.empty()) m.info.emplace_back("error", best.error);
   return m;
@@ -186,7 +187,11 @@ inline blitz::Result validate_setup(const gpgpu::Setup& setup, gpgpu::Setup& res
 /**
  * @brief Runs each candidate setup once and ranks the outcomes best-first.
  *
- * One dispatch invocation per setup; no callbacks, no deadline loop. The
+ * One dispatch invocation per distinct (device id, backend) pair; no
+ * callbacks, no deadline loop. A backend can expose one physical device twice
+ * (two OpenCL platforms, two Vulkan drivers); every runner resolves such a
+ * pair to the first of them, so a later duplicate would measure the same
+ * device again and is skipped. The
  * returned list is sorted with detail::is_better (correct beats incorrect,
  * then by score), so front() is the setup run_gpu_benchmark should be pinned
  * to. Failed or unsupported setups are kept at the tail — their
@@ -199,7 +204,9 @@ inline blitz::Result validate_setup(const gpgpu::Setup& setup, gpgpu::Setup& res
 inline std::vector<ProbeResult> probe_setups(const std::vector<gpgpu::Setup>& setups, const Dispatch& dispatch) {
   std::vector<ProbeResult> results;
   results.reserve(setups.size());
+  std::set<std::pair<std::string, gpgpu::BackendId>> probed;
   for (const gpgpu::Setup& setup : setups) {
+    if (!probed.emplace(setup.device.id(), setup.backend.id()).second) continue;
     results.push_back({setup, dispatch(setup)});
   }
   std::stable_sort(results.begin(), results.end(),

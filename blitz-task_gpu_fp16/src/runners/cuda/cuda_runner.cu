@@ -22,7 +22,7 @@
 #include "../../kernel_params.hpp"
 
 #include <bench/config.hpp>
-#include <bench/cuda_match.hpp>
+#include <gpgpu/vendor.hpp>
 
 #include <chrono>
 #include <cstdint>
@@ -140,7 +140,7 @@ RunResult run_gpu_fp16_cuda(const gpgpu::Setup& setup) {
     r.score_unit = "GFLOPS";
     r.path       = "unsupported(fp16)";
 
-    const int dev = find_cuda_device(setup.device);
+    const int dev = gpgpu::vendor::find_cuda_device(setup.device).value_or(-1);
     if (dev < 0) { r.error = "no CUDA device matched " + setup.device.id(); return r; }
     if (cudaSetDevice(dev) != cudaSuccess) { r.error = "cudaSetDevice failed"; return r; }
 

@@ -186,7 +186,7 @@ bool build_context(const gpgpu::vendor::LevelZeroFns& ze, const gpgpu::Setup& se
         return false;
     }
     ze_driver_handle_t driver = nullptr;
-    if (!find_l0_device(ze, setup.device, driver, out.device)) {
+    if (!gpgpu::vendor::find_level_zero_device(ze, setup.device, driver, out.device)) {
         error = "no Level Zero device matched " + setup.device.id();
         return false;
     }

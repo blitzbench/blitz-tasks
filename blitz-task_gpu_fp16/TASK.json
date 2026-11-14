@@ -3,6 +3,7 @@
   "name": "gpu_fp16",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "gpu_requires": ["fp16"],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"

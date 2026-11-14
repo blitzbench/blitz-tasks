@@ -3,6 +3,7 @@
   "name": "gpu_int8",
   "component": "gpu",
   "benchmark_type": "synthetic",
+  "gpu_requires": [],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
