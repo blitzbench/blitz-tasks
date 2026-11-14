@@ -256,7 +256,8 @@ blitz::Result DiskAssetLoad::run(const blitz::Callbacks& cb) {
   if (!file_) return fail(target_code_, target_error_);
 
   // An asset can start at any byte, so its page-aligned span is up to two pages longer than the asset.
-  const std::size_t read_capacity = static_cast<std::size_t>(align_up(ZSTD_compressBound(MAX_ASSET_BYTES)) + PAGE_BYTES);
+  const std::size_t read_capacity =
+      static_cast<std::size_t>(align_up(ZSTD_compressBound(MAX_ASSET_BYTES)) + PAGE_BYTES);
   bench::Buffer toc(PAGE_BYTES);
   bench::Buffer packed(read_capacity);
   std::vector<unsigned char> raw(MAX_ASSET_BYTES);

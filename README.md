@@ -89,14 +89,17 @@ blitz::Result setTarget(const std::filesystem::path& dir);
 which creates the task's test data in `dir` (an existing, writable directory on the device
 to measure) and must succeed before `run()`. It is not part of the C ABI: a host constructs
 the concrete class, as it does for the GPU tasks' `setSetup`. The test data is deleted when
-the task is destroyed.
+the task is destroyed. The test files of all tasks except `disk_db_oltp` have no name in the
+directory, so even a crashed run leaves nothing behind.
 
 - I/O bypasses the OS page cache (`O_DIRECT` / `F_NOCACHE` / `FILE_FLAG_NO_BUFFERING`), and
-  writes are flushed to the device (`fdatasync` / `F_FULLFSYNC` / `FlushFileBuffers`).
+  writes are flushed to the device (`fdatasync` / `F_FULLFSYNC` / `FlushFileBuffers`) at the
+  end of each measured `disk_seq_write` run, inside the timed window.
   `disk_db_oltp` goes through SQLite, which uses the page cache for reads but commits every
   transaction durably.
-- A filesystem that refuses uncached I/O, and any memory-backed filesystem (tmpfs, ramfs),
-  is rejected with `BLITZ_ERR_UNSUPPORTED`.
+- A filesystem that refuses uncached I/O, any memory-backed filesystem (tmpfs, ramfs) and,
+  for every task except `disk_db_oltp`, OpenZFS before 2.3 (which accepts `O_DIRECT` but
+  serves it from its RAM cache) is rejected with `BLITZ_ERR_UNSUPPORTED`.
 - Free space needed in the target: about 1 GiB for `disk_seq_read`, `disk_seq_write`,
   `disk_rand_read` and `disk_seek`, about 700 MiB for `disk_asset_load` and 256 MiB for
   `disk_db_oltp`.

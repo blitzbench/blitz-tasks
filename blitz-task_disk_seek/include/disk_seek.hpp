@@ -39,7 +39,8 @@ class CPP_TASK_DEMO_EXPORT DiskSeek : public blitz::Task {
    *
    * @param dir existing, writable directory on the storage device to measure
    * @return `BLITZ_OK`, `BLITZ_ERR_INVALID_CONFIG` (unusable directory), `BLITZ_ERR_RESOURCE` (not enough space or
-   *         an I/O error) or `BLITZ_ERR_UNSUPPORTED` (the filesystem does not allow uncached I/O)
+   *         an I/O error) or `BLITZ_ERR_UNSUPPORTED` (the filesystem does not allow uncached I/O, or serves it
+   *         from RAM)
    */
   blitz::Result setTarget(const std::filesystem::path& dir);
 

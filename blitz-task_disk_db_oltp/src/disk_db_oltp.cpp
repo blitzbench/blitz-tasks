@@ -63,7 +63,9 @@ struct Database {
     if (!path.empty()) {
       std::error_code ec;
       for (const char* suffix : {"", "-wal", "-shm", "-journal"}) {
-        std::filesystem::remove(path.string() + suffix, ec);
+        std::filesystem::path side = path;
+        side += suffix;
+        std::filesystem::remove(side, ec);
       }
     }
   }
@@ -98,11 +100,12 @@ struct Database {
 namespace {
 
 bench::disk::Status create_database(const std::filesystem::path& dir, Database& d) {
-  if (bench::disk::Status s = bench::disk::check_directory(dir, SPACE_BYTES); !s.ok()) return s;
+  if (bench::disk::Status s = bench::disk::check_directory(dir, SPACE_BYTES, false); !s.ok()) return s;
   const std::filesystem::path path = bench::disk::unique_path(dir, "disk_db_oltp", "db");
-  const int rc = sqlite3_open_v2(path.string().c_str(), &d.db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
+  const int rc =
+      sqlite3_open_v2(bench::disk::utf8(path).c_str(), &d.db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
   d.path = path;
-  if (rc != SQLITE_OK) return d.error(rc, "cannot create the database in " + dir.string());
+  if (rc != SQLITE_OK) return d.error(rc, "cannot create the database in " + bench::disk::utf8(dir));
 
   // Durable commits on every platform: WAL with a sync per commit, and F_FULLFSYNC on macOS where plain fsync leaves
   // the data in the drive cache.
