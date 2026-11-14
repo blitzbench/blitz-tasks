@@ -19,8 +19,11 @@ namespace disk_asset_load {
  * @brief Game style asset loading: reading and unpacking bundles of compressed assets from storage.
  *
  * `setTarget` writes a fixed asset package, generated from a constant seed and compressed with zstd, so every machine
- * loads identical bytes. A load reads a bundle's table of contents, reads each asset with uncached I/O and decompresses
- * it. Reported as bundles loaded per minute.
+ * loads identical bytes. Its content mimics shipped game data (block-compressed textures, vertex buffers, compressed
+ * audio, scripts), so most of it compresses little; assets that compression would barely shrink are stored as they are.
+ * A load reads a bundle's table of contents and then its packed data in large uncached reads with several requests in
+ * flight, while one decompression thread per hardware thread unpacks each compressed asset as soon as its bytes have
+ * arrived. Reported as bundles loaded per minute.
  */
 class CPP_TASK_DEMO_EXPORT DiskAssetLoad : public blitz::Task {
  public:
@@ -47,6 +50,9 @@ class CPP_TASK_DEMO_EXPORT DiskAssetLoad : public blitz::Task {
  private:
   std::uint64_t timeout_ms_;
   std::uint64_t next_bundle_{0};
+  std::uint64_t package_bytes_{0};
+  std::uint64_t max_region_bytes_{0};
+  std::uint64_t stored_assets_{0};
   std::unique_ptr<bench::disk::File> file_;
   blitz::Result target_code_;
   std::string target_error_;
