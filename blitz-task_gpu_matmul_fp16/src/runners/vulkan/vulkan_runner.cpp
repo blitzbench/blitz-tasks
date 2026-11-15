@@ -17,9 +17,11 @@
  * once, when the context is built. Only kVerifyRows rows of C come back, and the
  * sampled elements are checked against bench::gemm::reference_element.
  *
- * The device is created with shaderFloat16 + storageBuffer16BitAccess (+
- * cooperativeMatrix) and API version 1.3 requested. A device without shaderFloat16
- * is a clean "unsupported(no shaderFloat16)" row (supported=false), NOT an error.
+ * The device is created with shaderFloat16 + storageBuffer16BitAccess (+ the
+ * Vulkan memory model and cooperativeMatrix for the coopmat kernel, which needs
+ * both) and API version 1.3 requested. A device without shaderFloat16 (core since
+ * Vulkan 1.2, else VK_KHR_shader_float16_int8) is a clean
+ * "unsupported(no shaderFloat16)" row (supported=false), NOT an error.
  */
 
 #include "vulkan_runner.hpp"
@@ -103,20 +105,33 @@ std::uint32_t subgroup_size(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysi
   return sg.subgroupSize ? sg.subgroupSize : 32u;
 }
 
-// The two features the kernels need to hold and multiply fp16 values in a storage buffer.
+// The features the kernels need to hold and multiply fp16 values in a storage buffer, and the memory model the
+// coopmat kernel uses. Each structure is chained only where the device knows it: 16-bit storage is core since Vulkan
+// 1.1, shaderFloat16 and the memory model since 1.2, and before that each comes with its extension
+// (VK_KHR_shader_float16_int8 as gpu_runtime reads its fp16 flag, VK_KHR_vulkan_memory_model).
 struct Fp16Features {
   bool shader_float16;
   bool storage_buffer_16bit;
+  bool memory_model;
 };
 
-Fp16Features fp16_features(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysicalDevice pd) {
-  VkPhysicalDeviceVulkan11Features v11{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES};
-  VkPhysicalDeviceVulkan12Features v12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
-  v11.pNext = &v12;
-  VkPhysicalDeviceFeatures2 f2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
-  f2.pNext = &v11;
-  vki.vkGetPhysicalDeviceFeatures2(pd, &f2);
-  return {v12.shaderFloat16 == VK_TRUE, v11.storageBuffer16BitAccess == VK_TRUE};
+Fp16Features fp16_features(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysicalDevice pd, std::uint32_t api) {
+  if (api < VK_API_VERSION_1_1) return {};
+  const bool core = api >= VK_API_VERSION_1_2;
+  VkPhysicalDevice16BitStorageFeatures storage{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES};
+  VkPhysicalDeviceShaderFloat16Int8Features f16{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES};
+  VkPhysicalDeviceVulkanMemoryModelFeatures mm{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES};
+  VkPhysicalDeviceFeatures2 query{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
+  query.pNext = &storage;
+  void** tail = &storage.pNext;
+  if (core || device_has_extension(vki, pd, VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME)) {
+    *tail = &f16;
+    tail = &f16.pNext;
+  }
+  if (core || device_has_extension(vki, pd, VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME)) *tail = &mm;
+  vki.vkGetPhysicalDeviceFeatures2(pd, &query);
+  return {f16.shaderFloat16 == VK_TRUE, storage.storageBuffer16BitAccess == VK_TRUE,
+          mm.vulkanMemoryModel == VK_TRUE && mm.vulkanMemoryModelDeviceScope == VK_TRUE};
 }
 
 /**
@@ -306,7 +321,10 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
     error = "no Vulkan device matched " + setup.device.id();
     return false;
   }
-  const Fp16Features fp16 = fp16_features(vki, pd);
+  VkPhysicalDeviceProperties pd_props{};
+  vki.vkGetPhysicalDeviceProperties(pd, &pd_props);
+  const std::uint32_t api = pd_props.apiVersion;
+  const Fp16Features fp16 = fp16_features(vki, pd, api);
   if (!fp16.shader_float16) {
     no_shader_float16 = true;
     error = "device lacks shaderFloat16";
@@ -317,14 +335,13 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
     return false;
   }
 
-  VkPhysicalDeviceProperties pd_props{};
-  vki.vkGetPhysicalDeviceProperties(pd, &pd_props);
   out.ts_period_ns = pd_props.limits.timestampPeriod;
   out.ts_ok = pd_props.limits.timestampComputeAndGraphics != 0;
   const std::uint32_t sg = subgroup_size(vki, pd);
 
 #if defined(GPU_MATMUL_FP16_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-  out.coopmat = device_has_extension(vki, pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME) &&
+  // The coopmat kernel uses the Vulkan memory model; without it the tiled kernel runs.
+  out.coopmat = fp16.memory_model && device_has_extension(vki, pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME) &&
                 coopmat_16x16x16_supported(vk, out.inst, pd);
 #endif
 
@@ -343,23 +360,28 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
   qci.queueCount = 1;
   qci.pQueuePriorities = &prio;
 
-  VkPhysicalDeviceVulkan11Features v11{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES};
-  v11.storageBuffer16BitAccess = VK_TRUE;
-  VkPhysicalDeviceVulkan12Features v12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
-  v12.shaderFloat16 = VK_TRUE;
-  v12.vulkanMemoryModel = VK_TRUE;
-  v12.vulkanMemoryModelDeviceScope = VK_TRUE;
-  v11.pNext = &v12;
-  VkPhysicalDeviceFeatures2 feat2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
-  feat2.pNext = &v11;
-
+  // Before Vulkan 1.2 shaderFloat16 and the memory model come from their extensions, which are then enabled.
   std::vector<const char*> dev_exts;
+  VkPhysicalDevice16BitStorageFeatures storage{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES};
+  storage.storageBuffer16BitAccess = VK_TRUE;
+  VkPhysicalDeviceShaderFloat16Int8Features f16{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES};
+  f16.shaderFloat16 = VK_TRUE;
+  storage.pNext = &f16;
+  if (api < VK_API_VERSION_1_2) dev_exts.push_back(VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME);
+  VkPhysicalDeviceFeatures2 feat2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
+  feat2.pNext = &storage;
+
+  VkPhysicalDeviceVulkanMemoryModelFeatures mm{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES};
 #if defined(VK_KHR_cooperative_matrix)
   VkPhysicalDeviceCooperativeMatrixFeaturesKHR coop_feat{
       VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR};
   if (out.coopmat) {
+    mm.vulkanMemoryModel = VK_TRUE;
+    mm.vulkanMemoryModelDeviceScope = VK_TRUE;
+    f16.pNext = &mm;
+    if (api < VK_API_VERSION_1_2) dev_exts.push_back(VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME);
     coop_feat.cooperativeMatrix = VK_TRUE;
-    v12.pNext = &coop_feat;
+    mm.pNext = &coop_feat;
     dev_exts.push_back(VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME);
   }
 #endif
