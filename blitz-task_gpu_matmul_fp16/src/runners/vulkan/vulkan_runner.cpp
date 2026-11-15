@@ -18,7 +18,8 @@
  * sampled elements are checked against bench::gemm::reference_element.
  *
  * The device is created with shaderFloat16 + storageBuffer16BitAccess (+
- * cooperativeMatrix) and API version 1.3 requested.
+ * cooperativeMatrix) and API version 1.3 requested. A device without shaderFloat16
+ * is a clean "unsupported(no shaderFloat16)" row (supported=false), NOT an error.
  */
 
 #include "vulkan_runner.hpp"
@@ -102,15 +103,20 @@ std::uint32_t subgroup_size(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysi
   return sg.subgroupSize ? sg.subgroupSize : 32u;
 }
 
-// Whether the device can hold and multiply fp16 values in a storage buffer at all.
-bool supports_fp16_storage(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysicalDevice pd) {
+// The two features the kernels need to hold and multiply fp16 values in a storage buffer.
+struct Fp16Features {
+  bool shader_float16;
+  bool storage_buffer_16bit;
+};
+
+Fp16Features fp16_features(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysicalDevice pd) {
   VkPhysicalDeviceVulkan11Features v11{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES};
   VkPhysicalDeviceVulkan12Features v12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
   v11.pNext = &v12;
   VkPhysicalDeviceFeatures2 f2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
   f2.pNext = &v11;
   vki.vkGetPhysicalDeviceFeatures2(pd, &f2);
-  return v11.storageBuffer16BitAccess == VK_TRUE && v12.shaderFloat16 == VK_TRUE;
+  return {v12.shaderFloat16 == VK_TRUE, v11.storageBuffer16BitAccess == VK_TRUE};
 }
 
 /**
@@ -266,10 +272,11 @@ struct VulkanGemmContext : gemm::Context {
  * @param seed
  * @param out
  * @param error
+ * @param no_shader_float16 set when the device lacks shaderFloat16, which no smaller size can fix
  * @return false with @p error populated on any failure; @p out is then unusable.
  */
 bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup, std::uint32_t n,
-                   std::uint32_t seed, VulkanGemmContext& out, std::string& error) {
+                   std::uint32_t seed, VulkanGemmContext& out, std::string& error, bool& no_shader_float16) {
   using namespace gpu_matmul_fp16_shader;
   gpgpu::vendor::VulkanInstanceFns& vki = out.vki;
   gpgpu::vendor::VulkanDeviceFns& vkd = out.vkd;
@@ -299,8 +306,14 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
     error = "no Vulkan device matched " + setup.device.id();
     return false;
   }
-  if (!supports_fp16_storage(vki, pd)) {
-    error = "device lacks shaderFloat16 / storageBuffer16BitAccess";
+  const Fp16Features fp16 = fp16_features(vki, pd);
+  if (!fp16.shader_float16) {
+    no_shader_float16 = true;
+    error = "device lacks shaderFloat16";
+    return false;
+  }
+  if (!fp16.storage_buffer_16bit) {
+    error = "device lacks storageBuffer16BitAccess";
     return false;
   }
 
@@ -517,17 +530,24 @@ RunResult run_gpu_matmul_fp16_vulkan(const gpgpu::Setup& setup, gemm::ContextPtr
   if (!gemm_ctx) {
     const std::uint32_t memory_limit_n = gemm::choose_size(gemm::Precision::Fp16, setup.device, params.cap_bytes);
     std::string error;
+    bool no_shader_float16 = false;
 
     auto build_at = [&](std::uint32_t n) -> std::unique_ptr<VulkanGemmContext> {
       while (n) {
         auto fresh = std::make_unique<VulkanGemmContext>();
-        if (build_context(vk, setup, n, params.seed, *fresh, error)) return fresh;
+        if (build_context(vk, setup, n, params.seed, *fresh, error, no_shader_float16)) return fresh;
+        if (no_shader_float16) return nullptr;
         n = gemm::step_down(n);
       }
       return nullptr;
     };
 
     auto probe_ctx = build_at(gemm::kLadder[0]);
+    if (!probe_ctx && no_shader_float16) {
+      r.supported = false;
+      r.path = "unsupported(no shaderFloat16)";
+      return r;
+    }
     if (!probe_ctx) {
       r.error = error;
       return r;

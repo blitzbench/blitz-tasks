@@ -68,7 +68,7 @@ RunResult run_gpu_fp64_oneapi(const gpgpu::Setup& setup) {
   ze_device_module_properties_t mod_props{};
   mod_props.stype = ZE_STRUCTURE_TYPE_DEVICE_MODULE_PROPERTIES;
   ze.zeDeviceGetModuleProperties(dev, &mod_props);
-  if (!(mod_props.fp64flags & ZE_DEVICE_MODULE_FLAG_FP64)) {
+  if (!(mod_props.flags & ZE_DEVICE_MODULE_FLAG_FP64)) {
     r.supported = false;
     r.path = "unsupported(no fp64)";
     return r;

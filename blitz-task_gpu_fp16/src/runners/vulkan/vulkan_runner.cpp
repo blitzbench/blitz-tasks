@@ -12,6 +12,9 @@
  *   tensor:  "tensor(coopmat 16x16x16 f16->f32)"
  *   packed:  "simd(f16vec4 fma)"
  *
+ * Both kernels need the shaderFloat16 feature; without it the row is a clean
+ * "unsupported(no shaderFloat16)" (supported=false), NOT an error.
+ *
  * The device is created (when using coopmat) with CooperativeMatrix +
  * VulkanMemoryModel + shaderFloat16 enabled and API version 1.3 requested.
  */
@@ -142,6 +145,18 @@ RunResult run_gpu_fp16_vulkan(const gpgpu::Setup& setup) {
   const float ts_period_ns = pd_props.limits.timestampPeriod;
   const bool ts_ok = pd_props.limits.timestampComputeAndGraphics != 0;
   const std::uint32_t sg = subgroup_size(vki, pd);
+
+  // --- fp16 capability gate ---
+  VkPhysicalDeviceVulkan12Features f12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
+  VkPhysicalDeviceFeatures2 f12_query{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
+  f12_query.pNext = &f12;
+  vki.vkGetPhysicalDeviceFeatures2(pd, &f12_query);
+  if (f12.shaderFloat16 != VK_TRUE) {
+    vki.vkDestroyInstance(inst, nullptr);
+    r.supported = false;
+    r.path = "unsupported(no shaderFloat16)";
+    return r;
+  }
 
   // Decide path.
   bool use_coopmat = false;
