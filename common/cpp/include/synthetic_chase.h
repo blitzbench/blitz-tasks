@@ -133,12 +133,18 @@ inline uint64_t lat_init_chain(uint64_t* buf, const size_t bytes, const uint64_t
  * The first lap after the chain is built pulls it into the cache hierarchy,
  * so warm up (bench::calibrate_iters does) before trusting the numbers.
  *
+ * Successive calls must continue where the previous one stopped (`cursor`).
+ * Restarting at the same slot replays the same prefix of the cycle on every
+ * call, and once that prefix fits in the LLC the chase measures cache hits
+ * instead of DRAM.
+ *
  * @param chain the buffer lat_init_chain was run on
  * @param steps number of dependent loads to perform
+ * @param cursor slot to start from (0 on the first call), updated to the slot reached
  * @return `steps` (latency_ns = elapsed_seconds * 1e9 / steps)
  */
-inline uint64_t lat_chase(const uint64_t* chain, uint64_t steps) {
-  uint64_t i = 0;
+inline uint64_t lat_chase(const uint64_t* chain, uint64_t steps, uint64_t& cursor) {
+  uint64_t i = cursor;
   reg_opaque(i);
   uint64_t s = 0;
   for (; s + 4 <= steps; s += 4) {  // light unroll: 4 deps/iter
@@ -151,6 +157,7 @@ inline uint64_t lat_chase(const uint64_t* chain, uint64_t steps) {
     i = chain[i];
   }
   reg_sink(i);
+  cursor = i;
   return steps;
 }
 

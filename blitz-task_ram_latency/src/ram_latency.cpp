@@ -75,7 +75,8 @@ blitz::Result RamLatency::run(const blitz::Callbacks& cb) {
   }
 
   const std::uint64_t* chain = buf.as_u64();
-  auto chase = [chain](std::uint64_t steps) { return bench::lat_chase(chain, steps); };
+  std::uint64_t cursor = 0;
+  auto chase = [chain, &cursor](std::uint64_t steps) { return bench::lat_chase(chain, steps, cursor); };
 
   const std::uint64_t steps = iterations_ ? iterations_ : bench::calibrate_iters(chase, TARGET_CALL_MS);
 
