@@ -1,23 +1,26 @@
 /**
  * @file rocm_runner.hip
- * @brief ROCm/HIP fp16 throughput runner — raw matrix-core builtins + packed fallback.
+ * @brief ROCm/HIP fp16 throughput runner, raw matrix-core builtins + packed fallback.
  *
  * No rocWMMA dependency: the matrix path uses the __builtin_amdgcn_mfma_* (CDNA)
  * and __builtin_amdgcn_wmma_* (RDNA3/4) intrinsics directly, each compiled only
- * for the gfx targets that own it (per-__gfx*__ guards). At runtime we dispatch
- * by hipDeviceProp_t.gcnArchName. A packed __hfma2 half2 chain is compiled for
+ * for the gfx targets that own it. At runtime we dispatch by
+ * hipDeviceProp_t.gcnArchName. A packed __hfma2 half2 chain is compiled for
  * every arch as the universal fallback.
  *
- *   gfx908                 -> mfma_f32_32x32x8f16   (K=8)   "tensor(mfma 32x32x8 f16)"
- *   gfx90a / gfx94x        -> mfma_f32_16x16x16f16  (K=16)  "tensor(mfma 16x16x16 f16)"
- *   gfx11xx / gfx12xx w32  -> wmma_f32_16x16x16_f16 (K=16)  "tensor(wmma rdna3 16x16x16 f16)"
- *   any                    -> __hfma2 half2 chains          "simd(half2)"
+ *   gfx908                 -> mfma_f32_32x32x8f16        (K=8)   "tensor(mfma 32x32x8 f16)"
+ *   gfx90a / gfx94x        -> mfma_f32_16x16x16f16       (K=16)  "tensor(mfma 16x16x16 f16)"
+ *   gfx950                 -> mfma_f32_16x16x32_f16      (K=32)  "tensor(mfma 16x16x32 f16)"
+ *   gfx11xx w32            -> wmma_f32_16x16x16_f16      (K=16)  "tensor(wmma rdna3 16x16x16 f16)"
+ *   gfx12xx w32            -> wmma_f32_16x16x16_f16 gfx12 (K=16) "tensor(wmma rdna4 16x16x16 f16)"
+ *   any                    -> __hfma2 half2 chains               "simd(half2)"
  *
  * Every A/B element is the exact half 1/16 and the accumulator starts at 0, so
  * after `iters` MMAs every C element equals iters*K*(1/16)^2 exactly (uniform
- * matrix product — independent of the per-lane fragment layout). CANNOT be built
- * or run on the local box (partial/broken ROCm); needs AMD CI with GPU_TARGETS
- * covering the device arch.
+ * matrix product, independent of the per-lane fragment layout). Each wave splits
+ * its `iters` MMAs over kMmaChains independent accumulators so the matrix pipe
+ * never waits on the previous result, and the kernel sums every accumulator
+ * element so no MMA can be dropped as dead code.
  */
 
 #include "rocm_runner.hpp"
@@ -40,64 +43,129 @@ namespace bench {
 
 namespace {
 
-using half4v  = _Float16 __attribute__((ext_vector_type(4)));
-using half16v = _Float16 __attribute__((ext_vector_type(16)));
-using float4v = float    __attribute__((ext_vector_type(4)));
-using float8v = float    __attribute__((ext_vector_type(8)));
-using float16v = float   __attribute__((ext_vector_type(16)));
+using half4v   = _Float16 __attribute__((ext_vector_type(4)));
+using half8v   = _Float16 __attribute__((ext_vector_type(8)));
+using half16v  = _Float16 __attribute__((ext_vector_type(16)));
+using float4v  = float    __attribute__((ext_vector_type(4)));
+using float8v  = float    __attribute__((ext_vector_type(8)));
+using float16v = float    __attribute__((ext_vector_type(16)));
 
 constexpr _Float16 kTV = static_cast<_Float16>(0.0625f);  // 1/16
 
+constexpr unsigned kMmaChains = 4;
+static_assert(fp16::kTensorIters % kMmaChains == 0 && fp16::kTensorPreflightIters % kMmaChains == 0,
+              "tensor iteration counts must split evenly over the accumulator chains");
+
 /**
- * @brief CDNA gfx908: 32x32x8 f16 (K=8), wave64
+ * @brief Runs `iters` MMAs split over kMmaChains independent accumulators.
+ *
+ * @param iters total MMAs of this wave, a multiple of kMmaChains
+ * @param mma callable c' = A*B + c for one accumulator
+ * @return the mean over all elements of the chain-summed accumulator, which equals
+ *         the value every C element would hold after `iters` dependent MMAs
  */
-__global__ void fp16_mfma_32x32x8_kernel(float* out, unsigned warps, unsigned iters) {
+template <typename Acc, typename Mma>
+__device__ __forceinline__ float run_mma_chains(unsigned iters, Mma mma) {
+    constexpr int kElems = sizeof(Acc) / sizeof(float);
+    Acc c[kMmaChains];
+    #pragma unroll
+    for (unsigned k = 0; k < kMmaChains; ++k) c[k] = Acc{};
+    for (unsigned i = 0; i < iters / kMmaChains; ++i) {
+        #pragma unroll
+        for (unsigned k = 0; k < kMmaChains; ++k) c[k] = mma(c[k]);
+    }
+    float s = 0.0f;
+    #pragma unroll
+    for (unsigned k = 0; k < kMmaChains; ++k) {
+        #pragma unroll
+        for (int j = 0; j < kElems; ++j) s += c[k][j];
+    }
+    return s / static_cast<float>(kElems);
+}
+
+template <typename V, int N>
+__device__ __forceinline__ V splat_tv() {
+    V v;
+    #pragma unroll
+    for (int i = 0; i < N; ++i) v[i] = kTV;
+    return v;
+}
+
+/**
+ * @brief CDNA1 gfx908: 32x32x8 f16 (K=8), wave64
+ */
+__global__ __launch_bounds__(fp16::kBlock) void fp16_mfma_32x32x8_kernel(float* out, unsigned warps, unsigned iters) {
 #if defined(__gfx908__)
     const unsigned gt = blockIdx.x * blockDim.x + threadIdx.x;
     if (gt / 64u >= warps) return;
-    half4v a, b;
-    for (int i = 0; i < 4; ++i) { a[i] = kTV; b[i] = kTV; }
-    float16v c = {0};
-    for (unsigned i = 0; i < iters; ++i)
-        c = __builtin_amdgcn_mfma_f32_32x32x8f16(a, b, c, 0, 0, 0);
-    out[gt] = c[0];
+    const half4v a = splat_tv<half4v, 4>();
+    out[gt] = run_mma_chains<float16v>(iters, [&](float16v c) {
+        return __builtin_amdgcn_mfma_f32_32x32x8f16(a, a, c, 0, 0, 0);
+    });
 #else
     (void)out; (void)warps; (void)iters;
 #endif
 }
 
 /**
- * @brief CDNA gfx90a / gfx94x: 16x16x16 f16 (K=16), wave64
+ * @brief CDNA2/CDNA3 gfx90a / gfx94x: 16x16x16 f16 (K=16), wave64
  */
-__global__ void fp16_mfma_16x16x16_kernel(float* out, unsigned warps, unsigned iters) {
+__global__ __launch_bounds__(fp16::kBlock) void fp16_mfma_16x16x16_kernel(float* out, unsigned warps, unsigned iters) {
 #if defined(__gfx90a__) || defined(__gfx940__) || defined(__gfx941__) || defined(__gfx942__)
     const unsigned gt = blockIdx.x * blockDim.x + threadIdx.x;
     if (gt / 64u >= warps) return;
-    half4v a, b;
-    for (int i = 0; i < 4; ++i) { a[i] = kTV; b[i] = kTV; }
-    float4v c = {0};
-    for (unsigned i = 0; i < iters; ++i)
-        c = __builtin_amdgcn_mfma_f32_16x16x16f16(a, b, c, 0, 0, 0);
-    out[gt] = c[0];
+    const half4v a = splat_tv<half4v, 4>();
+    out[gt] = run_mma_chains<float4v>(iters, [&](float4v c) {
+        return __builtin_amdgcn_mfma_f32_16x16x16f16(a, a, c, 0, 0, 0);
+    });
 #else
     (void)out; (void)warps; (void)iters;
 #endif
 }
 
 /**
- * @brief RDNA3/4 gfx11xx/12xx: WMMA 16x16x16 f16 (K=16), wave32
+ * @brief CDNA4 gfx950: 16x16x32 f16 (K=32), wave64. Twice the rate of 16x16x16 on this arch.
  */
-__global__ void fp16_wmma_w32_kernel(float* out, unsigned warps, unsigned iters) {
-#if defined(__gfx1100__) || defined(__gfx1101__) || defined(__gfx1102__) || \
-    defined(__gfx1103__) || defined(__gfx1200__) || defined(__gfx1201__)
+__global__ __launch_bounds__(fp16::kBlock) void fp16_mfma_16x16x32_kernel(float* out, unsigned warps, unsigned iters) {
+#if defined(__gfx950__)
+    const unsigned gt = blockIdx.x * blockDim.x + threadIdx.x;
+    if (gt / 64u >= warps) return;
+    const half8v a = splat_tv<half8v, 8>();
+    out[gt] = run_mma_chains<float4v>(iters, [&](float4v c) {
+        return __builtin_amdgcn_mfma_f32_16x16x32_f16(a, a, c, 0, 0, 0);
+    });
+#else
+    (void)out; (void)warps; (void)iters;
+#endif
+}
+
+/**
+ * @brief RDNA3/3.5 gfx11xx: WMMA 16x16x16 f16 (K=16), wave32
+ */
+__global__ __launch_bounds__(fp16::kBlock) void fp16_wmma_gfx11_kernel(float* out, unsigned warps, unsigned iters) {
+#if defined(__GFX11__)
     const unsigned gt = blockIdx.x * blockDim.x + threadIdx.x;
     if (gt / 32u >= warps) return;
-    half16v a, b;
-    for (int i = 0; i < 16; ++i) { a[i] = kTV; b[i] = kTV; }
-    float8v c = {0};
-    for (unsigned i = 0; i < iters; ++i)
-        c = __builtin_amdgcn_wmma_f32_16x16x16_f16_w32(a, b, c);
-    out[gt] = c[0];
+    const half16v a = splat_tv<half16v, 16>();
+    out[gt] = run_mma_chains<float8v>(iters, [&](float8v c) {
+        return __builtin_amdgcn_wmma_f32_16x16x16_f16_w32(a, a, c);
+    });
+#else
+    (void)out; (void)warps; (void)iters;
+#endif
+}
+
+/**
+ * @brief RDNA4 gfx12xx: WMMA 16x16x16 f16 (K=16), wave32. gfx12 packs A/B in 8 halves per lane.
+ */
+__global__ __launch_bounds__(fp16::kBlock) void fp16_wmma_gfx12_kernel(float* out, unsigned warps, unsigned iters) {
+#if defined(__GFX12__)
+    const unsigned gt = blockIdx.x * blockDim.x + threadIdx.x;
+    if (gt / 32u >= warps) return;
+    const half8v a = splat_tv<half8v, 8>();
+    out[gt] = run_mma_chains<float8v>(iters, [&](float8v c) {
+        return __builtin_amdgcn_wmma_f32_16x16x16_f16_w32_gfx12(a, a, c);
+    });
 #else
     (void)out; (void)warps; (void)iters;
 #endif
@@ -133,7 +201,7 @@ __global__ void fp16_half2_kernel(float* out, unsigned n, unsigned iters, float 
     out[t] = s;
 }
 
-enum class Path { Mfma32x32x8, Mfma16x16x16, WmmaW32, Half2 };
+enum class Path { Mfma32x32x8, Mfma16x16x16, Mfma16x16x32, WmmaGfx11, WmmaGfx12, Half2 };
 
 double time_tensor(Path p, float* d_out, unsigned warps, unsigned wave, unsigned iters, int reps) {
     hipEvent_t a, b;
@@ -149,8 +217,14 @@ double time_tensor(Path p, float* d_out, unsigned warps, unsigned wave, unsigned
             case Path::Mfma16x16x16:
                 hipLaunchKernelGGL(fp16_mfma_16x16x16_kernel, dim3(grid), dim3(fp16::kBlock), 0, 0,
                                    d_out, warps, iters); break;
-            case Path::WmmaW32:
-                hipLaunchKernelGGL(fp16_wmma_w32_kernel, dim3(grid), dim3(fp16::kBlock), 0, 0,
+            case Path::Mfma16x16x32:
+                hipLaunchKernelGGL(fp16_mfma_16x16x32_kernel, dim3(grid), dim3(fp16::kBlock), 0, 0,
+                                   d_out, warps, iters); break;
+            case Path::WmmaGfx11:
+                hipLaunchKernelGGL(fp16_wmma_gfx11_kernel, dim3(grid), dim3(fp16::kBlock), 0, 0,
+                                   d_out, warps, iters); break;
+            case Path::WmmaGfx12:
+                hipLaunchKernelGGL(fp16_wmma_gfx12_kernel, dim3(grid), dim3(fp16::kBlock), 0, 0,
                                    d_out, warps, iters); break;
             default: break;
         }
@@ -203,12 +277,18 @@ RunResult run_gpu_fp16_rocm(const gpgpu::Setup& setup) {
     if (base == "gfx908") {
         path = Path::Mfma32x32x8; K = 8;  M = 32; N = 32; wave = 64;
         r.path = "tensor(mfma 32x32x8 f16)";
-    } else if (base == "gfx90a" || starts_with(base, "gfx94")) {
+    } else if (base == "gfx90a" || base == "gfx940" || base == "gfx941" || base == "gfx942") {
         path = Path::Mfma16x16x16; K = 16; M = 16; N = 16; wave = 64;
         r.path = "tensor(mfma 16x16x16 f16)";
-    } else if (starts_with(base, "gfx11") || starts_with(base, "gfx12")) {
-        path = Path::WmmaW32; K = 16; M = 16; N = 16; wave = 32;
+    } else if (base == "gfx950") {
+        path = Path::Mfma16x16x32; K = 32; M = 16; N = 16; wave = 64;
+        r.path = "tensor(mfma 16x16x32 f16)";
+    } else if (starts_with(base, "gfx11")) {
+        path = Path::WmmaGfx11; K = 16; M = 16; N = 16; wave = 32;
         r.path = "tensor(wmma rdna3 16x16x16 f16)";
+    } else if (starts_with(base, "gfx12")) {
+        path = Path::WmmaGfx12; K = 16; M = 16; N = 16; wave = 32;
+        r.path = "tensor(wmma rdna4 16x16x16 f16)";
     } else {
         path = Path::Half2;
         r.path = "simd(half2)";

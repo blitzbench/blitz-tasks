@@ -1,5 +1,5 @@
-// Device-local VRAM write kernel — SOURCE FORM for the Vulkan + Level Zero
-// runners. Grid-stride loop of 128-bit (uvec4) stores; for the u32 element at
+// Device-local VRAM write kernel — SOURCE FORM for the Vulkan
+// runner. Grid-stride loop of 128-bit (uvec4) stores; for the u32 element at
 // index i the value written is i * 2654435761u, mirroring the CUDA/HIP/OpenCL/
 // Metal kernels and kernel_params.hpp so the host pattern check reproduces it.
 //

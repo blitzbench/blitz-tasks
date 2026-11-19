@@ -9,7 +9,7 @@
  * tolerance; every device output is compared bit-for-bit):
  *
  * PACKED model (the SIMD/dot-product workhorse: OpenCL, Metal, Vulkan-packed,
- * Level-Zero, and the CUDA __dp4a / char4 and ROCm sdot4 / char4 fallbacks).
+ * and the CUDA __dp4a / char4 and ROCm sdot4 / char4 fallbacks).
  * Per thread t, kChains independent dependent chains. Each chain k holds a
  * uint32 accumulator seeded from (t,k); every step reinterprets the four bytes
  * of the accumulator as SIGNED int8 lanes, dot-products them with a fixed signed
@@ -107,12 +107,27 @@ inline std::uint64_t ops_packed(std::uint32_t threads, std::uint32_t iters, int 
 
 // --- tensor model -----------------------------------------------------------
 
-// Every C element after `iters` 16x16x16 s8->s32 MMAs with all-ones s8 inputs.
-inline std::int32_t reference_tensor(std::uint32_t iters) { return 16 * static_cast<std::int32_t>(iters); }
+/**
+ * @brief Every C element after `iters` 16x16xK s8->s32 MMAs with all-ones s8 inputs.
+ *
+ * @param iters MMA instructions per tile
+ * @param K contraction dim of the instruction (16 everywhere except CDNA3/CDNA4 MFMA)
+ * @return expected accumulator value
+ */
+inline std::int32_t reference_tensor(std::uint32_t iters, int K = 16) { return K * static_cast<std::int32_t>(iters); }
 
-inline std::uint64_t ops_tensor(std::uint32_t tiles, std::uint32_t iters, int reps) {
+/**
+ * @brief int-ops for a full timed run of 16x16xK MMAs, 2*16*16*K per instruction and tile.
+ *
+ * @param tiles warps/subgroups
+ * @param iters MMA instructions per tile
+ * @param reps kernel launches
+ * @param K contraction dim of the instruction
+ * @return int-ops
+ */
+inline std::uint64_t ops_tensor(std::uint32_t tiles, std::uint32_t iters, int reps, int K = 16) {
   return static_cast<std::uint64_t>(tiles) * static_cast<std::uint64_t>(reps) * static_cast<std::uint64_t>(iters) *
-         8192ull;
+         (2ull * 16ull * 16ull * static_cast<std::uint64_t>(K));
 }
 
 }  // namespace i8

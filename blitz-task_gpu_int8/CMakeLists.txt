@@ -11,8 +11,8 @@ endif ()
 # --- runner / shader configuration ------------------------------------------
 # GR_PREFIX:     GPU_<APP>_HAVE_<BACKEND> define / shader-var prefix
 # GR_RUNNER:     runner lib target base (<GR_RUNNER>_<vendor>)
-# GR_HAS_SHADERS: TRUE when the task ships GLSL kernels the Vulkan/Level Zero
-#                 runners consume
+# GR_HAS_SHADERS: TRUE when the task ships GLSL kernels the Vulkan runner
+#                 consumes
 set(GR_PREFIX GPU_INT8)
 set(GR_RUNNER gpu_int8)
 set(GR_HAS_SHADERS TRUE)
@@ -41,14 +41,13 @@ if (NOT TARGET bench_common)
     target_compile_features(bench_common INTERFACE cxx_std_20)
 endif ()
 
-set(_backends CUDA ROCM ONEAPI OPENCL VULKAN METAL)
+set(_backends CUDA ROCM OPENCL VULKAN METAL)
 
 if (GR_HAS_SHADERS)
     add_subdirectory(${GR_SRC_DIR}/shaders ${CMAKE_CURRENT_BINARY_DIR}/${TASK_NAME}_shaders)
 endif ()
 add_subdirectory(${GR_SRC_DIR}/runners/cuda ${CMAKE_CURRENT_BINARY_DIR}/${TASK_NAME}_cuda)
 add_subdirectory(${GR_SRC_DIR}/runners/rocm ${CMAKE_CURRENT_BINARY_DIR}/${TASK_NAME}_rocm)
-add_subdirectory(${GR_SRC_DIR}/runners/oneapi ${CMAKE_CURRENT_BINARY_DIR}/${TASK_NAME}_oneapi)
 add_subdirectory(${GR_SRC_DIR}/runners/opencl ${CMAKE_CURRENT_BINARY_DIR}/${TASK_NAME}_opencl)
 add_subdirectory(${GR_SRC_DIR}/runners/vulkan ${CMAKE_CURRENT_BINARY_DIR}/${TASK_NAME}_vulkan)
 if (APPLE)

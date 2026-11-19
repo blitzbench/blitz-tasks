@@ -1,7 +1,7 @@
-# Shared shader build for the Vulkan + Level Zero fp16 runners.
+# Shader build for the Vulkan fp16 runner.
 #
 #   * fp16_packed.comp  — packed f16vec4 FMA fallback (needs shaderFloat16). Used
-#                         by the Vulkan fallback path AND the Level Zero runner.
+#                         by the Vulkan fallback path.
 #   * fp16_coopmat.comp — KHR_cooperative_matrix 16x16x16 tensor kernel, embedded
 #                         ONLY when glslang can compile it (SDK >= 1.3.261).
 #

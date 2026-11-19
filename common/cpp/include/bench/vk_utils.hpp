@@ -130,4 +130,58 @@ inline bool read_timestamp_span(const VulkanDeviceFns& vkd,
     return true;
 }
 
+/// One subgroup-scope cooperative matrix shape: C(MxN) += A(MxK) * B(KxN).
+struct CoopmatShape {
+    std::uint32_t m{0};
+    std::uint32_t n{0};
+    std::uint32_t k{0};
+
+    [[nodiscard]] explicit operator bool() const noexcept { return m != 0; }
+    [[nodiscard]] std::uint64_t flops() const noexcept { return 2ull * m * n * k; }
+    [[nodiscard]] std::string str() const {
+        return std::to_string(m) + "x" + std::to_string(n) + "x" + std::to_string(k);
+    }
+};
+
+/**
+ * @brief Picks the subgroup-scope cooperative matrix shape with the most work per instruction
+ *        among the configurations the device lists for the given component types.
+ *
+ * Vendors offer different shapes (16x16x16 on NVIDIA and AMD, 8-row tiles on Intel, K=32 for
+ * int8 on NVIDIA), so kernels take M/N/K as specialization constants instead of fixing one.
+ *
+ * @param vk loader entry points
+ * @param inst instance the physical device belongs to
+ * @param pd physical device
+ * @param ab A and B component type
+ * @param c C and result component type
+ * @param divides if non-zero, only shapes whose M, N and K all divide it are considered
+ * @return the shape, or an empty shape when the device lists none
+ */
+inline CoopmatShape best_coopmat_shape(const VulkanFns& vk, VkInstance inst, VkPhysicalDevice pd,
+                                       VkComponentTypeKHR ab, VkComponentTypeKHR c,
+                                       std::uint32_t divides = 0) {
+    CoopmatShape best{};
+#if defined(VK_KHR_cooperative_matrix)
+    auto fn = reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR>(
+        vk.vkGetInstanceProcAddr(inst, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR"));
+    if (!fn) return best;
+    std::uint32_t count = 0;
+    if (fn(pd, &count, nullptr) != VK_SUCCESS || count == 0) return best;
+    std::vector<VkCooperativeMatrixPropertiesKHR> props(
+        count, {VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_KHR});
+    if (fn(pd, &count, props.data()) != VK_SUCCESS) return best;
+    for (const auto& p : props) {
+        if (p.scope != VK_SCOPE_SUBGROUP_KHR || p.saturatingAccumulation) continue;
+        if (p.AType != ab || p.BType != ab || p.CType != c || p.ResultType != c) continue;
+        if (divides && (divides % p.MSize || divides % p.NSize || divides % p.KSize)) continue;
+        const CoopmatShape s{p.MSize, p.NSize, p.KSize};
+        if (s.flops() > best.flops()) best = s;
+    }
+#else
+    (void)vk; (void)inst; (void)pd; (void)ab; (void)c; (void)divides;
+#endif
+    return best;
+}
+
 } // namespace bench

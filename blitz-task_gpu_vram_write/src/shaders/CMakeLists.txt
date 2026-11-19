@@ -1,4 +1,4 @@
-# Shared shader build for the Vulkan + Level Zero runners (both consume SPIR-V).
+# Shader build for the Vulkan runner.
 # Delegates to bench_add_shaders, then re-exports HAVE_SHADER / SHADER_INCDIR to
 # the app (parent) scope so the runner subdirs can see them.
 include(${CMAKE_CURRENT_LIST_DIR}/../../../common/cpp/cmake/BenchShaders.cmake)

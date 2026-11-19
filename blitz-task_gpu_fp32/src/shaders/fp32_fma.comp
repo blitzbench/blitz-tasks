@@ -1,5 +1,5 @@
-// Dense dependent-FMA fp32 kernel — SOURCE FORM for the Vulkan + Level Zero
-// runners. Mirrors kernel_params.hpp / the CUDA/OpenCL/Metal kernels exactly so
+// Dense dependent-FMA fp32 kernel — SOURCE FORM for the Vulkan
+// runner. Mirrors kernel_params.hpp / the CUDA/OpenCL/Metal kernels exactly so
 // the shared CPU reference reproduces the output. GLSL `fma` is fused.
 //
 // Regenerate the embedded SPIR-V (done automatically at build by

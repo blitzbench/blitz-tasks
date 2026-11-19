@@ -1,9 +1,9 @@
-# Shared shader build for the Vulkan + Level Zero gpu_matmul_fp16 runners.
+# Shader build for the Vulkan gpu_matmul_fp16 runner.
 #
 #   * gemm_fill.comp    — writes A and B from the coordinate hash, so no operand
 #                         ever crosses the bus. Always embedded.
 #   * gemm_tiled.comp   — 16x16 shared-memory tiled GEMM (needs shaderFloat16).
-#                         Used by the Vulkan fallback AND the Level Zero runner.
+#                         Used by the Vulkan fallback.
 #   * gemm_coopmat.comp — KHR_cooperative_matrix 16x16x16 GEMM, embedded ONLY
 #                         when glslang can compile it (SDK >= 1.3.261).
 #

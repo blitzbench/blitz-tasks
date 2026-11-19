@@ -34,7 +34,7 @@ function(bench_add_shaders)
     _bench_find_glslang()
     if(NOT BENCH_GLSLANG_VALIDATOR)
         message(STATUS "    ${BAS_TARGET}: SHADER NO  (glslangValidator not found; "
-                       "Vulkan & Level Zero shader runners disabled)")
+                       "Vulkan shader runners disabled)")
         set(${BAS_VAR_PREFIX}_HAVE_SHADER FALSE PARENT_SCOPE)
         return()
     endif()

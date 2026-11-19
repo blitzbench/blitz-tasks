@@ -3,22 +3,21 @@
  * @brief Vulkan compute int8 throughput runner.
  *
  * Tensor-first with a runtime fallback; the chosen path is recorded:
- *   VK_KHR_cooperative_matrix with a {s8,s8,s32,16,16,16,subgroup} config, the
- *   coopmat feature, shaderInt8, and the coopmat SPIR-V present at build
- *        -> int8_coopmat  path "tensor(coopmat s8->s32)"
+ *   VK_KHR_cooperative_matrix with a subgroup {s8,s8,s32} configuration, the
+ *   coopmat feature, the Vulkan memory model, shaderInt8, and the coopmat SPIR-V
+ *   present at build
+ *        -> int8_coopmat  path "tensor(coopmat MxNxK s8->s32)"
  *   else shaderInt8 available
  *        -> int8_packed   path "simd(i8vec4)"
  *   else -> supported=false, "unsupported(no shaderInt8)"
  *
- * The coopmat kernel feeds all-ones s8 A,B into a 16x16x16 MMA, so every C
- * element equals 16*iters (bench::i8::reference_tensor). The packed kernel
- * matches bench::i8::reference_packed. Both write a uint32 storage buffer.
- * Unit GOPS. See kernel_params.hpp for math + ops accounting.
- *
- * CI NOTE: no cooperative-matrix hardware on the dev box (and glslang absent, so
- * this TU is configure-skipped locally). The coopmat device/feature plumbing is
- * validated on NVIDIA/AMD CI; on any gap the runner falls back to the packed
- * path.
+ * The coopmat shape comes from the device's list (bench::best_coopmat_shape). The
+ * kernel feeds all-ones s8 A,B into the MMA, so every C element equals K*iters
+ * (bench::i8::reference_tensor). Some drivers list cooperative matrices on hardware
+ * without matrix units and emulate them, so when both kernels are available each
+ * is timed once and the faster one is benchmarked. The packed kernel matches
+ * bench::i8::reference_packed. Both write a uint32 storage buffer. Unit GOPS. See
+ * kernel_params.hpp for math + ops accounting.
  */
 
 #include "vulkan_runner.hpp"
@@ -53,27 +52,8 @@ namespace {
 struct PushConstants {
   std::uint32_t n;
   std::uint32_t iters;
+  std::int32_t one;  // A/B element value of the coopmat kernel, ignored by the packed kernel
 };
-
-// Does the device expose a 16x16x16 {s8,s8,s32} subgroup cooperative-matrix?
-#if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-bool has_int8_coopmat_config(const gpgpu::vendor::VulkanFns& vk, VkInstance inst, VkPhysicalDevice pd) {
-  auto fn = reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR>(
-      vk.vkGetInstanceProcAddr(inst, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR"));
-  if (!fn) return false;
-  std::uint32_t n = 0;
-  if (fn(pd, &n, nullptr) != VK_SUCCESS || n == 0) return false;
-  std::vector<VkCooperativeMatrixPropertiesKHR> props(n, {VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_KHR});
-  if (fn(pd, &n, props.data()) != VK_SUCCESS) return false;
-  for (const auto& p : props) {
-    if (p.MSize == 16 && p.NSize == 16 && p.KSize == 16 && p.AType == VK_COMPONENT_TYPE_SINT8_KHR &&
-        p.BType == VK_COMPONENT_TYPE_SINT8_KHR && p.CType == VK_COMPONENT_TYPE_SINT32_KHR &&
-        p.ResultType == VK_COMPONENT_TYPE_SINT32_KHR && p.scope == VK_SCOPE_SUBGROUP_KHR)
-      return true;
-  }
-  return false;
-}
-#endif
 
 bool device_has_extension(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysicalDevice pd, const char* name) {
   std::uint32_t n = 0;
@@ -132,44 +112,31 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   const float ts_period_ns = pd_props.limits.timestampPeriod;
   const bool ts_ok = pd_props.limits.timestampComputeAndGraphics != 0;
 
-  // --- feature probe: shaderInt8 (required by both int8 kernels) ---
+  // --- feature probe: shaderInt8 (both kernels), memory model (coopmat kernel) ---
   VkPhysicalDeviceVulkan12Features f12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
   VkPhysicalDeviceFeatures2 feat2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
   feat2.pNext = &f12;
   vki.vkGetPhysicalDeviceFeatures2(pd, &feat2);
-  const bool has_int8 = f12.shaderInt8 == VK_TRUE;
 
-  if (!has_int8) {
+  if (f12.shaderInt8 != VK_TRUE) {
     vki.vkDestroyInstance(inst, nullptr);
     r.supported = false;
     r.path = "unsupported(no shaderInt8)";
     return r;
   }
 
-  // --- decide path ---
-  bool use_coopmat = false;
+  CoopmatShape shape{};
 #if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-  if (device_has_extension(vki, pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME) && has_int8_coopmat_config(vk, inst, pd)) {
+  if (f12.vulkanMemoryModel == VK_TRUE && device_has_extension(vki, pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME)) {
     VkPhysicalDeviceCooperativeMatrixFeaturesKHR cmf{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR};
     VkPhysicalDeviceFeatures2 q{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
     q.pNext = &cmf;
     vki.vkGetPhysicalDeviceFeatures2(pd, &q);
-    use_coopmat = (cmf.cooperativeMatrix == VK_TRUE);
+    if (cmf.cooperativeMatrix == VK_TRUE)
+      shape = best_coopmat_shape(vk, inst, pd, VK_COMPONENT_TYPE_SINT8_KHR, VK_COMPONENT_TYPE_SINT32_KHR);
   }
 #endif
-
-  const std::uint32_t local_x = use_coopmat ? 32u : i8::kBlock;
-  const bool tensor = use_coopmat;
-  const unsigned char* spirv = k_int8_packed_spv_bytes;
-  std::size_t spirv_len = k_int8_packed_spv_bytes_len;
-  r.path = "simd(i8vec4)";
-#if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-  if (use_coopmat) {
-    spirv = k_int8_coopmat_spv_bytes;
-    spirv_len = k_int8_coopmat_spv_bytes_len;
-    r.path = "tensor(coopmat s8->s32)";
-  }
-#endif
+  const bool have_coopmat = static_cast<bool>(shape);
 
   const std::uint32_t qfam = find_queue_family(vki, pd, VK_QUEUE_COMPUTE_BIT);
   if (qfam == UINT32_MAX) {
@@ -184,22 +151,15 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   // --- device with the required feature chain ---
   VkPhysicalDeviceVulkan12Features en12{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES};
   en12.shaderInt8 = VK_TRUE;
-  void* chain = &en12;
-
-#if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-  VkPhysicalDeviceCooperativeMatrixFeaturesKHR en_cm{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR};
-  VkPhysicalDeviceVulkanMemoryModelFeatures en_vmm{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES};
-  if (use_coopmat) {
-    en_cm.cooperativeMatrix = VK_TRUE;
-    en_vmm.vulkanMemoryModel = VK_TRUE;
-    en12.pNext = &en_cm;
-    en_cm.pNext = &en_vmm;
-  }
-#endif
-
   std::vector<const char*> dev_exts;
 #if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
-  if (use_coopmat) dev_exts.push_back(VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME);
+  VkPhysicalDeviceCooperativeMatrixFeaturesKHR en_cm{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR};
+  if (have_coopmat) {
+    en12.vulkanMemoryModel = VK_TRUE;
+    en_cm.cooperativeMatrix = VK_TRUE;
+    en12.pNext = &en_cm;
+    dev_exts.push_back(VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME);
+  }
 #endif
 
   const float prio = 1.0f;
@@ -208,7 +168,7 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   qci.queueCount = 1;
   qci.pQueuePriorities = &prio;
   VkDeviceCreateInfo dci{VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO};
-  dci.pNext = chain;
+  dci.pNext = &en12;
   dci.queueCreateInfoCount = 1;
   dci.pQueueCreateInfos = &qci;
   dci.enabledExtensionCount = static_cast<std::uint32_t>(dev_exts.size());
@@ -232,8 +192,12 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   const VkDeviceSize bytes = static_cast<VkDeviceSize>(T) * sizeof(std::uint32_t);
 
   VkBufferAlloc out{};
+  VkBufferAlloc count{};
   if (!create_buffer(vkd, dev, mp, bytes, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
-                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, out)) {
+                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, out) ||
+      !create_buffer(vkd, dev, mp, sizeof(std::uint32_t), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
+                     VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, count)) {
+    destroy_buffer(vkd, dev, count);
     destroy_buffer(vkd, dev, out);
     vkd.vkDestroyDevice(dev, nullptr);
     vki.vkDestroyInstance(inst, nullptr);
@@ -241,20 +205,17 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
     return r;
   }
 
-  VkShaderModuleCreateInfo smci{VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO};
-  smci.codeSize = spirv_len;
-  smci.pCode = reinterpret_cast<const std::uint32_t*>(spirv);
-  VkShaderModule shader = VK_NULL_HANDLE;
-  vkd.vkCreateShaderModule(dev, &smci, nullptr, &shader);
-
-  VkDescriptorSetLayoutBinding bind{};
-  bind.binding = 0;
-  bind.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
-  bind.descriptorCount = 1;
-  bind.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+  // Both kernels share one layout; the packed kernel ignores the subgroup counter at binding 1.
+  VkDescriptorSetLayoutBinding binds[2]{};
+  for (std::uint32_t i = 0; i < 2; ++i) {
+    binds[i].binding = i;
+    binds[i].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+    binds[i].descriptorCount = 1;
+    binds[i].stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+  }
   VkDescriptorSetLayoutCreateInfo dslci{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO};
-  dslci.bindingCount = 1;
-  dslci.pBindings = &bind;
+  dslci.bindingCount = 2;
+  dslci.pBindings = binds;
   VkDescriptorSetLayout dsl = VK_NULL_HANDLE;
   vkd.vkCreateDescriptorSetLayout(dev, &dslci, nullptr, &dsl);
 
@@ -267,22 +228,40 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   VkPipelineLayout pl = VK_NULL_HANDLE;
   vkd.vkCreatePipelineLayout(dev, &plci, nullptr, &pl);
 
-  VkPipelineShaderStageCreateInfo ssci{VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO};
-  ssci.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-  ssci.module = shader;
-  ssci.pName = "main";
-  // Pin the subgroup size for the coopmat kernel (assumes size 32 is offered).
-  VkPipelineShaderStageRequiredSubgroupSizeCreateInfo rssci{
-      VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO};
-  rssci.requiredSubgroupSize = 32;
-  if (tensor) ssci.pNext = &rssci;
-  VkComputePipelineCreateInfo cpci{VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO};
-  cpci.stage = ssci;
-  cpci.layout = pl;
-  VkPipeline pipeline = VK_NULL_HANDLE;
-  vkd.vkCreateComputePipelines(dev, VK_NULL_HANDLE, 1, &cpci, nullptr, &pipeline);
+  std::vector<VkShaderModule> modules;
+  auto make_pipeline = [&](const unsigned char* spv, std::size_t len, const VkSpecializationInfo* spec) -> VkPipeline {
+    VkShaderModuleCreateInfo smci{VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO};
+    smci.codeSize = len;
+    smci.pCode = reinterpret_cast<const std::uint32_t*>(spv);
+    VkShaderModule shader = VK_NULL_HANDLE;
+    if (vkd.vkCreateShaderModule(dev, &smci, nullptr, &shader) != VK_SUCCESS) return VK_NULL_HANDLE;
+    modules.push_back(shader);
+    VkPipelineShaderStageCreateInfo ssci{VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO};
+    ssci.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+    ssci.module = shader;
+    ssci.pName = "main";
+    ssci.pSpecializationInfo = spec;
+    VkComputePipelineCreateInfo cpci{VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO};
+    cpci.stage = ssci;
+    cpci.layout = pl;
+    VkPipeline pipeline = VK_NULL_HANDLE;
+    if (vkd.vkCreateComputePipelines(dev, VK_NULL_HANDLE, 1, &cpci, nullptr, &pipeline) != VK_SUCCESS)
+      return VK_NULL_HANDLE;
+    return pipeline;
+  };
 
-  VkDescriptorPoolSize ps{VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1};
+  const VkPipeline packed_pipe = make_pipeline(k_int8_packed_spv_bytes, k_int8_packed_spv_bytes_len, nullptr);
+  VkPipeline coop_pipe = VK_NULL_HANDLE;
+#if defined(GPU_INT8_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
+  const std::uint32_t mnk[3] = {shape.m, shape.n, shape.k};
+  const VkSpecializationMapEntry sme[3] = {{0, 0, sizeof(std::uint32_t)},
+                                           {1, sizeof(std::uint32_t), sizeof(std::uint32_t)},
+                                           {2, 2 * sizeof(std::uint32_t), sizeof(std::uint32_t)}};
+  const VkSpecializationInfo spec{3, sme, sizeof(mnk), mnk};
+  if (have_coopmat) coop_pipe = make_pipeline(k_int8_coopmat_spv_bytes, k_int8_coopmat_spv_bytes_len, &spec);
+#endif
+
+  VkDescriptorPoolSize ps{VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2};
   VkDescriptorPoolCreateInfo dpci{VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO};
   dpci.maxSets = 1;
   dpci.poolSizeCount = 1;
@@ -295,14 +274,17 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   dsai.pSetLayouts = &dsl;
   VkDescriptorSet dset = VK_NULL_HANDLE;
   vkd.vkAllocateDescriptorSets(dev, &dsai, &dset);
-  VkDescriptorBufferInfo dbi{out.buf, 0, VK_WHOLE_SIZE};
-  VkWriteDescriptorSet wr{VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET};
-  wr.dstSet = dset;
-  wr.dstBinding = 0;
-  wr.descriptorCount = 1;
-  wr.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
-  wr.pBufferInfo = &dbi;
-  vkd.vkUpdateDescriptorSets(dev, 1, &wr, 0, nullptr);
+  VkDescriptorBufferInfo dbi[2] = {{out.buf, 0, VK_WHOLE_SIZE}, {count.buf, 0, VK_WHOLE_SIZE}};
+  VkWriteDescriptorSet wr[2]{};
+  for (std::uint32_t i = 0; i < 2; ++i) {
+    wr[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+    wr[i].dstSet = dset;
+    wr[i].dstBinding = i;
+    wr[i].descriptorCount = 1;
+    wr[i].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+    wr[i].pBufferInfo = &dbi[i];
+  }
+  vkd.vkUpdateDescriptorSets(dev, 2, wr, 0, nullptr);
 
   VkQueryPool qpool = ts_ok ? create_timestamp_pool(vkd, dev, 2) : VK_NULL_HANDLE;
 
@@ -318,7 +300,13 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
   VkCommandBuffer cb = VK_NULL_HANDLE;
   vkd.vkAllocateCommandBuffers(dev, &cbai, &cb);
 
-  auto time_launches = [&](std::uint32_t n, std::uint32_t iters, int reps) -> double {
+  void* count_map = nullptr;
+  vkd.vkMapMemory(dev, count.mem, 0, sizeof(std::uint32_t), 0, &count_map);
+  auto subgroups_ran = [&]() { return *static_cast<volatile std::uint32_t*>(count_map); };
+
+  // Runs `reps` dispatches covering `n` invocations; the subgroup counter is reset first.
+  auto time_launches = [&](VkPipeline pipe, std::uint32_t n, std::uint32_t iters, int reps) -> double {
+    *static_cast<volatile std::uint32_t*>(count_map) = 0;
     vkd.vkResetCommandBuffer(cb, 0);
     VkCommandBufferBeginInfo bi{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     bi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
@@ -327,10 +315,10 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
       vkd.vkCmdResetQueryPool(cb, qpool, 0, 2);
       vkd.vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, qpool, 0);
     }
-    vkd.vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
+    vkd.vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pipe);
     vkd.vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE, pl, 0, 1, &dset, 0, nullptr);
-    PushConstants pc{n, iters};
-    const std::uint32_t groups = (n + local_x - 1) / local_x;
+    PushConstants pc{n, iters, 1};
+    const std::uint32_t groups = (n + i8::kBlock - 1) / i8::kBlock;
     VkMemoryBarrier mb{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
     mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
     mb.dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT;
@@ -342,6 +330,11 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
                                  0, nullptr, 0, nullptr);
     }
     if (qpool) vkd.vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, qpool, 1);
+    VkMemoryBarrier to_host{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
+    to_host.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+    to_host.dstAccessMask = VK_ACCESS_HOST_READ_BIT;
+    vkd.vkCmdPipelineBarrier(cb, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_HOST_BIT, 0, 1, &to_host, 0,
+                             nullptr, 0, nullptr);
     vkd.vkEndCommandBuffer(cb);
     VkSubmitInfo si{VK_STRUCTURE_TYPE_SUBMIT_INFO};
     si.commandBufferCount = 1;
@@ -353,66 +346,105 @@ RunResult run_gpu_int8_vulkan(const gpgpu::Setup& setup) {
     return secs;
   };
 
-  auto read_back = [&](std::uint32_t count, std::vector<std::uint32_t>& host) {
+  auto read_back = [&](std::uint32_t n, std::vector<std::uint32_t>& host) {
     void* mapped = nullptr;
-    vkd.vkMapMemory(dev, out.mem, 0, count * sizeof(std::uint32_t), 0, &mapped);
-    std::memcpy(host.data(), mapped, count * sizeof(std::uint32_t));
+    vkd.vkMapMemory(dev, out.mem, 0, n * sizeof(std::uint32_t), 0, &mapped);
+    std::memcpy(host.data(), mapped, n * sizeof(std::uint32_t));
     vkd.vkUnmapMemory(dev, out.mem);
   };
 
   std::vector<std::uint32_t> host(T);
-  bool ok = true;
+  std::string err;
 
-  auto verify = [&](std::uint32_t count, std::uint32_t iters, std::uint32_t stride) -> bool {
-    for (std::uint32_t s = 0; s < count; ++s) {
+  auto verify = [&](bool tensor, std::uint32_t n, std::uint32_t iters, std::uint32_t stride) -> bool {
+    for (std::uint32_t s = 0; s < n; ++s) {
       const std::uint32_t t = s * stride;
-      const std::uint32_t exp = tensor ? (std::uint32_t)i8::reference_tensor(iters) : i8::reference_packed(t, iters);
+      const std::uint32_t exp = tensor
+                                    ? static_cast<std::uint32_t>(i8::reference_tensor(iters, static_cast<int>(shape.k)))
+                                    : i8::reference_packed(t, iters);
       if (host[t] != exp) {
         char buf[160];
         std::snprintf(buf, sizeof(buf), "mismatch at t=%u: got=%u expected=%u", t, host[t], exp);
-        r.error = buf;
+        err = buf;
         return false;
       }
     }
     return true;
   };
 
-  // --- pre-flight exactness ---
-  time_launches(i8::kPreflightThreads, i8::kPreflightIters, 1);
-  read_back(i8::kPreflightThreads, host);
-  ok = verify(i8::kPreflightThreads, i8::kPreflightIters, 1);
+  auto preflight = [&](bool tensor) -> bool {
+    time_launches(tensor ? coop_pipe : packed_pipe, i8::kPreflightThreads, i8::kPreflightIters, 1);
+    read_back(i8::kPreflightThreads, host);
+    return verify(tensor, i8::kPreflightThreads, i8::kPreflightIters, 1);
+  };
+
+  // Work of the last time_launches call on the main configuration.
+  auto work_of = [&](bool tensor, int reps) -> std::uint64_t {
+    return tensor ? static_cast<std::uint64_t>(subgroups_ran()) * i8::kIters * shape.flops()
+                  : i8::ops_packed(T, i8::kIters, reps);
+  };
+
+  const bool packed_ok = packed_pipe != VK_NULL_HANDLE && preflight(false);
+  const std::string packed_err = packed_pipe ? err : "vkCreateComputePipelines failed";
+  err.clear();
+  const bool coop_ok = coop_pipe != VK_NULL_HANDLE && preflight(true);
+
+  // One timed launch of each candidate after warm-up; the faster one is benchmarked.
+  bool tensor = coop_ok;
+  if (coop_ok && packed_ok) {
+    double rate[2] = {0.0, 0.0};
+    for (int k = 0; k < 2; ++k) {
+      const bool t = k == 1;
+      const VkPipeline pipe = t ? coop_pipe : packed_pipe;
+      for (int w = 0; w < kWarmups; ++w) time_launches(pipe, T, i8::kIters, 1);
+      const double secs = time_launches(pipe, T, i8::kIters, 1);
+      rate[k] = secs > 0.0 ? static_cast<double>(work_of(t, 1)) / secs : 0.0;
+    }
+    tensor = rate[1] >= rate[0];
+  }
+
+  bool ok = tensor || packed_ok;
+  if (!ok) r.error = packed_err.empty() ? err : packed_err;
+  r.path = tensor ? "tensor(coopmat " + shape.str() + " s8->s32)" : "simd(i8vec4)";
 
   double secs = 0.0;
   int reps = 0;
+  std::uint64_t work = 0;
   if (ok) {
-    for (int w = 0; w < kWarmups; ++w) time_launches(T, i8::kIters, 1);
-    const double t_once = time_launches(T, i8::kIters, 1);
+    const VkPipeline pipe = tensor ? coop_pipe : packed_pipe;
+    for (int w = 0; w < kWarmups; ++w) time_launches(pipe, T, i8::kIters, 1);
+    const double t_once = time_launches(pipe, T, i8::kIters, 1);
     reps = calibrate_repeats(t_once, kComputeTargetSeconds, kComputeRepCap);
-    secs = time_launches(T, i8::kIters, reps);
+    secs = time_launches(pipe, T, i8::kIters, reps);
+    work = work_of(tensor, reps);
     read_back(T, host);
     constexpr std::uint32_t kSamples = 64;
     const std::uint32_t stride = (T - 1) / (kSamples - 1);
-    ok = verify(kSamples, i8::kIters, stride);
+    ok = verify(tensor, kSamples, i8::kIters, stride);
+    if (!ok) r.error = err;
   }
 
+  vkd.vkUnmapMemory(dev, count.mem);
   if (qpool) vkd.vkDestroyQueryPool(dev, qpool, nullptr);
   vkd.vkDestroyCommandPool(dev, cpool, nullptr);
   vkd.vkDestroyDescriptorPool(dev, dpool, nullptr);
-  vkd.vkDestroyPipeline(dev, pipeline, nullptr);
+  if (coop_pipe) vkd.vkDestroyPipeline(dev, coop_pipe, nullptr);
+  if (packed_pipe) vkd.vkDestroyPipeline(dev, packed_pipe, nullptr);
   vkd.vkDestroyPipelineLayout(dev, pl, nullptr);
   vkd.vkDestroyDescriptorSetLayout(dev, dsl, nullptr);
-  vkd.vkDestroyShaderModule(dev, shader, nullptr);
+  for (VkShaderModule m : modules) vkd.vkDestroyShaderModule(dev, m, nullptr);
+  destroy_buffer(vkd, dev, count);
   destroy_buffer(vkd, dev, out);
   vkd.vkDestroyDevice(dev, nullptr);
   vki.vkDestroyInstance(inst, nullptr);
 
   if (ok) {
-    const std::uint32_t tiles = T / local_x;
-    r.work = tensor ? i8::ops_tensor(tiles, i8::kIters, reps) : i8::ops_packed(T, i8::kIters, reps);
+    r.work = work;
     r.measured = std::chrono::duration<double>{secs};
     r.timings.kernel_compute = r.measured;
     r.score = score_giga(r.work, secs);
     r.correct = true;
+    if (tensor) r.info.emplace_back("coopmat_shape", shape.str());
   }
   return r;
 }

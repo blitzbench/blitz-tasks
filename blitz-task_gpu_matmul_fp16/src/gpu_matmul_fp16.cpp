@@ -18,9 +18,6 @@
 #if defined(GPU_MATMUL_FP16_HAVE_ROCM)
 #include "runners/rocm/rocm_runner.hpp"
 #endif
-#if defined(GPU_MATMUL_FP16_HAVE_ONEAPI)
-#include "runners/oneapi/oneapi_runner.hpp"
-#endif
 #if defined(GPU_MATMUL_FP16_HAVE_OPENCL)
 #include "runners/opencl/opencl_runner.hpp"
 #endif
@@ -74,11 +71,7 @@ bench::RunResult dispatch_to(const gpgpu::Setup& setup, bench::gemm::ContextPtr&
       return missing("ROCm");
 #endif
     case gpgpu::BackendId::OneAPI:
-#if defined(GPU_MATMUL_FP16_HAVE_ONEAPI)
-      return bench::run_gpu_matmul_fp16_oneapi(setup, ctx, params);
-#else
       return missing("OneAPI");
-#endif
     case gpgpu::BackendId::OpenCL:
 #if defined(GPU_MATMUL_FP16_HAVE_OPENCL)
       return bench::run_gpu_matmul_fp16_opencl(setup, ctx, params);

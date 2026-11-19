@@ -61,13 +61,12 @@ compiler). A few link a third-party workload library and need more:
   `main`, so a binary carrying it does not start without ROCm; pass
   `-DBLITZ_GPU_ROCM=OFF` to leave the ROCm runners out (AMD GPUs are then measured
   through OpenCL / Vulkan). The kernels are compiled for the AMD targets listed in
-  `common/cpp/cmake/BlitzGpuRunners.cmake` (CDNA2, RDNA2, RDNA3) unless
+  `common/cpp/cmake/BlitzGpuRunners.cmake` (CDNA2, CDNA3, RDNA2, RDNA3, RDNA4) unless
   `-DCMAKE_HIP_ARCHITECTURES=...` is given. The CUDA, OpenCL, Vulkan and Level Zero
   runtimes are bound at run time and never needed for a binary to start.
-  The oneAPI runners of the shader-based `gpu_*` tasks are not built by default: their
-  kernels are SPIR-V compiled from GLSL, which Intel's Level Zero compiler rejects by
-  terminating the process. `-DBLITZ_GPU_ONEAPI_GLSL_SPIRV=ON` builds them anyway; the
-  oneAPI runners of `gpu_pcie_*` and `gpu_vram_copy` load no kernels and are always built.
+  Only the kernel-free tasks (`gpu_pcie_*`, `gpu_vram_copy`) have a oneAPI (Level Zero)
+  runner. Intel GPUs run the compute tasks through OpenCL and Vulkan, which share
+  Intel's compiler with Level Zero.
 
 - **`disk_db_oltp`** links SQLite (public domain) from the `external/sqlite` submodule, a
   mirror of the official SQLite sources. The single-file amalgamation is generated once per
@@ -186,9 +185,12 @@ GPU tasks (`"component": "gpu"`) additionally declare the device capabilities
 they cannot run without:
 
 - **`gpu_requires`** (required on GPU tasks, forbidden on all others) — an array
-  of distinct tokens from `fp16`, `fp64`, `int8` and `tensor_cores`, naming
-  gpu_runtime's `Device` capability flags (`supports_fp16()`, `supports_fp64()`,
-  `supports_int8()`, `supports_tensor_cores()`). A capability is listed only if
+  of distinct tokens from `fp16`, `fp64`, `int8`, `tensor_cores` and `discrete`.
+  The first four name gpu_runtime's `Device` capability flags (`supports_fp16()`,
+  `supports_fp64()`, `supports_int8()`, `supports_tensor_cores()`). `discrete`
+  excludes devices whose `Device::type()` is `Integrated` or `Cpu`; the
+  `gpu_pcie_*` tasks carry it because a GPU sharing system memory has no host link
+  to measure. A capability is listed only if
   every backend runner of the task needs it; a runner with a fallback path for a
   missing capability keeps it off the list. `[]` means the task needs nothing
   beyond a GPU. A host uses it to skip a device that lacks a capability before

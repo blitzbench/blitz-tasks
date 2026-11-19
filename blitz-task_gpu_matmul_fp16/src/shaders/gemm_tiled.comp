@@ -1,4 +1,4 @@
-// Tiled fp16 GEMM — SOURCE FORM for the Vulkan fallback and the Level Zero runner.
+// Tiled fp16 GEMM — SOURCE FORM for the Vulkan fallback.
 // C = A * B for square row-major matrices, fp16 operands accumulated in fp32.
 //
 // One 16x16 output tile per workgroup, with both operand tiles staged through

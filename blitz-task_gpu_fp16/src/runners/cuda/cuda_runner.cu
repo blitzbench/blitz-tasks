@@ -57,8 +57,11 @@ __global__ void fp16_wmma_kernel(float* out, unsigned warps, unsigned iters) {
     for (unsigned i = 0; i < iters; ++i)
         wmma::mma_sync(c, a, b, c);
 
-    // Every element is identical; store this lane's element 0.
-    out[gt] = c.num_elements > 0 ? c.x[0] : 0.0f;
+    // Every element is identical, but consume all of them so ptxas can't DCE half the HMMA.
+    float s = 0.0f;
+    #pragma unroll
+    for (int j = 0; j < c.num_elements; ++j) s += c.x[j];
+    out[gt] = s / static_cast<float>(c.num_elements);
 #else
     (void)out; (void)warps; (void)iters;
 #endif

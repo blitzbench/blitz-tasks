@@ -6,11 +6,13 @@
  * Vulkan has no vendor BLAS to call, so this runner is what the task reports wherever
  * cuBLASLt, hipBLASLt and MPS are all out of reach. At configure time the shaders/ build
  * embeds gemm_coopmat.spv only when glslang can compile KHR_cooperative_matrix
- * (GPU_MATMUL_FP16_COOPMAT_SPV_AVAILABLE). At runtime we additionally require the device
- * to expose VK_KHR_cooperative_matrix and a 16x16x16 {f16,f16,f32} subgroup
- * configuration; otherwise the tiled kernel runs. RunResult.path records which:
+ * (GPU_MATMUL_FP16_COOPMAT_SPV_AVAILABLE). At runtime the coopmat kernel additionally needs
+ * VK_KHR_cooperative_matrix and a subgroup {f16,f16,f32} configuration; its MxNxK comes from
+ * the device's list (bench::best_coopmat_shape). Some drivers list cooperative matrices on
+ * hardware without matrix units and emulate them, so when both kernels are available each
+ * multiplies once and the faster one is benchmarked. RunResult.path records which:
  *
- *   coopmat: "tiled(coopmat 16x16x16 f16->f32)"
+ *   coopmat: "tiled(coopmat MxNxK f16->f32)"
  *   fallback: "tiled(shared 16x16 f16->f32)"
  *
  * Operands never cross the bus: gemm_fill.comp writes A and B from the coordinate hash
@@ -49,8 +51,11 @@ namespace bench {
 
 namespace {
 
-// Output tile edge, and therefore the workgroup footprint of every kernel here.
+// Output tile edge, and therefore the workgroup footprint of the fill and tiled kernels.
 constexpr std::uint32_t kTile = 16u;
+
+// Output tiles one workgroup of the coopmat kernel owns; must match kTilesPerGroup in gemm_coopmat.comp.
+constexpr std::uint32_t kCoopTilesPerGroup = 16u;
 
 struct PushConstants {
   std::uint32_t n;
@@ -65,44 +70,6 @@ bool device_has_extension(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysica
   for (const auto& e : exts)
     if (std::strcmp(e.extensionName, name) == 0) return true;
   return false;
-}
-
-/**
- * @brief Query whether a 16x16x16 {f16,f16,f32} subgroup coopmat config exists.
- * @param vk
- * @param inst
- * @param pd
- * @return
- */
-bool coopmat_16x16x16_supported(const gpgpu::vendor::VulkanFns& vk, VkInstance inst, VkPhysicalDevice pd) {
-#if defined(VK_KHR_cooperative_matrix)
-  auto pfn = reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR>(
-      vk.vkGetInstanceProcAddr(inst, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR"));
-  if (!pfn) return false;
-  std::uint32_t n = 0;
-  if (pfn(pd, &n, nullptr) != VK_SUCCESS || n == 0) return false;
-  std::vector<VkCooperativeMatrixPropertiesKHR> props(n, {VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_KHR});
-  if (pfn(pd, &n, props.data()) != VK_SUCCESS) return false;
-  for (const auto& p : props) {
-    if (p.MSize == 16 && p.NSize == 16 && p.KSize == 16 && p.AType == VK_COMPONENT_TYPE_FLOAT16_KHR &&
-        p.BType == VK_COMPONENT_TYPE_FLOAT16_KHR && p.CType == VK_COMPONENT_TYPE_FLOAT32_KHR &&
-        p.ResultType == VK_COMPONENT_TYPE_FLOAT32_KHR && p.scope == VK_SCOPE_SUBGROUP_KHR)
-      return true;
-  }
-#else
-  (void)vk;
-  (void)inst;
-  (void)pd;
-#endif
-  return false;
-}
-
-std::uint32_t subgroup_size(const gpgpu::vendor::VulkanInstanceFns& vki, VkPhysicalDevice pd) {
-  VkPhysicalDeviceSubgroupProperties sg{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES};
-  VkPhysicalDeviceProperties2 p2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2};
-  p2.pNext = &sg;
-  vki.vkGetPhysicalDeviceProperties2(pd, &p2);
-  return sg.subgroupSize ? sg.subgroupSize : 32u;
 }
 
 // The features the kernels need to hold and multiply fp16 values in a storage buffer, and the memory model the
@@ -142,7 +109,8 @@ struct VulkanGemmContext : gemm::Context {
   std::string device_id;
   std::uint32_t n{0};
   std::uint32_t seed{0};
-  bool coopmat{false};
+  CoopmatShape shape{};  // empty unless the coopmat kernel is available
+  bool coopmat{false};   // which kernel time_gemm runs
 
   gpgpu::vendor::VulkanInstanceFns vki{};
   gpgpu::vendor::VulkanDeviceFns vkd{};
@@ -154,10 +122,10 @@ struct VulkanGemmContext : gemm::Context {
   bool ts_ok{false};
 
   VkBufferAlloc a{}, b{}, c{}, staging{};
-  VkShaderModule fill_shader{VK_NULL_HANDLE}, gemm_shader{VK_NULL_HANDLE};
+  VkShaderModule fill_shader{VK_NULL_HANDLE}, tiled_shader{VK_NULL_HANDLE}, coop_shader{VK_NULL_HANDLE};
   VkDescriptorSetLayout dsl{VK_NULL_HANDLE};
   VkPipelineLayout layout{VK_NULL_HANDLE};
-  VkPipeline fill_pipe{VK_NULL_HANDLE}, gemm_pipe{VK_NULL_HANDLE};
+  VkPipeline fill_pipe{VK_NULL_HANDLE}, tiled_pipe{VK_NULL_HANDLE}, coop_pipe{VK_NULL_HANDLE};
   VkDescriptorPool dpool{VK_NULL_HANDLE};
   VkDescriptorSet dset{VK_NULL_HANDLE};
   VkQueryPool qpool{VK_NULL_HANDLE};
@@ -172,11 +140,13 @@ struct VulkanGemmContext : gemm::Context {
       if (cpool) vkd.vkDestroyCommandPool(dev, cpool, nullptr);
       if (dpool) vkd.vkDestroyDescriptorPool(dev, dpool, nullptr);
       if (fill_pipe) vkd.vkDestroyPipeline(dev, fill_pipe, nullptr);
-      if (gemm_pipe) vkd.vkDestroyPipeline(dev, gemm_pipe, nullptr);
+      if (tiled_pipe) vkd.vkDestroyPipeline(dev, tiled_pipe, nullptr);
+      if (coop_pipe) vkd.vkDestroyPipeline(dev, coop_pipe, nullptr);
       if (layout) vkd.vkDestroyPipelineLayout(dev, layout, nullptr);
       if (dsl) vkd.vkDestroyDescriptorSetLayout(dev, dsl, nullptr);
       if (fill_shader) vkd.vkDestroyShaderModule(dev, fill_shader, nullptr);
-      if (gemm_shader) vkd.vkDestroyShaderModule(dev, gemm_shader, nullptr);
+      if (tiled_shader) vkd.vkDestroyShaderModule(dev, tiled_shader, nullptr);
+      if (coop_shader) vkd.vkDestroyShaderModule(dev, coop_shader, nullptr);
       destroy_buffer(vkd, dev, a);
       destroy_buffer(vkd, dev, b);
       destroy_buffer(vkd, dev, c);
@@ -205,16 +175,21 @@ struct VulkanGemmContext : gemm::Context {
       vkd.vkCmdResetQueryPool(cb, qpool, 0, 2);
       vkd.vkCmdWriteTimestamp(cb, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, qpool, 0);
     }
-    vkd.vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, gemm_pipe);
+    vkd.vkCmdBindPipeline(cb, VK_PIPELINE_BIND_POINT_COMPUTE, coopmat ? coop_pipe : tiled_pipe);
     vkd.vkCmdBindDescriptorSets(cb, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, 1, &dset, 0, nullptr);
     const PushConstants pc{n, seed};
     vkd.vkCmdPushConstants(cb, layout, VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(pc), &pc);
     const std::uint32_t groups = n / kTile;
+    const std::uint32_t coop_tiles = coopmat ? (n / shape.m) * (n / shape.n) : 0;
+    const std::uint32_t coop_groups = (coop_tiles + kCoopTilesPerGroup - 1) / kCoopTilesPerGroup;
     VkMemoryBarrier mb{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
     mb.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
     mb.dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT;
     for (int i = 0; i < reps; ++i) {
-      vkd.vkCmdDispatch(cb, groups, groups, 1);
+      if (coopmat)
+        vkd.vkCmdDispatch(cb, coop_groups, 1, 1);
+      else
+        vkd.vkCmdDispatch(cb, groups, groups, 1);
       if (i + 1 < reps)
         vkd.vkCmdPipelineBarrier(cb, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &mb,
                                  0, nullptr, 0, nullptr);
@@ -337,13 +312,13 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
 
   out.ts_period_ns = pd_props.limits.timestampPeriod;
   out.ts_ok = pd_props.limits.timestampComputeAndGraphics != 0;
-  const std::uint32_t sg = subgroup_size(vki, pd);
-
 #if defined(GPU_MATMUL_FP16_COOPMAT_SPV_AVAILABLE) && defined(VK_KHR_cooperative_matrix)
   // The coopmat kernel uses the Vulkan memory model; without it the tiled kernel runs.
-  out.coopmat = fp16.memory_model && device_has_extension(vki, pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME) &&
-                coopmat_16x16x16_supported(vk, out.inst, pd);
+  if (fp16.memory_model && device_has_extension(vki, pd, VK_KHR_COOPERATIVE_MATRIX_EXTENSION_NAME))
+    out.shape = best_coopmat_shape(vk, out.inst, pd, VK_COMPONENT_TYPE_FLOAT16_KHR, VK_COMPONENT_TYPE_FLOAT32_KHR,
+                                   gemm::kLadder[0]);
 #endif
+  out.coopmat = static_cast<bool>(out.shape);
 
   out.qfam = find_queue_family(vki, pd, VK_QUEUE_COMPUTE_BIT);
   if (out.qfam == UINT32_MAX) {
@@ -427,13 +402,11 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
     return m;
   };
   out.fill_shader = make_module(k_gemm_fill_spv_bytes, k_gemm_fill_spv_bytes_len);
+  out.tiled_shader = make_module(k_gemm_tiled_spv_bytes, k_gemm_tiled_spv_bytes_len);
 #if defined(GPU_MATMUL_FP16_COOPMAT_SPV_AVAILABLE)
-  out.gemm_shader = out.coopmat ? make_module(k_gemm_coopmat_spv_bytes, k_gemm_coopmat_spv_bytes_len)
-                                : make_module(k_gemm_tiled_spv_bytes, k_gemm_tiled_spv_bytes_len);
-#else
-  out.gemm_shader = make_module(k_gemm_tiled_spv_bytes, k_gemm_tiled_spv_bytes_len);
+  if (out.shape) out.coop_shader = make_module(k_gemm_coopmat_spv_bytes, k_gemm_coopmat_spv_bytes_len);
 #endif
-  if (!out.fill_shader || !out.gemm_shader) {
+  if (!out.fill_shader || !out.tiled_shader) {
     error = "vkCreateShaderModule failed";
     return false;
   }
@@ -458,14 +431,12 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
   plci.pPushConstantRanges = &pcr;
   vkd.vkCreatePipelineLayout(out.dev, &plci, nullptr, &out.layout);
 
-  // The coopmat kernel takes its workgroup width from the device's subgroup size, so one
-  // workgroup is exactly one subgroup on every vendor.
-  const VkSpecializationMapEntry sme{0, 0, sizeof(std::uint32_t)};
-  VkSpecializationInfo spec{};
-  spec.mapEntryCount = 1;
-  spec.pMapEntries = &sme;
-  spec.dataSize = sizeof(std::uint32_t);
-  spec.pData = &sg;
+  // The coopmat kernel takes its MxNxK from the chosen shape.
+  const std::uint32_t mnk[3] = {out.shape.m, out.shape.n, out.shape.k};
+  const VkSpecializationMapEntry sme[3] = {{0, 0, sizeof(std::uint32_t)},
+                                           {1, sizeof(std::uint32_t), sizeof(std::uint32_t)},
+                                           {2, 2 * sizeof(std::uint32_t), sizeof(std::uint32_t)}};
+  const VkSpecializationInfo spec{3, sme, sizeof(mnk), mnk};
 
   auto make_pipeline = [&](VkShaderModule module, bool specialized) {
     VkPipelineShaderStageCreateInfo ssci{VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO};
@@ -481,8 +452,10 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
     return p;
   };
   out.fill_pipe = make_pipeline(out.fill_shader, false);
-  out.gemm_pipe = make_pipeline(out.gemm_shader, out.coopmat);
-  if (!out.fill_pipe || !out.gemm_pipe) {
+  out.tiled_pipe = make_pipeline(out.tiled_shader, false);
+  if (out.coop_shader) out.coop_pipe = make_pipeline(out.coop_shader, true);
+  if (!out.coop_pipe) out.coopmat = false;
+  if (!out.fill_pipe || !out.tiled_pipe) {
     error = "vkCreateComputePipelines failed";
     return false;
   }
@@ -525,6 +498,17 @@ bool build_context(const gpgpu::vendor::VulkanFns& vk, const gpgpu::Setup& setup
   vkd.vkAllocateCommandBuffers(out.dev, &cbai, &out.cb);
 
   out.fill_operands();
+
+  // Each kernel multiplies twice (warm-up, then timed); the faster one is kept.
+  if (out.coop_pipe) {
+    double t[2] = {0.0, 0.0};
+    for (int k = 0; k < 2; ++k) {
+      out.coopmat = k == 1;
+      out.time_gemm(1);
+      t[k] = out.time_gemm(1);
+    }
+    out.coopmat = t[1] > 0.0 && (t[0] <= 0.0 || t[1] <= t[0]);
+  }
   return true;
 }
 
@@ -589,7 +573,7 @@ RunResult run_gpu_matmul_fp16_vulkan(const gpgpu::Setup& setup, gemm::ContextPtr
     gemm_ctx = static_cast<VulkanGemmContext*>(ctx.get());
   }
 
-  r.path = gemm_ctx->coopmat ? "tiled(coopmat 16x16x16 f16->f32)" : "tiled(shared 16x16 f16->f32)";
+  r.path = gemm_ctx->coopmat ? "tiled(coopmat " + gemm_ctx->shape.str() + " f16->f32)" : "tiled(shared 16x16 f16->f32)";
 
   for (int w = 0; w < kWarmups; ++w) gemm_ctx->time_gemm(1);
   const double t_once = gemm_ctx->time_gemm(1);

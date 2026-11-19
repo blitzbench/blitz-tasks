@@ -1,5 +1,4 @@
-# Shared shader build for the Vulkan + Level Zero int8 runners (both consume
-# SPIR-V). The packed i8vec4 fallback (int8_packed) is always built. The
+# Shader build for the Vulkan int8 runner. The packed i8vec4 fallback (int8_packed) is always built. The
 # cooperative-matrix kernel (int8_coopmat) needs glslang >= 13 (Vulkan SDK
 # >= 1.3.261); a configure-time probe decides whether it is embedded. When the
 # probe fails only the packed shader is generated, so int8_coopmat.spv.inl is

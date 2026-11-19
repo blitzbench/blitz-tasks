@@ -1,5 +1,5 @@
-// Packed-SIMD fp16 kernel — SOURCE FORM for the Vulkan (fallback) + Level Zero
-// runners. Dependent f16vec4 FMA chains mirror kernel_params.hpp exactly so the
+// Packed-SIMD fp16 kernel — SOURCE FORM for the Vulkan runner's fallback
+// path. Dependent f16vec4 FMA chains mirror kernel_params.hpp exactly so the
 // shared CPU references reproduce the output. Needs shaderFloat16 for the fp16
 // ALU ops; results are written as f32 so no 16-bit storage feature is required.
 //

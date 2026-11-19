@@ -1,10 +1,21 @@
 /**
  * @file opencl_runner.cpp
- * @brief OpenCL fp16 throughput runner — packed half8 FMA chains.
+ * @brief OpenCL fp16 throughput runner — Intel XMX tensor path with packed half8 FMA chains
+ *        as the fallback.
  *
  * fp16 arithmetic in OpenCL C requires the cl_khr_fp16 extension. When the
- * device does not advertise it the row is a clean unsupported one. When present
- * we run the shared contracting chain over half8 vectors and score in GFLOPS.
+ * device does not advertise it the row is a clean unsupported one.
+ *
+ * On devices with cl_intel_subgroup_matrix_multiply_accumulate (Intel Arc and newer)
+ * the tensor kernel drives the XMX units through intel_sub_group_f16_f16_matrix_mad_k16:
+ * one 8 x SG x 16 {f16,f16,f32} multiply-accumulate per call and sub-group, SG being the
+ * device's minimum sub-group size (8 or 16, bench::intel_matrix_subgroup_size). A and B
+ * are all 1/16, passed in as a kernel argument so no compiler can fold the products, so
+ * every C element equals iters*16*(1/16)^2 exactly (fp16::tensor_out). Should the tensor
+ * kernel fail to build or verify, the packed kernel runs instead.
+ *
+ *   tensor:  "tensor(xmx 8xSGx16 f16->f32)"
+ *   packed:  "simd(half8 fma)"
  */
 
 #include "opencl_runner.hpp"
@@ -60,6 +71,108 @@ __kernel void fp16_fma(__global float* out, const uint n, const uint iters,
 }
 )CL";
 
+// XMX tensor kernel, built with -DSG=8 or -DSG=16. Each call multiplies an 8x16 A by a
+// 16xSG B: A packs two fp16 per int on SG8 and one per short on SG16, B packs a work item's
+// 16-element column into an int8. Four independent accumulators keep the matrix pipe busy,
+// and every component is summed so no call can be dropped as dead code.
+constexpr const char* kTensorSource = R"CL(
+#if SG == 8
+typedef int8 a_t;
+#define A_INIT(p) ((a_t)((int)(p)))
+#else
+typedef short8 a_t;
+#define A_INIT(p) ((a_t)((short)((p) & 0xFFFFu)))
+#endif
+__attribute__((intel_reqd_sub_group_size(SG)))
+__kernel void fp16_xmx(__global float* out, const uint iters, const uint pair) {
+    const a_t a = A_INIT(pair);
+    const int8 b = (int8)((int)pair);
+    float8 c0 = 0.0f, c1 = 0.0f, c2 = 0.0f, c3 = 0.0f;
+    for (uint i = 0; i < iters / 4u; ++i) {
+        c0 = intel_sub_group_f16_f16_matrix_mad_k16(a, b, c0);
+        c1 = intel_sub_group_f16_f16_matrix_mad_k16(a, b, c1);
+        c2 = intel_sub_group_f16_f16_matrix_mad_k16(a, b, c2);
+        c3 = intel_sub_group_f16_f16_matrix_mad_k16(a, b, c3);
+    }
+    const float8 s = c0 + c1 + c2 + c3;
+    out[get_global_id(0)] = (s.s0 + s.s1 + s.s2 + s.s3 + s.s4 + s.s5 + s.s6 + s.s7) / 8.0f;
+}
+)CL";
+
+// Two fp16 1/16 (0x2C00) packed into one 32-bit word.
+constexpr cl_uint kTensorPair = 0x2C002C00u;
+constexpr int kTensorRows = 8;
+constexpr int kTensorK = 16;
+
+/**
+ * @brief Runs the XMX tensor kernel on @p buf (T floats).
+ *
+ * @param cl OpenCL entry points
+ * @param ctx context of @p device
+ * @param device device to run on
+ * @param queue profiling-enabled queue
+ * @param buf output buffer of @p T floats
+ * @param T launched work items
+ * @param sg sub-group size the built-ins require (8 or 16)
+ * @param r filled with the scored result on success
+ * @return true when the kernel built, ran and verified
+ */
+bool run_tensor(const gpgpu::vendor::OpenClFns& cl, cl_context ctx, cl_device_id device, cl_command_queue queue,
+                cl_mem buf, std::uint32_t T, std::uint32_t sg, RunResult& r) {
+  const std::string options = "-DSG=" + std::to_string(sg);
+  std::string log;
+  cl_program program = build_program_with_log(cl, ctx, device, kTensorSource, options.c_str(), log);
+  if (!program) return false;
+  cl_int err = CL_SUCCESS;
+  cl_kernel kernel = cl.clCreateKernel(program, "fp16_xmx", &err);
+  if (!kernel) {
+    cl.clReleaseProgram(program);
+    return false;
+  }
+
+  auto launch = [&](std::uint32_t n, cl_uint iters, int reps) {
+    const cl_uint pair = kTensorPair;
+    cl.clSetKernelArg(kernel, 0, sizeof(cl_mem), &buf);
+    cl.clSetKernelArg(kernel, 1, sizeof(cl_uint), &iters);
+    cl.clSetKernelArg(kernel, 2, sizeof(cl_uint), &pair);
+    return cl_time_launches(cl, queue, kernel, n, fp16::kBlock, reps);
+  };
+
+  std::vector<float> host(T);
+  bool ok = true;
+  launch(fp16::kPreflightThreads, fp16::kTensorPreflightIters, 1);
+  cl.clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, fp16::kPreflightThreads * sizeof(float), host.data(), 0, nullptr,
+                         nullptr);
+  for (std::uint32_t t = 0; t < fp16::kPreflightThreads && ok; ++t)
+    ok = fp16::tensor_ok(host[t], fp16::kTensorPreflightIters, kTensorK);
+
+  double secs = 0.0;
+  int reps = 0;
+  if (ok) {
+    for (int w = 0; w < kWarmups; ++w) launch(T, fp16::kTensorIters, 1);
+    const double t_once = launch(T, fp16::kTensorIters, 1);
+    reps = calibrate_repeats(t_once, kComputeTargetSeconds, kComputeRepCap);
+    secs = launch(T, fp16::kTensorIters, reps);
+    cl.clEnqueueReadBuffer(queue, buf, CL_TRUE, 0, T * sizeof(float), host.data(), 0, nullptr, nullptr);
+    for (std::uint32_t s = 0; s < 64 && ok; ++s) {
+      const std::uint32_t t = static_cast<std::uint32_t>(static_cast<std::uint64_t>(s) * (T - 1) / 63);
+      ok = fp16::tensor_ok(host[t], fp16::kTensorIters, kTensorK);
+    }
+  }
+  cl.clReleaseKernel(kernel);
+  cl.clReleaseProgram(program);
+  if (!ok || secs <= 0.0) return false;
+
+  r.path = "tensor(xmx " + std::to_string(kTensorRows) + "x" + std::to_string(sg) + "x" + std::to_string(kTensorK) +
+           " f16->f32)";
+  r.work = fp16::tensor_flops(T / sg, fp16::kTensorIters, reps, kTensorRows, static_cast<int>(sg), kTensorK);
+  r.measured = std::chrono::duration<double>{secs};
+  r.timings.kernel_compute = r.measured;
+  r.score = score_giga(r.work, secs);
+  r.correct = true;
+  return true;
+}
+
 }  // namespace
 
 RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
@@ -103,6 +216,20 @@ RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
     return r;
   }
 
+  const std::uint32_t T = fp16::thread_count(setup.device);
+
+  // Intel XMX tensor path first; any failure falls through to the packed kernel.
+  if (const std::uint32_t sg = intel_matrix_subgroup_size(cl, device)) {
+    cl_mem tbuf = cl.clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, T * sizeof(float), nullptr, &err);
+    const bool done = tbuf && run_tensor(cl, ctx, device, queue, tbuf, T, sg, r);
+    if (tbuf) cl.clReleaseMemObject(tbuf);
+    if (done) {
+      cl.clReleaseCommandQueue(queue);
+      cl.clReleaseContext(ctx);
+      return r;
+    }
+  }
+
   std::string log;
   cl_program program = build_program_with_log(cl, ctx, device, kKernelSource, nullptr, log);
   if (!program) {
@@ -120,7 +247,6 @@ RunResult run_gpu_fp16_opencl(const gpgpu::Setup& setup) {
     return r;
   }
 
-  const std::uint32_t T = fp16::thread_count(setup.device);
   cl_mem buf = cl.clCreateBuffer(ctx, CL_MEM_WRITE_ONLY, T * sizeof(float), nullptr, &err);
 
   auto cleanup = [&]() {

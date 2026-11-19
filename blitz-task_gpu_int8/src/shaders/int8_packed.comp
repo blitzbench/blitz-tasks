@@ -1,4 +1,4 @@
-// Packed-SIMD int8 fallback kernel (Vulkan fallback + Level Zero) — SOURCE FORM.
+// Packed-SIMD int8 fallback kernel (Vulkan fallback) — SOURCE FORM.
 // Genuine 8-bit lanes via GL_EXT_shader_explicit_arithmetic_types_int8 (i8vec4);
 // requires the shaderInt8 device feature. Mirrors bench::i8::reference_packed:
 // per thread, kChains dependent MAC chains over a uint32 accumulator whose four

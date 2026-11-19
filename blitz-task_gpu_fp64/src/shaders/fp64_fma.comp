@@ -1,10 +1,10 @@
-// Dense dependent-FMA fp64 kernel — SOURCE FORM for the Vulkan + Level Zero
-// runners. Mirrors kernel_params.hpp / the CUDA/OpenCL kernels exactly so the
+// Dense dependent-FMA fp64 kernel — SOURCE FORM for the Vulkan
+// runner. Mirrors kernel_params.hpp / the CUDA/OpenCL kernels exactly so the
 // shared CPU reference reproduces the output. GLSL `fma` is fused.
 //
 // `double` is core in GLSL 4.00+, so #version 450 needs no extension; glslang
 // emits the Float64 capability, which requires the shaderFloat64 device feature
-// (Vulkan enables it at device creation; Level Zero gates on the L0 fp64 flag).
+// (the Vulkan runner enables it at device creation).
 //
 // Regenerate the embedded SPIR-V (done automatically at build by
 // bench_add_shaders):

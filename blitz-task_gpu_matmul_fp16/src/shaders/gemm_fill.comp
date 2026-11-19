@@ -1,4 +1,4 @@
-// Operand fill kernel — SOURCE FORM for the Vulkan and Level Zero runners.
+// Operand fill kernel — SOURCE FORM for the Vulkan runner.
 // Writes A and B from a closed-form hash of each element's coordinates, so a
 // 16384-square problem costs no host memory and no host-to-device transfer.
 //

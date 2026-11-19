@@ -1,5 +1,5 @@
-// Device-local VRAM read kernel — SOURCE FORM for the Vulkan + Level Zero
-// runners. Grid-stride loop of 128-bit (uvec4) loads; each thread accumulates
+// Device-local VRAM read kernel — SOURCE FORM for the Vulkan
+// runner. Grid-stride loop of 128-bit (uvec4) loads; each thread accumulates
 // the u32 values it reads (natural 2^32 wraparound) and writes ONE uint to the
 // out-buffer (defeats dead-code elimination). The host sums all per-thread
 // outputs and checks against the closed form in kernel_params.hpp.
