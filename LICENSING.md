@@ -43,7 +43,6 @@ third-party attributions.
 | `blitz-task_gpu_image_filters` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_gpu_int8` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
 | `blitz-task_gpu_matmul_fp16` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | cuBLAS (cuBLASLt) (`LicenseRef-NVIDIA-CUDA-EULA`, `runtime`), rocBLAS (`MIT`, `runtime`), CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
-| `blitz-task_gpu_matmul_fp32` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | cuBLAS (cuBLASLt) (`LicenseRef-NVIDIA-CUDA-EULA`, `runtime`), rocBLAS (`MIT`, `runtime`), CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
 | `blitz-task_gpu_path_trace` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_gpu_pcie_bidir` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
 | `blitz-task_gpu_pcie_d2h` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |

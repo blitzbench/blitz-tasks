@@ -21,7 +21,6 @@ their license texts.
   - `blitz-task_gpu_fp64` — cudaMalloc allocates the output buffer and cudaMemcpy reads back the result, and cudaEventRecord and cudaEventElapsedTime time the task's own kernel on NVIDIA devices; the kernel is the measured workload.
   - `blitz-task_gpu_int8` — cudaGetDeviceProperties selects the kernel for the device, cudaMalloc allocates the output buffer and cudaMemcpy reads back the result, and cudaEventRecord and cudaEventElapsedTime time the task's own kernel on NVIDIA devices; the kernel is the measured workload.
   - `blitz-task_gpu_matmul_fp16` — cudaMalloc and cudaMemcpy allocate the operands and read back the verification rows, and cudaEventRecord and cudaEventSynchronize time the multiply on NVIDIA devices; the multiply itself runs in cuBLASLt or the task's tiled kernel.
-  - `blitz-task_gpu_matmul_fp32` — cudaMalloc and cudaMemcpy allocate the operands and read back the verification rows, and cudaEventRecord and cudaEventSynchronize time the multiply on NVIDIA devices; the multiply itself runs in cuBLASLt or the task's tiled kernel.
   - `blitz-task_gpu_pcie_bidir` — cudaMemcpyAsync performs the measured concurrent host-to-device and device-to-host transfers between pinned memory (cudaHostAlloc) and the device on two non-blocking streams on NVIDIA devices; cudaDeviceSynchronize closes the host-clock window the score is taken from, and cudaEventRecord and cudaEventElapsedTime time each direction for the timing breakdown.
   - `blitz-task_gpu_pcie_d2h` — cudaMemcpyAsync performs the measured device-to-host transfers into pinned memory (cudaHostAlloc) on a stream, timed with cudaEventRecord and cudaEventElapsedTime on NVIDIA devices.
   - `blitz-task_gpu_pcie_h2d` — cudaMemcpyAsync performs the measured host-to-device transfers from pinned memory (cudaHostAlloc) on a stream, timed with cudaEventRecord and cudaEventElapsedTime on NVIDIA devices.
@@ -2094,7 +2093,6 @@ is left will be 100% public domain.
 - Notes: Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. Redistributed in binary form in a private application directory as permitted by Attachment A of the CUDA Toolkit EULA.
 - Used by:
   - `blitz-task_gpu_matmul_fp16` — cublasLtMatmul performs the measured matrix multiply on NVIDIA devices, fp16 operands into an fp32 result.
-  - `blitz-task_gpu_matmul_fp32` — cublasLtMatmul performs the measured matrix multiply on NVIDIA devices, fp32 operands with the TF32 compute type.
 
 <details><summary>License text</summary>
 
@@ -3825,7 +3823,6 @@ conditions:
 - Notes: Resolved with dlopen at runtime, never linked, so the task still loads where the library is absent; the tiled kernel then runs instead. rocBLAS is distributed by AMD under the MIT license (see LICENSE.md).
 - Used by:
   - `blitz-task_gpu_matmul_fp16` — rocblas_gemm_ex performs the measured matrix multiply on AMD devices, fp16 operands into an fp32 result.
-  - `blitz-task_gpu_matmul_fp32` — rocblas_gemm_ex performs the measured matrix multiply on AMD devices, fp32 operands with the TF32 compute type.
 
 <details><summary>License text</summary>
 
