@@ -1,11 +1,11 @@
 {
   "lang": "fr_FR",
   "name": "gpu_vram_read",
-  "short_description": "Bande passante en lecture depuis la mémoire propre du processeur graphique.",
-  "description": "Lit de grands tampons depuis la mémoire locale du processeur graphique selon un schéma en lecture seule, avec un ensemble de travail bien plus grand que tout cache sur la puce. Le résultat montre la vitesse à laquelle le GPU peut extraire des données de sa propre mémoire pour alimenter les unités de calcul.",
+  "short_description": "Bande passante en lecture depuis la mémoire du processeur graphique, dédiée ou partagée avec le CPU.",
+  "description": "Lit de grands tampons depuis la mémoire du processeur graphique selon un schéma en lecture seule, avec un ensemble de travail bien plus grand que tout cache sur la puce. Sur un GPU dédié, c'est sa mémoire vidéo ; sur un GPU intégré, c'est la mémoire système qu'il partage avec le CPU. Le résultat montre la vitesse à laquelle le GPU peut extraire des données de la mémoire pour alimenter les unités de calcul.",
   "metric_explanation": "La bande passante est le nombre d'octets lus depuis la mémoire GPU par seconde, exprimé en GB/s.",
   "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante en lecture limite les charges qui diffusent de grandes textures, modèles et jeux de données vers le GPU plus vite qu'elles ne calculent.",
-  "reasoning": "La lecture depuis la mémoire locale est le schéma d'accès GPU le plus courant ; la bande passante en lecture est donc le chiffre phare du travail accéléré à forte composante de données.",
+  "reasoning": "La lecture depuis la mémoire GPU est le schéma d'accès GPU le plus courant ; la bande passante en lecture est donc le chiffre phare du travail accéléré à forte composante de données.",
   "weights": {
     "domain_gaming": {
       "explanation": "La lecture des textures et des tampons vers les cœurs dépend de la rapidité des lectures dans la mémoire du GPU."

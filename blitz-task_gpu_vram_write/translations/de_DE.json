@@ -1,8 +1,8 @@
 {
   "lang": "de_DE",
   "name": "gpu_vram_write",
-  "short_description": "Schreibbandbreite in den eigenen Speicher des Grafikprozessors.",
-  "description": "Schreibt große Puffer in den lokalen Speicher des Grafikprozessors mit einem reinen Schreibmuster und nutzt dabei einen Arbeitssatz, der weit größer ist als jeder On-Chip-Cache. Das Ergebnis zeigt, wie schnell die GPU Ergebnisse in ihren eigenen Speicher zurückschreiben kann.",
+  "short_description": "Schreibbandbreite in den Speicher des Grafikprozessors, dediziert oder mit der CPU geteilt.",
+  "description": "Schreibt große Puffer in den Speicher des Grafikprozessors mit einem reinen Schreibmuster und nutzt dabei einen Arbeitssatz, der weit größer ist als jeder On-Chip-Cache. Bei einer dedizierten GPU ist das ihr eigener Grafikspeicher, bei einer integrierten GPU der Arbeitsspeicher, den sie mit der CPU teilt. Das Ergebnis zeigt, wie schnell die GPU Ergebnisse in den Speicher zurückschreiben kann.",
   "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde in den GPU-Speicher geschriebenen Bytes, angegeben in GB/s.",
   "value_interpretation": "„Höher ist besser.“ Die Schreibbandbreite begrenzt Arbeitslasten, die große Ausgaben im GPU-Speicher erzeugen, etwa Render-Targets und erzeugte Aktivierungen.",
   "reasoning": "Das Schreiben kann sich auf einem GPU-Speichersystem anders verhalten als das Lesen, weshalb ein eigener Schreibtest ausgabelastige beschleunigte Arbeit erfasst.",

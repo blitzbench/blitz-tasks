@@ -3,7 +3,7 @@
   "name": "gpu_pcie_bidir",
   "component": "gpu",
   "benchmark_type": "synthetic",
-  "gpu_requires": [],
+  "gpu_requires": ["discrete"],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"

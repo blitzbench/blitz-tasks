@@ -45,7 +45,7 @@
     "unit": "fps"
   },
   "metric_vram_bandwidth": {
-    "name": "bande passante VRAM",
+    "name": "bande passante mémoire GPU",
     "unit": "GB/s"
   },
   "metric_pcie_bandwidth": {

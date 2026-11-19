@@ -1,11 +1,11 @@
 {
   "lang": "de_DE",
   "name": "gpu_vram_copy",
-  "short_description": "Bandbreite für das Kopieren von Daten innerhalb des Speichers des Grafikprozessors.",
-  "description": "Kopiert große Puffer von einem Bereich des lokalen Speichers des Grafikprozessors in einen anderen und liest und schreibt dabei gleichzeitig über einen Arbeitssatz, der weit größer ist als jeder On-Chip-Cache. Dieses kombinierte Muster entspricht dem Verhalten der meisten GPU-Kernel: Daten lesen, transformieren und zurückschreiben.",
+  "short_description": "Bandbreite beim Kopieren von Daten innerhalb des Speichers des Grafikprozessors, dediziert oder mit der CPU geteilt.",
+  "description": "Kopiert große Puffer von einem Bereich des Speichers des Grafikprozessors in einen anderen und liest und schreibt dabei gleichzeitig über einen Arbeitssatz, der weit größer ist als jeder On-Chip-Cache. Bei einer dedizierten GPU ist das ihr eigener Grafikspeicher, bei einer integrierten GPU der Arbeitsspeicher, den sie mit der CPU teilt. Dieses kombinierte Muster entspricht dem Verhalten der meisten GPU-Kernel: Daten lesen, transformieren und zurückschreiben.",
   "metric_explanation": "Die Bandbreite ist die Anzahl der pro Sekunde bewegten Bytes unter Zählung sowohl der Lese- als auch der Schreibseite, angegeben in GB/s.",
   "value_interpretation": "„Höher ist besser.“ Die Kopier-Bandbreite spiegelt reale GPU-Datenbewegung genauer wider als Lesen oder Schreiben allein, da beide zugleich geschehen.",
-  "reasoning": "Die meisten GPU-Kernel lesen und schreiben Speicher, weshalb ein Kopiertest, der beides zugleich ausführt, das repräsentativste Einzelmaß für den Durchsatz des lokalen Speichers ist.",
+  "reasoning": "Die meisten GPU-Kernel lesen und schreiben Speicher, weshalb ein Kopiertest, der beides zugleich ausführt, das repräsentativste Einzelmaß für den Durchsatz des GPU-Speichers ist.",
   "weights": {
     "domain_gaming": {
       "explanation": "Das Verschieben und Transformieren von Textur- und Pufferdaten kombiniert pro Frame Lese- und Schreibzugriffe."

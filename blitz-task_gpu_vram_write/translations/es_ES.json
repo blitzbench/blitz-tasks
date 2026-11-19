@@ -1,8 +1,8 @@
 {
   "lang": "es_ES",
   "name": "gpu_vram_write",
-  "short_description": "Ancho de banda de escritura en la propia memoria del procesador gráfico.",
-  "description": "Escribe búferes grandes en la memoria local del procesador gráfico con un patrón de solo escritura, utilizando un conjunto de trabajo mucho mayor que cualquier caché en chip. El resultado muestra la rapidez con la que la GPU puede almacenar resultados de vuelta en su propia memoria.",
+  "short_description": "Ancho de banda de escritura en la memoria del procesador gráfico, dedicada o compartida con la CPU.",
+  "description": "Escribe búferes grandes en la memoria del procesador gráfico con un patrón de solo escritura, utilizando un conjunto de trabajo mucho mayor que cualquier caché en chip. En una GPU dedicada es su memoria de vídeo propia; en una GPU integrada, la memoria del sistema que comparte con la CPU. El resultado muestra la rapidez con la que la GPU puede almacenar resultados de vuelta en la memoria.",
   "metric_explanation": "El ancho de banda es el número de bytes escritos en la memoria de la GPU por segundo, expresado en GB/s.",
   "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de escritura limita las cargas de trabajo que producen grandes salidas en la memoria de la GPU, como los búferes de render y las activaciones generadas.",
   "reasoning": "La escritura puede comportarse de forma distinta a la lectura en un sistema de memoria de GPU, por lo que una prueba de escritura dedicada captura el trabajo acelerado con muchas salidas.",

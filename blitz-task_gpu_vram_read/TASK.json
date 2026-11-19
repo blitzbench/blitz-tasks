@@ -23,12 +23,12 @@
     }
   ],
   "title": "GPU memory read bandwidth",
-  "short_description": "Read bandwidth from the graphics processor's own memory.",
+  "short_description": "Read bandwidth from the graphics processor's memory, dedicated or shared with the CPU.",
   "structured_text": {
-    "description": "Reads large buffers out of the graphics processor's local memory with a read only pattern, using a working set far larger than any on chip cache. The result shows how fast the GPU can pull data in from its own memory to feed the compute units.",
+    "description": "Reads large buffers out of the graphics processor's memory with a read only pattern, using a working set far larger than any on chip cache. On a discrete GPU this is its dedicated video memory, on an integrated GPU the system memory it shares with the CPU. The result shows how fast the GPU can pull data in from memory to feed the compute units.",
     "metric_explanation": "Bandwidth is the number of bytes read from GPU memory per second, reported in GB/s.",
     "value_interpretation": "Higher is better. Read bandwidth limits workloads that stream large textures, models and data sets into the GPU faster than they compute.",
-    "reasoning": "Reading from local memory is the most common GPU access pattern, so read bandwidth is the headline figure for data heavy accelerated work."
+    "reasoning": "Reading from GPU memory is the most common GPU access pattern, so read bandwidth is the headline figure for data heavy accelerated work."
   },
   "metric": { "id": "metric_vram_bandwidth", "name": "vram_bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
   "baselines": [

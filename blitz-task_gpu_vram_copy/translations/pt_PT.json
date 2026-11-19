@@ -1,11 +1,11 @@
 {
   "lang": "pt_PT",
   "name": "gpu_vram_copy",
-  "short_description": "Largura de banda para copiar dados dentro da memória do processador gráfico.",
-  "description": "Copia grandes buffers de uma região da memória local do processador gráfico para outra, lendo e escrevendo ao mesmo tempo sobre um conjunto de trabalho muito maior do que qualquer cache no chip. Este padrão combinado corresponde à forma como a maioria dos kernels de GPU se comporta, lendo dados, transformando-os e escrevendo-os de volta.",
+  "short_description": "Largura de banda para copiar dados dentro da memória do processador gráfico, dedicada ou partilhada com o CPU.",
+  "description": "Copia grandes buffers de uma região da memória do processador gráfico para outra, lendo e escrevendo ao mesmo tempo sobre um conjunto de trabalho muito maior do que qualquer cache no chip. Numa GPU dedicada é a sua própria memória de vídeo; numa GPU integrada, a memória do sistema que partilha com o CPU. Este padrão combinado corresponde à forma como a maioria dos kernels de GPU se comporta, lendo dados, transformando-os e escrevendo-os de volta.",
   "metric_explanation": "A largura de banda é o número de bytes movidos por segundo, contando tanto o lado da leitura como o da escrita, indicado em GB/s.",
   "value_interpretation": "Quanto maior, melhor. A largura de banda de cópia reflete a movimentação real de dados na GPU mais de perto do que a leitura ou a escrita isoladas, uma vez que ambas acontecem em conjunto.",
-  "reasoning": "A maioria dos kernels de GPU lê e escreve memória, pelo que um teste de cópia que faz ambos de uma vez é a medida única mais representativa do débito da memória local.",
+  "reasoning": "A maioria dos kernels de GPU lê e escreve memória, pelo que um teste de cópia que faz ambos de uma vez é a medida única mais representativa do débito da memória da GPU.",
   "weights": {
     "domain_gaming": {
       "explanation": "Mover e transformar dados de textura e de buffer combina leituras e escritas em cada fotograma."

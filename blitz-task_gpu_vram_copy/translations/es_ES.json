@@ -1,11 +1,11 @@
 {
   "lang": "es_ES",
   "name": "gpu_vram_copy",
-  "short_description": "Ancho de banda para copiar datos dentro de la memoria del procesador gráfico.",
-  "description": "Copia búferes grandes de una región de la memoria local del procesador gráfico a otra, leyendo y escribiendo a la vez sobre un conjunto de trabajo mucho mayor que cualquier caché en chip. Este patrón combinado coincide con el comportamiento de la mayoría de los kernels de GPU: leer datos, transformarlos y volver a escribirlos.",
+  "short_description": "Ancho de banda para copiar datos dentro de la memoria del procesador gráfico, dedicada o compartida con la CPU.",
+  "description": "Copia búferes grandes de una región de la memoria del procesador gráfico a otra, leyendo y escribiendo a la vez sobre un conjunto de trabajo mucho mayor que cualquier caché en chip. En una GPU dedicada es su memoria de vídeo propia; en una GPU integrada, la memoria del sistema que comparte con la CPU. Este patrón combinado coincide con el comportamiento de la mayoría de los kernels de GPU: leer datos, transformarlos y volver a escribirlos.",
   "metric_explanation": "El ancho de banda es el número de bytes movidos por segundo contando tanto la lectura como la escritura, expresado en GB/s.",
   "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de copia refleja el movimiento real de datos en la GPU con más fidelidad que la lectura o la escritura por separado, ya que ambas ocurren juntas.",
-  "reasoning": "La mayoría de los kernels de GPU leen y escriben memoria, por lo que una prueba de copia que haga ambas cosas a la vez es la medida única más representativa del rendimiento de la memoria local.",
+  "reasoning": "La mayoría de los kernels de GPU leen y escriben memoria, por lo que una prueba de copia que haga ambas cosas a la vez es la medida única más representativa del rendimiento de la memoria de la GPU.",
   "weights": {
     "domain_gaming": {
       "explanation": "Trasladar y transformar datos de texturas y búferes combina lecturas y escrituras en cada fotograma."

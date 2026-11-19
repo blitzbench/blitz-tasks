@@ -1,11 +1,11 @@
 {
   "lang": "pt_PT",
   "name": "gpu_vram_read",
-  "short_description": "Largura de banda de leitura da própria memória do processador gráfico.",
-  "description": "Lê grandes buffers da memória local do processador gráfico com um padrão apenas de leitura, usando um conjunto de trabalho muito maior do que qualquer cache no chip. O resultado mostra a rapidez com que a GPU consegue puxar dados da sua própria memória para alimentar as unidades de computação.",
+  "short_description": "Largura de banda de leitura da memória do processador gráfico, dedicada ou partilhada com o CPU.",
+  "description": "Lê grandes buffers da memória do processador gráfico com um padrão apenas de leitura, usando um conjunto de trabalho muito maior do que qualquer cache no chip. Numa GPU dedicada é a sua própria memória de vídeo; numa GPU integrada, a memória do sistema que partilha com o CPU. O resultado mostra a rapidez com que a GPU consegue puxar dados da memória para alimentar as unidades de computação.",
   "metric_explanation": "A largura de banda é o número de bytes lidos da memória da GPU por segundo, indicado em GB/s.",
   "value_interpretation": "Quanto maior, melhor. A largura de banda de leitura limita as cargas de trabalho que fazem streaming de grandes texturas, modelos e conjuntos de dados para a GPU mais depressa do que calculam.",
-  "reasoning": "A leitura da memória local é o padrão de acesso de GPU mais comum, pelo que a largura de banda de leitura é o valor principal para o trabalho acelerado com muitos dados.",
+  "reasoning": "A leitura da memória da GPU é o padrão de acesso de GPU mais comum, pelo que a largura de banda de leitura é o valor principal para o trabalho acelerado com muitos dados.",
   "weights": {
     "domain_gaming": {
       "explanation": "Ler texturas e buffers para os núcleos depende de leituras rápidas da memória da GPU."

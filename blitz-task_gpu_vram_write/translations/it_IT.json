@@ -1,8 +1,8 @@
 {
   "lang": "it_IT",
   "name": "gpu_vram_write",
-  "short_description": "Larghezza di banda in scrittura verso la memoria propria del processore grafico.",
-  "description": "Scrive grandi buffer nella memoria locale del processore grafico con uno schema di sola scrittura, utilizzando un working set molto più grande di qualsiasi cache on-chip. Il risultato mostra la rapidità con cui la GPU può memorizzare i risultati nella propria memoria.",
+  "short_description": "Larghezza di banda in scrittura verso la memoria del processore grafico, dedicata o condivisa con la CPU.",
+  "description": "Scrive grandi buffer nella memoria del processore grafico con uno schema di sola scrittura, utilizzando un working set molto più grande di qualsiasi cache on-chip. Su una GPU dedicata è la sua memoria video, su una GPU integrata la memoria di sistema condivisa con la CPU. Il risultato mostra la rapidità con cui la GPU può memorizzare i risultati in memoria.",
   "metric_explanation": "La larghezza di banda è il numero di byte scritti nella memoria della GPU al secondo, riportato in GB/s.",
   "value_interpretation": "Più alto è, meglio è. La larghezza di banda in scrittura limita i carichi di lavoro che producono output di grandi dimensioni nella memoria della GPU, come i render target e le attivazioni generate.",
   "reasoning": "La scrittura può comportarsi diversamente dalla lettura in un sistema di memoria GPU, quindi un test di scrittura dedicato cattura il lavoro accelerato ricco di output.",

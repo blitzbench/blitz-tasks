@@ -45,7 +45,7 @@
     "unit": "fps"
   },
   "metric_vram_bandwidth": {
-    "name": "larghezza di banda VRAM",
+    "name": "larghezza di banda memoria GPU",
     "unit": "GB/s"
   },
   "metric_pcie_bandwidth": {

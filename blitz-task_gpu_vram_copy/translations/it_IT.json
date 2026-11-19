@@ -1,11 +1,11 @@
 {
   "lang": "it_IT",
   "name": "gpu_vram_copy",
-  "short_description": "Larghezza di banda per copiare dati all'interno della memoria del processore grafico.",
-  "description": "Copia grandi buffer da una regione della memoria locale del processore grafico a un'altra, leggendo e scrivendo contemporaneamente su un working set molto più grande di qualsiasi cache on-chip. Questo schema combinato rispecchia il comportamento della maggior parte dei kernel GPU, che leggono i dati, li trasformano e li riscrivono.",
+  "short_description": "Larghezza di banda per copiare dati all'interno della memoria del processore grafico, dedicata o condivisa con la CPU.",
+  "description": "Copia grandi buffer da una regione della memoria del processore grafico a un'altra, leggendo e scrivendo contemporaneamente su un working set molto più grande di qualsiasi cache on-chip. Su una GPU dedicata è la sua memoria video, su una GPU integrata la memoria di sistema condivisa con la CPU. Questo schema combinato rispecchia il comportamento della maggior parte dei kernel GPU, che leggono i dati, li trasformano e li riscrivono.",
   "metric_explanation": "La larghezza di banda è il numero di byte spostati al secondo contando sia il lato lettura sia il lato scrittura, riportato in GB/s.",
   "value_interpretation": "Più alto è, meglio è. La larghezza di banda di copia riflette il reale movimento dei dati sulla GPU più fedelmente della sola lettura o scrittura, poiché entrambe avvengono insieme.",
-  "reasoning": "La maggior parte dei kernel GPU legge e scrive in memoria, quindi un test di copia che esegue entrambe contemporaneamente è la singola misura più rappresentativa del throughput della memoria locale.",
+  "reasoning": "La maggior parte dei kernel GPU legge e scrive in memoria, quindi un test di copia che esegue entrambe contemporaneamente è la singola misura più rappresentativa del throughput della memoria GPU.",
   "weights": {
     "domain_gaming": {
       "explanation": "Spostare e trasformare i dati di texture e buffer combina letture e scritture a ogni fotogramma."

@@ -1,8 +1,8 @@
 {
   "lang": "fr_FR",
   "name": "gpu_vram_write",
-  "short_description": "Bande passante en écriture vers la mémoire propre du processeur graphique.",
-  "description": "Écrit de grands tampons dans la mémoire locale du processeur graphique selon un schéma en écriture seule, avec un ensemble de travail bien plus grand que tout cache sur la puce. Le résultat montre la vitesse à laquelle le GPU peut stocker des résultats dans sa propre mémoire.",
+  "short_description": "Bande passante en écriture vers la mémoire du processeur graphique, dédiée ou partagée avec le CPU.",
+  "description": "Écrit de grands tampons dans la mémoire du processeur graphique selon un schéma en écriture seule, avec un ensemble de travail bien plus grand que tout cache sur la puce. Sur un GPU dédié, c'est sa mémoire vidéo ; sur un GPU intégré, c'est la mémoire système qu'il partage avec le CPU. Le résultat montre la vitesse à laquelle le GPU peut stocker des résultats en mémoire.",
   "metric_explanation": "La bande passante est le nombre d'octets écrits dans la mémoire GPU par seconde, exprimé en GB/s.",
   "value_interpretation": "Plus la valeur est élevée, mieux c'est. La bande passante en écriture limite les charges qui produisent de grandes sorties en mémoire GPU, telles que cibles de rendu et activations générées.",
   "reasoning": "L'écriture peut se comporter différemment de la lecture sur un système mémoire GPU ; un test d'écriture dédié saisit donc le travail accéléré à forte production de sorties.",

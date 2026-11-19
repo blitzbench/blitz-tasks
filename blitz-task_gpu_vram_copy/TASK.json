@@ -23,12 +23,12 @@
     }
   ],
   "title": "GPU memory copy bandwidth",
-  "short_description": "Bandwidth for copying data within the graphics processor's memory.",
+  "short_description": "Bandwidth for copying data within the graphics processor's memory, dedicated or shared with the CPU.",
   "structured_text": {
-    "description": "Copies large buffers from one region of the graphics processor's local memory to another, reading and writing at the same time over a working set far larger than any on chip cache. This combined pattern matches how most GPU kernels behave, reading data, transforming it and writing it back.",
+    "description": "Copies large buffers from one region of the graphics processor's memory to another, reading and writing at the same time over a working set far larger than any on chip cache. On a discrete GPU this is its dedicated video memory, on an integrated GPU the system memory it shares with the CPU. This combined pattern matches how most GPU kernels behave, reading data, transforming it and writing it back.",
     "metric_explanation": "Bandwidth is the number of bytes moved per second counting both the read and the write side, reported in GB/s.",
     "value_interpretation": "Higher is better. Copy bandwidth reflects real GPU data movement more closely than read or write alone, since both happen together.",
-    "reasoning": "Most GPU kernels both read and write memory, so a copy test that does both at once is the most representative single measure of local memory throughput."
+    "reasoning": "Most GPU kernels both read and write memory, so a copy test that does both at once is the most representative single measure of GPU memory throughput."
   },
   "metric": { "id": "metric_vram_bandwidth", "name": "vram_bandwidth", "unit": "GB/s", "direction": "higher_is_better" },
   "baselines": [

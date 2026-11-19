@@ -47,6 +47,18 @@ bench::RunResult missing(const char* name) {
 }
 
 /**
+ * @brief Integrated GPUs and CPU implementations share system memory with the host, so a
+ *        host to device transfer is a copy within RAM and there is no link to measure.
+ *
+ * @param device
+ * @return true when the device has no host link of its own
+ */
+bool shares_host_memory(const gpgpu::Device& device) {
+  const gpgpu::DeviceType type = device.type();
+  return type == gpgpu::DeviceType::Integrated || type == gpgpu::DeviceType::Cpu;
+}
+
+/**
  * @brief Route a (device, backend) setup to the matching compiled runner,
  *        guarded by the GPU_BIDIR_HAVE_<BACKEND> defines the linked runner libs export.
  *
@@ -54,6 +66,13 @@ bench::RunResult missing(const char* name) {
  * @return
  */
 bench::RunResult dispatch(const gpgpu::Setup& setup) {
+  if (shares_host_memory(setup.device)) {
+    bench::RunResult r;
+    r.supported = false;
+    r.path = "unsupported(no host link)";
+    r.error = "device shares system memory with the host, there is no host link to measure";
+    return r;
+  }
   switch (setup.backend.id()) {
     case gpgpu::BackendId::CUDA:
 #if defined(GPU_BIDIR_HAVE_CUDA)

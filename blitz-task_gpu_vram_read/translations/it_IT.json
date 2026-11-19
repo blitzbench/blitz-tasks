@@ -1,11 +1,11 @@
 {
   "lang": "it_IT",
   "name": "gpu_vram_read",
-  "short_description": "Larghezza di banda in lettura dalla memoria propria del processore grafico.",
-  "description": "Legge grandi buffer dalla memoria locale del processore grafico con uno schema di sola lettura, utilizzando un working set molto più grande di qualsiasi cache on-chip. Il risultato mostra la rapidità con cui la GPU può prelevare dati dalla propria memoria per alimentare le unità di calcolo.",
+  "short_description": "Larghezza di banda in lettura dalla memoria del processore grafico, dedicata o condivisa con la CPU.",
+  "description": "Legge grandi buffer dalla memoria del processore grafico con uno schema di sola lettura, utilizzando un working set molto più grande di qualsiasi cache on-chip. Su una GPU dedicata è la sua memoria video, su una GPU integrata la memoria di sistema condivisa con la CPU. Il risultato mostra la rapidità con cui la GPU può prelevare dati dalla memoria per alimentare le unità di calcolo.",
   "metric_explanation": "La larghezza di banda è il numero di byte letti dalla memoria della GPU al secondo, riportato in GB/s.",
   "value_interpretation": "Più alto è, meglio è. La larghezza di banda in lettura limita i carichi di lavoro che caricano in streaming grandi texture, modelli e set di dati nella GPU più velocemente di quanto calcolino.",
-  "reasoning": "La lettura dalla memoria locale è lo schema di accesso GPU più comune, quindi la larghezza di banda in lettura è il dato principale per il lavoro accelerato ricco di dati.",
+  "reasoning": "La lettura dalla memoria GPU è lo schema di accesso GPU più comune, quindi la larghezza di banda in lettura è il dato principale per il lavoro accelerato ricco di dati.",
   "weights": {
     "domain_gaming": {
       "explanation": "Leggere texture e buffer verso i core dipende da rapide letture dalla memoria della GPU."

@@ -66,10 +66,11 @@ LIBRARY_OPTIONAL_FIELDS = ("notes",)
 # file next to the task and read from disk at runtime.
 LIBRARY_LINKAGES = ("static", "runtime", "bundled")
 LIBRARY_ROLES = ("workload", "support")
-# Device capabilities a GPU task cannot run without. The tokens name gpu_runtime's
-# Device capability flags (supports_fp16/fp64/int8/tensor_cores), so a host can skip a
-# device that lacks one before running the task.
-GPU_CAPABILITIES = ("fp16", "fp64", "int8", "tensor_cores")
+# Device capabilities a GPU task cannot run without, so a host can skip a device that lacks
+# one before running the task. fp16/fp64/int8/tensor_cores name gpu_runtime's Device
+# capability flags (supports_fp16/...); "discrete" excludes devices whose Device::type() is
+# Integrated or Cpu, for tasks that measure something only a separate GPU has (a PCIe link).
+GPU_CAPABILITIES = ("fp16", "fp64", "int8", "tensor_cores", "discrete")
 
 # --- License classification --------------------------------------------------
 

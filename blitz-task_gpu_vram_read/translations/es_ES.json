@@ -1,11 +1,11 @@
 {
   "lang": "es_ES",
   "name": "gpu_vram_read",
-  "short_description": "Ancho de banda de lectura desde la propia memoria del procesador gráfico.",
-  "description": "Lee búferes grandes de la memoria local del procesador gráfico con un patrón de solo lectura, utilizando un conjunto de trabajo mucho mayor que cualquier caché en chip. El resultado muestra la rapidez con la que la GPU puede traer datos de su propia memoria para alimentar las unidades de cálculo.",
+  "short_description": "Ancho de banda de lectura desde la memoria del procesador gráfico, dedicada o compartida con la CPU.",
+  "description": "Lee búferes grandes de la memoria del procesador gráfico con un patrón de solo lectura, utilizando un conjunto de trabajo mucho mayor que cualquier caché en chip. En una GPU dedicada es su memoria de vídeo propia; en una GPU integrada, la memoria del sistema que comparte con la CPU. El resultado muestra la rapidez con la que la GPU puede traer datos de la memoria para alimentar las unidades de cálculo.",
   "metric_explanation": "El ancho de banda es el número de bytes leídos de la memoria de la GPU por segundo, expresado en GB/s.",
   "value_interpretation": "Cuanto más alto, mejor. El ancho de banda de lectura limita las cargas de trabajo que vuelcan grandes texturas, modelos y conjuntos de datos en la GPU más rápido de lo que los calculan.",
-  "reasoning": "Leer de la memoria local es el patrón de acceso más común en la GPU, por lo que el ancho de banda de lectura es la cifra principal para el trabajo acelerado con gran volumen de datos.",
+  "reasoning": "Leer de la memoria de la GPU es el patrón de acceso más común en la GPU, por lo que el ancho de banda de lectura es la cifra principal para el trabajo acelerado con gran volumen de datos.",
   "weights": {
     "domain_gaming": {
       "explanation": "Leer texturas y búferes hacia los núcleos depende de unas lecturas rápidas de la memoria de la GPU."
