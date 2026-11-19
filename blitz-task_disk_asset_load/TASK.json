@@ -32,10 +32,10 @@
   },
   "metric": { "id": "metric_items_per_min", "name": "items_per_min", "unit": "items/min", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 240.0 },
-    { "machine_type": "desktop",  "value": 420.0 },
-    { "machine_type": "notebook", "value": 260.0 },
-    { "machine_type": "mobile",   "value": 120.0 }
+    { "machine_type": "any",      "value": 1900.0 },
+    { "machine_type": "desktop",  "value": 3900.0 },
+    { "machine_type": "notebook", "value": 2300.0 },
+    { "machine_type": "mobile",   "value": 1200.0 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 1.0, "explanation": "Level loading and world streaming are exactly this workload." },

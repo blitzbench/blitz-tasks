@@ -32,10 +32,10 @@
   },
   "metric": { "id": "metric_throughput_samples", "name": "throughput_samples", "unit": "ops/s", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 25000.0 },
-    { "machine_type": "desktop",  "value": 45000.0 },
-    { "machine_type": "notebook", "value": 26000.0 },
-    { "machine_type": "mobile",   "value": 9000.0 }
+    { "machine_type": "any",      "value": 150.0 },
+    { "machine_type": "desktop",  "value": 200.0 },
+    { "machine_type": "notebook", "value": 170.0 },
+    { "machine_type": "mobile",   "value": 100.0 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.2, "explanation": "Games keep small local databases for state and progress." },
