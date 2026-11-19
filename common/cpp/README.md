@@ -87,3 +87,27 @@ tier's flag:
    ```
 
 ### Runtime detection
+## [`cpu_affinity.h`](include/cpu_affinity.h)
+
+`bench::ScopedPin` pins the calling thread to one OS logical processor while it is in scope and restores the previous
+affinity afterwards (Linux `sched_setaffinity`, Windows `SetThreadGroupAffinity` with system wide ids across processor
+groups). macOS has no affinity API, so the `QosHint` overload only steers the thread towards performance or efficiency
+cores via its QoS class. Always report `pinned()`, since pinning is best effort.
+
+```cpp
+bench::ScopedPin pin(logical_cpu);
+// ... measure ...
+info.emplace_back("pinned", pin.pinned() ? "1" : "0");
+```
+
+## [`bench_buffer.h`](include/bench_buffer.h): huge pages
+
+`bench::Buffer(bytes, bench::PageHint::Huge)` requests 2 MiB pages and silently falls back to normal pages:
+- Linux: 2 MiB aligned allocation + `madvise(MADV_HUGEPAGE)`, effective with transparent huge pages set to `madvise` or
+  `always`
+- Windows: `VirtualAlloc(MEM_LARGE_PAGES)`, effective only if the process holds `SeLockMemoryPrivilege`
+- macOS: normal pages
+
+Random access kernels over more than a few MiB (latency chases) need this, otherwise a large share of the steps pays
+for a page walk on top of the access itself. Call `huge_page_bytes()` after `fill()` and report it: on Linux the pages
+are only assigned when they are faulted in.

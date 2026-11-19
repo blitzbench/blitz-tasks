@@ -3895,7 +3895,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - Source: https://github.com/lfreist/hwinfo
 - Version: git submodule
 - License: `MIT` ([text](third_party/licenses/hwinfo/LICENSE))
-- Used for: Hardware detection library; pinned as a submodule as a candidate replacement for common/cpp cpu topology detection (not yet linked by any task).
+- Used for: Hardware detection library; its cpu component is linked statically by blitz-task_cpu_cache_latency for core enumeration (stable core ids, core types, per-core cache sizes). Candidate replacement for the common/cpp cpu topology detection.
 
 <details><summary>License text</summary>
 
