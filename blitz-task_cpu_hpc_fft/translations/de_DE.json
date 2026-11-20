@@ -1,11 +1,11 @@
 {
   "lang": "de_DE",
   "name": "cpu_hpc_fft",
-  "short_description": "FFT mit doppelter Genauigkeit und dichte lineare Algebra über alle Kerne.",
-  "description": "Führt eine Mischung aus schnellen Fourier-Transformationen mit doppelter Genauigkeit und dichter Matrixarbeit über alle Kerne aus und nutzt dabei eine optimierte numerische Bibliothek. Die Problemgrößen sind so gewählt, dass sie aus dem Cache herauslaufen, sodass der Test sowohl Arithmetik als auch Speicherverkehr fordert, so wie sich reale Simulationen verhalten.",
-  "metric_explanation": "Der Score ist der anhaltende Durchsatz mit doppelter Genauigkeit, angegeben in GFLOPS, gemittelt über den Lauf.",
-  "value_interpretation": "„Höher ist besser.“ Mehr Durchsatz bedeutet, dass größere Modelle und längere Simulationen in angemessener Zeit fertig werden.",
-  "reasoning": "Transformationen und lineare Algebra sind die Bausteine der meisten numerischen und technischen Codes, weshalb der Durchsatz mit doppelter Genauigkeit hier die reale wissenschaftliche Leistung vorhersagt.",
+  "short_description": "Spektrale Strömungssimulation mit doppelter Genauigkeit über alle Kerne.",
+  "description": "Simuliert eine inkompressible Strömung in einem 3D-Würfel mit einem pseudospektralen Löser, der Methode aus der Turbulenzforschung und vielen Physik-Codes. Jeder Zeitschritt führt eine Reihe schneller Fourier-Transformationen mit doppelter Genauigkeit über ein Gitter mit 128 x 128 x 128 Punkten auf allen Kernen aus. Das Gitter belegt rund 300 MB Speicher, daher fordert der Test Arithmetik, Cache-Hierarchie und Arbeitsspeicher gemeinsam, so wie echte Simulationen.",
+  "metric_explanation": "Der Score ist die Anzahl abgeschlossener Simulationszeitschritte pro Sekunde, gemittelt über den Lauf.",
+  "value_interpretation": "Höher ist besser. Mehr Zeitschritte pro Sekunde bedeuten, dass größere Modelle und längere Simulationen in angemessener Zeit fertig werden.",
+  "reasoning": "Fourier-Transformationen auf großen Gittern sind der Baustein spektraler Löser, der Signalverarbeitung und vieler Ingenieur-Codes. Sie verbinden Gleitkommamathematik mit Speicherzugriffen in Schritten über alle Cache-Ebenen, weshalb die Zeitschrittrate die reale wissenschaftliche Leistung besser vorhersagt als ein Test des Spitzendurchsatzes. Die Transformationen stammen aus PocketFFT, der Open-Source-FFT-Bibliothek hinter NumPy, SciPy und dem CPU-Pfad von PyTorch, daher ist der gemessene Code derselbe, der in alltäglicher wissenschaftlicher Arbeit und Datenarbeit läuft.",
   "weights": {
     "domain_gaming": {
       "explanation": "Spiele nutzen kaum Mathematik mit doppelter Genauigkeit."
@@ -14,34 +14,34 @@
       "explanation": "Büroarbeit hat keine rechenintensive numerische Komponente."
     },
     "domain_software_development": {
-      "explanation": "Entwickler numerischer Software profitieren davon, allgemeines Programmieren jedoch nicht."
+      "explanation": "Nur Entwickler numerischer Software führen solche Arbeitslasten aus."
     },
     "domain_graphics_design": {
-      "explanation": "Bildarbeit nutzt Mathematik mit einfacher Genauigkeit statt dieses Kerns."
+      "explanation": "Bildarbeit nutzt Mathematik mit einfacher Genauigkeit statt eines solchen Lösers."
     },
     "domain_video_editing": {
       "explanation": "Editieren berührt selten Numerik mit doppelter Genauigkeit."
     },
     "domain_3d_rendering": {
-      "explanation": "Physikalische Simulation für Animation nutzt dieselben Transform- und Solver-Kerne."
+      "explanation": "Flüssigkeits- und Rauchsimulation für visuelle Effekte nutzt ähnliche gitterbasierte Löser."
     },
     "domain_audio_production": {
-      "explanation": "Transformationen hier spiegeln die Spektralmathematik wider, die in der Audioanalyse verwendet wird."
+      "explanation": "Audio nutzt ebenfalls Fourier-Transformationen, aber auf viel kleineren Blöcken mit einfacher Genauigkeit."
     },
     "domain_cad_engineering": {
-      "explanation": "Ingenieursimulation stützt sich direkt auf Transformationen und lineare Algebra mit doppelter Genauigkeit."
+      "explanation": "Strömungs- und Feldsimulation im Ingenieurwesen stützt sich auf Transformationen mit doppelter Genauigkeit und große Gitter."
     },
     "domain_scientific_computing": {
       "explanation": "Dies ist die zentrale Arbeitslast für numerische Simulation und HPC."
     },
     "domain_ai_training": {
-      "explanation": "Einige wissenschaftliche Training- und Feature-Pipelines nutzen diese dichten Kerne erneut."
+      "explanation": "Wissenschaftliches maschinelles Lernen nutzt einige dieser Transformationen, das Training wird aber von anderer Mathematik bestimmt."
     },
     "domain_ai_inference": {
-      "explanation": "Numerische Vorverarbeitung für Modelle nutzt ähnliche lineare Algebra."
+      "explanation": "Inferenz führt selten Transformationen mit doppelter Genauigkeit aus."
     },
     "domain_data_science": {
-      "explanation": "Statistische Methoden und Signalanalyse sind auf Transformationen und Matrixmathematik angewiesen."
+      "explanation": "Signalanalyse und spektrale Methoden nutzen dieselben Fourier-Transformationen."
     },
     "domain_server_virt": {
       "explanation": "Allgemeine Server führen wenig anhaltende Mathematik mit doppelter Genauigkeit aus."

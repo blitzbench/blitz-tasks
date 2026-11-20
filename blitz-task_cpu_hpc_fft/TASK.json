@@ -5,36 +5,51 @@
   "benchmark_type": "real_world",
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
-    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt",
+    "notes": "Task source stays source-available; PocketFFT is BSD-3-Clause (permissive), so compiling it in imposes no copyleft."
   },
-  "title": "Scientific compute kernel",
-  "short_description": "Double precision FFT and dense linear algebra across all cores.",
+  "libraries": [
+    {
+      "name": "PocketFFT (C++)",
+      "homepage": "https://github.com/mreineck/pocketfft",
+      "source": "https://github.com/mreineck/pocketfft",
+      "version": "cpp branch @ 4d865cb",
+      "license": "BSD-3-Clause",
+      "license_file": "third_party/licenses/pocketfft/LICENSE",
+      "linkage": "static",
+      "role": "workload",
+      "usage": "Computes the forward and inverse 3D real FFTs of every solver time step; together with the pointwise passes in between they are the measured workload.",
+      "notes": "Header only library compiled into each SIMD tier of the task under its own namespace from the pinned submodule; no source modifications. The same C++ library is the FFT engine of NumPy (numpy.fft since 2.0), SciPy (scipy.fft since 1.4, through its pypocketfft bindings) and PyTorch (CPU FFTs in builds without Intel MKL), so the task runs the code that most Python based scientific work already uses."
+    }
+  ],
+  "title": "Scientific fluid simulation",
+  "short_description": "Double precision spectral fluid simulation across all cores.",
   "structured_text": {
-    "description": "Runs a mix of double precision fast Fourier transforms and dense matrix work across all cores using a tuned numerical library. The problem sizes are chosen to spill out of cache so the test exercises both arithmetic and memory traffic, which is how real simulations behave.",
-    "metric_explanation": "The score is sustained double precision throughput, reported in GFLOPS, averaged over the run.",
-    "value_interpretation": "Higher is better. More throughput means larger models and longer simulations finish in reasonable time.",
-    "reasoning": "Transforms and linear algebra are the building blocks of most numerical and engineering codes, so double precision throughput here predicts real scientific performance."
+    "description": "Simulates an incompressible fluid flow in a 3D box with a pseudo-spectral solver, the method used in turbulence research and many physics codes. Every time step runs a series of double precision fast Fourier transforms over a 128 x 128 x 128 grid on all cores. The grid needs around 300 MB of memory, so the test exercises arithmetic, the cache hierarchy and main memory together, just like real simulations.",
+    "metric_explanation": "The score is the number of completed simulation time steps per second, averaged over the run.",
+    "value_interpretation": "Higher is better. More steps per second means larger models and longer simulations finish in reasonable time.",
+    "reasoning": "Fourier transforms on large grids are the building block of spectral solvers, signal processing and many engineering codes. They mix floating point math with strided memory access across all cache levels, so the time step rate predicts real scientific performance better than a peak throughput test. The transforms come from PocketFFT, the open source FFT library behind NumPy, SciPy and the CPU path of PyTorch, so the measured code is the same that runs in everyday scientific and data work."
   },
-  "metric": { "id": "metric_flops", "name": "flops", "unit": "GFLOPS", "direction": "higher_is_better" },
+  "metric": { "id": "metric_steps_per_sec", "name": "steps_per_sec", "unit": "steps/s", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 120.0 },
-    { "machine_type": "desktop",  "value": 230.0 },
-    { "machine_type": "notebook", "value": 110.0 },
-    { "machine_type": "mobile",   "value": 35.0 }
+    { "machine_type": "any",      "value": 9.0 },
+    { "machine_type": "desktop",  "value": 15.0 },
+    { "machine_type": "notebook", "value": 10.0 },
+    { "machine_type": "mobile",   "value": 4.5 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.1, "explanation": "Games use little double precision math." },
     "domain_office":               { "weight": 0.1, "explanation": "Office work has no heavy numerical component." },
-    "domain_software_development":  { "weight": 0.2, "explanation": "Developers of numerical software benefit, but general coding does not." },
-    "domain_graphics_design":       { "weight": 0.1, "explanation": "Image work uses single precision math rather than this kernel." },
+    "domain_software_development":  { "weight": 0.1, "explanation": "Only developers of numerical software run workloads like this one." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Image work uses single precision math rather than this kind of solver." },
     "domain_video_editing":         { "weight": 0.1, "explanation": "Editing rarely touches double precision numerics." },
-    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Physical simulation for animation shares these transform and solver kernels." },
-    "domain_audio_production":      { "weight": 0.3, "explanation": "Transforms here mirror the spectral math used in audio analysis." },
-    "domain_cad_engineering":       { "weight": 0.7, "explanation": "Engineering simulation leans directly on double precision transforms and linear algebra." },
-    "domain_scientific_computing":  { "weight": 1.0, "explanation": "This is the core workload for numerical simulation and high performance computing." },
-    "domain_ai_training":           { "weight": 0.4, "explanation": "Some scientific training and feature pipelines reuse these dense kernels." },
-    "domain_ai_inference":          { "weight": 0.3, "explanation": "Numerical preprocessing for models uses similar linear algebra." },
-    "domain_data_science":          { "weight": 0.4, "explanation": "Statistical methods and signal analysis rely on transforms and matrix math." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Fluid and smoke simulation for visual effects runs similar grid based solvers." },
+    "domain_audio_production":      { "weight": 0.2, "explanation": "Audio relies on Fourier transforms too, but on far smaller single precision blocks." },
+    "domain_cad_engineering":       { "weight": 0.6, "explanation": "Flow and field simulation in engineering leans on double precision transforms and large grids." },
+    "domain_scientific_computing":  { "weight": 1.0, "explanation": "This is the core workload of numerical simulation and high performance computing." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Scientific machine learning shares some of these transforms, but training is dominated by other math." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference rarely runs double precision transforms." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Signal analysis and spectral methods use the same Fourier transforms." },
     "domain_server_virt":           { "weight": 0.2, "explanation": "General servers run little sustained double precision math." }
   }
 }

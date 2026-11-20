@@ -21,6 +21,7 @@
     { "id": "metric_random_iops",        "name": "random_iops",        "unit": "IOPS",       "direction": "higher_is_better" },
     { "id": "metric_sequential_read",    "name": "sequential_read",    "unit": "MB/s",       "direction": "higher_is_better" },
     { "id": "metric_sequential_write",   "name": "sequential_write",   "unit": "MB/s",       "direction": "higher_is_better" },
-    { "id": "metric_encode_fps",         "name": "encode_fps",         "unit": "fps",        "direction": "higher_is_better" }
+    { "id": "metric_encode_fps",         "name": "encode_fps",         "unit": "fps",        "direction": "higher_is_better" },
+    { "id": "metric_steps_per_sec",      "name": "steps_per_sec",      "unit": "steps/s",    "direction": "higher_is_better" }
   ]
 }

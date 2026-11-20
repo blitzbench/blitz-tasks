@@ -1,50 +1,50 @@
 {
   "lang": "fr_FR",
   "name": "cpu_hpc_fft",
-  "short_description": "FFT en double précision et algèbre linéaire dense sur tous les cœurs.",
-  "description": "Exécute un mélange de transformées de Fourier rapides en double précision et de calcul matriciel dense sur tous les cœurs à l'aide d'une bibliothèque numérique optimisée. Les tailles de problème sont choisies pour déborder du cache, de sorte que le test sollicite à la fois l'arithmétique et le trafic mémoire, comme se comportent les véritables simulations.",
-  "metric_explanation": "Le score est le débit soutenu en double précision, exprimé en GFLOPS, moyenné sur l'exécution.",
-  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Un débit plus élevé signifie que des modèles plus vastes et des simulations plus longues s'achèvent dans un délai raisonnable.",
-  "reasoning": "Les transformées et l'algèbre linéaire sont les briques de la plupart des codes numériques et d'ingénierie ; le débit en double précision mesuré ici prédit donc les performances scientifiques réelles.",
+  "short_description": "Simulation spectrale de fluides en double précision sur tous les cœurs.",
+  "description": "Simule un écoulement incompressible dans un cube 3D avec un solveur pseudo-spectral, la méthode utilisée dans la recherche sur la turbulence et dans de nombreux codes de physique. Chaque pas de temps exécute une série de transformées de Fourier rapides en double précision sur une grille de 128 x 128 x 128 points, sur tous les cœurs. La grille occupe environ 300 Mo de mémoire, le test sollicite donc à la fois le calcul, la hiérarchie de caches et la mémoire principale, comme les vraies simulations.",
+  "metric_explanation": "Le score est le nombre de pas de temps de simulation terminés par seconde, en moyenne sur l'exécution.",
+  "value_interpretation": "Plus c'est élevé, mieux c'est. Plus de pas par seconde signifie que des modèles plus grands et des simulations plus longues se terminent dans un délai raisonnable.",
+  "reasoning": "Les transformées de Fourier sur de grandes grilles sont la brique de base des solveurs spectraux, du traitement du signal et de nombreux codes d'ingénierie. Elles combinent calcul en virgule flottante et accès mémoire à pas réguliers sur tous les niveaux de cache, si bien que le nombre de pas par seconde prédit mieux les performances scientifiques réelles qu'un test de débit crête. Les transformées proviennent de PocketFFT, la bibliothèque FFT open source utilisée par NumPy, SciPy et le chemin CPU de PyTorch, si bien que le code mesuré est celui qui tourne au quotidien dans le travail scientifique et l'analyse de données.",
   "weights": {
     "domain_gaming": {
-      "explanation": "Les jeux font peu appel au calcul en double précision."
+      "explanation": "Les jeux utilisent peu de calcul en double précision."
     },
     "domain_office": {
-      "explanation": "La bureautique n'a aucune composante numérique lourde."
+      "explanation": "La bureautique n'a pas de composante numérique lourde."
     },
     "domain_software_development": {
-      "explanation": "Les développeurs de logiciels numériques en profitent, mais pas la programmation générale."
+      "explanation": "Seuls les développeurs de logiciels numériques exécutent des charges de ce type."
     },
     "domain_graphics_design": {
-      "explanation": "Le travail d'image utilise le calcul en simple précision plutôt que ce noyau."
+      "explanation": "Le travail sur l'image utilise la simple précision plutôt que ce type de solveur."
     },
     "domain_video_editing": {
       "explanation": "Le montage touche rarement au calcul numérique en double précision."
     },
     "domain_3d_rendering": {
-      "explanation": "La simulation physique pour l'animation partage ces noyaux de transformation et de résolution."
+      "explanation": "La simulation de fluides et de fumée pour les effets visuels utilise des solveurs similaires sur grille."
     },
     "domain_audio_production": {
-      "explanation": "Les transformations utilisées ici reflètent le calcul spectral employé en analyse audio."
+      "explanation": "L'audio utilise aussi des transformées de Fourier, mais sur des blocs bien plus petits en simple précision."
     },
     "domain_cad_engineering": {
-      "explanation": "La simulation d'ingénierie s'appuie directement sur les transformations et l'algèbre linéaire en double précision."
+      "explanation": "La simulation d'écoulements et de champs en ingénierie repose sur des transformées en double précision et de grandes grilles."
     },
     "domain_scientific_computing": {
-      "explanation": "C'est la charge de travail fondamentale de la simulation numérique et du calcul haute performance (HPC)."
+      "explanation": "C'est la charge de travail centrale de la simulation numérique et du calcul haute performance."
     },
     "domain_ai_training": {
-      "explanation": "Certaines chaînes d'entraînement et de caractéristiques scientifiques réutilisent ces noyaux denses."
+      "explanation": "L'apprentissage automatique scientifique partage certaines de ces transformées, mais l'entraînement est dominé par d'autres calculs."
     },
     "domain_ai_inference": {
-      "explanation": "Le prétraitement numérique des modèles fait appel à une algèbre linéaire similaire."
+      "explanation": "L'inférence exécute rarement des transformées en double précision."
     },
     "domain_data_science": {
-      "explanation": "Les méthodes statistiques et l'analyse du signal reposent sur les transformations et le calcul matriciel."
+      "explanation": "L'analyse du signal et les méthodes spectrales utilisent les mêmes transformées de Fourier."
     },
     "domain_server_virt": {
-      "explanation": "Les serveurs généralistes effectuent peu de calcul en double précision soutenu."
+      "explanation": "Les serveurs généralistes exécutent peu de calcul soutenu en double précision."
     }
   }
 }

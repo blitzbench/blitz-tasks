@@ -18,7 +18,7 @@ third-party attributions.
 | `blitz-task_cpu_crypto_sign` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | OpenSSL (`Apache-2.0`, `static`) |
 | `blitz-task_cpu_fp32_multi` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_fp32_single` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
-| `blitz-task_cpu_hpc_fft` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_cpu_hpc_fft` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | PocketFFT (C++) (`BSD-3-Clause`, `static`) |
 | `blitz-task_cpu_int32_multi` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_int32_single` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_llm_infer` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | llama.cpp (`MIT`, `static`), Qwen2.5-0.5B-Instruct (GGUF, Q4_K_M) (`Apache-2.0`, `bundled`) |

@@ -28,3 +28,7 @@
 	path = external/llama.cpp
 	url = https://github.com/ggml-org/llama.cpp.git
 	shallow = true
+[submodule "external/pocketfft"]
+	path = external/pocketfft
+	url = https://github.com/mreineck/pocketfft.git
+	branch = cpp

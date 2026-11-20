@@ -83,5 +83,9 @@
   "metric_encode_fps": {
     "name": "fps d'encodage",
     "unit": "fps"
+  },
+  "metric_steps_per_sec": {
+    "name": "pas par seconde",
+    "unit": "steps/s"
   }
 }

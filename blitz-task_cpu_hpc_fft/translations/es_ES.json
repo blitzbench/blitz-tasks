@@ -1,50 +1,50 @@
 {
   "lang": "es_ES",
   "name": "cpu_hpc_fft",
-  "short_description": "FFT de doble precisión y álgebra lineal densa en todos los núcleos.",
-  "description": "Ejecuta una mezcla de transformadas rápidas de Fourier de doble precisión y trabajo con matrices densas en todos los núcleos utilizando una biblioteca numérica optimizada. Los tamaños de problema se eligen para que se desborden de la caché, de modo que la prueba ejercita tanto la aritmética como el tráfico de memoria, que es como se comportan las simulaciones reales.",
-  "metric_explanation": "La puntuación es el rendimiento sostenido en doble precisión, expresado en GFLOPS, promediado a lo largo de la ejecución.",
-  "value_interpretation": "Cuanto más alto, mejor. Más rendimiento significa que modelos más grandes y simulaciones más largas terminan en un tiempo razonable.",
-  "reasoning": "Las transformadas y el álgebra lineal son los pilares de la mayoría de los códigos numéricos y de ingeniería, por lo que el rendimiento en doble precisión aquí predice el rendimiento científico real.",
+  "short_description": "Simulación espectral de fluidos en doble precisión en todos los núcleos.",
+  "description": "Simula un flujo incompresible en una caja 3D con un solucionador pseudoespectral, el método usado en la investigación de turbulencia y en muchos códigos de física. Cada paso de tiempo ejecuta una serie de transformadas rápidas de Fourier en doble precisión sobre una malla de 128 x 128 x 128 puntos en todos los núcleos. La malla ocupa unos 300 MB de memoria, por lo que la prueba exige a la vez aritmética, jerarquía de caché y memoria principal, igual que las simulaciones reales.",
+  "metric_explanation": "La puntuación es el número de pasos de tiempo de simulación completados por segundo, promediado durante la ejecución.",
+  "value_interpretation": "Más alto es mejor. Más pasos por segundo significa que modelos más grandes y simulaciones más largas terminan en un tiempo razonable.",
+  "reasoning": "Las transformadas de Fourier sobre mallas grandes son la base de los solucionadores espectrales, del procesamiento de señales y de muchos códigos de ingeniería. Combinan cálculo en coma flotante con accesos a memoria con saltos en todos los niveles de caché, por lo que la tasa de pasos predice el rendimiento científico real mejor que una prueba de rendimiento máximo. Las transformadas provienen de PocketFFT, la biblioteca FFT de código abierto detrás de NumPy, SciPy y la ruta de CPU de PyTorch, por lo que el código medido es el mismo que se ejecuta en el trabajo científico y de datos cotidiano.",
   "weights": {
     "domain_gaming": {
-      "explanation": "Los juegos usan poco cálculo en doble precisión."
+      "explanation": "Los juegos usan poca matemática de doble precisión."
     },
     "domain_office": {
-      "explanation": "El trabajo de ofimática no tiene un componente numérico intensivo."
+      "explanation": "El trabajo de oficina no tiene un componente numérico intensivo."
     },
     "domain_software_development": {
-      "explanation": "Los desarrolladores de software numérico se benefician, pero la programación general no."
+      "explanation": "Solo los desarrolladores de software numérico ejecutan cargas como esta."
     },
     "domain_graphics_design": {
-      "explanation": "El trabajo con imágenes usa cálculo en precisión simple en lugar de este núcleo."
+      "explanation": "El trabajo con imágenes usa matemática de precisión simple en lugar de este tipo de solucionador."
     },
     "domain_video_editing": {
-      "explanation": "La edición rara vez recurre al cálculo numérico en doble precisión."
+      "explanation": "La edición rara vez toca cálculo numérico de doble precisión."
     },
     "domain_3d_rendering": {
-      "explanation": "La simulación física para animación comparte estos núcleos de transformación y resolución."
+      "explanation": "La simulación de fluidos y humo para efectos visuales usa solucionadores similares basados en mallas."
     },
     "domain_audio_production": {
-      "explanation": "Las transformaciones aquí reflejan el cálculo espectral usado en el análisis de audio."
+      "explanation": "El audio también usa transformadas de Fourier, pero sobre bloques mucho más pequeños de precisión simple."
     },
     "domain_cad_engineering": {
-      "explanation": "La simulación de ingeniería se apoya directamente en transformaciones de doble precisión y álgebra lineal."
+      "explanation": "La simulación de flujos y campos en ingeniería se apoya en transformadas de doble precisión y mallas grandes."
     },
     "domain_scientific_computing": {
-      "explanation": "Esta es la carga de trabajo central de la simulación numérica y la computación de alto rendimiento."
+      "explanation": "Es la carga central de la simulación numérica y la computación de alto rendimiento."
     },
     "domain_ai_training": {
-      "explanation": "Algunas canalizaciones de entrenamiento y de características científicas reutilizan estos núcleos densos."
+      "explanation": "El aprendizaje automático científico comparte algunas de estas transformadas, pero el entrenamiento está dominado por otro cálculo."
     },
     "domain_ai_inference": {
-      "explanation": "El preprocesamiento numérico para los modelos usa álgebra lineal similar."
+      "explanation": "La inferencia rara vez ejecuta transformadas de doble precisión."
     },
     "domain_data_science": {
-      "explanation": "Los métodos estadísticos y el análisis de señales se apoyan en transformaciones y cálculo matricial."
+      "explanation": "El análisis de señales y los métodos espectrales usan las mismas transformadas de Fourier."
     },
     "domain_server_virt": {
-      "explanation": "Los servidores generales ejecutan poco cálculo sostenido en doble precisión."
+      "explanation": "Los servidores generales ejecutan poca matemática sostenida de doble precisión."
     }
   }
 }

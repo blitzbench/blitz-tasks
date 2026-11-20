@@ -1,50 +1,50 @@
 {
   "lang": "pt_PT",
   "name": "cpu_hpc_fft",
-  "short_description": "FFT de precisão dupla e álgebra linear densa em todos os núcleos.",
-  "description": "Executa uma combinação de transformadas rápidas de Fourier de precisão dupla e trabalho de matrizes densas em todos os núcleos usando uma biblioteca numérica otimizada. Os tamanhos do problema são escolhidos para transbordar da cache, de modo que o teste exercita tanto a aritmética como o tráfego de memória, que é como as simulações reais se comportam.",
-  "metric_explanation": "A pontuação é o débito sustentado de precisão dupla, indicado em GFLOPS, calculado como média ao longo da execução.",
-  "value_interpretation": "Quanto maior, melhor. Mais débito significa que modelos maiores e simulações mais longas terminam em tempo razoável.",
-  "reasoning": "As transformadas e a álgebra linear são os blocos de construção da maioria dos códigos numéricos e de engenharia, pelo que o débito de precisão dupla aqui prevê o desempenho científico real.",
+  "short_description": "Simulação espetral de fluidos em precisão dupla em todos os núcleos.",
+  "description": "Simula um escoamento incompressível numa caixa 3D com um solver pseudoespetral, o método usado na investigação de turbulência e em muitos códigos de física. Cada passo de tempo executa uma série de transformadas rápidas de Fourier em precisão dupla sobre uma grelha de 128 x 128 x 128 pontos em todos os núcleos. A grelha ocupa cerca de 300 MB de memória, pelo que o teste exige em conjunto aritmética, hierarquia de cache e memória principal, tal como as simulações reais.",
+  "metric_explanation": "A pontuação é o número de passos de tempo de simulação concluídos por segundo, em média ao longo da execução.",
+  "value_interpretation": "Mais alto é melhor. Mais passos por segundo significa que modelos maiores e simulações mais longas terminam em tempo razoável.",
+  "reasoning": "As transformadas de Fourier em grelhas grandes são a base dos solvers espetrais, do processamento de sinal e de muitos códigos de engenharia. Combinam cálculo em vírgula flutuante com acessos à memória com saltos em todos os níveis de cache, por isso a taxa de passos prevê o desempenho científico real melhor do que um teste de débito máximo. As transformadas vêm do PocketFFT, a biblioteca FFT de código aberto por trás do NumPy, do SciPy e do caminho de CPU do PyTorch, pelo que o código medido é o mesmo que corre no trabalho científico e de dados do dia a dia.",
   "weights": {
     "domain_gaming": {
-      "explanation": "Os jogos utilizam pouca matemática de dupla precisão."
+      "explanation": "Os jogos usam pouca matemática de precisão dupla."
     },
     "domain_office": {
       "explanation": "O trabalho de escritório não tem uma componente numérica pesada."
     },
     "domain_software_development": {
-      "explanation": "Os programadores de software numérico beneficiam, mas a programação geral não."
+      "explanation": "Só quem desenvolve software numérico executa cargas como esta."
     },
     "domain_graphics_design": {
-      "explanation": "O trabalho sobre imagens utiliza matemática de precisão simples em vez deste kernel."
+      "explanation": "O trabalho com imagem usa precisão simples em vez deste tipo de solver."
     },
     "domain_video_editing": {
-      "explanation": "A edição raramente recorre a cálculos numéricos de dupla precisão."
+      "explanation": "A edição raramente envolve cálculo numérico de precisão dupla."
     },
     "domain_3d_rendering": {
-      "explanation": "A simulação física para animação partilha estes kernels de transformação e de solver."
+      "explanation": "A simulação de fluidos e fumo para efeitos visuais usa solvers semelhantes baseados em grelhas."
     },
     "domain_audio_production": {
-      "explanation": "As transformações aqui espelham a matemática espetral usada na análise de áudio."
+      "explanation": "O áudio também usa transformadas de Fourier, mas em blocos muito mais pequenos de precisão simples."
     },
     "domain_cad_engineering": {
-      "explanation": "A simulação de engenharia assenta diretamente em transformações de dupla precisão e em álgebra linear."
+      "explanation": "A simulação de escoamentos e campos em engenharia assenta em transformadas de precisão dupla e grelhas grandes."
     },
     "domain_scientific_computing": {
-      "explanation": "Esta é a carga de trabalho central da simulação numérica e da computação de alto desempenho."
+      "explanation": "Esta é a carga central da simulação numérica e da computação de alto desempenho."
     },
     "domain_ai_training": {
-      "explanation": "Alguns pipelines de treino científico e de características reutilizam estes kernels densos."
+      "explanation": "A aprendizagem automática científica partilha algumas destas transformadas, mas o treino é dominado por outro cálculo."
     },
     "domain_ai_inference": {
-      "explanation": "O pré-processamento numérico para modelos utiliza álgebra linear semelhante."
+      "explanation": "A inferência raramente executa transformadas de precisão dupla."
     },
     "domain_data_science": {
-      "explanation": "Os métodos estatísticos e a análise de sinais dependem de transformações e de matemática matricial."
+      "explanation": "A análise de sinal e os métodos espetrais usam as mesmas transformadas de Fourier."
     },
     "domain_server_virt": {
-      "explanation": "Os servidores gerais executam pouca matemática sustentada de dupla precisão."
+      "explanation": "Os servidores gerais executam pouca matemática sustentada de precisão dupla."
     }
   }
 }

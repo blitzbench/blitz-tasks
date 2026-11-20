@@ -1,50 +1,50 @@
 {
   "lang": "it_IT",
   "name": "cpu_hpc_fft",
-  "short_description": "FFT in precisione doppia e algebra lineare densa su tutti i core.",
-  "description": "Esegue un mix di trasformate di Fourier rapide in precisione doppia e lavoro su matrici dense su tutti i core utilizzando una libreria numerica ottimizzata. Le dimensioni dei problemi sono scelte per superare la capacità della cache, così il test mette alla prova sia l'aritmetica sia il traffico di memoria, come si comportano le simulazioni reali.",
-  "metric_explanation": "Il punteggio è il throughput sostenuto in precisione doppia, riportato in GFLOPS, mediato sull'intera esecuzione.",
-  "value_interpretation": "Più alto è, meglio è. Un throughput maggiore significa che modelli più grandi e simulazioni più lunghe terminano in tempi ragionevoli.",
-  "reasoning": "Le trasformate e l'algebra lineare sono i mattoni della maggior parte dei codici numerici e ingegneristici, quindi il throughput in precisione doppia qui predice le prestazioni scientifiche reali.",
+  "short_description": "Simulazione spettrale di fluidi in doppia precisione su tutti i core.",
+  "description": "Simula un flusso incomprimibile in un cubo 3D con un risolutore pseudo-spettrale, il metodo usato nella ricerca sulla turbolenza e in molti codici di fisica. Ogni passo temporale esegue una serie di trasformate veloci di Fourier in doppia precisione su una griglia di 128 x 128 x 128 punti su tutti i core. La griglia occupa circa 300 MB di memoria, quindi il test mette alla prova insieme aritmetica, gerarchia delle cache e memoria principale, proprio come le simulazioni reali.",
+  "metric_explanation": "Il punteggio è il numero di passi temporali di simulazione completati al secondo, mediato sull'esecuzione.",
+  "value_interpretation": "Più alto è meglio. Più passi al secondo significano che modelli più grandi e simulazioni più lunghe terminano in tempi ragionevoli.",
+  "reasoning": "Le trasformate di Fourier su griglie grandi sono il mattone dei risolutori spettrali, dell'elaborazione dei segnali e di molti codici ingegneristici. Uniscono calcolo in virgola mobile e accessi alla memoria a passo su tutti i livelli di cache, perciò la frequenza dei passi prevede le prestazioni scientifiche reali meglio di un test di throughput di picco. Le trasformate provengono da PocketFFT, la libreria FFT open source alla base di NumPy, SciPy e del percorso CPU di PyTorch, quindi il codice misurato è lo stesso che gira nel lavoro scientifico e sui dati di tutti i giorni.",
   "weights": {
     "domain_gaming": {
-      "explanation": "I giochi usano pochi calcoli in doppia precisione."
+      "explanation": "I giochi usano poca matematica in doppia precisione."
     },
     "domain_office": {
-      "explanation": "Il lavoro d'ufficio non ha una componente numerica intensiva."
+      "explanation": "Il lavoro d'ufficio non ha una componente numerica pesante."
     },
     "domain_software_development": {
-      "explanation": "Gli sviluppatori di software numerico ne traggono vantaggio, ma la programmazione generica no."
+      "explanation": "Solo chi sviluppa software numerico esegue carichi di questo tipo."
     },
     "domain_graphics_design": {
-      "explanation": "Il lavoro su immagini usa calcoli in singola precisione anziché questo kernel."
+      "explanation": "Il lavoro sulle immagini usa la precisione singola invece di questo tipo di risolutore."
     },
     "domain_video_editing": {
-      "explanation": "Il montaggio raramente ricorre al calcolo in doppia precisione."
+      "explanation": "Il montaggio tocca raramente il calcolo numerico in doppia precisione."
     },
     "domain_3d_rendering": {
-      "explanation": "La simulazione fisica per l'animazione condivide questi kernel di trasformata e solver."
+      "explanation": "La simulazione di fluidi e fumo per gli effetti visivi usa risolutori simili basati su griglia."
     },
     "domain_audio_production": {
-      "explanation": "Le trasformate qui rispecchiano i calcoli spettrali usati nell'analisi audio."
+      "explanation": "Anche l'audio usa trasformate di Fourier, ma su blocchi molto più piccoli in precisione singola."
     },
     "domain_cad_engineering": {
-      "explanation": "La simulazione ingegneristica si appoggia direttamente su trasformate e algebra lineare in doppia precisione."
+      "explanation": "La simulazione di flussi e campi in ingegneria si basa su trasformate in doppia precisione e griglie grandi."
     },
     "domain_scientific_computing": {
-      "explanation": "È il carico di lavoro centrale per la simulazione numerica e l'high performance computing."
+      "explanation": "È il carico centrale della simulazione numerica e del calcolo ad alte prestazioni."
     },
     "domain_ai_training": {
-      "explanation": "Alcuni addestramenti scientifici e pipeline di caratteristiche riutilizzano questi kernel densi."
+      "explanation": "Il machine learning scientifico condivide alcune di queste trasformate, ma l'addestramento è dominato da altri calcoli."
     },
     "domain_ai_inference": {
-      "explanation": "Il preprocessing numerico per i modelli usa un'algebra lineare simile."
+      "explanation": "L'inferenza esegue raramente trasformate in doppia precisione."
     },
     "domain_data_science": {
-      "explanation": "I metodi statistici e l'analisi dei segnali si affidano a trasformate e calcoli matriciali."
+      "explanation": "L'analisi dei segnali e i metodi spettrali usano le stesse trasformate di Fourier."
     },
     "domain_server_virt": {
-      "explanation": "I server generici eseguono pochi calcoli prolungati in doppia precisione."
+      "explanation": "I server generici eseguono poca matematica sostenuta in doppia precisione."
     }
   }
 }
