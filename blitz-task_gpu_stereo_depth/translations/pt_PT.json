@@ -1,0 +1,53 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_stereo_depth",
+  "short_description": "Profundidade estéreo densa e fluxo ótico numa sequência de câmara, no processador gráfico.",
+  "description": "Calcula mapas de profundidade densos com correspondência estéreo semiglobal e fluxo ótico denso para uma sequência de câmara estéreo incluída, no processador gráfico, o passo de perceção acelerado de robôs, drones e câmaras de profundidade. A sequência e todos os parâmetros são fixos.",
+  "metric_explanation": "A pontuação é o número de fotogramas estéreo processados por segundo, incluindo profundidade e fluxo.",
+  "value_interpretation": "Mais alto é melhor. Mais fotogramas por segundo significa uma perceção 3D mais densa e mais atual a taxas de câmara mais elevadas.",
+  "reasoning": "A correspondência densa constrói e agrega grandes volumes de custo, o que solicita a largura de banda de memória da GPU e o débito de inteiros e de vírgula flutuante de uma forma típica da perceção real e não dos gráficos.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos de realidade mista dependem da deteção de profundidade da divisão."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não envolve deteção de profundidade."
+    },
+    "domain_software_development": {
+      "explanation": "Apenas os programadores de software de perceção enfrentam esta carga."
+    },
+    "domain_graphics_design": {
+      "explanation": "A estimativa de profundidade alimenta os efeitos de retrato e a refocagem nas ferramentas de fotografia."
+    },
+    "domain_video_editing": {
+      "explanation": "O fluxo ótico alimenta a interpolação de fotogramas e a estabilização nas ferramentas de vídeo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A captura de profundidade e o fluxo alimentam a reconstrução 3D e a composição."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não envolve processamento de imagem."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Os sistemas de inspeção e metrologia usam profundidade estéreo."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A imagiologia científica mede o movimento e a profundidade com estes métodos."
+    },
+    "domain_ai_training": {
+      "explanation": "As etiquetas de profundidade e de fluxo para dados de treino são calculadas desta forma."
+    },
+    "domain_ai_inference": {
+      "explanation": "Os modelos de profundidade são muitas vezes verificados face a resultados de estéreo clássico."
+    },
+    "domain_data_science": {
+      "explanation": "A análise de dados raramente envolve correspondência densa de imagens."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores raramente calculam profundidade densa."
+    },
+    "domain_robotics_vision": {
+      "explanation": "A profundidade e o movimento densos são a base do desvio de obstáculos e do mapeamento 3D."
+    }
+  }
+}

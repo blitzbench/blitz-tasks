@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os handshakes seguros e a autenticação de pedidos tornam a assinatura uma carga de trabalho central do servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "As assinaturas limitam-se ao arranque seguro e às ligações autenticadas."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Das Erstellen von Images und Diensten aus dem Quellcode ist in Server-Pipelines üblich."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Robotik-Stacks sind große C++-Codebasen, die Entwickler ständig neu bauen."
     }
   }
 }

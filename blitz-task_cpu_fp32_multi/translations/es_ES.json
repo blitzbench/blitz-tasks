@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Las flotas de servidores mixtas presentan algo de carga en coma flotante, pero no es la demanda principal."
+    },
+    "domain_robotics_vision": {
+      "explanation": "El procesamiento de imágenes y de nubes de puntos reparte cálculo de precisión simple entre todos los núcleos."
     }
   }
 }

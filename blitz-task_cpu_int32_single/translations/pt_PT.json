@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "A latência por pedido depende da rapidez com que um único núcleo trata uma unidade de trabalho."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os descritores de características e a indexação de imagens assentam em cálculo inteiro em ciclos apertados."
     }
   }
 }

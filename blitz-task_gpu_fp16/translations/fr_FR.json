@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs à accélérateurs partagés exposent ce débit à de nombreux locataires d'apprentissage automatique."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les modèles de vision tournent en demi-précision sur les GPU et les accélérateurs embarqués."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Alojar muchos procesos o contenedores a la vez depende directamente del rendimiento total de los núcleos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los núcleos de imagen enteros, como la transformada census y los descriptores binarios, se ejecutan en todos los núcleos."
     }
   }
 }

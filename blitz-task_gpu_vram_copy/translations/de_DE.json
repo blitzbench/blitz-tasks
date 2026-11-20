@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte GPU-Server teilen die Kopierbandbreite auf viele Mandanten auf."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Bildpyramiden und Pufferkopien bewegen Daten innerhalb des Grafikspeichers."
     }
   }
 }

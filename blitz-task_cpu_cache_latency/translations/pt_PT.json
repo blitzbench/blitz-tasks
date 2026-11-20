@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "O trabalho por pedido sobre estado residente em cache é moldado pela latência da cache."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os ciclos de controlo e o seguimento de características trabalham com dados pequenos em cache sob prazos apertados."
     }
   }
 }

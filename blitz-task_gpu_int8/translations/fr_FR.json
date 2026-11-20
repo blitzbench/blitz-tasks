@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs d'inférence économiques s'appuient sur le débit INT8 pour servir davantage par appareil."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les modèles quantifiés de détection et de segmentation reposent sur le débit INT8."
     }
   }
 }

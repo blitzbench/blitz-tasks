@@ -1,0 +1,53 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_stereo_depth",
+  "short_description": "Profondità stereo densa e flusso ottico su una sequenza di immagini da telecamera, sul processore grafico.",
+  "description": "Calcola mappe di profondità dense con semi-global stereo matching e flusso ottico denso per una sequenza stereo di immagini inclusa sul processore grafico, il passaggio di percezione accelerato di robot, droni e telecamere di profondità. La sequenza e tutti i parametri sono fissi.",
+  "metric_explanation": "Il punteggio è il numero di fotogrammi stereo elaborati al secondo, profondità e flusso inclusi.",
+  "value_interpretation": "Più alto è meglio. Più fotogrammi al secondo significano una percezione 3D più densa e aggiornata a frequenze di acquisizione più elevate.",
+  "reasoning": "La corrispondenza densa costruisce e aggrega grandi volumi di costo, mettendo alla prova la banda di memoria della GPU e il throughput intero e in virgola mobile in un modo tipico della percezione reale più che della grafica.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi in realtà mista si basano sul rilevamento della profondità della stanza."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non prevede il rilevamento della profondità."
+    },
+    "domain_software_development": {
+      "explanation": "Solo gli sviluppatori di software di percezione affrontano questo carico."
+    },
+    "domain_graphics_design": {
+      "explanation": "La stima della profondità alimenta gli effetti ritratto e la rifocalizzazione negli strumenti fotografici."
+    },
+    "domain_video_editing": {
+      "explanation": "Il flusso ottico alimenta l'interpolazione dei fotogrammi e la stabilizzazione negli strumenti video."
+    },
+    "domain_3d_rendering": {
+      "explanation": "L'acquisizione della profondità e il flusso alimentano la ricostruzione 3D e il compositing."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede elaborazione di immagini."
+    },
+    "domain_cad_engineering": {
+      "explanation": "I sistemi di ispezione e metrologia usano la profondità stereo."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'imaging scientifico misura movimento e profondità con questi metodi."
+    },
+    "domain_ai_training": {
+      "explanation": "Le etichette di profondità e flusso per i dati di addestramento vengono calcolate in questo modo."
+    },
+    "domain_ai_inference": {
+      "explanation": "I modelli di profondità vengono spesso verificati rispetto ai risultati della stereo classica."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi dei dati tocca raramente la corrispondenza densa tra immagini."
+    },
+    "domain_server_virt": {
+      "explanation": "I server calcolano raramente la profondità densa."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Profondità e movimento densi sono la base dell'evitamento degli ostacoli e della mappatura 3D."
+    }
+  }
+}

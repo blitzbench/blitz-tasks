@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte Trainings-Server führen diese Arbeitslast für viele Nutzer aus."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Wahrnehmungsmodelle werden auf GPUs trainiert und feinabgestimmt."
     }
   }
 }

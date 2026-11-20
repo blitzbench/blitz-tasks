@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores dedican un tiempo considerable a cifrar conexiones y proteger los datos almacenados."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los robots cifran poco más que sus enlaces de red."
     }
   }
 }

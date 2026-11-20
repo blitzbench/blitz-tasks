@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Le débit des bases de données transactionnelles est la charge de stockage qui définit les serveurs."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les robots exécutent rarement des bases de données transactionnelles."
     }
   }
 }

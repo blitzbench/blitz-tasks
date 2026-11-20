@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Datenbanken und viele gleichzeitige Mandanten erzeugen hohe wahlfreie Leselast."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Wahrnehmung und Regelung lesen selten zufällig vom Speicher."
     }
   }
 }

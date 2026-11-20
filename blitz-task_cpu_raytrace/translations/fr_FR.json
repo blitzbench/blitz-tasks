@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les fermes de rendu exécutent cette charge précise sur de nombreux nœuds serveurs."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La simulation de capteurs pour tester les robots rend les vues caméra et lidar par lancer de rayons."
     }
   }
 }

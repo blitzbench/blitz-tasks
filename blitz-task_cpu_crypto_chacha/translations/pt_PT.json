@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores terminam muitas ligações seguras, frequentemente sobre esta cifra para clientes sem AES por hardware."
+    },
+    "domain_robotics_vision": {
+      "explanation": "As ligações de telemetria cifradas são uma carga menor face à perceção."
     }
   }
 }

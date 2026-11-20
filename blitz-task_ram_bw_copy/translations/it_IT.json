@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Molti processi che spostano dati contemporaneamente condividono la stessa larghezza di banda in copia."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I buffer delle immagini vengono copiati tra le fasi della pipeline alla frequenza della telecamera."
     }
   }
 }

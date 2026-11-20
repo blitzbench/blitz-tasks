@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Le traitement par requête sur un état résidant en cache est façonné par la latence de celui-ci."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les boucles de commande et le suivi de points d'intérêt travaillent sur de petites données en cache sous des échéances serrées."
     }
   }
 }

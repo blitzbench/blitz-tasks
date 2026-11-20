@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Render-Farmen führen genau diese Arbeitslast auf vielen Server-Knoten aus."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Sensorsimulation für Robotertests rendert Kamera- und Lidar-Ansichten per Raytracing."
     }
   }
 }

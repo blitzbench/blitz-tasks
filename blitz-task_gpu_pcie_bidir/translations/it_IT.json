@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server GPU condivisi sotto carico spostano i dati dei tenant in ingresso e in uscita nello stesso momento."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I fotogrammi vanno alla GPU mentre rilevamenti e mappe di profondità tornano indietro."
     }
   }
 }

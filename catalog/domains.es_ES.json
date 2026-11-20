@@ -51,5 +51,9 @@
   "domain_server_virt": {
     "name": "servidores y virtualización",
     "description": "Cargas de trabajo multitenant, densidad de contenedores/máquinas virtuales y rendimiento de fondo sostenido entre muchos procesos concurrentes."
+  },
+  "domain_robotics_vision": {
+    "name": "robótica y visión por computador",
+    "description": "Percepción, estimación de estado y control para robots, drones, RA y sistemas autónomos: procesamiento de imágenes y nubes de puntos, inferencia de modelos de visión y bucles en tiempo real críticos en latencia."
   }
 }

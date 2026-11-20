@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Compilar imágenes y servicios a partir del código fuente es habitual en las canalizaciones de servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Las pilas de robótica son grandes bases de código C++ que los desarrolladores recompilan constantemente."
     }
   }
 }

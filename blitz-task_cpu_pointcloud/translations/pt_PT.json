@@ -1,0 +1,53 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_pointcloud",
+  "short_description": "Subamostragem, pesquisa de vizinhos e alinhamento ICP de varrimentos lidar.",
+  "description": "Processa uma sequência incluída de varrimentos do tipo lidar tal como o faz a localização de robôs: subamostragem por voxels, estimativa de normais a partir dos vizinhos mais próximos e alinhamento de cada varrimento com um mapa através do algoritmo iterative closest point (ICP). Os varrimentos e os parâmetros são fixos, e o trabalho corre em todos os núcleos.",
+  "metric_explanation": "A pontuação é o número de varrimentos alinhados por segundo.",
+  "value_interpretation": "Mais alto é melhor. Mais varrimentos por segundo significa que um veículo ou um robô consegue localizar-se à taxa máxima do sensor, com margem de sobra.",
+  "reasoning": "O processamento de nuvens de pontos é dominado por estruturas de dados espaciais e pesquisas de vizinhos mais próximos, pelo que solicita a latência de memória, as caches e o cálculo em vírgula flutuante segundo um padrão que nenhuma outra tarefa cobre.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos não processam nuvens de pontos digitalizadas."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não envolve processamento de dados 3D."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores de software de perceção processam nuvens de pontos diariamente."
+    },
+    "domain_graphics_design": {
+      "explanation": "A edição de fotografia trabalha com imagens, não com nuvens de pontos."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição de vídeo não lida com nuvens de pontos."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os recursos digitalizados e a captura de cenários para conteúdos 3D começam como nuvens de pontos."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não envolve dados espaciais."
+    },
+    "domain_cad_engineering": {
+      "explanation": "A engenharia inversa e a inspeção alinham varrimentos com modelos CAD."
+    },
+    "domain_scientific_computing": {
+      "explanation": "As geociências e a topografia processam grandes conjuntos de dados lidar."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino de modelos de nuvens de pontos é um nicho pequeno."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência raramente envolve o processamento de nuvens de pontos em bruto."
+    },
+    "domain_data_science": {
+      "explanation": "A análise espacial partilha as pesquisas de vizinhos mais próximos."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores raramente executam alinhamento de nuvens de pontos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "A localização e o mapeamento com lidar são centrais nos veículos autónomos e nos robôs."
+    }
+  }
+}

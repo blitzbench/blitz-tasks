@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.7, "explanation": "Streaming training batches onto the GPU makes upload bandwidth critical." },
     "domain_ai_inference":          { "weight": 0.5, "explanation": "Loading model weights and inputs onto the GPU uses the upload path." },
     "domain_data_science":          { "weight": 0.5, "explanation": "Moving large data sets to the GPU for analytics is upload bound." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers move tenant data onto the device over this link." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers move tenant data onto the device over this link." },
+    "domain_robotics_vision":       { "weight": 0.5, "explanation": "Every camera frame has to be uploaded to the GPU before it can be processed." }
   }
 }

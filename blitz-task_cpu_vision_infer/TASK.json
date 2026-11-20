@@ -1,0 +1,41 @@
+{
+  "id": "task_cpu_real_world_vision_infer",
+  "name": "cpu_vision_infer",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "title": "Object detection on the CPU",
+  "short_description": "Object detection model on bundled camera images, on the CPU.",
+  "structured_text": {
+    "description": "Runs an object detection network on a bundled set of camera images with ONNX Runtime on the processor, the way robots, cameras and edge devices without a capable GPU run perception. The model, image size and precision are fixed, and the run uses all cores.",
+    "metric_explanation": "The score is the number of images processed per second, from preprocessing to the final detections.",
+    "value_interpretation": "Higher is better. More images per second means a robot or camera system can watch more streams or react faster.",
+    "reasoning": "Detection networks stress vector math, memory bandwidth and cache reuse in convolution and attention layers, so this reflects how well a processor handles vision models without an accelerator."
+  },
+  "metric": { "id": "metric_fps", "name": "fps", "unit": "fps", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 25.0 },
+    { "machine_type": "desktop",  "value": 45.0 },
+    { "machine_type": "notebook", "value": 25.0 },
+    { "machine_type": "mobile",   "value": 8.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games rarely run vision models on the CPU." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office tools only touch vision models in small features." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Developers test vision models on the CPU before deploying them." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Photo tools use detection for smart selection and organisation." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Video tools detect objects and faces for tracking and search." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "3D work makes little use of object detection." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work does not involve vision models." },
+    "domain_cad_engineering":       { "weight": 0.1, "explanation": "Engineering tools rarely run detection models." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Scientific imaging uses detection models for counting and classification." },
+    "domain_ai_training":           { "weight": 0.3, "explanation": "Validating vision models during training runs this kind of inference." },
+    "domain_ai_inference":          { "weight": 0.7, "explanation": "Running vision models locally is a growing part of AI inference." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Image analytics on large collections uses detection models." },
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Video analytics servers run detection on many camera streams." },
+    "domain_robotics_vision":       { "weight": 1.0, "explanation": "Detecting objects is the core perception step of robots and smart cameras." }
+  }
+}

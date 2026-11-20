@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Las bases de datos y muchos inquilinos concurrentes generan una carga intensa de lectura aleatoria."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La percepción y el control rara vez leen el almacenamiento de forma aleatoria."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Bildverarbeitungsdienste führen diese Filter skaliert auf gemeinsam genutzten Servern aus."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Die Vorverarbeitung von Kamerabildern wie Entrauschen und Skalieren nutzt diese Filter."
     }
   }
 }

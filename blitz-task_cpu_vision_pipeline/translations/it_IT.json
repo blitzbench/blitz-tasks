@@ -1,0 +1,53 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_vision_pipeline",
+  "short_description": "Tracciamento di feature, flusso ottico e profondità stereo su una sequenza di immagini da telecamera.",
+  "description": "Esegue il classico front end di percezione di un robot o di un visore AR su una sequenza stereo di immagini inclusa: rilevamento e corrispondenza delle feature, flusso ottico sparso tra i fotogrammi e profondità stereo densa, con le routine OpenCV su cui si basano i software di robotica e visione artificiale. La sequenza e tutti i parametri sono fissi e il lavoro viene distribuito su tutti i core, come avviene nelle pipeline di produzione.",
+  "metric_explanation": "Il punteggio è il numero di fotogrammi stereo elaborati al secondo attraverso l'intera pipeline.",
+  "value_interpretation": "Più alto è meglio. Più fotogrammi al secondo significano che un robot o un visore può tracciare e mappare l'ambiente circostante a frequenze di acquisizione più elevate e con meno ritardo.",
+  "reasoning": "Il tracciamento delle feature e la corrispondenza stereo combinano kernel interi sulle immagini, geometria in virgola mobile e un intenso traffico di memoria, cioè proprio il carico che odometria visiva, SLAM e tracciamento AR impongono al processore.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi elaborano raramente immagini da telecamera, salvo componenti aggiuntivi per il tracciamento del movimento."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non prevede elaborazione di immagini da telecamera."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori di software di visione e robotica eseguono continuamente questa pipeline."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'unione di panorami e l'allineamento delle immagini negli strumenti fotografici usano la stessa corrispondenza di feature."
+    },
+    "domain_video_editing": {
+      "explanation": "La stabilizzazione video e il tracciamento del movimento si basano sul tracciamento di feature e sul flusso ottico."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il camera tracking per gli effetti visivi usa routine di feature e di flusso simili."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede elaborazione di immagini."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Gli strumenti di fotogrammetria e ispezione partono dalla corrispondenza di feature e dalla profondità stereo."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'imaging scientifico usa la registrazione delle immagini e la ricostruzione della profondità."
+    },
+    "domain_ai_training": {
+      "explanation": "La preparazione dei dati per i modelli di visione esegue elaborazione classica delle immagini."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le pipeline dei modelli di visione abbinano l'inferenza a pre e post elaborazione classiche."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi delle immagini estrae feature da grandi raccolte di foto."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di videoanalisi eseguono pipeline di telecamere su molti flussi."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Odometria visiva, SLAM e tracciamento AR si basano esattamente su questa pipeline."
+    }
+  }
+}

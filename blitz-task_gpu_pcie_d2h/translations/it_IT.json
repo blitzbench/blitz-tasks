@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server GPU condivisi restituiscono i risultati dei tenant su questo collegamento."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Mappe di profondità e rilevamenti vengono ricopiati sulla CPU per la pianificazione."
     }
   }
 }

@@ -1,0 +1,53 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_vision_infer",
+  "short_description": "Objekterkennungsmodell auf mitgelieferten Kamerabildern, auf der CPU.",
+  "description": "Führt ein Netz zur Objekterkennung mit ONNX Runtime auf dem Prozessor über einen mitgelieferten Satz von Kamerabildern aus, so wie Roboter, Kameras und Edge-Geräte ohne leistungsfähige GPU ihre Wahrnehmung betreiben. Modell, Bildgröße und Genauigkeit sind fest vorgegeben, und der Lauf nutzt alle Kerne.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde verarbeiteten Bilder, von der Vorverarbeitung bis zu den fertigen Erkennungen.",
+  "value_interpretation": "Höher ist besser. Mehr Bilder pro Sekunde bedeuten, dass ein Roboter oder Kamerasystem mehr Streams überwachen oder schneller reagieren kann.",
+  "reasoning": "Erkennungsnetze belasten in Faltungs- und Attention-Schichten Vektorrechnung, Speicherbandbreite und Cache-Wiederverwendung. Der Test zeigt daher, wie gut ein Prozessor Bildverarbeitungsmodelle ohne Beschleuniger bewältigt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele führen Bildverarbeitungsmodelle selten auf der CPU aus."
+    },
+    "domain_office": {
+      "explanation": "Bürowerkzeuge nutzen Bildverarbeitungsmodelle nur in kleinen Funktionen."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler testen Bildverarbeitungsmodelle auf der CPU, bevor sie sie ausliefern."
+    },
+    "domain_graphics_design": {
+      "explanation": "Fotowerkzeuge nutzen Objekterkennung für intelligente Auswahl und Organisation."
+    },
+    "domain_video_editing": {
+      "explanation": "Videowerkzeuge erkennen Objekte und Gesichter für Tracking und Suche."
+    },
+    "domain_3d_rendering": {
+      "explanation": "3D-Arbeit nutzt Objekterkennung kaum."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit umfasst keine Bildverarbeitungsmodelle."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Ingenieurwerkzeuge führen selten Erkennungsmodelle aus."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Wissenschaftliche Bildgebung nutzt Erkennungsmodelle zum Zählen und Klassifizieren."
+    },
+    "domain_ai_training": {
+      "explanation": "Die Validierung von Bildverarbeitungsmodellen während des Trainings führt diese Art von Inferenz aus."
+    },
+    "domain_ai_inference": {
+      "explanation": "Bildverarbeitungsmodelle lokal auszuführen ist ein wachsender Teil der KI-Inferenz."
+    },
+    "domain_data_science": {
+      "explanation": "Bildanalysen auf großen Sammlungen nutzen Erkennungsmodelle."
+    },
+    "domain_server_virt": {
+      "explanation": "Server für Videoanalyse führen Objekterkennung auf vielen Kamerastreams aus."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Objekterkennung ist der zentrale Wahrnehmungsschritt von Robotern und intelligenten Kameras."
+    }
+  }
+}

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "La journalisation, les instantanés et les services à forte écriture dépendent d'une vitesse d'écriture soutenue."
+    },
+    "domain_robotics_vision": {
+      "explanation": "L'enregistrement des flux caméra et lidar écrit de gros fichiers en continu."
     }
   }
 }

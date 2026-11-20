@@ -1,0 +1,53 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_robot_control",
+  "short_description": "Boucle de commande à fréquence fixe avec dynamique du robot et commande prédictive.",
+  "description": "Exécute la boucle de commande d'un modèle de bras robotique fourni à fréquence fixe sur un seul cœur : dynamique des corps rigides avec Pinocchio et contrôleur à commande prédictive (MPC) résolu avec OSQP à chaque cycle. Plutôt que le débit, le test enregistre la durée de chaque cycle, car un contrôleur qui manque son échéance fait saccader le robot ou le met en défaut.",
+  "metric_explanation": "Le score est le 99,9e centile de la durée du cycle de commande, en nanosecondes.",
+  "value_interpretation": "Plus c'est bas, mieux c'est. Des cycles plus courts et plus réguliers permettent des fréquences de commande plus élevées et laissent davantage de marge avant qu'une échéance ne soit manquée.",
+  "reasoning": "La commande en temps réel dépend de la vitesse d'un seul cœur, du comportement des caches et de la régularité de réponse du système, et non du débit maximal. Un score de latence extrême capture les saccades que la vitesse moyenne masque.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La physique des jeux exécute des boucles de mise à jour à fréquence fixe avec des échéances similaires."
+    },
+    "domain_office": {
+      "explanation": "La bureautique n'a pas d'échéances strictes."
+    },
+    "domain_software_development": {
+      "explanation": "Seuls les développeurs de logiciels de commande rencontrent ce type de charge."
+    },
+    "domain_graphics_design": {
+      "explanation": "La retouche photo ne comporte aucune boucle temps réel."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage vidéo tolère des contraintes de temps bien plus lâches."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les rigs d'animation exécutent rarement des boucles en temps réel strict."
+    },
+    "domain_audio_production": {
+      "explanation": "L'audio en direct partage les échéances strictes à chaque cycle."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La commande de machines et les essais hardware-in-the-loop exécutent des boucles similaires."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'automatisation de laboratoire et les expériences de commande utilisent de petits solveurs temps réel."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement n'a aucune contrainte de temps réel."
+    },
+    "domain_ai_inference": {
+      "explanation": "Le service d'inférence a rarement des échéances strictes."
+    },
+    "domain_data_science": {
+      "explanation": "L'analyse de données ne comporte aucune boucle temps réel."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs sont optimisés pour le débit, pas pour les échéances de cycle."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Chaque bras robotique, drone et robot à pattes repose sur une boucle de ce type."
+    }
+  }
+}

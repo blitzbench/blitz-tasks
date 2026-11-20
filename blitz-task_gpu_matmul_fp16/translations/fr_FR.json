@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs d'accélérateurs partagés exposent ce débit à de nombreux locataires."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les convolutions et les transformers des modèles de vision se ramènent à des calculs matriciels en demi-précision."
     }
   }
 }

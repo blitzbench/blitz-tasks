@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.7, "explanation": "Streaming the next batch in while reading metrics out keeps both directions busy." },
     "domain_ai_inference":          { "weight": 0.6, "explanation": "Uploading inputs while returning outputs overlaps both directions in serving." },
     "domain_data_science":          { "weight": 0.5, "explanation": "Feeding new data while returning results overlaps the transfer link." },
-    "domain_server_virt":           { "weight": 0.5, "explanation": "Busy shared GPU servers move tenant data in and out at the same time." }
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Busy shared GPU servers move tenant data in and out at the same time." },
+    "domain_robotics_vision":       { "weight": 0.4, "explanation": "Frames go to the GPU while detections and depth maps come back." }
   }
 }

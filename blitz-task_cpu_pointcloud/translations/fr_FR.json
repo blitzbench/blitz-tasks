@@ -1,0 +1,53 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_pointcloud",
+  "short_description": "Sous-échantillonnage, recherche de voisins et alignement ICP de balayages lidar.",
+  "description": "Traite une séquence fournie de balayages de type lidar comme le fait la localisation d'un robot : sous-échantillonnage par voxels, estimation des normales à partir des plus proches voisins et alignement de chaque balayage sur une carte par la méthode ICP (iterative closest point). Les balayages et les paramètres sont fixes, et le travail s'exécute sur tous les cœurs.",
+  "metric_explanation": "Le score est le nombre de balayages alignés par seconde.",
+  "value_interpretation": "Plus c'est élevé, mieux c'est. Davantage de balayages par seconde permet à un véhicule ou à un robot de se localiser à la pleine cadence de son capteur, avec de la marge.",
+  "reasoning": "Le traitement de nuages de points est dominé par les structures de données spatiales et les recherches de plus proches voisins. Il sollicite donc la latence mémoire, les caches et le calcul en virgule flottante selon un schéma qu'aucun autre test ne couvre.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux ne traitent pas de nuages de points numérisés."
+    },
+    "domain_office": {
+      "explanation": "La bureautique ne comporte aucun traitement de données 3D."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs de logiciels de perception traitent des nuages de points au quotidien."
+    },
+    "domain_graphics_design": {
+      "explanation": "La retouche photo travaille sur des images, pas sur des nuages de points."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage vidéo ne manipule pas de nuages de points."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Les ressources numérisées et la capture de décors pour le contenu 3D commencent sous forme de nuages de points."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'implique aucune donnée spatiale."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La rétro-ingénierie et l'inspection alignent des numérisations sur des modèles CAO."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les géosciences et la topographie traitent de grands jeux de données lidar."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement de modèles sur nuages de points reste une petite niche."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence implique rarement le traitement de nuages de points bruts."
+    },
+    "domain_data_science": {
+      "explanation": "L'analyse spatiale partage les recherches de plus proches voisins."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs effectuent rarement de l'alignement de nuages de points."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La localisation et la cartographie par lidar sont au cœur des véhicules autonomes et des robots."
+    }
+  }
+}

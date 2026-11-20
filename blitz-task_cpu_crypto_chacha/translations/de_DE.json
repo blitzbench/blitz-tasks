@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Server terminieren viele sichere Verbindungen, oft mit dieser Chiffre für Clients ohne Hardware-AES."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Verschlüsselte Telemetrieverbindungen sind neben der Wahrnehmung eine geringe Last."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "O trabalho geral de servidor é maioritariamente limitado por operações inteiras e por E/S, e não por vírgula flutuante."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os ciclos de controlo e a geometria por fotograma usam precisão simples num núcleo rápido."
     }
   }
 }

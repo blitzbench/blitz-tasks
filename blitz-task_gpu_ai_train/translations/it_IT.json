@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server di addestramento condivisi eseguono questo carico di lavoro per molti utenti."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I modelli di percezione vengono addestrati e affinati su GPU."
     }
   }
 }

@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.7, "explanation": "Writing activations and gradients consumes large amounts of write bandwidth." },
     "domain_ai_inference":          { "weight": 0.6, "explanation": "Writing intermediate activations during inference uses write bandwidth." },
     "domain_data_science":          { "weight": 0.5, "explanation": "Materialising results in GPU memory writes large data." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers divide write bandwidth across many tenants." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers divide write bandwidth across many tenants." },
+    "domain_robotics_vision":       { "weight": 0.3, "explanation": "Dense outputs such as depth maps and cost volumes are written to video memory." }
   }
 }

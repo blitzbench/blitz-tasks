@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Héberger de nombreux processus ou conteneurs à la fois dépend directement du débit total des cœurs."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les noyaux d'image entiers, comme la transformée census et les descripteurs binaires, tournent sur tous les cœurs."
     }
   }
 }

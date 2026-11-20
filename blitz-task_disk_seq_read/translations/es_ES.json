@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "La carga de imágenes y grandes volúmenes de datos recurre al rendimiento de lectura secuencial."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Reproducir conjuntos de datos de sensores grabados lee archivos grandes de forma continua."
     }
   }
 }

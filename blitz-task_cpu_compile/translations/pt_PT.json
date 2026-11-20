@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Compilar imagens e serviços a partir do código-fonte é comum nos pipelines de servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "As stacks de robótica são grandes bases de código C++ que os programadores recompilam constantemente."
     }
   }
 }

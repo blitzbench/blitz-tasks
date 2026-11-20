@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "El registro de eventos, las instantáneas y los servicios con escritura intensiva dependen de la velocidad de escritura sostenida."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Registrar flujos de cámara y lidar escribe archivos grandes de forma continua."
     }
   }
 }

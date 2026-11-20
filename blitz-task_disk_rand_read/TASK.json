@@ -35,6 +35,7 @@
     "domain_ai_training":           { "weight": 0.5, "explanation": "Shuffled training data reads many small records at random." },
     "domain_ai_inference":          { "weight": 0.3, "explanation": "Loading model shards and assets involves some random access." },
     "domain_data_science":          { "weight": 0.5, "explanation": "Indexed lookups and partitioned data sets drive random reads." },
-    "domain_server_virt":           { "weight": 0.7, "explanation": "Databases and many concurrent tenants generate heavy random read load." }
+    "domain_server_virt":           { "weight": 0.7, "explanation": "Databases and many concurrent tenants generate heavy random read load." },
+    "domain_robotics_vision":       { "weight": 0.1, "explanation": "Perception and control rarely read storage at random." }
   }
 }

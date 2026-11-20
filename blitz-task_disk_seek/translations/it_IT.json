@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I tempi di risposta del database sono strettamente legati alla latenza di accesso all'archiviazione."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La latenza di accesso conta poco per i carichi robotici."
     }
   }
 }

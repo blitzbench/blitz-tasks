@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores raramente correm grafos de áudio limitados pela latência."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os ciclos de controlo a frequência fixa partilham o padrão de thread único com prazos do áudio ao vivo."
     }
   }
 }

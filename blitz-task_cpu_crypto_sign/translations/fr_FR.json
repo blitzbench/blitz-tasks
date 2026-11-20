@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Poignées de main sécurisées et authentification des requêtes font de la signature une charge serveur essentielle."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les signatures se limitent au démarrage sécurisé et aux liaisons authentifiées."
     }
   }
 }

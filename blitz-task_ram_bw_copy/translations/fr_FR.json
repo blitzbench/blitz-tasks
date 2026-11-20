@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "De nombreux processus déplaçant des données simultanément partagent la même bande passante de copie."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les tampons d'image sont copiés entre les étapes du pipeline à la cadence de la caméra."
     }
   }
 }

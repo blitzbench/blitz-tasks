@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de inferencia rentables se apoyan en el rendimiento int8 para servir más por dispositivo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los modelos cuantizados de detección y segmentación dependen del rendimiento INT8."
     }
   }
 }

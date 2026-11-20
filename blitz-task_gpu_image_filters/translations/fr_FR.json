@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les services de traitement d'image exécutent ces filtres à grande échelle sur des serveurs partagés."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le prétraitement des images de caméra, comme le débruitage et le redimensionnement, utilise ces filtres."
     }
   }
 }

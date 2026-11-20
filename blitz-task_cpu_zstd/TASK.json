@@ -62,6 +62,7 @@
     "domain_ai_training":           { "weight": 0.5, "explanation": "Dataset shards and checkpoints are compressed on write and decompressed by the data loader." },
     "domain_ai_inference":          { "weight": 0.2, "explanation": "Model files and payloads are shipped compressed." },
     "domain_data_science":          { "weight": 0.6, "explanation": "Columnar formats like Parquet and ORC compress blocks with codecs like Zstandard by default." },
-    "domain_server_virt":           { "weight": 0.7, "explanation": "Backups, log storage, database pages and network payloads are compressed continuously on servers." }
+    "domain_server_virt":           { "weight": 0.7, "explanation": "Backups, log storage, database pages and network payloads are compressed continuously on servers." },
+    "domain_robotics_vision":       { "weight": 0.3, "explanation": "Recorded sensor logs such as rosbag and MCAP files are compressed with zstd." }
   }
 }

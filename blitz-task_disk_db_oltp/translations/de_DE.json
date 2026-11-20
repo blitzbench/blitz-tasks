@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Transaktionsdatenbank-Durchsatz ist die maßgebliche Speicher-Arbeitslast für Server."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Roboter betreiben selten transaktionale Datenbanken."
     }
   }
 }

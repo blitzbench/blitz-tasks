@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "O trabalho por pedido acede a estado disperso, pelo que a latência molda o tempo de resposta."
+    },
+    "domain_robotics_vision": {
+      "explanation": "As pesquisas em árvores KD e as consultas a mapas seguem ponteiros pela memória."
     }
   }
 }

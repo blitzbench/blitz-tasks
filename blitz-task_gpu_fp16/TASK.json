@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 1.0, "explanation": "Reduced precision throughput is the defining metric for accelerated training." },
     "domain_ai_inference":          { "weight": 0.9, "explanation": "Most accelerated inference runs in half precision or lower." },
     "domain_data_science":          { "weight": 0.5, "explanation": "GPU machine learning over large datasets relies on reduced precision math." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared accelerator servers expose this throughput to many machine learning tenants." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared accelerator servers expose this throughput to many machine learning tenants." },
+    "domain_robotics_vision":       { "weight": 0.6, "explanation": "Vision models run in half precision on GPUs and embedded accelerators." }
   }
 }

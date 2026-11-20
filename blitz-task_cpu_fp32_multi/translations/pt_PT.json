@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "As frotas de servidores mistos têm alguma carga de vírgula flutuante, mas não é a procura principal."
+    },
+    "domain_robotics_vision": {
+      "explanation": "O processamento de imagens e de nuvens de pontos distribui cálculo de precisão simples por todos os núcleos."
     }
   }
 }

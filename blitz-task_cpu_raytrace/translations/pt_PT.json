@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "As render farms correm exatamente esta carga de trabalho em muitos nós de servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "A simulação de sensores para testar robôs renderiza vistas de câmara e lidar com ray tracing."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Le render farm su GPU eseguono questo carico di lavoro su molti nodi."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I dati di addestramento sintetici e la simulazione dei sensori usano il path tracing."
     }
   }
 }

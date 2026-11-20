@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs passent un temps réel à chiffrer les connexions et protéger les données stockées."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les robots chiffrent peu de choses au-delà de leurs liaisons réseau."
     }
   }
 }

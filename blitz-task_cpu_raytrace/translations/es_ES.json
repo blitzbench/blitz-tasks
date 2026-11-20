@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Las granjas de renderizado ejecutan exactamente esta carga de trabajo en muchos nodos de servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La simulación de sensores para probar robots renderiza vistas de cámara y lidar con trazado de rayos."
     }
   }
 }

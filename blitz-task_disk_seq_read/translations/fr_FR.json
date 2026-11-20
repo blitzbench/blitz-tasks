@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Le chargement d'images et de grands volumes de données puise dans le débit de lecture séquentielle."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Rejouer des jeux de données de capteurs enregistrés lit de gros fichiers en continu."
     }
   }
 }

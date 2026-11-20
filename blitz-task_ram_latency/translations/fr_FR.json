@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Le travail par requête touche à un état dispersé, de sorte que la latence conditionne le temps de réponse."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les recherches dans les arbres KD et les accès aux cartes suivent des pointeurs à travers la mémoire."
     }
   }
 }

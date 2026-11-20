@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "El trabajo por petición sobre estado residente en caché viene determinado por la latencia de la caché."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los bucles de control y el seguimiento de características trabajan con datos pequeños en caché bajo plazos estrictos."
     }
   }
 }

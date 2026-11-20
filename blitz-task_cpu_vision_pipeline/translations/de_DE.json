@@ -1,0 +1,53 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_vision_pipeline",
+  "short_description": "Feature-Tracking, optischer Fluss und Stereo-Tiefe auf einer Kamerasequenz.",
+  "description": "Führt das klassische Wahrnehmungs-Frontend eines Roboters oder AR-Headsets auf einer mitgelieferten Stereo-Kamerasequenz aus: Erkennung und Zuordnung von Bildmerkmalen, punktbasierter optischer Fluss zwischen den Bildern und dichte Stereo-Tiefe, umgesetzt mit den OpenCV-Routinen, auf denen Robotik- und Bildverarbeitungssoftware aufbaut. Sequenz und alle Parameter sind fest vorgegeben, und die Arbeit wird wie in produktiven Pipelines auf alle Kerne verteilt.",
+  "metric_explanation": "Der Score ist die Anzahl der Stereobilder, die pro Sekunde die gesamte Pipeline durchlaufen.",
+  "value_interpretation": "Höher ist besser. Mehr Bilder pro Sekunde bedeuten, dass ein Roboter oder Headset seine Umgebung mit höheren Kamerabildraten und geringerer Verzögerung verfolgen und kartieren kann.",
+  "reasoning": "Feature-Tracking und Stereo-Matching kombinieren Integer-Bildkernel, Gleitkommageometrie und hohen Speicherverkehr. Genau diese Last erzeugen visuelle Odometrie, SLAM und AR-Tracking auf dem Prozessor.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele verarbeiten selten Kamerabilder, abgesehen von Zusatzfunktionen für Bewegungserfassung."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit umfasst keine Kamerabildverarbeitung."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler von Bildverarbeitungs- und Robotiksoftware führen diese Pipeline ständig aus."
+    },
+    "domain_graphics_design": {
+      "explanation": "Panorama-Stitching und Bildausrichtung in Fotowerkzeugen nutzen dieselbe Merkmalszuordnung."
+    },
+    "domain_video_editing": {
+      "explanation": "Videostabilisierung und Motion Tracking beruhen auf Feature-Tracking und optischem Fluss."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Kamera-Tracking für visuelle Effekte nutzt ähnliche Merkmals- und Flussroutinen."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit umfasst keine Bildverarbeitung."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Photogrammetrie- und Prüfwerkzeuge beginnen mit Merkmalszuordnung und Stereo-Tiefe."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Wissenschaftliche Bildgebung nutzt Bildregistrierung und Tiefenrekonstruktion."
+    },
+    "domain_ai_training": {
+      "explanation": "Die Datenaufbereitung für Bildverarbeitungsmodelle setzt klassische Bildverarbeitung ein."
+    },
+    "domain_ai_inference": {
+      "explanation": "Pipelines mit Bildverarbeitungsmodellen kombinieren Inferenz mit klassischer Vor- und Nachverarbeitung."
+    },
+    "domain_data_science": {
+      "explanation": "Bildanalysen extrahieren Merkmale aus großen Fotosammlungen."
+    },
+    "domain_server_virt": {
+      "explanation": "Server für Videoanalyse betreiben Kamera-Pipelines für viele Streams."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Visuelle Odometrie, SLAM und AR-Tracking bauen genau auf dieser Pipeline auf."
+    }
+  }
+}

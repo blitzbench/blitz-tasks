@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "La latenza per richiesta dipende dalla rapidità con cui un singolo core gestisce una unità di lavoro."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I descrittori di feature e l'indicizzazione delle immagini si basano su calcoli interi in cicli stretti."
     }
   }
 }

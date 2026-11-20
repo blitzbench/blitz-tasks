@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores GPU compartidos con mucha carga mueven los datos de los inquilinos en ambos sentidos al mismo tiempo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los fotogramas van a la GPU mientras las detecciones y los mapas de profundidad vuelven."
     }
   }
 }

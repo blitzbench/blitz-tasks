@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "O débito de bases de dados transacionais é a carga de trabalho de armazenamento que define os servidores."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os robôs raramente executam bases de dados transacionais."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server di cloud gaming e streaming renderizzano da remoto esattamente queste scene."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I simulatori di robot renderizzano le scene con tecniche dei motori di gioco."
     }
   }
 }

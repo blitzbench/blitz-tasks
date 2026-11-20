@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os tempos de resposta das bases de dados estão fortemente ligados à latência de acesso ao armazenamento."
+    },
+    "domain_robotics_vision": {
+      "explanation": "A latência de acesso pouco importa nas cargas de robótica."
     }
   }
 }

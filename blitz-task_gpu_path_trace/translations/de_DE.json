@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "GPU-Renderfarmen verteilen diese Arbeitslast auf viele Knoten."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Synthetische Trainingsdaten und Sensorsimulation nutzen Path Tracing."
     }
   }
 }

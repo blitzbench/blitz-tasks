@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os trabalhos de simulação correm em servidores, mas não são uma carga de trabalho geral de servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os back ends de SLAM e a simulação de corpos deformáveis resolvem sistemas esparsos semelhantes."
     }
   }
 }

@@ -1,0 +1,53 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_slam_ba",
+  "short_description": "Bundle adjustment sparso di una mappa SLAM visiva su tutti i core.",
+  "description": "Ottimizza le pose della telecamera e i punti di riferimento 3D di una mappa SLAM visiva inclusa tramite bundle adjustment sparso, il passaggio di back end che mantiene coerenti le mappe di robot e applicazioni AR. Il problema viene risolto con Ceres Solver, una libreria ai minimi quadrati non lineari molto diffusa, usando il suo metodo sparso basato sul complemento di Schur su tutti i core. Mappa, funzione di perdita robusta e criteri di arresto sono fissi.",
+  "metric_explanation": "Il punteggio è il numero di risoluzioni complete di bundle adjustment al minuto.",
+  "value_interpretation": "Più alto è meglio. Risoluzioni più rapide permettono a un robot di correggere la deriva e chiudere i loop più spesso, e fanno terminare prima i job di mappatura e fotogrammetria.",
+  "reasoning": "Il bundle adjustment combina molte piccole valutazioni di jacobiane dense con grandi operazioni di algebra lineare sparsa, uno schema che mette alla prova contemporaneamente throughput in virgola mobile, cache e banda di memoria, proprio come i veri software di SLAM e structure from motion.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi non eseguono ottimizzazione di mappe."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non prevede ottimizzazione numerica."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori di software di mappatura e visione eseguono queste risoluzioni durante i test."
+    },
+    "domain_graphics_design": {
+      "explanation": "Gli strumenti fotografici vanno raramente oltre l'allineamento delle immagini."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio video richiede di rado una ricostruzione 3D completa."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La fotogrammetria per contenuti 3D ricostruisce le scene con il bundle adjustment."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede ottimizzazione geometrica."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Gli strumenti di rilievo, scansione e ispezione si basano sulle stesse risoluzioni ai minimi quadrati."
+    },
+    "domain_scientific_computing": {
+      "explanation": "I minimi quadrati non lineari sono uno strumento comune nel fitting di dati scientifici."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento dei modelli usa metodi di ottimizzazione diversi."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza non prevede ottimizzazione di mappe."
+    },
+    "domain_data_science": {
+      "explanation": "Grandi problemi di fitting di curve e di calibrazione condividono la struttura del solver."
+    },
+    "domain_server_virt": {
+      "explanation": "I job di mappatura girano sui server ma non costituiscono un carico di lavoro server generico."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Mantenere coerenti le mappe SLAM è un carico di lavoro centrale per robot autonomi e AR."
+    }
+  }
+}

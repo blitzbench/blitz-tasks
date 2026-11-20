@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.3, "explanation": "Some training stages use int8, though most training stays in floating point." },
     "domain_ai_inference":          { "weight": 1.0, "explanation": "Quantised int8 inference is a primary way to run models efficiently." },
     "domain_data_science":          { "weight": 0.3, "explanation": "Quantised models speed up scoring over large data sets." },
-    "domain_server_virt":           { "weight": 0.5, "explanation": "Cost efficient inference servers lean on int8 throughput to serve more per device." }
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Cost efficient inference servers lean on int8 throughput to serve more per device." },
+    "domain_robotics_vision":       { "weight": 0.7, "explanation": "Quantised detection and segmentation models run on INT8 throughput." }
   }
 }

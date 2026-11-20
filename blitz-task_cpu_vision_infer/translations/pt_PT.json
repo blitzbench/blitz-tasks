@@ -1,0 +1,53 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_vision_infer",
+  "short_description": "Modelo de deteção de objetos sobre imagens de câmara incluídas, no CPU.",
+  "description": "Executa uma rede de deteção de objetos sobre um conjunto incluído de imagens de câmara com o ONNX Runtime no processador, tal como robôs, câmaras e dispositivos de periferia sem uma GPU capaz executam a perceção. O modelo, o tamanho das imagens e a precisão são fixos, e a execução usa todos os núcleos.",
+  "metric_explanation": "A pontuação é o número de imagens processadas por segundo, desde o pré-processamento até às deteções finais.",
+  "value_interpretation": "Mais alto é melhor. Mais imagens por segundo significa que um robô ou um sistema de câmaras consegue vigiar mais fluxos ou reagir mais depressa.",
+  "reasoning": "As redes de deteção solicitam o cálculo vetorial, a largura de banda de memória e a reutilização das caches nas camadas de convolução e de atenção, pelo que este teste mostra até que ponto um processador lida com modelos de visão sem um acelerador.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos raramente executam modelos de visão no CPU."
+    },
+    "domain_office": {
+      "explanation": "As ferramentas de escritório só recorrem a modelos de visão em pequenas funcionalidades."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores testam os modelos de visão no CPU antes de os implementarem."
+    },
+    "domain_graphics_design": {
+      "explanation": "As ferramentas de fotografia usam a deteção para seleção inteligente e organização."
+    },
+    "domain_video_editing": {
+      "explanation": "As ferramentas de vídeo detetam objetos e rostos para seguimento e pesquisa."
+    },
+    "domain_3d_rendering": {
+      "explanation": "O trabalho 3D faz pouco uso da deteção de objetos."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não envolve modelos de visão."
+    },
+    "domain_cad_engineering": {
+      "explanation": "As ferramentas de engenharia raramente executam modelos de deteção."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A imagiologia científica usa modelos de deteção para contagem e classificação."
+    },
+    "domain_ai_training": {
+      "explanation": "A validação de modelos de visão durante o treino executa este tipo de inferência."
+    },
+    "domain_ai_inference": {
+      "explanation": "Executar modelos de visão localmente é uma parte crescente da inferência de AI."
+    },
+    "domain_data_science": {
+      "explanation": "A análise de grandes coleções de imagens usa modelos de deteção."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de análise de vídeo executam deteção em muitos fluxos de câmara."
+    },
+    "domain_robotics_vision": {
+      "explanation": "A deteção de objetos é o passo central de perceção dos robôs e das câmaras inteligentes."
+    }
+  }
+}

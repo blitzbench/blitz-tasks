@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Kosteneffiziente Inferenz-Server stützen sich auf INT8-Durchsatz, um mehr Anfragen pro Gerät zu bedienen."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Quantisierte Erkennungs- und Segmentierungsmodelle laufen auf INT8-Durchsatz."
     }
   }
 }

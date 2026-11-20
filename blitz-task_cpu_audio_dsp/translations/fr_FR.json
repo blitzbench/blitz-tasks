@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs exécutent rarement des graphes audio soumis à des contraintes de latence."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les boucles de commande à fréquence fixe partagent le schéma monothread à échéance stricte de l'audio en direct."
     }
   }
 }

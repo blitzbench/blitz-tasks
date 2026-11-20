@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gehostete Generierungsdienste führen diese Arbeitslast kontinuierlich für viele Nutzer aus."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Bildgenerierung spielt für die Wahrnehmung kaum eine Rolle."
     }
   }
 }

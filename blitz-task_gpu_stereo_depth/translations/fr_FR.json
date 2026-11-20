@@ -1,0 +1,53 @@
+{
+  "lang": "fr_FR",
+  "name": "gpu_stereo_depth",
+  "short_description": "Profondeur stéréo dense et flot optique sur une séquence de caméra, sur le processeur graphique.",
+  "description": "Calcule des cartes de profondeur denses par appariement stéréo semi-global ainsi qu'un flot optique dense pour une séquence de caméra stéréo fournie, sur le processeur graphique. C'est l'étape de perception accélérée des robots, des drones et des caméras de profondeur. La séquence et tous les paramètres sont fixes.",
+  "metric_explanation": "Le score est le nombre d'images stéréo traitées par seconde, profondeur et flot compris.",
+  "value_interpretation": "Plus c'est élevé, mieux c'est. Davantage d'images par seconde signifie une perception 3D plus dense et plus à jour, à des cadences de caméra plus élevées.",
+  "reasoning": "L'appariement dense construit et agrège de grands volumes de coûts, ce qui sollicite la bande passante mémoire du GPU ainsi que son débit en entiers et en virgule flottante, d'une manière typique de la perception réelle plutôt que du graphisme.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux de réalité mixte s'appuient sur la perception de la profondeur de la pièce."
+    },
+    "domain_office": {
+      "explanation": "La bureautique ne comporte aucune perception de la profondeur."
+    },
+    "domain_software_development": {
+      "explanation": "Seuls les développeurs de logiciels de perception rencontrent cette charge."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'estimation de profondeur alimente les effets portrait et la remise au point dans les outils photo."
+    },
+    "domain_video_editing": {
+      "explanation": "Le flot optique alimente l'interpolation d'images et la stabilisation dans les outils vidéo."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La capture de profondeur et le flot alimentent la reconstruction 3D et le compositing."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'implique aucun traitement d'image."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les systèmes d'inspection et de métrologie utilisent la profondeur stéréo."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'imagerie scientifique mesure le mouvement et la profondeur avec ces méthodes."
+    },
+    "domain_ai_training": {
+      "explanation": "Les annotations de profondeur et de flot des données d'entraînement sont calculées de cette façon."
+    },
+    "domain_ai_inference": {
+      "explanation": "Les modèles de profondeur sont souvent comparés aux résultats de la stéréo classique."
+    },
+    "domain_data_science": {
+      "explanation": "L'analyse de données touche rarement à l'appariement dense d'images."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs calculent rarement de la profondeur dense."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La profondeur et le mouvement denses sont la base de l'évitement d'obstacles et de la cartographie 3D."
+    }
+  }
+}

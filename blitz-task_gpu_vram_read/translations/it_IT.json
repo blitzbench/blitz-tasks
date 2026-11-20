@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server GPU condivisi ripartiscono la larghezza di banda in lettura tra molti tenant."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I modelli di visione e lo stereo denso leggono grandi tensori dalla memoria video."
     }
   }
 }

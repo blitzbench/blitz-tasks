@@ -36,6 +36,7 @@
     "domain_ai_training":           { "weight": 1.0, "explanation": "This is the defining workload for the training domain." },
     "domain_ai_inference":          { "weight": 0.4, "explanation": "Fine tuning before deployment shares the same training path." },
     "domain_data_science":          { "weight": 0.6, "explanation": "Model fitting on the GPU is a core part of advanced analytics." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared training servers run this workload for many users." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared training servers run this workload for many users." },
+    "domain_robotics_vision":       { "weight": 0.4, "explanation": "Perception models are trained and fine tuned on GPUs." }
   }
 }

@@ -36,6 +36,7 @@
     "domain_ai_training":           { "weight": 0.3, "explanation": "Image augmentation for training reuses these filter operations." },
     "domain_ai_inference":          { "weight": 0.3, "explanation": "Pre and post processing around vision models uses image filters." },
     "domain_data_science":          { "weight": 0.2, "explanation": "Image analytics applies filters during preparation." },
-    "domain_server_virt":           { "weight": 0.3, "explanation": "Image processing services run these filters at scale on shared servers." }
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Image processing services run these filters at scale on shared servers." },
+    "domain_robotics_vision":       { "weight": 0.6, "explanation": "Camera image preprocessing such as denoising and resizing uses these filters." }
   }
 }

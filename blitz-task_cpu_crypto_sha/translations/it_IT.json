@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server eseguono l'hashing di continuo per l'integrità dell'archiviazione, il caching e la sicurezza."
+    },
+    "domain_robotics_vision": {
+      "explanation": "L'hashing non ha un vero ruolo nella percezione o nel controllo."
     }
   }
 }

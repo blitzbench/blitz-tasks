@@ -1,0 +1,53 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_robot_control",
+  "short_description": "Regelschleife mit fester Taktrate, Roboterdynamik und modellprädiktiver Regelung.",
+  "description": "Führt die Regelschleife eines mitgelieferten Roboterarmmodells mit fester Taktrate auf einem Kern aus: Starrkörperdynamik mit Pinocchio und ein modellprädiktiver Regler, der in jedem Zyklus mit OSQP gelöst wird. Statt des Durchsatzes erfasst der Test die Dauer jedes Zyklus, denn ein Regler, der seine Deadline verpasst, lässt den Roboter ruckeln oder in einen Fehlerzustand gehen.",
+  "metric_explanation": "Der Score ist das 99,9. Perzentil der Regelzykluszeit in Nanosekunden.",
+  "value_interpretation": "Niedriger ist besser. Kürzere und gleichmäßigere Zykluszeiten erlauben höhere Regelraten und mehr Spielraum, bevor eine Deadline verpasst wird.",
+  "reasoning": "Echtzeitregelung hängt von der Single-Core-Geschwindigkeit, dem Cache-Verhalten und der Gleichmäßigkeit der Systemreaktion ab, nicht vom Spitzendurchsatz. Ein Score auf Basis der Tail-Latenz erfasst das Ruckeln, das eine Durchschnittsgeschwindigkeit verbirgt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spielephysik läuft in Update-Schleifen mit fester Rate und ähnlichen Deadlines."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit kennt keine harten Deadlines."
+    },
+    "domain_software_development": {
+      "explanation": "Nur Entwickler von Regelungssoftware sehen diese Art von Last."
+    },
+    "domain_graphics_design": {
+      "explanation": "Fotobearbeitung hat keine Echtzeitschleife."
+    },
+    "domain_video_editing": {
+      "explanation": "Videobearbeitung toleriert ein weitaus lockereres Timing."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Animations-Rigs laufen selten in harten Echtzeitschleifen."
+    },
+    "domain_audio_production": {
+      "explanation": "Live-Audio teilt die strikten Deadlines pro Zyklus."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Maschinensteuerung und Hardware-in-the-Loop-Tests nutzen ähnliche Schleifen."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Laborautomatisierung und Regelungsexperimente nutzen kleine Echtzeit-Solver."
+    },
+    "domain_ai_training": {
+      "explanation": "Training unterliegt keinen Echtzeitanforderungen."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenzdienste haben selten harte Deadlines."
+    },
+    "domain_data_science": {
+      "explanation": "Datenanalyse hat keine Echtzeitschleife."
+    },
+    "domain_server_virt": {
+      "explanation": "Server sind auf Durchsatz optimiert, nicht auf Zyklus-Deadlines."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Jeder Roboterarm, jede Drohne und jeder Laufroboter hat im Kern eine Schleife wie diese."
+    }
+  }
+}

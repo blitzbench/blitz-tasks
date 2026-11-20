@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs de bureau distant et de streaming poussent des pixels calculés vers les clients."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le débit de rastérisation ne compte que pour la visualisation."
     }
   }
 }

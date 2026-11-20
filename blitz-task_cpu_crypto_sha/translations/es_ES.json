@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores aplican hash de forma continua para la integridad del almacenamiento, el almacenamiento en caché y la seguridad."
+    },
+    "domain_robotics_vision": {
+      "explanation": "El hashing no tiene un papel real en la percepción ni en el control."
     }
   }
 }

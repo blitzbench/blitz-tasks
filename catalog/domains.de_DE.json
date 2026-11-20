@@ -51,5 +51,9 @@
   "domain_server_virt": {
     "name": "Server & Virtualisierung",
     "description": "Mandantenfähige Arbeitslasten, Container-/VM-Dichte, anhaltender Hintergrunddurchsatz über viele parallele Prozesse."
+  },
+  "domain_robotics_vision": {
+    "name": "Robotik & Computer Vision",
+    "description": "Wahrnehmung, Zustandsschätzung und Regelung für Roboter, Drohnen, AR und autonome Systeme – Bild- und Punktwolkenverarbeitung, Inferenz von Bildverarbeitungsmodellen und latenzkritische Echtzeitschleifen."
   }
 }

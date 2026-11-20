@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Viele gleichzeitige Prozesse konkurrieren um die Lesebandbreite des gemeinsamen Arbeitsspeichers."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Punktwolken und Bildströme werden fortlaufend aus dem Speicher gelesen."
     }
   }
 }

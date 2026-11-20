@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Kosteneffiziente Deployments bedienen kleinere Modelle von reinen CPU-Servern."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Roboter nehmen zunehmend Sprachbefehle über kleine Modelle auf dem Gerät entgegen."
     }
   }
 }

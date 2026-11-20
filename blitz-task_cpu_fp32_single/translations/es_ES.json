@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "El trabajo general de servidor está limitado sobre todo por enteros y E/S, más que por coma flotante."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los bucles de control y la geometría por fotograma usan cálculo de precisión simple en un núcleo rápido."
     }
   }
 }

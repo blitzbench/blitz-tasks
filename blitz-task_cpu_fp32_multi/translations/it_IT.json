@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I parchi server misti vedono un certo carico in virgola mobile, ma non è la richiesta principale."
+    },
+    "domain_robotics_vision": {
+      "explanation": "L'elaborazione di immagini e nuvole di punti distribuisce calcoli in precisione singola su tutti i core."
     }
   }
 }

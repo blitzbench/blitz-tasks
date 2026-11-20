@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de escritorio remoto y streaming envían píxeles renderizados a los clientes."
+    },
+    "domain_robotics_vision": {
+      "explanation": "El rendimiento de rasterización solo importa para la visualización."
     }
   }
 }

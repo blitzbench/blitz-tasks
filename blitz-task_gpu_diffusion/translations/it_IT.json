@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I servizi di generazione ospitati eseguono questo carico di lavoro in modo continuo per molti utenti."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La generazione di immagini ha un ruolo marginale nella percezione."
     }
   }
 }

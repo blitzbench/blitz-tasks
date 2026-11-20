@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Muitos processos a mover dados em simultâneo partilham a mesma largura de banda de cópia."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os buffers de imagem são copiados entre etapas do pipeline ao ritmo da câmara."
     }
   }
 }

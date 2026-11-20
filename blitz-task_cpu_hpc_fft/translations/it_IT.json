@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server generici eseguono poca matematica sostenuta in doppia precisione."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Il filtraggio in frequenza di immagini e segnali dei sensori usa le stesse trasformate."
     }
   }
 }

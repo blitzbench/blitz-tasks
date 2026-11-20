@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Anfrageverarbeitung greift auf verteilten Zustand zu, sodass Latenz die Antwortzeit bestimmt."
+    },
+    "domain_robotics_vision": {
+      "explanation": "KD-Baum-Suchen und Kartenabfragen folgen Zeigern quer durch den Speicher."
     }
   }
 }

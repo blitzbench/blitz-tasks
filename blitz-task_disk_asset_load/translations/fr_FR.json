@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "La récupération et la décompression des images de conteneurs lisent et décompressent de grands paquets."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le chargement des cartes et des modèles au démarrage est une petite partie de la charge d'un robot."
     }
   }
 }

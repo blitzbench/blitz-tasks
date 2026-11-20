@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de GPU compartida reparten el ancho de banda de copia entre muchos inquilinos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Las pirámides de imágenes y las copias de búfer mueven datos dentro de la memoria de vídeo."
     }
   }
 }

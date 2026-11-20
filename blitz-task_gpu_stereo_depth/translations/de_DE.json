@@ -1,0 +1,53 @@
+{
+  "lang": "de_DE",
+  "name": "gpu_stereo_depth",
+  "short_description": "Dichte Stereo-Tiefe und optischer Fluss auf einer Kamerasequenz, auf dem Grafikprozessor.",
+  "description": "Berechnet für eine mitgelieferte Stereo-Kamerasequenz auf dem Grafikprozessor dichte Tiefenkarten per Semi-Global Matching sowie dichten optischen Fluss. Das ist der beschleunigte Wahrnehmungsschritt von Robotern, Drohnen und Tiefenkameras. Sequenz und alle Parameter sind fest vorgegeben.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde verarbeiteten Stereobilder, einschließlich Tiefe und Fluss.",
+  "value_interpretation": "Höher ist besser. Mehr Bilder pro Sekunde bedeuten eine dichtere und aktuellere 3D-Wahrnehmung bei höheren Kamerabildraten.",
+  "reasoning": "Dichtes Matching baut große Kostenvolumen auf und aggregiert sie. Das belastet die Speicherbandbreite der GPU sowie ihren Integer- und Gleitkommadurchsatz auf eine Weise, die typisch für echte Wahrnehmung und nicht für Grafik ist.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Mixed-Reality-Spiele sind auf die Tiefenerfassung des Raums angewiesen."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit umfasst keine Tiefenerfassung."
+    },
+    "domain_software_development": {
+      "explanation": "Nur Entwickler von Wahrnehmungssoftware sehen diese Last."
+    },
+    "domain_graphics_design": {
+      "explanation": "Tiefenschätzung ermöglicht Porträteffekte und nachträgliches Fokussieren in Fotowerkzeugen."
+    },
+    "domain_video_editing": {
+      "explanation": "Optischer Fluss ermöglicht Zwischenbildberechnung und Stabilisierung in Videowerkzeugen."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Tiefenerfassung und optischer Fluss fließen in 3D-Rekonstruktion und Compositing ein."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit umfasst keine Bildverarbeitung."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Prüf- und Messsysteme nutzen Stereo-Tiefe."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Wissenschaftliche Bildgebung misst Bewegung und Tiefe mit diesen Methoden."
+    },
+    "domain_ai_training": {
+      "explanation": "Tiefen- und Flusslabels für Trainingsdaten werden auf diese Weise berechnet."
+    },
+    "domain_ai_inference": {
+      "explanation": "Tiefenmodelle werden oft mit klassischen Stereo-Ergebnissen abgeglichen."
+    },
+    "domain_data_science": {
+      "explanation": "Datenanalyse berührt selten dichtes Bild-Matching."
+    },
+    "domain_server_virt": {
+      "explanation": "Server berechnen selten dichte Tiefe."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Dichte Tiefe und Bewegung sind die Grundlage für Hindernisvermeidung und 3D-Kartierung."
+    }
+  }
+}

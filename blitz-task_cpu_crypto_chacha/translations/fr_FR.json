@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs terminent de nombreuses connexions sécurisées, souvent avec ce chiffrement pour les clients dépourvus d'AES matériel."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les liaisons de télémétrie chiffrées sont une charge mineure à côté de la perception."
     }
   }
 }

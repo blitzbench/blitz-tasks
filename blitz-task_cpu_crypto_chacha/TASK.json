@@ -49,6 +49,7 @@
     "domain_ai_training":           { "weight": 0.1, "explanation": "Training pipelines spend little time on transport encryption." },
     "domain_ai_inference":          { "weight": 0.2, "explanation": "Serving over secure connections uses authenticated encryption per request." },
     "domain_data_science":          { "weight": 0.2, "explanation": "Pulling data over secure links runs this cipher." },
-    "domain_server_virt":           { "weight": 0.6, "explanation": "Servers terminate many secure connections, often on this cipher for clients without hardware AES." }
+    "domain_server_virt":           { "weight": 0.6, "explanation": "Servers terminate many secure connections, often on this cipher for clients without hardware AES." },
+    "domain_robotics_vision":       { "weight": 0.1, "explanation": "Encrypted telemetry links are a minor load next to perception." }
   }
 }

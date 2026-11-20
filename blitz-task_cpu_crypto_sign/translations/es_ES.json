@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los apretones de manos seguros y la autenticación de peticiones convierten la firma en una carga de trabajo fundamental del servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Las firmas se limitan al arranque seguro y a los enlaces autenticados."
     }
   }
 }

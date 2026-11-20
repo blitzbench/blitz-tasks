@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Logging, snapshot e servizi a forte carico di scrittura dipendono da una velocità di scrittura costante."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La registrazione dei flussi di telecamere e lidar scrive file di grandi dimensioni in modo continuo."
     }
   }
 }

@@ -1,0 +1,53 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_robot_control",
+  "short_description": "Ciclo di controllo a frequenza fissa con dinamica del robot e controllo predittivo.",
+  "description": "Esegue il ciclo di controllo di un modello di braccio robotico incluso a frequenza fissa su un singolo core: dinamica dei corpi rigidi con Pinocchio e un controllore predittivo basato su modello risolto con OSQP a ogni ciclo. Anziché il throughput, il test registra la durata di ogni ciclo, perché un controllore che manca la scadenza fa procedere il robot a scatti o lo manda in errore.",
+  "metric_explanation": "Il punteggio è il 99,9° percentile della durata del ciclo di controllo, in nanosecondi.",
+  "value_interpretation": "Più basso è meglio. Cicli più brevi e più regolari consentono frequenze di controllo più elevate e un margine maggiore prima di mancare una scadenza.",
+  "reasoning": "Il controllo in tempo reale dipende dalla velocità del singolo core, dal comportamento della cache e dalla regolarità di risposta del sistema, non dal throughput di picco. Un punteggio basato sulla latenza di coda cattura gli scatti che la velocità media nasconde.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La fisica dei giochi esegue cicli di aggiornamento a frequenza fissa con scadenze simili."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non ha scadenze rigide."
+    },
+    "domain_software_development": {
+      "explanation": "Solo gli sviluppatori di software di controllo affrontano questo tipo di carico."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'editing fotografico non ha cicli in tempo reale."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio video tollera tempistiche molto più larghe."
+    },
+    "domain_3d_rendering": {
+      "explanation": "I rig di animazione eseguono raramente cicli in tempo reale stretto."
+    },
+    "domain_audio_production": {
+      "explanation": "L'audio dal vivo condivide le scadenze rigide per ciclo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il controllo delle macchine e i test hardware in the loop eseguono cicli simili."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'automazione di laboratorio e gli esperimenti di controllo usano piccoli solver in tempo reale."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento non ha vincoli di tempo reale."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza in produzione ha raramente scadenze rigide."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi dei dati non ha cicli in tempo reale."
+    },
+    "domain_server_virt": {
+      "explanation": "I server sono ottimizzati per il throughput, non per le scadenze dei cicli."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Ogni braccio robotico, drone e robot con zampe ha al suo centro un ciclo come questo."
+    }
+  }
+}

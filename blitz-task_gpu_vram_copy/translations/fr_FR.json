@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs GPU partagés répartissent la bande passante de copie entre de nombreux locataires."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les pyramides d'images et les copies de tampons déplacent des données dans la mémoire vidéo."
     }
   }
 }

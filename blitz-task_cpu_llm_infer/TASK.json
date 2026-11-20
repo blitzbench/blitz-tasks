@@ -62,6 +62,7 @@
     "domain_ai_training":           { "weight": 0.3, "explanation": "Quick CPU checks of a model are common during training work." },
     "domain_ai_inference":          { "weight": 1.0, "explanation": "Local language model serving on the CPU is exactly this domain." },
     "domain_data_science":          { "weight": 0.4, "explanation": "Analysts run local models to label, extract and summarise text data." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Cost sensitive deployments serve smaller models from CPU only servers." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Cost sensitive deployments serve smaller models from CPU only servers." },
+    "domain_robotics_vision":       { "weight": 0.3, "explanation": "Robots increasingly take language commands from small on device models." }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os serviços de geração alojados correm esta carga de trabalho continuamente para muitos utilizadores."
+    },
+    "domain_robotics_vision": {
+      "explanation": "A geração de imagens tem pouco papel na perceção."
     }
   }
 }

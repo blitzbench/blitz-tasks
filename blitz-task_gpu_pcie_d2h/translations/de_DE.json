@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte GPU-Server übertragen Mandanten-Ergebnisse über diese Strecke."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Tiefenkarten und Erkennungen werden für die Planung zur CPU zurückkopiert."
     }
   }
 }

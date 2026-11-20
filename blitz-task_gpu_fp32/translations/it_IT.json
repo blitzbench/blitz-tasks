@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server GPU condivisi mettono questa capacità di calcolo a disposizione di molti tenant."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I kernel GPU per stereo, flusso ottico e nuvole di punti usano la precisione singola."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Server hashen kontinuierlich für Speicherintegrität, Caching und Sicherheit."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Hashing spielt für Wahrnehmung und Regelung keine echte Rolle."
     }
   }
 }

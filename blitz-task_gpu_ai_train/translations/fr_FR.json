@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs d'entraînement partagés exécutent cette charge de travail pour de nombreux utilisateurs."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les modèles de perception sont entraînés et affinés sur GPU."
     }
   }
 }

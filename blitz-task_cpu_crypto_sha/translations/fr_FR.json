@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs hachent en continu pour l'intégrité du stockage, la mise en cache et la sécurité."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le hachage ne joue aucun vrai rôle dans la perception ou la commande."
     }
   }
 }

@@ -1,0 +1,53 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_vision_pipeline",
+  "short_description": "Suivi de points caractéristiques, flot optique et profondeur stéréo sur une séquence de caméra.",
+  "description": "Exécute la partie frontale classique de la perception d'un robot ou d'un casque de réalité augmentée sur une séquence de caméra stéréo fournie : détection et appariement de points caractéristiques, flot optique épars entre les images et profondeur stéréo dense, à l'aide des routines OpenCV sur lesquelles reposent les logiciels de robotique et de vision. La séquence et tous les paramètres sont fixes, et le travail est réparti sur tous les cœurs comme dans les pipelines de production.",
+  "metric_explanation": "Le score est le nombre d'images stéréo traitées par seconde sur l'ensemble du pipeline.",
+  "value_interpretation": "Plus c'est élevé, mieux c'est. Davantage d'images par seconde permet à un robot ou à un casque de suivre et de cartographier son environnement à des cadences de caméra plus élevées, avec moins de latence.",
+  "reasoning": "Le suivi de points caractéristiques et l'appariement stéréo combinent des noyaux de traitement d'image sur entiers, de la géométrie en virgule flottante et un trafic mémoire intense, soit précisément la charge que l'odométrie visuelle, le SLAM et le suivi en réalité augmentée imposent au processeur.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux traitent rarement des images de caméra, hormis certains modules de suivi de mouvement."
+    },
+    "domain_office": {
+      "explanation": "La bureautique ne comporte aucun traitement d'images de caméra."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs de logiciels de vision et de robotique exécutent ce pipeline en permanence."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'assemblage de panoramas et l'alignement d'images dans les outils photo reposent sur le même appariement de points caractéristiques."
+    },
+    "domain_video_editing": {
+      "explanation": "La stabilisation vidéo et le suivi de mouvement s'appuient sur le suivi de points caractéristiques et le flot optique."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le suivi de caméra pour les effets visuels utilise des routines de points caractéristiques et de flot similaires."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'implique aucun traitement d'image."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les outils de photogrammétrie et d'inspection partent de l'appariement de points caractéristiques et de la profondeur stéréo."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'imagerie scientifique fait appel au recalage d'images et à la reconstruction de profondeur."
+    },
+    "domain_ai_training": {
+      "explanation": "La préparation des données pour les modèles de vision passe par du traitement d'image classique."
+    },
+    "domain_ai_inference": {
+      "explanation": "Les pipelines de modèles de vision associent l'inférence à des pré et post-traitements classiques."
+    },
+    "domain_data_science": {
+      "explanation": "L'analyse d'images extrait des points caractéristiques sur de grandes collections de photos."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs d'analyse vidéo exécutent des pipelines de caméra pour de nombreux flux."
+    },
+    "domain_robotics_vision": {
+      "explanation": "L'odométrie visuelle, le SLAM et le suivi en réalité augmentée reposent exactement sur ce pipeline."
+    }
+  }
+}

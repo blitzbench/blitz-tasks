@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de GPU compartidas exponen este cálculo a numerosos usuarios."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los núcleos de estéreo, flujo óptico y nubes de puntos en GPU usan precisión simple."
     }
   }
 }

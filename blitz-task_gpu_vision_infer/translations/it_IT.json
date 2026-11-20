@@ -1,0 +1,53 @@
+{
+  "lang": "it_IT",
+  "name": "gpu_vision_infer",
+  "short_description": "Modello di rilevamento oggetti su immagini da telecamera incluse, sul processore grafico.",
+  "description": "Esegue una rete di rilevamento oggetti su un insieme incluso di immagini da telecamera sul processore grafico in mezza precisione, il percorso accelerato di robot, veicoli e sistemi di videoanalisi. Modello, dimensione delle immagini e dimensione del batch sono fissi, e i fotogrammi vengono caricati e i risultati riletti come in una pipeline dal vivo.",
+  "metric_explanation": "Il punteggio è il numero di immagini elaborate al secondo, inclusi i trasferimenti da e verso la GPU.",
+  "value_interpretation": "Più alto è meglio. Più immagini al secondo significano più flussi di telecamere o frequenze dei fotogrammi più elevate con lo stesso hardware.",
+  "reasoning": "Le reti di rilevamento combinano calcolo tensoriale denso con traffico di memoria e trasferimenti di dati, quindi il test mostra quanto bene una GPU gestisce carichi di percezione reali e non solo il throughput di picco sulle matrici.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Alcuni giochi usano il tracciamento tramite telecamera con piccoli modelli di visione."
+    },
+    "domain_office": {
+      "explanation": "Gli strumenti da ufficio usano i modelli di visione solo in piccole funzionalità."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori di software di visione affrontano questo carico durante i test."
+    },
+    "domain_graphics_design": {
+      "explanation": "Gli strumenti fotografici usano il rilevamento per la selezione intelligente e l'organizzazione."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli strumenti video rilevano oggetti e volti in filmati di lunga durata."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il lavoro 3D fa scarso uso del rilevamento oggetti."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede modelli di visione."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Gli strumenti di ingegneria eseguono raramente modelli di rilevamento."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'imaging scientifico usa modelli di rilevamento per conteggio e classificazione."
+    },
+    "domain_ai_training": {
+      "explanation": "La validazione dei modelli di visione durante l'addestramento esegue questo tipo di inferenza."
+    },
+    "domain_ai_inference": {
+      "explanation": "Eseguire modelli di visione sulla GPU è una parte importante dell'inferenza AI locale."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi di grandi raccolte di immagini usa modelli di rilevamento."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di videoanalisi eseguono il rilevamento su molti flussi di telecamere."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Il rilevamento accelerato degli oggetti è il passaggio di percezione centrale dei sistemi autonomi."
+    }
+  }
+}

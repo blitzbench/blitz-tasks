@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs GPU partagés transfèrent les données des locataires vers l'appareil par ce lien."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Chaque image de caméra doit être envoyée au GPU avant de pouvoir être traitée."
     }
   }
 }

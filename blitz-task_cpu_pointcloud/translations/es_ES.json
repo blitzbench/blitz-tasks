@@ -1,0 +1,53 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_pointcloud",
+  "short_description": "Submuestreo, búsqueda de vecinos y alineación ICP de escaneos lidar.",
+  "description": "Procesa una secuencia incluida de escaneos de tipo lidar tal como lo hace la localización de un robot: submuestreo por vóxeles, estimación de normales a partir de los vecinos más cercanos y alineación de cada escaneo con un mapa mediante el algoritmo del punto más cercano iterativo (ICP). Los escaneos y los parámetros son fijos, y el trabajo se ejecuta en todos los núcleos.",
+  "metric_explanation": "La puntuación es el número de escaneos alineados por segundo.",
+  "value_interpretation": "Cuanto más alto, mejor. Más escaneos por segundo significa que un vehículo o un robot puede localizarse a la frecuencia completa de su sensor con margen de sobra.",
+  "reasoning": "El procesamiento de nubes de puntos está dominado por estructuras de datos espaciales y búsquedas de vecinos más cercanos, por lo que exige latencia de memoria, cachés y cálculo en coma flotante con un patrón que ninguna otra prueba cubre.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos no procesan nubes de puntos escaneadas."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática no procesa datos 3D."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores de software de percepción procesan nubes de puntos a diario."
+    },
+    "domain_graphics_design": {
+      "explanation": "La edición de fotos trabaja con imágenes, no con nubes de puntos."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición de vídeo no maneja nubes de puntos."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los recursos escaneados y la captura de decorados para contenido 3D parten de nubes de puntos."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio no implica datos espaciales."
+    },
+    "domain_cad_engineering": {
+      "explanation": "La ingeniería inversa y la inspección alinean escaneos con modelos CAD."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La geociencia y la topografía procesan grandes conjuntos de datos lidar."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento de modelos de nubes de puntos es un nicho reducido."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia rara vez implica procesar nubes de puntos en bruto."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica espacial comparte las búsquedas de vecinos más cercanos."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores rara vez ejecutan alineación de nubes de puntos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La localización y la cartografía con lidar son fundamentales en los vehículos autónomos y los robots."
+    }
+  }
+}

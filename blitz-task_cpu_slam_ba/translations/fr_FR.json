@@ -1,0 +1,53 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_slam_ba",
+  "short_description": "Ajustement de faisceaux creux d'une carte SLAM visuelle sur tous les cœurs.",
+  "description": "Optimise les poses de caméra et les points de repère 3D d'une carte SLAM visuelle fournie par ajustement de faisceaux creux, l'étape d'arrière-plan qui maintient la cohérence des cartes des robots et de la réalité augmentée. Le problème est résolu avec Ceres Solver, une bibliothèque de moindres carrés non linéaires très répandue, à l'aide de sa méthode creuse par complément de Schur sur tous les cœurs. La carte, la fonction de perte robuste et les critères d'arrêt sont fixes.",
+  "metric_explanation": "Le score est le nombre de résolutions complètes d'ajustement de faisceaux par minute.",
+  "value_interpretation": "Plus c'est élevé, mieux c'est. Des résolutions plus rapides permettent à un robot de corriger sa dérive et de fermer des boucles plus souvent, et aux tâches de cartographie et de photogrammétrie de se terminer plus tôt.",
+  "reasoning": "L'ajustement de faisceaux combine de nombreuses petites évaluations de jacobiennes denses avec une algèbre linéaire creuse de grande taille. Ce schéma sollicite à la fois le débit en virgule flottante, les caches et la bande passante mémoire, à la manière des vrais logiciels de SLAM et de structure à partir du mouvement.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux n'effectuent pas d'optimisation de cartes."
+    },
+    "domain_office": {
+      "explanation": "La bureautique ne comporte aucune optimisation numérique."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs de logiciels de cartographie et de vision lancent ces résolutions pendant leurs tests."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les outils photo dépassent rarement le simple alignement d'images."
+    },
+    "domain_video_editing": {
+      "explanation": "Le montage vidéo nécessite rarement une reconstruction 3D complète."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La photogrammétrie destinée au contenu 3D reconstruit les scènes par ajustement de faisceaux."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'implique aucune optimisation géométrique."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les outils de topographie, de numérisation et d'inspection reposent sur les mêmes résolutions par moindres carrés."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Les moindres carrés non linéaires sont un outil courant d'ajustement de données scientifiques."
+    },
+    "domain_ai_training": {
+      "explanation": "L'entraînement de modèles utilise d'autres méthodes d'optimisation."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inférence n'implique aucune optimisation de cartes."
+    },
+    "domain_data_science": {
+      "explanation": "Les grandes tâches d'ajustement de courbes et d'étalonnage partagent la structure du solveur."
+    },
+    "domain_server_virt": {
+      "explanation": "Les tâches de cartographie s'exécutent sur des serveurs, mais ne constituent pas une charge serveur générale."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Maintenir la cohérence des cartes SLAM est une charge de travail centrale des robots autonomes et de la réalité augmentée."
+    }
+  }
+}

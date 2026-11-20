@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "De nombreux processus écrivant simultanément se disputent la bande passante en écriture partagée."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les images décodées et les cartes sont écrites en mémoire à la cadence des capteurs."
     }
   }
 }

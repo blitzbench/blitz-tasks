@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Carregar imagens e grandes volumes de dados recorre ao débito de leitura sequencial."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Reproduzir conjuntos de dados de sensores gravados lê ficheiros grandes de forma contínua."
     }
   }
 }

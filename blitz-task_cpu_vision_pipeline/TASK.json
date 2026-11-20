@@ -1,0 +1,41 @@
+{
+  "id": "task_cpu_real_world_vision_pipeline",
+  "name": "cpu_vision_pipeline",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "title": "Computer vision pipeline",
+  "short_description": "Feature tracking, optical flow and stereo depth on a camera sequence.",
+  "structured_text": {
+    "description": "Runs the classical perception front end of a robot or AR headset on a bundled stereo camera sequence: feature detection and matching, sparse optical flow between frames and dense stereo depth, using the OpenCV routines that robotics and vision software build on. The sequence and all parameters are fixed, and the work is spread over all cores the way production pipelines do it.",
+    "metric_explanation": "The score is the number of stereo frames processed per second through the whole pipeline.",
+    "value_interpretation": "Higher is better. More frames per second means a robot or headset can track and map its surroundings at higher camera rates with less lag.",
+    "reasoning": "Feature tracking and stereo matching mix integer image kernels, floating point geometry and heavy memory traffic, which is exactly the load that visual odometry, SLAM and AR tracking put on the processor."
+  },
+  "metric": { "id": "metric_fps", "name": "fps", "unit": "fps", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 35.0 },
+    { "machine_type": "desktop",  "value": 60.0 },
+    { "machine_type": "notebook", "value": 35.0 },
+    { "machine_type": "mobile",   "value": 12.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Games rarely process camera images, apart from motion tracking add-ons." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no camera processing." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Developers of vision and robotics software run this pipeline constantly." },
+    "domain_graphics_design":       { "weight": 0.4, "explanation": "Panorama stitching and image alignment in photo tools use the same feature matching." },
+    "domain_video_editing":         { "weight": 0.3, "explanation": "Video stabilisation and motion tracking rely on feature tracking and optical flow." },
+    "domain_3d_rendering":          { "weight": 0.2, "explanation": "Camera tracking for visual effects uses similar feature and flow routines." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work does not involve image processing." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Photogrammetry and inspection tools start from feature matching and stereo depth." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Scientific imaging uses image registration and depth reconstruction." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Data preparation for vision models runs classical image processing." },
+    "domain_ai_inference":          { "weight": 0.3, "explanation": "Vision model pipelines pair inference with classical pre and post processing." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Image analytics uses feature extraction on large photo collections." },
+    "domain_server_virt":           { "weight": 0.2, "explanation": "Video analytics servers run camera pipelines for many streams." },
+    "domain_robotics_vision":       { "weight": 1.0, "explanation": "Visual odometry, SLAM and AR tracking are built on exactly this pipeline." }
+  }
+}

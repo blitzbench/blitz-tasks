@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs de cloud gaming et de diffusion produisent exactement ces scènes à distance."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les simulateurs de robots rendent leurs scènes avec des techniques de moteurs de jeu."
     }
   }
 }

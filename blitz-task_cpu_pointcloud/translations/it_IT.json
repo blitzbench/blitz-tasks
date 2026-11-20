@@ -1,0 +1,53 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_pointcloud",
+  "short_description": "Sottocampionamento, ricerca dei vicini e allineamento ICP di scansioni lidar.",
+  "description": "Elabora una sequenza inclusa di scansioni in stile lidar come avviene nella localizzazione dei robot: sottocampionamento a voxel, stima delle normali dai vicini più prossimi e allineamento iterative closest point di ogni scansione rispetto a una mappa. Scansioni e parametri sono fissi e il lavoro viene eseguito su tutti i core.",
+  "metric_explanation": "Il punteggio è il numero di scansioni allineate al secondo.",
+  "value_interpretation": "Più alto è meglio. Più scansioni al secondo significano che un veicolo o un robot può localizzarsi alla piena frequenza del sensore con margine di tempo.",
+  "reasoning": "L'elaborazione di nuvole di punti è dominata da strutture dati spaziali e ricerche dei vicini più prossimi, quindi mette alla prova latenza di memoria, cache e calcolo in virgola mobile con uno schema che nessun altro task copre.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi non elaborano nuvole di punti acquisite da scansione."
+    },
+    "domain_office": {
+      "explanation": "Il lavoro d'ufficio non prevede elaborazione di dati 3D."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori di software di percezione elaborano nuvole di punti ogni giorno."
+    },
+    "domain_graphics_design": {
+      "explanation": "L'editing fotografico lavora su immagini, non su nuvole di punti."
+    },
+    "domain_video_editing": {
+      "explanation": "Il montaggio video non gestisce nuvole di punti."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Gli asset scansionati e l'acquisizione dei set per i contenuti 3D nascono come nuvole di punti."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede dati spaziali."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Il reverse engineering e l'ispezione allineano le scansioni ai modelli CAD."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Geoscienze e rilievo topografico elaborano grandi dataset lidar."
+    },
+    "domain_ai_training": {
+      "explanation": "L'addestramento di modelli su nuvole di punti è una piccola nicchia."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'inferenza prevede raramente l'elaborazione di nuvole di punti grezze."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi spaziale condivide le ricerche dei vicini più prossimi."
+    },
+    "domain_server_virt": {
+      "explanation": "I server eseguono raramente l'allineamento di nuvole di punti."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Localizzazione e mappatura con lidar sono centrali per veicoli autonomi e robot."
+    }
+  }
+}

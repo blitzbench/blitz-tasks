@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server GPU condivisi ripartiscono la larghezza di banda in copia tra molti tenant."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le piramidi di immagini e le copie di buffer spostano dati nella memoria video."
     }
   }
 }

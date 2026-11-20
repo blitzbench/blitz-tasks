@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de GPU compartida reparten el ancho de banda de lectura entre muchos inquilinos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los modelos de visión y el estéreo denso leen grandes tensores de la memoria de vídeo."
     }
   }
 }

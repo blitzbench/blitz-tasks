@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Ospitare molti processi o container contemporaneamente dipende direttamente dal throughput totale dei core."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I kernel interi per immagini, come la trasformata census e i descrittori binari, girano su tutti i core."
     }
   }
 }

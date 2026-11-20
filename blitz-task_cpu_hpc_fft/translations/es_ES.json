@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores generales ejecutan poca matemática sostenida de doble precisión."
+    },
+    "domain_robotics_vision": {
+      "explanation": "El filtrado en frecuencia de imágenes y señales de sensores usa las mismas transformadas."
     }
   }
 }

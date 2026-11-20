@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "La latencia por solicitud depende de la rapidez con la que un solo núcleo gestiona una unidad de trabajo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los descriptores de características y la indexación de imágenes dependen de cálculo entero en bucles ajustados."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores de GPU partilhados e ocupados movem dados dos inquilinos para dentro e para fora ao mesmo tempo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os fotogramas vão para a GPU enquanto as deteções e os mapas de profundidade regressam."
     }
   }
 }

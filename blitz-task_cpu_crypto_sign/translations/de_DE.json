@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Sichere Handshakes und Anfrage-Authentifizierung machen das Signieren zu einer zentralen Server-Arbeitslast."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Signaturen beschränken sich auf Secure Boot und authentifizierte Verbindungen."
     }
   }
 }

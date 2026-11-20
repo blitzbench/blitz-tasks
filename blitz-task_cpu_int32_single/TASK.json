@@ -35,6 +35,7 @@
     "domain_ai_training":           { "weight": 0.2, "explanation": "Training is dominated by the accelerator, with limited single core influence on the host." },
     "domain_ai_inference":          { "weight": 0.3, "explanation": "Tokenisation and request handling run on one core around the heavy compute." },
     "domain_data_science":          { "weight": 0.3, "explanation": "Interactive query setup and scripting run single threaded before parallel kernels start." },
-    "domain_server_virt":           { "weight": 0.3, "explanation": "Per request latency depends on how fast a single core handles one unit of work." }
+    "domain_server_virt":           { "weight": 0.3, "explanation": "Per request latency depends on how fast a single core handles one unit of work." },
+    "domain_robotics_vision":       { "weight": 0.4, "explanation": "Feature descriptors and image indexing lean on integer math in tight loops." }
   }
 }

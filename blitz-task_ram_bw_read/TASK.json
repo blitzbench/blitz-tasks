@@ -35,6 +35,7 @@
     "domain_ai_training":           { "weight": 0.5, "explanation": "Reading parameters and data to feed the accelerator depends on read bandwidth." },
     "domain_ai_inference":          { "weight": 0.6, "explanation": "CPU inference speed is largely set by how fast weights are read from memory." },
     "domain_data_science":          { "weight": 0.7, "explanation": "Scanning wide tables is dominated by read bandwidth." },
-    "domain_server_virt":           { "weight": 0.5, "explanation": "Many concurrent processes compete for read bandwidth from shared memory." }
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Many concurrent processes compete for read bandwidth from shared memory." },
+    "domain_robotics_vision":       { "weight": 0.5, "explanation": "Point clouds and image streams are read through memory continuously." }
   }
 }

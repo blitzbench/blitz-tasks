@@ -35,6 +35,7 @@
     "domain_ai_training":           { "weight": 0.2, "explanation": "Host side training work is mostly streaming, with limited cache latency pressure." },
     "domain_ai_inference":          { "weight": 0.4, "explanation": "CPU inference loops reuse cache held weights where access latency matters." },
     "domain_data_science":          { "weight": 0.4, "explanation": "Hash tables and grouping buffers that fit in cache are latency sensitive." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Per request work over cache resident state is shaped by cache latency." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Per request work over cache resident state is shaped by cache latency." },
+    "domain_robotics_vision":       { "weight": 0.6, "explanation": "Control loops and feature tracking run on small cache resident data under tight deadlines." }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores rara vez ejecutan grafos de audio limitados por la latencia."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los bucles de control a frecuencia fija comparten el patrón de un solo hilo con plazos estrictos del audio en directo."
     }
   }
 }

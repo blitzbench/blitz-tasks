@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores terminan muchas conexiones seguras, a menudo con este cifrado para clientes sin AES por hardware."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los enlaces de telemetría cifrados son una carga menor frente a la percepción."
     }
   }
 }

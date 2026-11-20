@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs de calcul scientifique offrent la capacité de double précision à leurs utilisateurs."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La perception et la commande utilisent peu la double précision sur le GPU."
     }
   }
 }

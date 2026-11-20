@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "De nombreux processus concurrents se disputent la bande passante en lecture de la mémoire partagée."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les nuages de points et les flux d'images sont lus en mémoire en continu."
     }
   }
 }

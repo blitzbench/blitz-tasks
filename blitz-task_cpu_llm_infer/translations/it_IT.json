@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I deployment attenti ai costi servono modelli più piccoli da server con sola CPU."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I robot ricevono sempre più comandi in linguaggio naturale tramite piccoli modelli sul dispositivo."
     }
   }
 }

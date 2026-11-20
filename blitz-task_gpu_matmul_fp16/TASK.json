@@ -130,6 +130,10 @@
     "domain_server_virt": {
       "weight": 0.4,
       "explanation": "Shared accelerator servers expose matrix throughput to many machine learning tenants."
+    },
+    "domain_robotics_vision": {
+      "weight": 0.6,
+      "explanation": "Convolutions and transformers of vision models map to half precision matrix math."
     }
   }
 }

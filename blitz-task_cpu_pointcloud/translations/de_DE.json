@@ -1,0 +1,53 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_pointcloud",
+  "short_description": "Downsampling, Nachbarschaftssuche und ICP-Ausrichtung von Lidar-Scans.",
+  "description": "Verarbeitet eine mitgelieferte Folge lidarartiger Scans so, wie es die Roboterlokalisierung tut: Voxel-Downsampling, Normalenschätzung aus den nächsten Nachbarn und Ausrichtung jedes Scans an einer Karte per Iterative Closest Point. Scans und Parameter sind fest vorgegeben, und die Arbeit läuft auf allen Kernen.",
+  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde ausgerichteten Scans.",
+  "value_interpretation": "Höher ist besser. Mehr Scans pro Sekunde bedeuten, dass sich ein Fahrzeug oder Roboter mit der vollen Sensorrate lokalisieren kann und noch Reserven hat.",
+  "reasoning": "Die Punktwolkenverarbeitung wird von räumlichen Datenstrukturen und Nächste-Nachbarn-Suchen dominiert. Sie belastet daher Speicherlatenz, Caches und Gleitkommarechnung in einem Muster, das kein anderer Test abdeckt.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele verarbeiten keine gescannten Punktwolken."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit umfasst keine Verarbeitung von 3D-Daten."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler von Wahrnehmungssoftware verarbeiten täglich Punktwolken."
+    },
+    "domain_graphics_design": {
+      "explanation": "Fotobearbeitung arbeitet mit Bildern, nicht mit Punktwolken."
+    },
+    "domain_video_editing": {
+      "explanation": "Videobearbeitung verarbeitet keine Punktwolken."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Gescannte Assets und Set-Erfassung für 3D-Inhalte beginnen als Punktwolken."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit umfasst keine räumlichen Daten."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Reverse Engineering und Qualitätsprüfung richten Scans an CAD-Modellen aus."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Geowissenschaften und Vermessung verarbeiten große Lidar-Datensätze."
+    },
+    "domain_ai_training": {
+      "explanation": "Das Training von Punktwolkenmodellen ist eine kleine Nische."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenz umfasst selten die Verarbeitung roher Punktwolken."
+    },
+    "domain_data_science": {
+      "explanation": "Räumliche Analysen nutzen ebenfalls Nächste-Nachbarn-Suchen."
+    },
+    "domain_server_virt": {
+      "explanation": "Server führen selten eine Ausrichtung von Punktwolken aus."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Lidar-Lokalisierung und Kartierung sind zentral für autonome Fahrzeuge und Roboter."
+    }
+  }
+}

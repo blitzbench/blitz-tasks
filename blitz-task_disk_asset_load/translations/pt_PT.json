@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Obter e descompactar imagens de contentor lê e descomprime grandes pacotes."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Carregar mapas e modelos no arranque é uma pequena parte da carga de um robô."
     }
   }
 }

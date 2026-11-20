@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server GPU condivisi spostano i dati dei tenant sul dispositivo tramite questo collegamento."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Ogni fotogramma della telecamera deve essere caricato sulla GPU prima dell'elaborazione."
     }
   }
 }

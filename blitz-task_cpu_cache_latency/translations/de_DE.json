@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Anfragespezifische Arbeit über im Cache gehaltenen Zustand wird durch die Cache-Latenz geprägt."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Regelschleifen und Feature-Tracking arbeiten unter engen Fristen auf kleinen, im Cache liegenden Daten."
     }
   }
 }

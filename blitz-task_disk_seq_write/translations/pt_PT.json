@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "O registo de logs, os snapshots e os serviços intensos em escrita dependem da velocidade de escrita sustentada."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Gravar fluxos de câmara e lidar escreve ficheiros grandes de forma contínua."
     }
   }
 }

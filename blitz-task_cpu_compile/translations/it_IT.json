@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Compilare immagini e servizi dai sorgenti è comune nelle pipeline server."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Gli stack robotici sono grandi basi di codice C++ che gli sviluppatori ricompilano di continuo."
     }
   }
 }

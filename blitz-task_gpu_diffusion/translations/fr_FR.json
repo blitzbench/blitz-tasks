@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les services de génération hébergés exécutent cette charge de travail en continu pour de nombreux utilisateurs."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La génération d'images joue un petit rôle dans la perception."
     }
   }
 }

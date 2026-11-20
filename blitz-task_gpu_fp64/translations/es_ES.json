@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de cómputo científico exponen la capacidad de precisión doble a sus usuarios."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La percepción y el control usan poca doble precisión en la GPU."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores de GPU partilhados expõem esta computação a muitos inquilinos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os kernels de GPU de estéreo, fluxo ótico e nuvens de pontos usam precisão simples."
     }
   }
 }

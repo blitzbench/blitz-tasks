@@ -1,0 +1,41 @@
+{
+  "id": "task_cpu_real_world_slam_ba",
+  "name": "cpu_slam_ba",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "title": "SLAM bundle adjustment",
+  "short_description": "Sparse bundle adjustment of a visual SLAM map across all cores.",
+  "structured_text": {
+    "description": "Optimises the camera poses and 3D landmarks of a bundled visual SLAM map with sparse bundle adjustment, the back end step that keeps robot and AR maps consistent. The problem is solved with the Ceres Solver, a widely used nonlinear least squares library, using its sparse Schur complement method on all cores. The map, robust loss and stopping criteria are fixed.",
+    "metric_explanation": "The score is the number of complete bundle adjustment solves per minute.",
+    "value_interpretation": "Higher is better. Faster solves let a robot correct drift and close loops more often, and let mapping and photogrammetry jobs finish sooner.",
+    "reasoning": "Bundle adjustment combines many small dense Jacobian evaluations with large sparse linear algebra, a pattern that stresses floating point throughput, caches and memory bandwidth together, much like real SLAM and structure from motion software."
+  },
+  "metric": { "id": "metric_items_per_min", "name": "items_per_min", "unit": "items/min", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 30.0 },
+    { "machine_type": "desktop",  "value": 50.0 },
+    { "machine_type": "notebook", "value": 30.0 },
+    { "machine_type": "mobile",   "value": 10.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games do not run map optimisation." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no numerical optimisation." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Developers of mapping and vision software run these solves while testing." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Photo tools rarely go beyond image alignment." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Video editing seldom needs full 3D reconstruction." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Photogrammetry for 3D content reconstructs scenes with bundle adjustment." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work involves no geometric optimisation." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Surveying, scanning and inspection tools rely on the same least squares solves." },
+    "domain_scientific_computing":  { "weight": 0.4, "explanation": "Nonlinear least squares is a common tool in scientific data fitting." },
+    "domain_ai_training":           { "weight": 0.1, "explanation": "Model training uses different optimisation methods." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference does not involve map optimisation." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Large curve fitting and calibration tasks share the solver structure." },
+    "domain_server_virt":           { "weight": 0.1, "explanation": "Mapping jobs run on servers but are not a general server load." },
+    "domain_robotics_vision":       { "weight": 1.0, "explanation": "Keeping SLAM maps consistent is a core workload of autonomous robots and AR." }
+  }
+}

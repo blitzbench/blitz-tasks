@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte Beschleunigerserver stellen vielen Mandanten Matrixdurchsatz bereit."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Faltungen und Transformer von Bildverarbeitungsmodellen werden auf Matrixmathematik mit halber Genauigkeit abgebildet."
     }
   }
 }

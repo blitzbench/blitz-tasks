@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I servizi di elaborazione delle immagini eseguono questi filtri su larga scala su server condivisi."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La pre-elaborazione delle immagini delle telecamere, come riduzione del rumore e ridimensionamento, usa questi filtri."
     }
   }
 }

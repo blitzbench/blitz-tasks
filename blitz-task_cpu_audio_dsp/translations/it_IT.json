@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server raramente eseguono grafi audio vincolati dalla latenza."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I cicli di controllo a frequenza fissa condividono lo schema a thread singolo con scadenze dell'audio dal vivo."
     }
   }
 }

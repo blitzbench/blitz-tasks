@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.2, "explanation": "Scientific machine learning shares some of these transforms, but training is dominated by other math." },
     "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference rarely runs double precision transforms." },
     "domain_data_science":          { "weight": 0.3, "explanation": "Signal analysis and spectral methods use the same Fourier transforms." },
-    "domain_server_virt":           { "weight": 0.2, "explanation": "General servers run little sustained double precision math." }
+    "domain_server_virt":           { "weight": 0.2, "explanation": "General servers run little sustained double precision math." },
+    "domain_robotics_vision":       { "weight": 0.3, "explanation": "Frequency domain filtering of images and sensor signals uses the same transforms." }
   }
 }

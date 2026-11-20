@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.4, "explanation": "Loading packed training shards reads and decompresses large bundles." },
     "domain_ai_inference":          { "weight": 0.4, "explanation": "Loading packaged models unpacks large files at startup." },
     "domain_data_science":          { "weight": 0.4, "explanation": "Reading and decompressing packed data sets follows this pattern." },
-    "domain_server_virt":           { "weight": 0.5, "explanation": "Pulling and unpacking container images reads and decompresses large bundles." }
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Pulling and unpacking container images reads and decompresses large bundles." },
+    "domain_robotics_vision":       { "weight": 0.2, "explanation": "Loading maps and models at startup is a small part of robot workloads." }
   }
 }

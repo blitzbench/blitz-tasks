@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Muchos procesos que mueven datos a la vez comparten el mismo ancho de banda de copia."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los búferes de imagen se copian entre etapas del pipeline a la frecuencia de la cámara."
     }
   }
 }

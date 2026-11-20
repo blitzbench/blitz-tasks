@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Molti processi che scrivono contemporaneamente competono per la larghezza di banda in scrittura condivisa."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I fotogrammi decodificati e le mappe vengono scritti in memoria alla frequenza dei sensori."
     }
   }
 }

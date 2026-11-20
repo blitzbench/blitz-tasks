@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte GPU-Server teilen die Lesebandbreite auf viele Mandanten auf."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Bildverarbeitungsmodelle und dichtes Stereo lesen große Tensoren aus dem Grafikspeicher."
     }
   }
 }

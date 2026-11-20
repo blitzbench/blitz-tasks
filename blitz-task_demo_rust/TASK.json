@@ -40,6 +40,7 @@
     "domain_ai_training":          { "weight": 0.3, "explanation": "Mostly GPU; host integer throughput affects data-loader pipelines." },
     "domain_ai_inference":         { "weight": 0.3, "explanation": "Tokenisation and orchestration use CPU integer paths." },
     "domain_data_science":         { "weight": 0.4, "explanation": "Dataframe ops dispatch via integer-heavy kernels." },
-    "domain_server_virt":          { "weight": 0.4, "explanation": "Many concurrent processes amplify per-core integer throughput." }
+    "domain_server_virt":          { "weight": 0.4, "explanation": "Many concurrent processes amplify per-core integer throughput." },
+    "domain_robotics_vision":      { "weight": 0.2, "explanation": "Plain integer throughput is only a weak proxy for perception and control loads." }
   }
 }

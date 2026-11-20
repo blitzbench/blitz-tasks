@@ -13,6 +13,7 @@
     { "id": "domain_ai_training",           "name": "ai / ml training",             "description": "Model training workloads - sustained matmul throughput on GPU/accelerator, large activations in VRAM, high host-bandwidth feeders.", "graphics_output": false, "multi_gpu": true },
     { "id": "domain_ai_inference",          "name": "ai inference (llm & diffusion)","description": "Local LLM and diffusion inference - memory-bandwidth-bound token generation and compute-bound denoising loops.", "multi_gpu": true },
     { "id": "domain_data_science",          "name": "data science & analytics",     "description": "Tabular analytics, dataframe operations, query engines - memory-bandwidth-bound aggregation over wide datasets.", "graphics_output": false },
-    { "id": "domain_server_virt",           "name": "server & virtualization",      "description": "Multi-tenant workloads, container/VM density, sustained background throughput across many concurrent processes.", "graphics_output": false }
+    { "id": "domain_server_virt",           "name": "server & virtualization",      "description": "Multi-tenant workloads, container/VM density, sustained background throughput across many concurrent processes.", "graphics_output": false },
+    { "id": "domain_robotics_vision",       "name": "robotics & computer vision",   "description": "Perception, state estimation and control for robots, drones, AR and autonomous systems - image and point-cloud processing, vision model inference and latency-critical real-time loops.", "graphics_output": false }
   ]
 }

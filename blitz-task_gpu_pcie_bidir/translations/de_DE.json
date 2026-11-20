@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Ausgelastete gemeinsam genutzte GPU-Server übertragen Mandanten-Daten gleichzeitig in beide Richtungen."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Bilder gehen zur GPU, während Erkennungen und Tiefenkarten zurückkommen."
     }
   }
 }

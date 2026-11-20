@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "El trabajo por petición accede a un estado disperso, por lo que la latencia condiciona el tiempo de respuesta."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Las búsquedas en árboles KD y las consultas de mapas recorren punteros por la memoria."
     }
   }
 }

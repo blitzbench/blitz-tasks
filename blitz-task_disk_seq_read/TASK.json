@@ -35,6 +35,7 @@
     "domain_ai_training":           { "weight": 0.6, "explanation": "Streaming large training data sets from storage is read heavy." },
     "domain_ai_inference":          { "weight": 0.4, "explanation": "Loading large model files from storage depends on sequential reads." },
     "domain_data_science":          { "weight": 0.6, "explanation": "Scanning large files into analysis is dominated by read speed." },
-    "domain_server_virt":           { "weight": 0.5, "explanation": "Loading images and large data volumes draws on sequential read throughput." }
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Loading images and large data volumes draws on sequential read throughput." },
+    "domain_robotics_vision":       { "weight": 0.3, "explanation": "Replaying recorded sensor datasets streams large files from storage." }
   }
 }

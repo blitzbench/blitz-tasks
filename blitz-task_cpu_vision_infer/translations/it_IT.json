@@ -1,0 +1,53 @@
+{
+  "lang": "it_IT",
+  "name": "cpu_vision_infer",
+  "short_description": "Modello di rilevamento oggetti su immagini da telecamera incluse, sulla CPU.",
+  "description": "Esegue una rete di rilevamento oggetti su un insieme incluso di immagini da telecamera con ONNX Runtime sul processore, come fanno robot, telecamere e dispositivi edge privi di una GPU adeguata per la percezione. Modello, dimensione delle immagini e precisione sono fissi, e l'esecuzione usa tutti i core.",
+  "metric_explanation": "Il punteggio è il numero di immagini elaborate al secondo, dalla pre elaborazione fino ai rilevamenti finali.",
+  "value_interpretation": "Più alto è meglio. Più immagini al secondo significano che un robot o un sistema di telecamere può monitorare più flussi o reagire più rapidamente.",
+  "reasoning": "Le reti di rilevamento mettono alla prova calcolo vettoriale, banda di memoria e riuso della cache nei layer convoluzionali e di attention, quindi il test riflette quanto bene un processore gestisce i modelli di visione senza un acceleratore.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "I giochi eseguono raramente modelli di visione sulla CPU."
+    },
+    "domain_office": {
+      "explanation": "Gli strumenti da ufficio usano i modelli di visione solo in piccole funzionalità."
+    },
+    "domain_software_development": {
+      "explanation": "Gli sviluppatori testano i modelli di visione sulla CPU prima di distribuirli."
+    },
+    "domain_graphics_design": {
+      "explanation": "Gli strumenti fotografici usano il rilevamento per la selezione intelligente e l'organizzazione."
+    },
+    "domain_video_editing": {
+      "explanation": "Gli strumenti video rilevano oggetti e volti per il tracciamento e la ricerca."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Il lavoro 3D fa scarso uso del rilevamento oggetti."
+    },
+    "domain_audio_production": {
+      "explanation": "Il lavoro audio non prevede modelli di visione."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Gli strumenti di ingegneria eseguono raramente modelli di rilevamento."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'imaging scientifico usa modelli di rilevamento per conteggio e classificazione."
+    },
+    "domain_ai_training": {
+      "explanation": "La validazione dei modelli di visione durante l'addestramento esegue questo tipo di inferenza."
+    },
+    "domain_ai_inference": {
+      "explanation": "Eseguire modelli di visione in locale è una parte crescente dell'inferenza AI."
+    },
+    "domain_data_science": {
+      "explanation": "L'analisi di grandi raccolte di immagini usa modelli di rilevamento."
+    },
+    "domain_server_virt": {
+      "explanation": "I server di videoanalisi eseguono il rilevamento su molti flussi di telecamere."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Il rilevamento degli oggetti è il passaggio di percezione centrale di robot e telecamere intelligenti."
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_slam_ba",
+  "short_description": "Ajuste de haces disperso de un mapa de SLAM visual en todos los núcleos.",
+  "description": "Optimiza las poses de cámara y los puntos de referencia 3D de un mapa de SLAM visual incluido mediante un ajuste de haces disperso, la etapa final que mantiene coherentes los mapas de robots y de realidad aumentada. El problema se resuelve con Ceres Solver, una biblioteca de mínimos cuadrados no lineales muy extendida, usando su método de complemento de Schur disperso en todos los núcleos. El mapa, la función de pérdida robusta y los criterios de parada son fijos.",
+  "metric_explanation": "La puntuación es el número de ajustes de haces completos por minuto.",
+  "value_interpretation": "Cuanto más alto, mejor. Unas resoluciones más rápidas permiten a un robot corregir la deriva y cerrar bucles con más frecuencia, y hacen que los trabajos de cartografía y fotogrametría terminen antes.",
+  "reasoning": "El ajuste de haces combina muchas evaluaciones pequeñas de jacobianos densos con álgebra lineal dispersa de gran tamaño, un patrón que exige a la vez rendimiento en coma flotante, cachés y ancho de banda de memoria, igual que el software real de SLAM y de estructura a partir del movimiento.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos no ejecutan optimización de mapas."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática no implica optimización numérica."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores de software de cartografía y visión ejecutan estas resoluciones durante las pruebas."
+    },
+    "domain_graphics_design": {
+      "explanation": "Las herramientas de fotografía rara vez van más allá de la alineación de imágenes."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición de vídeo pocas veces necesita una reconstrucción 3D completa."
+    },
+    "domain_3d_rendering": {
+      "explanation": "La fotogrametría para contenido 3D reconstruye escenas mediante ajuste de haces."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio no implica optimización geométrica."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Las herramientas de topografía, escaneado e inspección dependen de las mismas resoluciones por mínimos cuadrados."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Los mínimos cuadrados no lineales son una herramienta habitual en el ajuste de datos científicos."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento de modelos usa otros métodos de optimización."
+    },
+    "domain_ai_inference": {
+      "explanation": "La inferencia no implica optimización de mapas."
+    },
+    "domain_data_science": {
+      "explanation": "Los grandes ajustes de curvas y las tareas de calibración comparten la estructura del solucionador."
+    },
+    "domain_server_virt": {
+      "explanation": "Los trabajos de cartografía se ejecutan en servidores, pero no son una carga de trabajo general de servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Mantener coherentes los mapas de SLAM es una carga de trabajo central de los robots autónomos y la realidad aumentada."
+    }
+  }
+}

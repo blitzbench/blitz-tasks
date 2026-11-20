@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores fazem hashing continuamente para integridade de armazenamento, cache e segurança."
+    },
+    "domain_robotics_vision": {
+      "explanation": "O hashing não tem um papel real na perceção nem no controlo."
     }
   }
 }

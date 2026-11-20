@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les parcs de serveurs mixtes voient un peu de charge flottante, mais ce n'est pas la demande principale."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le traitement d'images et de nuages de points répartit les calculs en simple précision sur tous les cœurs."
     }
   }
 }

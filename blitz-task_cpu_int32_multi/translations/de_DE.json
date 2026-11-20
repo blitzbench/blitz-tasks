@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Das gleichzeitige Betreiben vieler Prozesse oder Container hängt direkt vom gesamten Kern-Durchsatz ab."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Ganzzahlige Bildkerne wie Census-Transformationen und binäre Deskriptoren laufen auf allen Kernen."
     }
   }
 }

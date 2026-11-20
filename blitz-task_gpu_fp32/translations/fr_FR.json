@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs GPU partagés exposent ce calcul à de nombreux locataires."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les noyaux GPU de stéréo, de flot optique et de nuages de points utilisent la simple précision."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Server verbringen messbare Zeit damit, Verbindungen zu verschlüsseln und gespeicherte Daten zu schützen."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Roboter verschlüsseln kaum mehr als ihre Netzwerkverbindungen."
     }
   }
 }

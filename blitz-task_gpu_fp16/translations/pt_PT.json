@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores de aceleradores partilhados expõem este débito a muitos inquilinos de aprendizagem automática."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os modelos de visão correm em meia precisão em GPU e aceleradores embebidos."
     }
   }
 }

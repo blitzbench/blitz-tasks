@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les temps de réponse des bases de données sont étroitement liés à la latence d'accès au stockage."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La latence d'accès compte à peine pour les charges robotiques."
     }
   }
 }

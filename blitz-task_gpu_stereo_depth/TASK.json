@@ -1,0 +1,42 @@
+{
+  "id": "task_gpu_real_world_stereo_depth",
+  "name": "gpu_stereo_depth",
+  "component": "gpu",
+  "benchmark_type": "real_world",
+  "gpu_requires": [],
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "title": "GPU stereo depth and optical flow",
+  "short_description": "Dense stereo depth and optical flow on a camera sequence, on the graphics processor.",
+  "structured_text": {
+    "description": "Computes dense depth maps with semi-global stereo matching and dense optical flow for a bundled stereo camera sequence on the graphics processor, the accelerated perception step of robots, drones and depth cameras. The sequence and all parameters are fixed.",
+    "metric_explanation": "The score is the number of stereo frames processed per second, including depth and flow.",
+    "value_interpretation": "Higher is better. More frames per second means denser and fresher 3D perception at higher camera rates.",
+    "reasoning": "Dense matching builds and aggregates large cost volumes, which stresses GPU memory bandwidth and integer and floating point throughput in a way typical of real perception rather than graphics."
+  },
+  "metric": { "id": "metric_fps", "name": "fps", "unit": "fps", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 120.0 },
+    { "machine_type": "desktop",  "value": 200.0 },
+    { "machine_type": "notebook", "value": 90.0 },
+    { "machine_type": "mobile",   "value": 25.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Mixed reality games rely on depth sensing of the room." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no depth sensing." },
+    "domain_software_development":  { "weight": 0.1, "explanation": "Only developers of perception software see this load." },
+    "domain_graphics_design":       { "weight": 0.2, "explanation": "Depth estimation drives portrait effects and refocusing in photo tools." },
+    "domain_video_editing":         { "weight": 0.2, "explanation": "Optical flow drives frame interpolation and stabilisation in video tools." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Depth capture and flow feed 3D reconstruction and compositing." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work does not involve image processing." },
+    "domain_cad_engineering":       { "weight": 0.2, "explanation": "Inspection and metrology systems use stereo depth." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Scientific imaging measures motion and depth with these methods." },
+    "domain_ai_training":           { "weight": 0.2, "explanation": "Depth and flow labels for training data are computed this way." },
+    "domain_ai_inference":          { "weight": 0.2, "explanation": "Depth models are often checked against classical stereo results." },
+    "domain_data_science":          { "weight": 0.1, "explanation": "Data analysis rarely touches dense image matching." },
+    "domain_server_virt":           { "weight": 0.1, "explanation": "Servers rarely compute dense depth." },
+    "domain_robotics_vision":       { "weight": 1.0, "explanation": "Dense depth and motion are the basis of obstacle avoidance and 3D mapping." }
+  }
+}

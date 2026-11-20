@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gli handshake sicuri e l'autenticazione delle richieste rendono la firma un carico di lavoro server fondamentale."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le firme si limitano al secure boot e ai collegamenti autenticati."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Allgemeine Serverarbeit ist überwiegend Integer- und I/O-gebunden statt Gleitkomma-gebunden."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Regelschleifen und Geometrie pro Bild rechnen mit einfacher Genauigkeit auf einem schnellen Kern."
     }
   }
 }

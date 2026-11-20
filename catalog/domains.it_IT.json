@@ -51,5 +51,9 @@
   "domain_server_virt": {
     "name": "Server e virtualizzazione",
     "description": "Carichi multi-tenant, densità di container/VM e throughput di fondo sostenuto su molti processi concorrenti."
+  },
+  "domain_robotics_vision": {
+    "name": "Robotica e visione artificiale",
+    "description": "Percezione, stima dello stato e controllo per robot, droni, AR e sistemi autonomi: elaborazione di immagini e nuvole di punti, inferenza di modelli di visione e cicli in tempo reale critici per la latenza."
   }
 }

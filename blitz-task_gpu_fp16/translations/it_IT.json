@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server con acceleratori condivisi mettono questo throughput a disposizione di molti tenant di machine learning."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I modelli di visione girano in mezza precisione su GPU e acceleratori embedded."
     }
   }
 }

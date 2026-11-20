@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs généralistes exécutent peu de calcul soutenu en double précision."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le filtrage fréquentiel des images et des signaux de capteurs utilise les mêmes transformées."
     }
   }
 }

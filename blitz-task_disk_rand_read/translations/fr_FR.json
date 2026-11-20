@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les bases de données et de nombreux locataires concurrents génèrent une forte charge de lecture aléatoire."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La perception et la commande lisent rarement le stockage de manière aléatoire."
     }
   }
 }

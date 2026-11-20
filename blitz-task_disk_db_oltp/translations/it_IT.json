@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Il throughput dei database transazionali è il carico di lavoro di archiviazione che definisce i server."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I robot eseguono raramente database transazionali."
     }
   }
 }

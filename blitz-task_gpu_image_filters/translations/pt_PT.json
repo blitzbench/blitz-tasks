@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os serviços de processamento de imagem correm estes filtros em escala em servidores partilhados."
+    },
+    "domain_robotics_vision": {
+      "explanation": "O pré-processamento de imagens de câmara, como a redução de ruído e o redimensionamento, usa estes filtros."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores de aceleradores partilhados expõem este débito a muitos inquilinos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "As convoluções e os transformers dos modelos de visão traduzem-se em cálculo matricial de meia precisão."
     }
   }
 }

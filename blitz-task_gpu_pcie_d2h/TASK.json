@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.4, "explanation": "Reading metrics and checkpoints back from the GPU uses the download path." },
     "domain_ai_inference":          { "weight": 0.5, "explanation": "Reading generated outputs back from the GPU uses download bandwidth." },
     "domain_data_science":          { "weight": 0.5, "explanation": "Returning analytics results from the GPU is download bound." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers return tenant results over this link." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers return tenant results over this link." },
+    "domain_robotics_vision":       { "weight": 0.4, "explanation": "Depth maps and detections are copied back to the CPU for planning." }
   }
 }

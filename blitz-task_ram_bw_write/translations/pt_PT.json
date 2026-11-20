@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Muitos processos a escrever em simultâneo competem pela largura de banda de escrita partilhada."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os fotogramas descodificados e os mapas são escritos na memória ao ritmo dos sensores."
     }
   }
 }

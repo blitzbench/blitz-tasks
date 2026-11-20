@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Muchos procesos que escriben a la vez compiten por el ancho de banda de escritura compartido."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los fotogramas decodificados y los mapas se escriben en memoria a la frecuencia de los sensores."
     }
   }
 }

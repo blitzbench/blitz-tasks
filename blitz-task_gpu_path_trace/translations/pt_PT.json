@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "As render farms de GPU correm esta carga de trabalho em muitos nós."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os dados de treino sintéticos e a simulação de sensores usam path tracing."
     }
   }
 }

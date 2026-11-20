@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Wissenschaftliche Rechen-Server stellen ihren Nutzern Rechenleistung mit doppelter Genauigkeit bereit."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Wahrnehmung und Regelung nutzen auf der GPU kaum doppelte Genauigkeit."
     }
   }
 }

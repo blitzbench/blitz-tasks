@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "As implementações sensíveis ao custo servem modelos mais pequenos a partir de servidores só com CPU."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os robôs recebem cada vez mais comandos em linguagem natural através de pequenos modelos no dispositivo."
     }
   }
 }

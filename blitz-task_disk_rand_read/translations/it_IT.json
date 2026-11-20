@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I database e i numerosi tenant concorrenti generano un forte carico di lettura casuale."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Percezione e controllo leggono raramente l'archiviazione in modo casuale."
     }
   }
 }

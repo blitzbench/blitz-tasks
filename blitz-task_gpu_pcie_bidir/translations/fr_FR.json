@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs GPU partagés très sollicités déplacent les données des locataires en entrée et en sortie simultanément."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les images partent vers le GPU pendant que les détections et les cartes de profondeur reviennent."
     }
   }
 }

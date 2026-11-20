@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Il lavoro per richiesta su stato residente in cache è condizionato dalla latenza della cache."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I cicli di controllo e il tracciamento delle feature lavorano su piccoli dati in cache con scadenze strette."
     }
   }
 }

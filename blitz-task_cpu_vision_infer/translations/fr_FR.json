@@ -1,0 +1,53 @@
+{
+  "lang": "fr_FR",
+  "name": "cpu_vision_infer",
+  "short_description": "Modèle de détection d'objets sur des images de caméra fournies, sur le CPU.",
+  "description": "Exécute un réseau de détection d'objets sur un ensemble fourni d'images de caméra avec ONNX Runtime sur le processeur, comme le font les robots, caméras et appareils embarqués dépourvus de GPU performant pour leur perception. Le modèle, la taille d'image et la précision sont fixes, et l'exécution utilise tous les cœurs.",
+  "metric_explanation": "Le score est le nombre d'images traitées par seconde, du prétraitement jusqu'aux détections finales.",
+  "value_interpretation": "Plus c'est élevé, mieux c'est. Davantage d'images par seconde permet à un robot ou à un système de caméras de surveiller plus de flux ou de réagir plus vite.",
+  "reasoning": "Les réseaux de détection sollicitent le calcul vectoriel, la bande passante mémoire et la réutilisation des caches dans les couches de convolution et d'attention. Ce test reflète donc la capacité d'un processeur à exécuter des modèles de vision sans accélérateur.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Les jeux exécutent rarement des modèles de vision sur le CPU."
+    },
+    "domain_office": {
+      "explanation": "Les outils bureautiques ne recourent aux modèles de vision que pour des fonctions mineures."
+    },
+    "domain_software_development": {
+      "explanation": "Les développeurs testent les modèles de vision sur le CPU avant de les déployer."
+    },
+    "domain_graphics_design": {
+      "explanation": "Les outils photo utilisent la détection pour la sélection intelligente et le classement."
+    },
+    "domain_video_editing": {
+      "explanation": "Les outils vidéo détectent objets et visages pour le suivi et la recherche."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Le travail 3D fait peu appel à la détection d'objets."
+    },
+    "domain_audio_production": {
+      "explanation": "Le travail audio n'implique aucun modèle de vision."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Les outils d'ingénierie exécutent rarement des modèles de détection."
+    },
+    "domain_scientific_computing": {
+      "explanation": "L'imagerie scientifique utilise des modèles de détection pour le comptage et la classification."
+    },
+    "domain_ai_training": {
+      "explanation": "La validation des modèles de vision pendant l'entraînement exécute ce type d'inférence."
+    },
+    "domain_ai_inference": {
+      "explanation": "L'exécution locale de modèles de vision occupe une place croissante dans l'inférence IA."
+    },
+    "domain_data_science": {
+      "explanation": "L'analyse de grandes collections d'images s'appuie sur des modèles de détection."
+    },
+    "domain_server_virt": {
+      "explanation": "Les serveurs d'analyse vidéo exécutent la détection sur de nombreux flux de caméras."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La détection d'objets est l'étape de perception centrale des robots et des caméras intelligentes."
+    }
+  }
+}

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores de GPU partilhada dividem a largura de banda de escrita por muitos inquilinos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "As saídas densas, como mapas de profundidade e volumes de custo, são escritas na memória de vídeo."
     }
   }
 }

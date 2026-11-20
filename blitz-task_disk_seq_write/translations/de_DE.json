@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Protokollierung, Snapshots und schreibintensive Dienste erfordern anhaltende Schreibgeschwindigkeit."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Das Aufzeichnen von Kamera- und Lidar-Strömen schreibt fortlaufend große Dateien."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemischte Server-Flotten verzeichnen etwas Gleitkommalast, aber diese ist nicht der Hauptbedarf."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Bildverarbeitung und Punktwolken verteilen Mathematik mit einfacher Genauigkeit auf alle Kerne."
     }
   }
 }

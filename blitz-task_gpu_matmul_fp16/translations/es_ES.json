@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de aceleradores compartidos exponen este rendimiento a muchos inquilinos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Las convoluciones y los transformers de los modelos de visión se traducen en cálculo matricial de media precisión."
     }
   }
 }

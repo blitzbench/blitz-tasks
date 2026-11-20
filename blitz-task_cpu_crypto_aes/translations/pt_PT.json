@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores passam tempo real a cifrar ligações e a proteger dados armazenados."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os robôs cifram pouco além das suas ligações de rede."
     }
   }
 }

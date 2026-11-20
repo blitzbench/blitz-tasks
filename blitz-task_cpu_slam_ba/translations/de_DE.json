@@ -1,0 +1,53 @@
+{
+  "lang": "de_DE",
+  "name": "cpu_slam_ba",
+  "short_description": "Dünnbesetzte Bündelausgleichung einer visuellen SLAM-Karte über alle Kerne.",
+  "description": "Optimiert die Kameraposen und 3D-Landmarken einer mitgelieferten visuellen SLAM-Karte mit dünnbesetzter Bündelausgleichung, dem Backend-Schritt, der Karten von Robotern und AR-Systemen konsistent hält. Gelöst wird das Problem mit dem Ceres Solver, einer weit verbreiteten Bibliothek für nichtlineare Ausgleichsrechnung, über dessen dünnbesetztes Schur-Komplement-Verfahren auf allen Kernen. Karte, robuste Verlustfunktion und Abbruchkriterien sind fest vorgegeben.",
+  "metric_explanation": "Der Score ist die Anzahl vollständiger Lösungsdurchläufe der Bündelausgleichung pro Minute.",
+  "value_interpretation": "Höher ist besser. Schnellere Lösungen erlauben es einem Roboter, Drift häufiger zu korrigieren und Schleifen öfter zu schließen, und lassen Kartierungs- und Photogrammetrieaufgaben früher fertig werden.",
+  "reasoning": "Die Bündelausgleichung verbindet viele kleine dichte Jacobi-Auswertungen mit großer dünnbesetzter linearer Algebra. Dieses Muster belastet Gleitkommadurchsatz, Caches und Speicherbandbreite gleichzeitig, ganz ähnlich wie echte SLAM- und Structure-from-Motion-Software.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Spiele führen keine Kartenoptimierung aus."
+    },
+    "domain_office": {
+      "explanation": "Büroarbeit umfasst keine numerische Optimierung."
+    },
+    "domain_software_development": {
+      "explanation": "Entwickler von Kartierungs- und Bildverarbeitungssoftware führen diese Lösungsläufe beim Testen aus."
+    },
+    "domain_graphics_design": {
+      "explanation": "Fotowerkzeuge gehen selten über die Bildausrichtung hinaus."
+    },
+    "domain_video_editing": {
+      "explanation": "Videobearbeitung benötigt selten eine vollständige 3D-Rekonstruktion."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Photogrammetrie für 3D-Inhalte rekonstruiert Szenen mit Bündelausgleichung."
+    },
+    "domain_audio_production": {
+      "explanation": "Audioarbeit umfasst keine geometrische Optimierung."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Vermessungs-, Scan- und Prüfwerkzeuge stützen sich auf dieselbe Ausgleichsrechnung."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Nichtlineare Ausgleichsrechnung ist ein gängiges Werkzeug bei der Anpassung wissenschaftlicher Daten."
+    },
+    "domain_ai_training": {
+      "explanation": "Modelltraining nutzt andere Optimierungsverfahren."
+    },
+    "domain_ai_inference": {
+      "explanation": "Inferenz umfasst keine Kartenoptimierung."
+    },
+    "domain_data_science": {
+      "explanation": "Große Kurvenanpassungs- und Kalibrierungsaufgaben teilen die Struktur des Solvers."
+    },
+    "domain_server_virt": {
+      "explanation": "Kartierungsaufgaben laufen auf Servern, sind aber keine allgemeine Server-Arbeitslast."
+    },
+    "domain_robotics_vision": {
+      "explanation": "SLAM-Karten konsistent zu halten ist eine Kernaufgabe autonomer Roboter und von AR."
+    }
+  }
+}

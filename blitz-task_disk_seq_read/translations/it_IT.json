@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Il caricamento di immagini e grandi volumi di dati sfrutta il throughput di lettura sequenziale."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Riprodurre dataset di sensori registrati legge file di grandi dimensioni in modo continuo."
     }
   }
 }

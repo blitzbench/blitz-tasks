@@ -49,6 +49,7 @@
     "domain_ai_training":           { "weight": 0.2, "explanation": "Encrypted data sets are decrypted on the way into training pipelines." },
     "domain_ai_inference":          { "weight": 0.1, "explanation": "Serving models involves light transport encryption only." },
     "domain_data_science":          { "weight": 0.3, "explanation": "Reading encrypted data stores runs the cipher continuously." },
-    "domain_server_virt":           { "weight": 0.6, "explanation": "Servers spend real time encrypting connections and protecting stored data." }
+    "domain_server_virt":           { "weight": 0.6, "explanation": "Servers spend real time encrypting connections and protecting stored data." },
+    "domain_robotics_vision":       { "weight": 0.1, "explanation": "Robots encrypt little beyond their network links." }
   }
 }

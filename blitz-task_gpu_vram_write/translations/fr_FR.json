@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs GPU partagés répartissent la bande passante en écriture entre de nombreux locataires."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les sorties denses comme les cartes de profondeur et les volumes de coût sont écrites en mémoire vidéo."
     }
   }
 }

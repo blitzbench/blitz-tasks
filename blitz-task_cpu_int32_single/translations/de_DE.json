@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Die Latenz pro Anfrage hängt davon ab, wie schnell ein einzelner Kern eine Arbeitseinheit verarbeitet."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Feature-Deskriptoren und Bildindizierung stützen sich in engen Schleifen auf Ganzzahlmathematik."
     }
   }
 }

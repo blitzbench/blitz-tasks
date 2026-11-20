@@ -1,0 +1,53 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_vision_pipeline",
+  "short_description": "Seguimiento de características, flujo óptico y profundidad estéreo sobre una secuencia de cámara.",
+  "description": "Ejecuta la etapa clásica de percepción de un robot o unas gafas de realidad aumentada sobre una secuencia de cámara estéreo incluida: detección y emparejamiento de características, flujo óptico disperso entre fotogramas y profundidad estéreo densa, con las rutinas de OpenCV sobre las que se construye el software de robótica y visión. La secuencia y todos los parámetros son fijos, y el trabajo se reparte entre todos los núcleos, igual que en los pipelines de producción.",
+  "metric_explanation": "La puntuación es el número de fotogramas estéreo procesados por segundo a lo largo de todo el pipeline.",
+  "value_interpretation": "Cuanto más alto, mejor. Más fotogramas por segundo significa que un robot o unas gafas pueden seguir y cartografiar su entorno con frecuencias de cámara más altas y menos retraso.",
+  "reasoning": "El seguimiento de características y el emparejamiento estéreo combinan kernels de imagen con enteros, geometría en coma flotante y un intenso tráfico de memoria, que es justo la carga que la odometría visual, el SLAM y el seguimiento de realidad aumentada imponen al procesador.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Los juegos rara vez procesan imágenes de cámara, salvo en complementos de seguimiento de movimiento."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática no procesa imágenes de cámara."
+    },
+    "domain_software_development": {
+      "explanation": "Los desarrolladores de software de visión y robótica ejecutan este pipeline constantemente."
+    },
+    "domain_graphics_design": {
+      "explanation": "La unión de panorámicas y la alineación de imágenes en las herramientas de fotografía usan el mismo emparejamiento de características."
+    },
+    "domain_video_editing": {
+      "explanation": "La estabilización de vídeo y el seguimiento de movimiento se basan en el seguimiento de características y el flujo óptico."
+    },
+    "domain_3d_rendering": {
+      "explanation": "El seguimiento de cámara para efectos visuales usa rutinas de características y de flujo similares."
+    },
+    "domain_audio_production": {
+      "explanation": "El trabajo de audio no implica procesamiento de imágenes."
+    },
+    "domain_cad_engineering": {
+      "explanation": "Las herramientas de fotogrametría e inspección parten del emparejamiento de características y la profundidad estéreo."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La imagen científica utiliza el registro de imágenes y la reconstrucción de profundidad."
+    },
+    "domain_ai_training": {
+      "explanation": "La preparación de datos para modelos de visión recurre al procesamiento clásico de imágenes."
+    },
+    "domain_ai_inference": {
+      "explanation": "Los pipelines de modelos de visión combinan la inferencia con preprocesamiento y posprocesamiento clásicos."
+    },
+    "domain_data_science": {
+      "explanation": "La analítica de imágenes extrae características de grandes colecciones de fotos."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores de analítica de vídeo ejecutan pipelines de cámara para muchos flujos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "La odometría visual, el SLAM y el seguimiento de realidad aumentada se basan precisamente en este pipeline."
+    }
+  }
+}

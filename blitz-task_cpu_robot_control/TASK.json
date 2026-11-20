@@ -1,0 +1,41 @@
+{
+  "id": "task_cpu_real_world_robot_control",
+  "name": "cpu_robot_control",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "title": "Real time robot control",
+  "short_description": "Fixed rate control loop with robot dynamics and model predictive control.",
+  "structured_text": {
+    "description": "Runs the control loop of a bundled robot arm model at a fixed rate on one core: rigid body dynamics with Pinocchio and a model predictive controller solved with OSQP in every cycle. Instead of throughput the test records how long each cycle takes, because a controller that misses its deadline makes the robot stutter or fault.",
+    "metric_explanation": "The score is the 99.9th percentile of the control cycle time, in nanoseconds.",
+    "value_interpretation": "Lower is better. Shorter and steadier cycle times allow higher control rates and more headroom before a deadline is missed.",
+    "reasoning": "Real time control depends on single core speed, cache behaviour and how steady the system responds, not on peak throughput. A tail latency score captures the stutter that average speed hides."
+  },
+  "metric": { "id": "metric_latency", "name": "latency", "unit": "ns", "direction": "lower_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 400000.0 },
+    { "machine_type": "desktop",  "value": 250000.0 },
+    { "machine_type": "notebook", "value": 400000.0 },
+    { "machine_type": "mobile",   "value": 900000.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Game physics runs fixed rate update loops with similar deadlines." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no hard deadlines." },
+    "domain_software_development":  { "weight": 0.1, "explanation": "Only developers of control software see this kind of load." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Photo editing has no real time loop." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Video editing tolerates far looser timing." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "Animation rigs rarely run hard real time loops." },
+    "domain_audio_production":      { "weight": 0.3, "explanation": "Live audio shares the strict per cycle deadlines." },
+    "domain_cad_engineering":       { "weight": 0.3, "explanation": "Machine control and hardware in the loop testing run similar loops." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Lab automation and control experiments use small real time solvers." },
+    "domain_ai_training":           { "weight": 0.1, "explanation": "Training has no real time constraint." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference serving rarely has hard deadlines." },
+    "domain_data_science":          { "weight": 0.1, "explanation": "Data analysis has no real time loop." },
+    "domain_server_virt":           { "weight": 0.1, "explanation": "Servers optimise for throughput, not cycle deadlines." },
+    "domain_robotics_vision":       { "weight": 1.0, "explanation": "Every robot arm, drone and legged robot runs a loop like this at its core." }
+  }
+}

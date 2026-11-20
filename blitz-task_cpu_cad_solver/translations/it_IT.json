@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I job di simulazione girano sui server ma non costituiscono un carico di lavoro server generico."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I back end SLAM e la simulazione di corpi deformabili risolvono sistemi sparsi simili."
     }
   }
 }

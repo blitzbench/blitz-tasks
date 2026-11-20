@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Remote-Desktop- und Streaming-Server liefern gerenderte Pixel an Clients."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Rasterisierungsdurchsatz zählt nur für die Visualisierung."
     }
   }
 }

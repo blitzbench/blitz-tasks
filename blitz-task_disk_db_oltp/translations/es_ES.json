@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "El rendimiento de las bases de datos transaccionales es la carga de almacenamiento determinante en los servidores."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los robots rara vez ejecutan bases de datos transaccionales."
     }
   }
 }

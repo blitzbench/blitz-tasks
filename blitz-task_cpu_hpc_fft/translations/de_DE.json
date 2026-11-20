@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Allgemeine Server führen wenig anhaltende Mathematik mit doppelter Genauigkeit aus."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Filterung von Bildern und Sensorsignalen im Frequenzbereich nutzt dieselben Transformationen."
     }
   }
 }

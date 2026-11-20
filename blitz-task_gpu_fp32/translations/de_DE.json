@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte GPU-Server stellen diese Rechenleistung vielen Nutzern bereit."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Stereo-, optischer-Fluss- und Punktwolkenkerne auf der GPU rechnen mit einfacher Genauigkeit."
     }
   }
 }

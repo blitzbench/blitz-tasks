@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores de inferência económicos apoiam-se no débito int8 para servir mais por dispositivo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os modelos quantizados de deteção e segmentação assentam no débito INT8."
     }
   }
 }

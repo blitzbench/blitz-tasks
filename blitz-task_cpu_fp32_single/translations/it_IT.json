@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Il lavoro server generico è per lo più vincolato agli interi e all'I/O anziché alla virgola mobile."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I cicli di controllo e la geometria per fotogramma usano la precisione singola su un core veloce."
     }
   }
 }

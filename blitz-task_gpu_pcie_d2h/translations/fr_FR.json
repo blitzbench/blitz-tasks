@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs GPU partagés renvoient les résultats des locataires par ce lien."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les cartes de profondeur et les détections sont recopiées vers le CPU pour la planification."
     }
   }
 }

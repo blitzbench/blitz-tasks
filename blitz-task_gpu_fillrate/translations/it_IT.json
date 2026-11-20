@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server di desktop remoto e streaming inviano ai client i pixel renderizzati."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Il throughput di rasterizzazione conta solo per la visualizzazione."
     }
   }
 }

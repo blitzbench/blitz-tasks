@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les serveurs GPU partagés répartissent la bande passante en lecture entre de nombreux locataires."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les modèles de vision et la stéréo dense lisent de gros tenseurs dans la mémoire vidéo."
     }
   }
 }

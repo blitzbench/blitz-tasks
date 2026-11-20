@@ -1,0 +1,41 @@
+{
+  "id": "task_cpu_real_world_pointcloud",
+  "name": "cpu_pointcloud",
+  "component": "cpu",
+  "benchmark_type": "real_world",
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "title": "Point cloud processing",
+  "short_description": "Downsampling, neighbour search and ICP alignment of lidar scans.",
+  "structured_text": {
+    "description": "Processes a bundled sequence of lidar style scans the way robot localisation does it: voxel downsampling, normal estimation from nearest neighbours and iterative closest point alignment of every scan against a map. The scans and parameters are fixed, and the work runs on all cores.",
+    "metric_explanation": "The score is the number of scans aligned per second.",
+    "value_interpretation": "Higher is better. More scans per second means a vehicle or robot can localise at its full sensor rate with time to spare.",
+    "reasoning": "Point cloud processing is dominated by spatial data structures and nearest neighbour searches, so it stresses memory latency, caches and floating point math in a pattern no other task covers."
+  },
+  "metric": { "id": "metric_fps", "name": "fps", "unit": "fps", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 40.0 },
+    { "machine_type": "desktop",  "value": 70.0 },
+    { "machine_type": "notebook", "value": 40.0 },
+    { "machine_type": "mobile",   "value": 15.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.1, "explanation": "Games do not process scanned point clouds." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office work has no 3D data processing." },
+    "domain_software_development":  { "weight": 0.2, "explanation": "Developers of perception software process point clouds daily." },
+    "domain_graphics_design":       { "weight": 0.1, "explanation": "Photo editing works on images, not point clouds." },
+    "domain_video_editing":         { "weight": 0.1, "explanation": "Video editing does not handle point clouds." },
+    "domain_3d_rendering":          { "weight": 0.3, "explanation": "Scanned assets and set capture for 3D content start as point clouds." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work involves no spatial data." },
+    "domain_cad_engineering":       { "weight": 0.4, "explanation": "Reverse engineering and inspection align scans against CAD models." },
+    "domain_scientific_computing":  { "weight": 0.3, "explanation": "Geoscience and surveying process large lidar datasets." },
+    "domain_ai_training":           { "weight": 0.1, "explanation": "Training point cloud models is a small niche." },
+    "domain_ai_inference":          { "weight": 0.1, "explanation": "Inference rarely involves raw point cloud processing." },
+    "domain_data_science":          { "weight": 0.2, "explanation": "Spatial analytics share nearest neighbour searches." },
+    "domain_server_virt":           { "weight": 0.1, "explanation": "Servers rarely run point cloud alignment." },
+    "domain_robotics_vision":       { "weight": 1.0, "explanation": "Lidar localisation and mapping are central to autonomous vehicles and robots." }
+  }
+}

@@ -50,6 +50,7 @@
     "domain_ai_training":           { "weight": 0.7, "explanation": "Reading weights and writing activations together is copy heavy GPU work." },
     "domain_ai_inference":          { "weight": 0.7, "explanation": "Streaming weights and activations through GPU memory mixes reads and writes." },
     "domain_data_science":          { "weight": 0.5, "explanation": "Transforming large arrays reads input and writes output in GPU memory." },
-    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers divide copy bandwidth across many tenants." }
+    "domain_server_virt":           { "weight": 0.4, "explanation": "Shared GPU servers divide copy bandwidth across many tenants." },
+    "domain_robotics_vision":       { "weight": 0.3, "explanation": "Image pyramids and buffer copies move data within video memory." }
   }
 }

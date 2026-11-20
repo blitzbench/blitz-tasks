@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Os servidores de ambiente de trabalho remoto e de streaming enviam pixels renderizados para os clientes."
+    },
+    "domain_robotics_vision": {
+      "explanation": "O débito de rasterização só importa para a visualização."
     }
   }
 }

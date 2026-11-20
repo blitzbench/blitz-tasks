@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Muitos processos concorrentes competem pela largura de banda de leitura da memória partilhada."
+    },
+    "domain_robotics_vision": {
+      "explanation": "As nuvens de pontos e os fluxos de imagens são lidos da memória de forma contínua."
     }
   }
 }

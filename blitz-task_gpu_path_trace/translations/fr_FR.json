@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les fermes de rendu GPU exécutent cette charge de travail sur de nombreux nœuds."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les données d'entraînement synthétiques et la simulation de capteurs utilisent le path tracing."
     }
   }
 }

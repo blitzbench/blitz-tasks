@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte Beschleuniger-Server stellen diesen Durchsatz vielen ML-Nutzern bereit."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Bildverarbeitungsmodelle laufen mit halber Genauigkeit auf GPUs und eingebetteten Beschleunigern."
     }
   }
 }

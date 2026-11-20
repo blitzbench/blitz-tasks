@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Server betreiben selten latenzgebundene Audiographen."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Regelschleifen mit fester Rate teilen das fristgebundene Single-Thread-Muster von Live-Audio."
     }
   }
 }

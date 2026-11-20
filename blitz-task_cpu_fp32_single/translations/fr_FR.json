@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Le travail serveur général est surtout borné par l'entier et les E/S, plutôt que par le flottant."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les boucles de commande et la géométrie par image utilisent la simple précision sur un cœur rapide."
     }
   }
 }

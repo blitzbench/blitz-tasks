@@ -1,0 +1,53 @@
+{
+  "lang": "es_ES",
+  "name": "cpu_robot_control",
+  "short_description": "Bucle de control a frecuencia fija con dinámica de robot y control predictivo por modelo.",
+  "description": "Ejecuta en un solo núcleo y a frecuencia fija el bucle de control de un modelo de brazo robótico incluido: dinámica de sólidos rígidos con Pinocchio y un controlador predictivo por modelo resuelto con OSQP en cada ciclo. En lugar del rendimiento, la prueba registra cuánto tarda cada ciclo, porque un controlador que incumple su plazo hace que el robot se mueva a tirones o entre en fallo.",
+  "metric_explanation": "La puntuación es el percentil 99,9 del tiempo de ciclo de control, en nanosegundos.",
+  "value_interpretation": "Cuanto más bajo, mejor. Unos tiempos de ciclo más cortos y estables permiten frecuencias de control más altas y más margen antes de incumplir un plazo.",
+  "reasoning": "El control en tiempo real depende de la velocidad de un solo núcleo, del comportamiento de la caché y de la regularidad con la que responde el sistema, no del rendimiento máximo. Una puntuación basada en la latencia de cola recoge los tirones que la velocidad media oculta.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "La física de los juegos ejecuta bucles de actualización a frecuencia fija con plazos similares."
+    },
+    "domain_office": {
+      "explanation": "El trabajo de ofimática no tiene plazos estrictos."
+    },
+    "domain_software_development": {
+      "explanation": "Solo los desarrolladores de software de control se enfrentan a este tipo de carga."
+    },
+    "domain_graphics_design": {
+      "explanation": "La edición de fotos no tiene un bucle en tiempo real."
+    },
+    "domain_video_editing": {
+      "explanation": "La edición de vídeo tolera tiempos mucho más holgados."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Los rigs de animación rara vez ejecutan bucles en tiempo real estricto."
+    },
+    "domain_audio_production": {
+      "explanation": "El audio en directo comparte los plazos estrictos por ciclo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "El control de máquinas y las pruebas con hardware en el bucle ejecutan bucles similares."
+    },
+    "domain_scientific_computing": {
+      "explanation": "La automatización de laboratorio y los experimentos de control usan pequeños solucionadores en tiempo real."
+    },
+    "domain_ai_training": {
+      "explanation": "El entrenamiento no tiene restricciones de tiempo real."
+    },
+    "domain_ai_inference": {
+      "explanation": "Los servicios de inferencia rara vez tienen plazos estrictos."
+    },
+    "domain_data_science": {
+      "explanation": "El análisis de datos no tiene un bucle en tiempo real."
+    },
+    "domain_server_virt": {
+      "explanation": "Los servidores se optimizan para el rendimiento, no para plazos por ciclo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Todo brazo robótico, dron o robot con patas ejecuta en su núcleo un bucle como este."
+    }
+  }
+}

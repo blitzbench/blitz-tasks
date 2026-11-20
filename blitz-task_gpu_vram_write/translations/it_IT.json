@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server GPU condivisi ripartiscono la larghezza di banda in scrittura tra molti tenant."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le uscite dense come mappe di profondità e volumi di costo vengono scritte nella memoria video."
     }
   }
 }

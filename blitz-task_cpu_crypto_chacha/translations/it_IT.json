@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server terminano molte connessioni sicure, spesso con questo cifrario per i client privi di AES hardware."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I collegamenti di telemetria cifrati sono un carico minore rispetto alla percezione."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "I server di inferenza a basso costo si affidano al throughput int8 per servire di più con ciascun dispositivo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "I modelli quantizzati di rilevamento e segmentazione si basano sul throughput INT8."
     }
   }
 }

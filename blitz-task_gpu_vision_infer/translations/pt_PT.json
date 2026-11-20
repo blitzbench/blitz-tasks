@@ -1,0 +1,53 @@
+{
+  "lang": "pt_PT",
+  "name": "gpu_vision_infer",
+  "short_description": "Modelo de deteção de objetos sobre imagens de câmara incluídas, no processador gráfico.",
+  "description": "Executa uma rede de deteção de objetos sobre um conjunto incluído de imagens de câmara no processador gráfico, em meia precisão, o caminho acelerado de robôs, veículos e sistemas de análise de vídeo. O modelo, o tamanho das imagens e o tamanho do lote são fixos, e os fotogramas são enviados e os resultados lidos de volta tal como num pipeline em direto.",
+  "metric_explanation": "A pontuação é o número de imagens processadas por segundo, incluindo as transferências de e para a GPU.",
+  "value_interpretation": "Mais alto é melhor. Mais imagens por segundo significa mais fluxos de câmara ou taxas de fotogramas mais elevadas com o mesmo hardware.",
+  "reasoning": "As redes de deteção combinam cálculo tensorial denso com tráfego de memória e transferências de dados, pelo que este teste mostra até que ponto uma GPU serve cargas de perceção reais, e não apenas o débito de pico de matrizes.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Alguns jogos usam seguimento por câmara com pequenos modelos de visão."
+    },
+    "domain_office": {
+      "explanation": "As ferramentas de escritório só recorrem a modelos de visão em pequenas funcionalidades."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores de software de visão enfrentam esta carga durante os testes."
+    },
+    "domain_graphics_design": {
+      "explanation": "As ferramentas de fotografia usam a deteção para seleção inteligente e organização."
+    },
+    "domain_video_editing": {
+      "explanation": "As ferramentas de vídeo detetam objetos e rostos ao longo de gravações extensas."
+    },
+    "domain_3d_rendering": {
+      "explanation": "O trabalho 3D faz pouco uso da deteção de objetos."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não envolve modelos de visão."
+    },
+    "domain_cad_engineering": {
+      "explanation": "As ferramentas de engenharia raramente executam modelos de deteção."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A imagiologia científica usa modelos de deteção para contagem e classificação."
+    },
+    "domain_ai_training": {
+      "explanation": "A validação de modelos de visão durante o treino executa este tipo de inferência."
+    },
+    "domain_ai_inference": {
+      "explanation": "Executar modelos de visão na GPU é uma parte importante da inferência local de AI."
+    },
+    "domain_data_science": {
+      "explanation": "A análise de grandes coleções de imagens usa modelos de deteção."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores de análise de vídeo executam deteção em muitos fluxos de câmara."
+    },
+    "domain_robotics_vision": {
+      "explanation": "A deteção acelerada de objetos é o passo central de perceção dos sistemas autónomos."
+    }
+  }
+}

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los despliegues sensibles al coste sirven modelos más pequeños desde servidores con solo CPU."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los robots reciben cada vez más órdenes en lenguaje natural a través de modelos pequeños en el dispositivo."
     }
   }
 }

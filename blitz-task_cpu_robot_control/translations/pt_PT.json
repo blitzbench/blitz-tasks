@@ -1,0 +1,53 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_robot_control",
+  "short_description": "Ciclo de controlo a taxa fixa com dinâmica de robô e controlo preditivo baseado em modelo.",
+  "description": "Executa o ciclo de controlo de um modelo incluído de braço robótico a uma taxa fixa num único núcleo: dinâmica de corpos rígidos com o Pinocchio e um controlador preditivo baseado em modelo resolvido com o OSQP em cada ciclo. Em vez do débito, o teste regista quanto tempo demora cada ciclo, porque um controlador que falha o prazo faz o robô funcionar aos solavancos ou entrar em falha.",
+  "metric_explanation": "A pontuação é o percentil 99,9 do tempo de ciclo de controlo, em nanossegundos.",
+  "value_interpretation": "Mais baixo é melhor. Tempos de ciclo mais curtos e mais estáveis permitem taxas de controlo mais elevadas e mais margem antes de um prazo ser falhado.",
+  "reasoning": "O controlo em tempo real depende da velocidade de um único núcleo, do comportamento das caches e da estabilidade da resposta do sistema, e não do débito de pico. Uma pontuação de latência de cauda capta as irregularidades que a velocidade média esconde.",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "A física dos jogos executa ciclos de atualização a taxa fixa com prazos semelhantes."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não tem prazos rígidos."
+    },
+    "domain_software_development": {
+      "explanation": "Apenas os programadores de software de controlo enfrentam este tipo de carga."
+    },
+    "domain_graphics_design": {
+      "explanation": "A edição de fotografia não tem ciclo em tempo real."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição de vídeo tolera tempos muito menos rigorosos."
+    },
+    "domain_3d_rendering": {
+      "explanation": "Os rigs de animação raramente executam ciclos em tempo real estrito."
+    },
+    "domain_audio_production": {
+      "explanation": "O áudio ao vivo partilha os prazos rigorosos por ciclo."
+    },
+    "domain_cad_engineering": {
+      "explanation": "O controlo de máquinas e os testes hardware in the loop executam ciclos semelhantes."
+    },
+    "domain_scientific_computing": {
+      "explanation": "A automação laboratorial e as experiências de controlo usam pequenos solvers em tempo real."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino não tem restrições de tempo real."
+    },
+    "domain_ai_inference": {
+      "explanation": "O serviço de inferência raramente tem prazos rígidos."
+    },
+    "domain_data_science": {
+      "explanation": "A análise de dados não tem ciclo em tempo real."
+    },
+    "domain_server_virt": {
+      "explanation": "Os servidores são otimizados para o débito, não para prazos de ciclo."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Cada braço robótico, drone e robô com pernas executa um ciclo como este no seu núcleo."
+    }
+  }
+}

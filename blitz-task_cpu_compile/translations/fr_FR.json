@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Construire images et services à partir des sources est courant dans les chaînes serveur."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les piles logicielles robotiques sont de grandes bases de code C++ que les développeurs recompilent sans cesse."
     }
   }
 }

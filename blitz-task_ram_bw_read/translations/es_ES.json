@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Muchos procesos concurrentes compiten por el ancho de banda de lectura de la memoria compartida."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Las nubes de puntos y los flujos de imágenes se leen de memoria de forma continua."
     }
   }
 }

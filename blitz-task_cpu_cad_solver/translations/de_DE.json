@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Simulationsaufgaben laufen auf Servern, stellen aber keine allgemeine Server-Arbeitslast dar."
+    },
+    "domain_robotics_vision": {
+      "explanation": "SLAM-Backends und die Simulation verformbarer Körper lösen ähnliche dünnbesetzte Systeme."
     }
   }
 }

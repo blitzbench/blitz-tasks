@@ -22,7 +22,12 @@ third-party attributions.
 | `blitz-task_cpu_int32_multi` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_int32_single` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_llm_infer` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | llama.cpp (`MIT`, `static`), Qwen2.5-0.5B-Instruct (GGUF, Q4_K_M) (`Apache-2.0`, `bundled`) |
+| `blitz-task_cpu_pointcloud` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_raytrace` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | Embree (`Apache-2.0`, `static`), cgltf (`MIT`, `static`), nlohmann/json (`MIT`, `static`), stb (`MIT OR Unlicense`, `static`), Poly Haven scene assets (`CC0-1.0`, `bundled`) |
+| `blitz-task_cpu_robot_control` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_cpu_slam_ba` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_cpu_vision_infer` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_cpu_vision_pipeline` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_zstd` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | zstd (`BSD-3-Clause`, `static`), Moby-Dick (Project Gutenberg #2701) (`CC0-1.0`, `bundled`) |
 | `blitz-task_demo_c` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_demo_cpp` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
@@ -47,6 +52,8 @@ third-party attributions.
 | `blitz-task_gpu_pcie_bidir` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
 | `blitz-task_gpu_pcie_d2h` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
 | `blitz-task_gpu_pcie_h2d` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
+| `blitz-task_gpu_stereo_depth` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_gpu_vision_infer` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_gpu_vram_copy` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
 | `blitz-task_gpu_vram_read` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |
 | `blitz-task_gpu_vram_write` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | CUDA Runtime (cudart_static) (`LicenseRef-NVIDIA-CUDA-EULA`, `static`) |

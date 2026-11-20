@@ -1,0 +1,53 @@
+{
+  "lang": "pt_PT",
+  "name": "cpu_slam_ba",
+  "short_description": "Ajuste de feixes esparso de um mapa de SLAM visual em todos os núcleos.",
+  "description": "Otimiza as poses da câmara e os pontos de referência 3D de um mapa de SLAM visual incluído através de ajuste de feixes esparso, o passo de back end que mantém coerentes os mapas de robôs e de realidade aumentada. O problema é resolvido com o Ceres Solver, uma biblioteca de mínimos quadrados não lineares muito utilizada, recorrendo ao seu método esparso de complemento de Schur em todos os núcleos. O mapa, a função de perda robusta e os critérios de paragem são fixos.",
+  "metric_explanation": "A pontuação é o número de resoluções completas de ajuste de feixes por minuto.",
+  "value_interpretation": "Mais alto é melhor. Resoluções mais rápidas permitem a um robô corrigir a deriva e fechar ciclos com mais frequência, e fazem com que os trabalhos de mapeamento e de fotogrametria terminem mais cedo.",
+  "reasoning": "O ajuste de feixes combina muitas avaliações pequenas de jacobianas densas com grandes operações de álgebra linear esparsa, um padrão que solicita em simultâneo o débito de vírgula flutuante, as caches e a largura de banda de memória, tal como o software real de SLAM e de reconstrução a partir do movimento (structure from motion).",
+  "weights": {
+    "domain_gaming": {
+      "explanation": "Os jogos não executam otimização de mapas."
+    },
+    "domain_office": {
+      "explanation": "O trabalho de escritório não envolve otimização numérica."
+    },
+    "domain_software_development": {
+      "explanation": "Os programadores de software de mapeamento e de visão executam estas resoluções durante os testes."
+    },
+    "domain_graphics_design": {
+      "explanation": "As ferramentas de fotografia raramente vão além do alinhamento de imagens."
+    },
+    "domain_video_editing": {
+      "explanation": "A edição de vídeo raramente precisa de uma reconstrução 3D completa."
+    },
+    "domain_3d_rendering": {
+      "explanation": "A fotogrametria para conteúdos 3D reconstrói cenas com ajuste de feixes."
+    },
+    "domain_audio_production": {
+      "explanation": "O trabalho de áudio não envolve otimização geométrica."
+    },
+    "domain_cad_engineering": {
+      "explanation": "As ferramentas de topografia, digitalização e inspeção assentam nas mesmas resoluções de mínimos quadrados."
+    },
+    "domain_scientific_computing": {
+      "explanation": "Os mínimos quadrados não lineares são uma ferramenta comum no ajuste de dados científicos."
+    },
+    "domain_ai_training": {
+      "explanation": "O treino de modelos usa outros métodos de otimização."
+    },
+    "domain_ai_inference": {
+      "explanation": "A inferência não envolve otimização de mapas."
+    },
+    "domain_data_science": {
+      "explanation": "Grandes tarefas de ajuste de curvas e de calibração partilham a estrutura do solver."
+    },
+    "domain_server_virt": {
+      "explanation": "Os trabalhos de mapeamento correm em servidores, mas não são uma carga de trabalho geral de servidor."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Manter coerentes os mapas de SLAM é uma carga de trabalho central dos robôs autónomos e da realidade aumentada."
+    }
+  }
+}

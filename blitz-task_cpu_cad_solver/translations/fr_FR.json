@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Les tâches de simulation s'exécutent sur des serveurs, mais ne constituent pas une charge serveur générale."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les back ends de SLAM et la simulation de corps déformables résolvent des systèmes creux similaires."
     }
   }
 }

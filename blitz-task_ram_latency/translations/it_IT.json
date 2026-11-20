@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Il lavoro per richiesta accede a uno stato sparso, quindi la latenza modella il tempo di risposta."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Le ricerche negli alberi KD e le consultazioni delle mappe seguono puntatori attraverso la memoria."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Il download e l'estrazione delle immagini di container legge e decomprime grandi bundle."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Il caricamento di mappe e modelli all'avvio è una piccola parte del carico di un robot."
     }
   }
 }

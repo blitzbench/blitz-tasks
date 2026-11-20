@@ -51,5 +51,9 @@
   "domain_server_virt": {
     "name": "serveur et virtualisation",
     "description": "Charges multi-locataires, densité de conteneurs/VM, débit d'arrière-plan soutenu sur de nombreux processus concurrents."
+  },
+  "domain_robotics_vision": {
+    "name": "robotique et vision par ordinateur",
+    "description": "Perception, estimation d'état et commande pour robots, drones, RA et systèmes autonomes - traitement d'images et de nuages de points, inférence de modèles de vision et boucles temps réel critiques pour la latence."
   }
 }

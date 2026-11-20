@@ -1,0 +1,42 @@
+{
+  "id": "task_gpu_real_world_vision_infer",
+  "name": "gpu_vision_infer",
+  "component": "gpu",
+  "benchmark_type": "real_world",
+  "gpu_requires": ["fp16"],
+  "license": {
+    "spdx": "LicenseRef-BlitzBench-Source-Available",
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+  },
+  "title": "Object detection on the GPU",
+  "short_description": "Object detection model on bundled camera images, on the graphics processor.",
+  "structured_text": {
+    "description": "Runs an object detection network on a bundled set of camera images on the graphics processor in half precision, the accelerated path of robots, vehicles and video analytics systems. The model, image size and batch size are fixed, and frames are uploaded and results read back as in a live pipeline.",
+    "metric_explanation": "The score is the number of images processed per second, including transfers to and from the GPU.",
+    "value_interpretation": "Higher is better. More images per second means more camera streams or higher frame rates for the same hardware.",
+    "reasoning": "Detection networks combine dense tensor math with memory traffic and data transfers, so this shows how well a GPU serves real perception workloads rather than peak matrix throughput alone."
+  },
+  "metric": { "id": "metric_fps", "name": "fps", "unit": "fps", "direction": "higher_is_better" },
+  "baselines": [
+    { "machine_type": "any",      "value": 250.0 },
+    { "machine_type": "desktop",  "value": 400.0 },
+    { "machine_type": "notebook", "value": 180.0 },
+    { "machine_type": "mobile",   "value": 40.0 }
+  ],
+  "weights": {
+    "domain_gaming":               { "weight": 0.2, "explanation": "Some games use camera based tracking with small vision models." },
+    "domain_office":               { "weight": 0.1, "explanation": "Office tools only touch vision models in small features." },
+    "domain_software_development":  { "weight": 0.1, "explanation": "Developers of vision software see this load while testing." },
+    "domain_graphics_design":       { "weight": 0.3, "explanation": "Photo tools use detection for smart selection and organisation." },
+    "domain_video_editing":         { "weight": 0.4, "explanation": "Video tools detect objects and faces across long footage." },
+    "domain_3d_rendering":          { "weight": 0.1, "explanation": "3D work makes little use of object detection." },
+    "domain_audio_production":      { "weight": 0.1, "explanation": "Audio work does not involve vision models." },
+    "domain_cad_engineering":       { "weight": 0.1, "explanation": "Engineering tools rarely run detection models." },
+    "domain_scientific_computing":  { "weight": 0.2, "explanation": "Scientific imaging uses detection models for counting and classification." },
+    "domain_ai_training":           { "weight": 0.4, "explanation": "Validating vision models during training runs this kind of inference." },
+    "domain_ai_inference":          { "weight": 0.7, "explanation": "Running vision models on the GPU is a major part of local AI inference." },
+    "domain_data_science":          { "weight": 0.3, "explanation": "Image analytics on large collections uses detection models." },
+    "domain_server_virt":           { "weight": 0.5, "explanation": "Video analytics servers run detection on many camera streams." },
+    "domain_robotics_vision":       { "weight": 1.0, "explanation": "Accelerated object detection is the core perception step of autonomous systems." }
+  }
+}

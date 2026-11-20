@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Las granjas de renderizado en GPU ejecutan esta carga de trabajo en muchos nodos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los datos sintéticos de entrenamiento y la simulación de sensores usan path tracing."
     }
   }
 }

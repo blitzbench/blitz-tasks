@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Viele Prozesse, die gleichzeitig Daten verschieben, teilen sich die Kopierbandbreite."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Bildpuffer werden im Kameratakt zwischen Pipeline-Stufen kopiert."
     }
   }
 }

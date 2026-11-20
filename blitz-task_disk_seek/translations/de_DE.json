@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Datenbank-Antwortzeiten sind eng mit der Speicher-Zugriffs-Latenz verknüpft."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Die Zugriffszeit spielt für Roboterlasten kaum eine Rolle."
     }
   }
 }

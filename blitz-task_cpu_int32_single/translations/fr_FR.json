@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "La latence par requête dépend de la vitesse à laquelle un seul cœur traite une unité de travail."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Les descripteurs de points d'intérêt et l'indexation d'images reposent sur des calculs entiers en boucles serrées."
     }
   }
 }

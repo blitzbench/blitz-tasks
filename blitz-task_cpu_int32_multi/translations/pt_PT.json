@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Alojar muitos processos ou contentores em simultâneo depende diretamente do débito total dos núcleos."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Os kernels de imagem inteiros, como a transformada census e os descritores binários, correm em todos os núcleos."
     }
   }
 }

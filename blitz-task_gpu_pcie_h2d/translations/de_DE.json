@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Gemeinsam genutzte GPU-Server übertragen Mandanten-Daten über diese Strecke auf das Gerät."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Jedes Kamerabild muss vor der Verarbeitung auf die GPU hochgeladen werden."
     }
   }
 }

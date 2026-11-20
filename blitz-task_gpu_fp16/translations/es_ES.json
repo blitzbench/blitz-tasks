@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Los servidores de aceleradores compartidos exponen este rendimiento a numerosos usuarios de aprendizaje automático."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Los modelos de visión se ejecutan en media precisión en GPU y aceleradores embebidos."
     }
   }
 }

@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Das Laden von Images und großen Datenmengen beansprucht den sequenziellen Lese-Durchsatz."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Das Abspielen aufgezeichneter Sensordaten liest große Dateien am Stück vom Speicher."
     }
   }
 }

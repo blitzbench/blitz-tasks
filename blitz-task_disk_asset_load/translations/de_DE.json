@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Das Abrufen und Entpacken von Container-Images liest und dekomprimiert große Pakete."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Das Laden von Karten und Modellen beim Start ist nur ein kleiner Teil der Roboterlast."
     }
   }
 }

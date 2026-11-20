@@ -45,6 +45,9 @@
     },
     "domain_server_virt": {
       "explanation": "Viele gleichzeitig schreibende Prozesse konkurrieren um die gemeinsame Schreibbandbreite."
+    },
+    "domain_robotics_vision": {
+      "explanation": "Dekodierte Bilder und Karten werden im Sensortakt in den Speicher geschrieben."
     }
   }
 }
