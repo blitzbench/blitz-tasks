@@ -7,7 +7,8 @@
 #   bench_add_shaders(TARGET     gpu_fp32_shaders
 #                     VAR_PREFIX GPU_FP32
 #                     NAMESPACE  gpu_fp32_shader
-#                     SHADERS    fp32_fma.comp)
+#                     SHADERS    fp32_fma.comp
+#                     DEPENDS    common.glsl)   # optional: files the shaders #include
 #   # then re-export to the task (parent) scope — see any shader task.
 #
 # bench_add_shaders sets, in its CALLER's scope (the shaders/ dir):
@@ -26,7 +27,7 @@ function(_bench_find_glslang)
 endfunction()
 
 function(bench_add_shaders)
-    cmake_parse_arguments(BAS "" "TARGET;VAR_PREFIX;NAMESPACE" "SHADERS;GLSLANG_ARGS" ${ARGN})
+    cmake_parse_arguments(BAS "" "TARGET;VAR_PREFIX;NAMESPACE" "SHADERS;GLSLANG_ARGS;DEPENDS" ${ARGN})
     if(NOT BAS_TARGET OR NOT BAS_VAR_PREFIX OR NOT BAS_NAMESPACE OR NOT BAS_SHADERS)
         message(FATAL_ERROR "bench_add_shaders: TARGET, VAR_PREFIX, NAMESPACE, SHADERS required")
     endif()
@@ -40,6 +41,10 @@ function(bench_add_shaders)
     endif()
 
     set(_embed ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/embed_spirv.cmake)
+    set(_deps "")
+    foreach(_dep IN LISTS BAS_DEPENDS)
+        list(APPEND _deps ${CMAKE_CURRENT_SOURCE_DIR}/${_dep})
+    endforeach()
     set(_outputs "")
     foreach(_shader IN LISTS BAS_SHADERS)
         get_filename_component(_base ${_shader} NAME_WE)
@@ -49,7 +54,7 @@ function(bench_add_shaders)
         add_custom_command(
             OUTPUT  ${_spv}
             COMMAND ${BENCH_GLSLANG_VALIDATOR} -V ${BAS_GLSLANG_ARGS} ${_src} -o ${_spv}
-            DEPENDS ${_src}
+            DEPENDS ${_src} ${_deps}
             COMMENT "${BAS_TARGET}: GLSL -> SPIR-V (${_shader})"
             VERBATIM)
         add_custom_command(

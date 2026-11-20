@@ -1,0 +1,26 @@
+Bundled 3D scene assets from Poly Haven (https://polyhaven.com)
+License:  CC0 1.0 Universal (Public Domain Dedication)
+          https://creativecommons.org/publicdomain/zero/1.0/
+          Poly Haven publishes every asset under CC0: the authors waived all
+          copyright and related rights, so the assets may be used, modified and
+          redistributed for any purpose without permission or attribution.
+          Credits below are given voluntarily.
+
+Assets in common/assets/raytrace_scene/, used by cpu_raytrace and gpu_path_trace
+(glTF downloads, unmodified):
+
+  Wooden Table 02          https://polyhaven.com/a/wooden_table_02        2k   Serhii Khromov
+  Chess Set                https://polyhaven.com/a/chess_set              1k   Riley Queen
+  Potted Plant 04          https://polyhaven.com/a/potted_plant_04        2k   James Ray Cock
+  Marble Bust 01           https://polyhaven.com/a/marble_bust_01         2k   Rico Cilliers
+  Lantern 01               https://polyhaven.com/a/Lantern_01             2k   Rajil Jose Macatangay
+  Tea Set 01               https://polyhaven.com/a/tea_set_01             2k   James Ray Cock, Rico Cilliers,
+                                                                                Jurita Burger
+  Food Apple 01            https://polyhaven.com/a/food_apple_01          2k   Oliver Harries
+  Brown Photostudio 02     https://polyhaven.com/a/brown_photostudio_02   2k   Sergej Majboroda
+  (HDRI, Radiance .hdr)
+
+scene.json, which arranges these assets, sets the camera and the lighting, is
+part of the task and falls under the task's own license.
+
+No warranty of any kind is expressed or implied for the assets.

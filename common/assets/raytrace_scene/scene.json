@@ -1,0 +1,47 @@
+{
+  "environment": { "file": "brown_photostudio_02_2k.hdr", "intensity": 1.0, "rotation_deg": 0 },
+  "exposure": 0.0,
+  "camera": {
+    "position": [0.0, 1.42, 1.30],
+    "target": [0.02, 0.87, -0.02],
+    "fov_y_deg": 34,
+    "aperture_radius": 0.006
+  },
+  "ground": { "height": 0.0, "size": 20.0, "base_color": [0.32, 0.30, 0.28], "roughness": 0.7 },
+  "material_overrides": {
+    "Lantern_01_brass": { "transmission": 0.0 },
+    "Lantern_01_glass": { "transmission": 1.0, "metallic": 0.0, "roughness": 0.0 }
+  },
+  "instances": [
+    { "model": "wooden_table_02/wooden_table_02_2k.gltf" },
+    { "model": "chess_set/chess_set_1k.gltf", "translation": [0.22, 0.799, -0.05], "rotation_y_deg": 12, "scale": 0.7 },
+    { "model": "potted_plant_04/potted_plant_04_2k.gltf", "translation": [-0.47, 0.799, -0.25], "rotation_y_deg": 30 },
+    { "model": "marble_bust_01/marble_bust_01_2k.gltf", "translation": [-0.22, 0.799, -0.22], "rotation_y_deg": 20 },
+    { "model": "Lantern_01/Lantern_01_2k.gltf", "translation": [0.50, 0.799, -0.27], "rotation_y_deg": 15 },
+    {
+      "model": "tea_set_01/tea_set_01_2k.gltf",
+      "nodes": ["tea_set_01_teapot_01", "tea_set_01_teapot_01_lid"],
+      "translation": [-0.40, 0.799, 0.07],
+      "rotation_y_deg": -35
+    },
+    {
+      "model": "tea_set_01/tea_set_01_2k.gltf",
+      "nodes": ["tea_set_01_plate_large_circular_03"],
+      "translation": [-0.12, 0.800, 0.17]
+    },
+    { "model": "food_apple_01/food_apple_01_2k.gltf", "translation": [-0.16, 0.812, 0.15], "rotation_y_deg": 10 },
+    { "model": "food_apple_01/food_apple_01_2k.gltf", "translation": [-0.07, 0.812, 0.19], "rotation_y_deg": 140 },
+    { "model": "food_apple_01/food_apple_01_2k.gltf", "translation": [-0.30, 0.799, 0.27], "rotation_y_deg": 70 },
+    {
+      "model": "tea_set_01/tea_set_01_2k.gltf",
+      "nodes": ["tea_set_01_saucer_circular_04"],
+      "translation": [0.40, 0.800, 0.22]
+    },
+    {
+      "model": "tea_set_01/tea_set_01_2k.gltf",
+      "nodes": ["tea_set_01_cup_small_01"],
+      "translation": [0.40, 0.811, 0.22],
+      "rotation_y_deg": 40
+    }
+  ]
+}

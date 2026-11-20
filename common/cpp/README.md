@@ -111,3 +111,16 @@ info.emplace_back("pinned", pin.pinned() ? "1" : "0");
 Random access kernels over more than a few MiB (latency chases) need this, otherwise a large share of the steps pays
 for a page walk on top of the access itself. Call `huge_page_bytes()` after `fill()` and report it: on Linux the pages
 are only assigned when they are faulted in.
+
+## [`raytrace/`](raytrace): shared scene of the ray tracing tasks
+
+A compiled static library (not header only), built by `cmake/BlitzRaytraceScene.cmake` and linked as
+`blitz::raytrace_scene` by `cpu_raytrace` and `gpu_path_trace`, so both render exactly the same input:
+
+- `blitz_raytrace/scene.hpp`: `load_scene()` reads `common/assets/raytrace_scene/scene.json` and the glTF models,
+  textures and HDR environment it references (cgltf, stb_image, nlohmann/json) into world space meshes, glTF materials,
+  a sampled environment and the camera. `default_scene_path()` honours the `BLITZ_RAYTRACE_SCENE` override.
+- `blitz_raytrace/image.hpp`: exposure + ACES tonemapping and PNG output for presenting the rendered frame.
+- `blitz_raytrace/vec.hpp`: the small vector, frame and matrix types the CPU renderer and the loader share.
+
+The renderers own their acceleration structures; the library has no Embree or GPU dependency.

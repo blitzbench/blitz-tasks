@@ -1,0 +1,29 @@
+#version 460
+// Live preview: normalizes the accumulation buffer and tonemaps it to RGBA8 with the same curve as
+// blitz_raytrace::tonemap (exposure, ACES fit, sRGB transfer).
+
+layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+
+layout(std430, set = 0, binding = 0) readonly buffer Accum { vec4 accum[]; };
+layout(std430, set = 0, binding = 1) writeonly buffer Preview { uint rgba[]; };
+
+layout(push_constant) uniform Push {
+  uint width;
+  uint height;
+  float scale;  // exp2(exposure) / samples per pixel
+} PC;
+
+float aces(float x) {
+  return clamp((x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14), 0.0, 1.0);
+}
+
+float to_srgb(float c) { return c <= 0.0031308 ? 12.92 * c : 1.055 * pow(c, 1.0 / 2.4) - 0.055; }
+
+void main() {
+  const uvec2 pix = gl_GlobalInvocationID.xy;
+  if (pix.x >= PC.width || pix.y >= PC.height) return;
+  const uint i = pix.y * PC.width + pix.x;
+  const vec3 c = max(accum[i].rgb * PC.scale, vec3(0.0));
+  const uvec3 b = uvec3(round(vec3(to_srgb(aces(c.r)), to_srgb(aces(c.g)), to_srgb(aces(c.b))) * 255.0));
+  rgba[i] = b.r | (b.g << 8) | (b.b << 16) | (0xFFu << 24);
+}

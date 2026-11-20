@@ -8,6 +8,68 @@
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
   },
+  "libraries": [
+    {
+      "name": "Embree",
+      "homepage": "https://www.embree.org",
+      "source": "https://github.com/RenderKit/embree",
+      "version": "4.5.0",
+      "license": "Apache-2.0",
+      "license_file": "third_party/licenses/embree/LICENSE.txt",
+      "linkage": "static",
+      "role": "support",
+      "usage": "Builds the BVH2 (rtcBuildBVH, SAH) that the compute traversal path walks on GPUs without ray query support, before the measurement starts. The ray query and Metal paths do not use it.",
+      "notes": "Built as a static library from the pinned submodule with the internal tasking system, triangle geometry only and runtime ISA dispatch; no source modifications. arm64 builds include Embree's vendored SSE2NEON header (MIT)."
+    },
+    {
+      "name": "cgltf",
+      "homepage": "https://github.com/jkuhlmann/cgltf",
+      "source": "https://github.com/jkuhlmann/cgltf",
+      "version": "1.15",
+      "license": "MIT",
+      "license_file": "third_party/licenses/cgltf/LICENSE",
+      "linkage": "static",
+      "role": "support",
+      "usage": "Parses the glTF models of the bundled scene before the measurement starts.",
+      "notes": "Single header library compiled into the task from the pinned submodule; no source modifications."
+    },
+    {
+      "name": "nlohmann/json",
+      "homepage": "https://json.nlohmann.me",
+      "source": "https://github.com/nlohmann/json",
+      "version": "3.12.0",
+      "license": "MIT",
+      "license_file": "third_party/licenses/nlohmann_json/LICENSE.MIT",
+      "linkage": "static",
+      "role": "support",
+      "usage": "Parses the scene description (scene.json) before the measurement starts.",
+      "notes": "Header only library compiled into the task from the pinned submodule; no source modifications."
+    },
+    {
+      "name": "stb",
+      "homepage": "https://github.com/nothings/stb",
+      "source": "https://github.com/nothings/stb",
+      "version": "stb_image 2.34, stb_image_write 1.19",
+      "license": "MIT OR Unlicense",
+      "license_file": "third_party/licenses/stb/LICENSE",
+      "linkage": "static",
+      "role": "support",
+      "usage": "Decodes the scene textures (JPEG) and the HDR environment map before the measurement, and encodes the rendered frame as PNG afterwards.",
+      "notes": "Single header libraries compiled into the task from the pinned submodule; no source modifications."
+    },
+    {
+      "name": "Poly Haven scene assets",
+      "homepage": "https://polyhaven.com",
+      "source": "https://polyhaven.com/models",
+      "version": "glTF downloads, see license file",
+      "license": "CC0-1.0",
+      "license_file": "third_party/licenses/polyhaven/LICENSE",
+      "linkage": "bundled",
+      "role": "workload",
+      "usage": "The bundled models and HDR environment (common/assets/raytrace_scene/) that make up the rendered scene.",
+      "notes": "Seven models and one HDRI, unmodified, shared with cpu_raytrace; the arrangement in scene.json is part of the task."
+    }
+  ],
   "title": "GPU ray traced rendering",
   "short_description": "Path traced render of a bundled scene on the graphics processor.",
   "structured_text": {
@@ -18,9 +80,9 @@
   },
   "metric": { "id": "metric_fps", "name": "fps", "unit": "fps", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 20.0 },
-    { "machine_type": "desktop",  "value": 45.0 },
-    { "machine_type": "notebook", "value": 18.0 },
+    { "machine_type": "any",      "value": 45.0 },
+    { "machine_type": "desktop",  "value": 125.0 },
+    { "machine_type": "notebook", "value": 40.0 },
     { "machine_type": "mobile",   "value": 5.0 }
   ],
   "weights": {

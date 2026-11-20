@@ -1,0 +1,125 @@
+#version 460
+// Path tracer for devices without ray query support: rays traverse a BVH2 built on the host with Embree's SAH
+// builder, in plain compute.
+#extension GL_GOOGLE_include_directive : require
+
+#include "path_trace_common.glsl"
+
+struct BvhNodeRec {
+  vec4 lmin;  // w: left child, node index or first triangle
+  vec4 lmax;  // w: left triangle count, 0 for an inner node
+  vec4 rmin;
+  vec4 rmax;
+};
+
+struct TriangleRec {
+  vec4 v0;  // w: mesh
+  vec4 e1;  // w: primitive
+  vec4 e2;
+};
+
+layout(std430, set = 0, binding = 9) readonly buffer Nodes { BvhNodeRec nodes[]; };
+layout(std430, set = 0, binding = 10) readonly buffer Triangles { TriangleRec triangles[]; };
+
+const int kStackSize = 32;  // matches the BVH build depth
+
+vec3 safe_inverse(vec3 d) {
+  const float eps = 1e-20;
+  return 1.0 / vec3(abs(d.x) < eps ? (d.x < 0.0 ? -eps : eps) : d.x, abs(d.y) < eps ? (d.y < 0.0 ? -eps : eps) : d.y,
+                    abs(d.z) < eps ? (d.z < 0.0 ? -eps : eps) : d.z);
+}
+
+bool hit_box(vec3 lo, vec3 hi, vec3 origin, vec3 inv_dir, float t_max, out float t_near) {
+  const vec3 t0 = (lo - origin) * inv_dir;
+  const vec3 t1 = (hi - origin) * inv_dir;
+  const vec3 tmin = min(t0, t1), tmax = max(t0, t1);
+  t_near = max(max(tmin.x, tmin.y), max(tmin.z, 0.0));
+  const float t_far = min(min(tmax.x, tmax.y), min(tmax.z, t_max));
+  return t_near <= t_far;
+}
+
+// Moller-Trumbore; u and v are the weights of the second and third vertex.
+bool hit_triangle(uint i, vec3 origin, vec3 dir, float t_max, out float t, out vec2 uv) {
+  const TriangleRec tri = triangles[i];
+  const vec3 e1 = tri.e1.xyz, e2 = tri.e2.xyz;
+  const vec3 pv = cross(dir, e2);
+  const float det = dot(e1, pv);
+  if (det == 0.0) return false;
+  const float inv_det = 1.0 / det;
+  const vec3 tv = origin - tri.v0.xyz;
+  const float u = dot(tv, pv) * inv_det;
+  if (u < 0.0 || u > 1.0) return false;
+  const vec3 qv = cross(tv, e1);
+  const float v = dot(dir, qv) * inv_det;
+  if (v < 0.0 || u + v > 1.0) return false;
+  t = dot(e2, qv) * inv_det;
+  if (t <= 0.0 || t >= t_max) return false;
+  uv = vec2(u, v);
+  return true;
+}
+
+// any_hit: stop at the first intersection (shadow rays).
+bool traverse(vec3 origin, vec3 dir, bool any_hit, out Hit hit) {
+  const vec3 inv_dir = safe_inverse(dir);
+  float t_max = kInfinity;
+  bool found = false;
+  uint stack[kStackSize];
+  int sp = 0;
+  uint node = 0u;
+  while (true) {
+    const BvhNodeRec n = nodes[node];
+    float tl, tr;
+    bool hl = hit_box(n.lmin.xyz, n.lmax.xyz, origin, inv_dir, t_max, tl);
+    bool hr = hit_box(n.rmin.xyz, n.rmax.xyz, origin, inv_dir, t_max, tr);
+    const uint lref = floatBitsToUint(n.lmin.w), lcount = floatBitsToUint(n.lmax.w);
+    const uint rref = floatBitsToUint(n.rmin.w), rcount = floatBitsToUint(n.rmax.w);
+
+    // Leaves are intersected right away, only inner children continue the traversal.
+    for (int side = 0; side < 2; ++side) {
+      const bool is_hit = side == 0 ? hl : hr;
+      const uint count = side == 0 ? lcount : rcount;
+      if (!is_hit || count == 0u) continue;
+      const uint first = side == 0 ? lref : rref;
+      for (uint i = first; i < first + count; ++i) {
+        float t;
+        vec2 uv;
+        if (hit_triangle(i, origin, dir, t_max, t, uv)) {
+          t_max = t;
+          found = true;
+          hit.t = t;
+          hit.mesh = floatBitsToUint(triangles[i].v0.w);
+          hit.prim = floatBitsToUint(triangles[i].e1.w);
+          hit.bary = uv;
+          if (any_hit) return true;
+        }
+      }
+      if (side == 0)
+        hl = false;
+      else
+        hr = false;
+    }
+
+    if (hl && hr) {
+      const bool left_first = tl <= tr;
+      if (sp < kStackSize) stack[sp++] = left_first ? rref : lref;
+      node = left_first ? lref : rref;
+    } else if (hl) {
+      node = lref;
+    } else if (hr) {
+      node = rref;
+    } else {
+      if (sp == 0) break;
+      node = stack[--sp];
+    }
+  }
+  return found;
+}
+
+bool trace_closest(vec3 origin, vec3 dir, out Hit hit) { return traverse(origin, dir, false, hit); }
+
+bool trace_occluded(vec3 origin, vec3 dir) {
+  Hit hit;
+  return traverse(origin, dir, true, hit);
+}
+
+#include "path_trace_main.glsl"

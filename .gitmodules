@@ -10,3 +10,17 @@
 [submodule "external/sqlite"]
 	path = external/sqlite
 	url = https://github.com/sqlite/sqlite.git
+[submodule "external/embree"]
+	path = external/embree
+	url = https://github.com/RenderKit/embree.git
+	shallow = true
+[submodule "external/cgltf"]
+	path = external/cgltf
+	url = https://github.com/jkuhlmann/cgltf.git
+[submodule "external/stb"]
+	path = external/stb
+	url = https://github.com/nothings/stb.git
+[submodule "external/nlohmann_json"]
+	path = external/nlohmann_json
+	url = https://github.com/nlohmann/json.git
+	shallow = true

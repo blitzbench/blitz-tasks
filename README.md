@@ -76,6 +76,19 @@ compiler). A few link a third-party workload library and need more:
 
 - **`disk_asset_load`** links zstd like `cpu_zstd`.
 
+- **`cpu_raytrace`** links Intel Embree (Apache-2.0) from the `external/embree` submodule,
+  built by `common/cpp/cmake/BuildEmbree.cmake` as a static library with its internal
+  tasking system (no TBB, no ISPC). It also compiles the header only libraries cgltf
+  (`external/cgltf`, MIT), nlohmann/json (`external/nlohmann_json`, MIT) and stb
+  (`external/stb`, MIT / public domain). Embree's per-ISA
+  kernels are memory hungry to compile, so keep the build parallelism moderate
+  (e.g. `CMAKE_BUILD_PARALLEL_LEVEL=4`).
+
+- **`gpu_path_trace`** uses the same scene libraries (cgltf, stb, nlohmann/json, from
+  `common/cpp/raytrace`) and builds Embree like `cpu_raytrace`, which provides the BVH builder of
+  its compute fallback for GPUs without ray query support. Its shaders need `glslangValidator`
+  like every Vulkan runner.
+
 ## Disk tasks
 
 Disk tasks measure the storage device behind a directory, so the caller selects one before
@@ -102,6 +115,37 @@ directory, so even a crashed run leaves nothing behind.
 - Free space needed in the target: about 1 GiB for `disk_seq_read`, `disk_seq_write`,
   `disk_rand_read` and `disk_seek`, about 700 MiB for `disk_asset_load` and 256 MiB for
   `disk_db_oltp`.
+
+## Rendered image (`cpu_raytrace`, `gpu_path_trace`)
+
+The ray tracing tasks render the same bundled scene (`common/assets/raytrace_scene`) with the
+same integrator, one on the CPU and one on the GPU, and keep the frame they rendered during
+`run()`, so a host can show it to the user, side by side if it ran both. `CpuRaytrace` and
+`GpuPathTrace` have
+
+```cpp
+blitz::Result writeImage(const std::filesystem::path& path) const;  // tonemapped 8 bit sRGB PNG
+const std::vector<float>& image() const;                           // linear RGB, width() x height()
+float exposure() const;                                            // EV to apply before tonemapping
+```
+
+Like `setTarget`, these are not part of the C ABI; a host constructs the concrete class.
+The image quality grows with the time budget: every tile pass (CPU) or frame (GPU) adds
+samples to the same image, so within the same budget a faster device shows a cleaner picture.
+
+A GUI can also show the image while it converges:
+
+```cpp
+task.setPreview([](const PreviewFrame& f) {  // f.rgba: width x height RGBA8, valid during the call
+  // copy f.rgba and hand it to the UI thread; f.samples_per_pixel, f.elapsed_s for an overlay
+}, 66);                                     // minimum interval in ms, about 15 previews per second
+```
+
+The callback runs on the thread that called `run()` and fires once more with the final frame
+before `on_complete`. The GPU task tonemaps on the device outside the timed interval, so its
+score is unaffected; the CPU task builds the preview on its monitoring thread while the
+workers keep rendering (about 1% of the score at 15 Hz). Runs with previews report
+`preview: on`.
 
 ## Layout
 
