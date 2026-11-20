@@ -44,10 +44,10 @@
   },
   "metric": { "id": "metric_tokens_per_sec", "name": "tokens_per_sec", "unit": "tokens/s", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 80.0 },
-    { "machine_type": "desktop",  "value": 120.0 },
-    { "machine_type": "notebook", "value": 70.0 },
-    { "machine_type": "mobile",   "value": 30.0 }
+    { "machine_type": "any",      "value": 95.0 },
+    { "machine_type": "desktop",  "value": 140.0 },
+    { "machine_type": "notebook", "value": 85.0 },
+    { "machine_type": "mobile",   "value": 40.0 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.2, "explanation": "Some games experiment with local language models for dynamic dialogue." },
