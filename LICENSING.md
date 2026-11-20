@@ -21,7 +21,7 @@ third-party attributions.
 | `blitz-task_cpu_hpc_fft` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_int32_multi` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_int32_single` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
-| `blitz-task_cpu_llm_infer` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_cpu_llm_infer` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | llama.cpp (`MIT`, `static`), Qwen2.5-0.5B-Instruct (GGUF, Q4_K_M) (`Apache-2.0`, `bundled`) |
 | `blitz-task_cpu_raytrace` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | Embree (`Apache-2.0`, `static`), cgltf (`MIT`, `static`), nlohmann/json (`MIT`, `static`), stb (`MIT OR Unlicense`, `static`), Poly Haven scene assets (`CC0-1.0`, `bundled`) |
 | `blitz-task_cpu_zstd` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | zstd (`BSD-3-Clause`, `static`), Moby-Dick (Project Gutenberg #2701) (`CC0-1.0`, `bundled`) |
 | `blitz-task_demo_c` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |

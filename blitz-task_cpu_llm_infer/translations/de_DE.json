@@ -2,7 +2,7 @@
   "lang": "de_DE",
   "name": "cpu_llm_infer",
   "short_description": "Token-Erzeugung aus einem kleinen quantisierten Sprachmodell auf der CPU.",
-  "description": "Erzeugt Text aus einem kleinen quantisierten Sprachmodell, das vollständig auf dem Prozessor läuft, so wie lokale Assistenten auf Maschinen ohne leistungsfähige GPU laufen. Modell, Prompt und Token-Anzahl sind fest, und die Arbeit ist weitgehend dadurch begrenzt, wie schnell die CPU die Modellgewichte bewegen und multiplizieren kann.",
+  "description": "Erzeugt Text mit Qwen2.5 0.5B, einem kleinen, auf 4 Bit quantisierten Sprachmodell, das vollständig auf dem Prozessor läuft, so wie lokale Assistenten auf Maschinen ohne leistungsfähige GPU laufen. Modell, Prompt und die gierige Dekodierung sind fest, und die Arbeit ist weitgehend dadurch begrenzt, wie schnell die CPU die Modellgewichte bewegen und multiplizieren kann.",
   "metric_explanation": "Der Score ist die Anzahl der pro Sekunde erzeugten Tokens bei stetiger Ausgabe, angegeben in Tokens pro Sekunde.",
   "value_interpretation": "„Höher ist besser.“ Mehr Tokens pro Sekunde bedeuten einen reaktionsschnelleren lokalen Assistenten, da Text näher an der Lesegeschwindigkeit erscheint.",
   "reasoning": "Sprachmodelle lokal auszuführen ist inzwischen eine gängige Nutzung, und die CPU-Inferenz ist durch Bandbreite und Vektorrechnung so begrenzt, dass sie die reale Assistentenleistung widerspiegelt.",

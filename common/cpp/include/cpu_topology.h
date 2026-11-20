@@ -9,6 +9,11 @@
 
 #if defined(__linux__)
 #include <unistd.h>
+
+#include <fstream>
+#include <set>
+#include <string>
+#include <utility>
 #endif
 #if defined(__APPLE__)
 #include <sys/sysctl.h>
@@ -166,6 +171,69 @@ inline unsigned core_count() {
   static const unsigned v = [] {
     unsigned n = std::thread::hardware_concurrency();
     return n ? n : 1u;
+  }();
+  return v;
+}
+
+namespace detail {
+
+#if defined(__linux__)
+inline unsigned linux_physical_cores() {
+  std::set<std::pair<long, long>> cores;
+  const unsigned n = std::thread::hardware_concurrency();
+  for (unsigned cpu = 0; cpu < n; ++cpu) {
+    const std::string base = "/sys/devices/system/cpu/cpu" + std::to_string(cpu) + "/topology/";
+    std::ifstream pkg(base + "physical_package_id");
+    std::ifstream core(base + "core_id");
+    long p = -1;
+    long c = -1;
+    if (!(pkg >> p) || !(core >> c)) continue;
+    cores.emplace(p, c);
+  }
+  return static_cast<unsigned>(cores.size());
+}
+#endif
+
+#if defined(_WIN32)
+inline unsigned windows_physical_cores() {
+  DWORD len = 0;
+  if (::GetLogicalProcessorInformationEx(RelationProcessorCore, nullptr, &len) ||
+      ::GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
+    return 0;
+  }
+  std::vector<unsigned char> buf(len);
+  if (!::GetLogicalProcessorInformationEx(
+          RelationProcessorCore, reinterpret_cast<SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX*>(buf.data()), &len)) {
+    return 0;
+  }
+  unsigned cores = 0;
+  for (DWORD off = 0; off < len;) {
+    const auto* info = reinterpret_cast<const SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX*>(buf.data() + off);
+    if (info->Relationship == RelationProcessorCore) ++cores;
+    off += info->Size;
+  }
+  return cores;
+}
+#endif
+
+}  // namespace detail
+
+/**
+ * @fn physical_core_count
+ * @brief Returns the number of physical cores, counting each SMT sibling group once.
+ * @return number of physical cores, or the number of hardware threads if the topology cannot be read.
+ */
+inline unsigned physical_core_count() {
+  static const unsigned v = [] {
+    unsigned n = 0;
+#if defined(__linux__)
+    n = detail::linux_physical_cores();
+#elif defined(__APPLE__)
+    n = static_cast<unsigned>(detail::sysctl_u64("hw.physicalcpu"));
+#elif defined(_WIN32)
+    n = detail::windows_physical_cores();
+#endif
+    return n ? n : core_count();
   }();
   return v;
 }

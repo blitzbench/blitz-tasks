@@ -2,7 +2,7 @@
   "lang": "es_ES",
   "name": "cpu_llm_infer",
   "short_description": "Generación de tokens a partir de un modelo de lenguaje pequeño cuantizado en la CPU.",
-  "description": "Genera texto a partir de un modelo de lenguaje pequeño cuantizado que se ejecuta íntegramente en el procesador, tal y como funcionan los asistentes locales en máquinas sin una GPU capaz. El modelo, el prompt y el número de tokens son fijos, y el trabajo está limitado en gran medida por la rapidez con la que la CPU puede mover y multiplicar los pesos del modelo.",
+  "description": "Genera texto con Qwen2.5 0.5B, un modelo de lenguaje pequeño cuantizado a 4 bits que se ejecuta íntegramente en el procesador, tal y como funcionan los asistentes locales en máquinas sin una GPU capaz. El modelo, el prompt y la decodificación voraz son fijos, y el trabajo está limitado en gran medida por la rapidez con la que la CPU puede mover y multiplicar los pesos del modelo.",
   "metric_explanation": "La puntuación es el número de tokens generados por segundo durante una salida estable, expresado en tokens por segundo.",
   "value_interpretation": "Cuanto más alto, mejor. Más tokens por segundo significan un asistente local más receptivo, ya que el texto aparece más cerca de la velocidad de lectura.",
   "reasoning": "Ejecutar modelos de lenguaje localmente es ya un uso generalizado, y la inferencia en la CPU está limitada por el ancho de banda de memoria y las matemáticas vectoriales de un modo que refleja el rendimiento real de un asistente.",

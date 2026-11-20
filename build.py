@@ -19,6 +19,10 @@ With `--build-examples`, the per-task sample CLI app is also built (Rust:
 `cargo build --release --examples`; C/C++: `-DBUILD_SAMPLE_APP=1`) and the
 resulting executables are copied into `<out-dir>/<mode>/<task>/examples/`.
 
+Shared libraries a C/C++ task loads at runtime in both build modes (written
+to `<build>/bin` by cpu_llm_infer's llama.cpp build) are copied next to the
+task library and, with `--build-examples`, next to the sample executables.
+
 The framework crates `task-lib/rust`, `task-lib/c`, and `task-lib/cpp`
 are built automatically when any task depends on them (cargo / cmake
 handles transitive deps). The wire-protocol runtime that drives tasks
@@ -115,11 +119,17 @@ def build_cmake_task(
     dest.mkdir(parents=True, exist_ok=True)
     copied = _copy_artifacts(build_dir, dest, CMAKE_LIB_EXT[mode])
     log(f"  -> {copied} artifact(s) -> {dest}")
+    runtime_dests = [dest]
     if build_examples:
         examples_src = build_dir / "app"
         examples_dest = dest / "examples"
         n = _copy_executables(examples_src, examples_dest)
         log(f"  -> {n} example(s) -> {examples_dest}")
+        runtime_dests.append(examples_dest)
+    for runtime_dest in runtime_dests:
+        n = _copy_runtime(build_dir / "bin", runtime_dest)
+        if n:
+            log(f"  -> {n} runtime file(s) -> {runtime_dest}")
 
 
 def _copy_artifacts(src_dir: Path, dest: Path, suffixes: list[str]) -> int:
@@ -130,6 +140,36 @@ def _copy_artifacts(src_dir: Path, dest: Path, suffixes: list[str]) -> int:
         if any(path.name.endswith(suf) for suf in suffixes):
             shutil.copy2(path, dest / path.name)
             count += 1
+    return count
+
+
+def _copy_runtime(src_dir: Path, dest: Path) -> int:
+    """Copy the shared libraries a task loads at runtime from `<build>/bin`.
+
+    Tasks that ship shared dependencies in both build modes (cpu_llm_infer's
+    llama.cpp/ggml libraries and CPU backend modules) write them there. A
+    multi-config generator adds a `Release/` level. Symlinks (`libfoo.so.1`
+    -> `libfoo.so.1.0.0`) are kept as links.
+    """
+    for candidate in (src_dir / "Release", src_dir):
+        if candidate.is_dir():
+            src_dir = candidate
+            break
+    else:
+        return 0
+    dest.mkdir(parents=True, exist_ok=True)
+    count = 0
+    for path in sorted(src_dir.iterdir()):
+        if path.is_dir():
+            continue
+        target = dest / path.name
+        if target.is_symlink() or target.exists():
+            target.unlink()
+        if path.is_symlink():
+            target.symlink_to(os.readlink(path))
+        else:
+            shutil.copy2(path, target)
+        count += 1
     return count
 
 

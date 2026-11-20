@@ -84,6 +84,14 @@ compiler). A few link a third-party workload library and need more:
   kernels are memory hungry to compile, so keep the build parallelism moderate
   (e.g. `CMAKE_BUILD_PARALLEL_LEVEL=4`).
 
+- **`cpu_llm_infer`** links llama.cpp (MIT) from the `external/llama.cpp` submodule, built by
+  `common/cpp/cmake/BuildLlamaCpp.cmake`. ggml picks its CPU kernels at runtime only when every ISA
+  variant is a separate backend module, so llama, ggml, ggml-base and the `ggml-cpu-<variant>`
+  modules are shared libraries in both build modes and have to ship next to the task (`build.py`
+  copies them from `<build>/bin`). The Qwen2.5-0.5B model (Apache-2.0, about 490 MB) is downloaded
+  once at configure time into `common/assets/models/` and verified by SHA256; pass
+  `-DBLITZ_LLM_MODEL_FILE=<path>` to build offline.
+
 - **`gpu_path_trace`** uses the same scene libraries (cgltf, stb, nlohmann/json, from
   `common/cpp/raytrace`) and builds Embree like `cpu_raytrace`, which provides the BVH builder of
   its compute fallback for GPUs without ray query support. Its shaders need `glslangValidator`

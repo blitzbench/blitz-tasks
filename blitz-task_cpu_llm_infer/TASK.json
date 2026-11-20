@@ -5,22 +5,49 @@
   "benchmark_type": "real_world",
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
-    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"
+    "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt",
+    "notes": "Task source stays source-available; llama.cpp is MIT and the Qwen2.5 model weights are Apache-2.0 (both permissive), so neither imposes copyleft."
   },
+  "libraries": [
+    {
+      "name": "llama.cpp",
+      "homepage": "https://github.com/ggml-org/llama.cpp",
+      "source": "https://github.com/ggml-org/llama.cpp",
+      "version": "b12560",
+      "license": "MIT",
+      "license_file": "third_party/licenses/llama.cpp/LICENSE",
+      "linkage": "static",
+      "role": "workload",
+      "usage": "Loads the bundled GGUF model and runs it on the CPU through ggml; the greedy token generation loop (one llama_process call per token) is the measured workload.",
+      "notes": "Built from the pinned submodule without source modifications. llama, ggml and ggml-base are shared libraries and every CPU ISA variant is a separate ggml-cpu backend module (GGML_BACKEND_DL with GGML_CPU_ALL_VARIANTS); all of them ship next to the task in both build modes and the task loads the best CPU module at runtime. Includes llamafile's sgemm (MIT, Mozilla Foundation)."
+    },
+    {
+      "name": "Qwen2.5-0.5B-Instruct (GGUF, Q4_K_M)",
+      "homepage": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct",
+      "source": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+      "version": "9217f5db79a29953eb74d5343926648285ec7e67",
+      "license": "Apache-2.0",
+      "license_file": "third_party/licenses/qwen2.5/LICENSE",
+      "linkage": "bundled",
+      "role": "workload",
+      "usage": "The language model whose weights the measured generation loop streams and multiplies (qwen2.5-0.5b-instruct-q4_k_m.gguf).",
+      "notes": "Downloaded at build time from the pinned revision and verified by SHA256; redistributed unmodified."
+    }
+  ],
   "title": "Local language model on CPU",
   "short_description": "Token generation from a small quantised language model on the CPU.",
   "structured_text": {
-    "description": "Generates text from a small quantised language model running entirely on the processor, the way local assistants run on machines without a capable GPU. The model, prompt and number of tokens are fixed, and the work is largely bound by how fast the CPU can move and multiply the model weights.",
+    "description": "Generates text from Qwen2.5 0.5B, a small language model quantised to 4 bits, running entirely on the processor, the way local assistants run on machines without a capable GPU. The model, prompt and greedy decoding are fixed, and the work is largely bound by how fast the CPU can move and multiply the model weights.",
     "metric_explanation": "The score is the number of tokens generated per second during steady output, reported in tokens per second.",
     "value_interpretation": "Higher is better. More tokens per second means a more responsive local assistant, since text appears closer to reading speed.",
     "reasoning": "Running language models locally is now a mainstream use, and CPU inference is bound by memory bandwidth and vector math in a way that reflects real assistant performance."
   },
   "metric": { "id": "metric_tokens_per_sec", "name": "tokens_per_sec", "unit": "tokens/s", "direction": "higher_is_better" },
   "baselines": [
-    { "machine_type": "any",      "value": 18.0 },
-    { "machine_type": "desktop",  "value": 30.0 },
-    { "machine_type": "notebook", "value": 16.0 },
-    { "machine_type": "mobile",   "value": 7.0 }
+    { "machine_type": "any",      "value": 80.0 },
+    { "machine_type": "desktop",  "value": 120.0 },
+    { "machine_type": "notebook", "value": 70.0 },
+    { "machine_type": "mobile",   "value": 30.0 }
   ],
   "weights": {
     "domain_gaming":               { "weight": 0.2, "explanation": "Some games experiment with local language models for dynamic dialogue." },

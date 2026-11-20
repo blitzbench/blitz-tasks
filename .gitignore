@@ -28,3 +28,6 @@ __pycache__/
 **/build/
 **/cmake-build-release/
 **/cmake-build-debug/
+
+# Downloaded at build time (cpu_llm_infer model)
+common/assets/models/

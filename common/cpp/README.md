@@ -100,6 +100,12 @@ bench::ScopedPin pin(logical_cpu);
 info.emplace_back("pinned", pin.pinned() ? "1" : "0");
 ```
 
+## [`cpu_topology.h`](include/cpu_topology.h)
+
+Cache and core counts: `llc_bytes()`, `cache_line_bytes()`, `core_count()` (hardware threads) and
+`physical_core_count()` (physical cores, read from sysfs on Linux, `hw.physicalcpu` on macOS and
+`GetLogicalProcessorInformationEx` on Windows, falling back to the hardware thread count).
+
 ## [`bench_buffer.h`](include/bench_buffer.h): huge pages
 
 `bench::Buffer(bytes, bench::PageHint::Huge)` requests 2 MiB pages and silently falls back to normal pages:
