@@ -1,11 +1,11 @@
 {
   "lang": "es_ES",
   "name": "cpu_cad_solver",
-  "short_description": "Resolución dispersa por elementos finitos sobre un modelo de ingeniería fijo.",
-  "description": "Resuelve un modelo de elementos finitos incluido tal y como lo hacen las herramientas de simulación de ingeniería, ensamblando un gran sistema disperso y ejecutando un solver iterativo hasta la convergencia en todos los núcleos. El modelo y las tolerancias son fijos para que los resultados se comparen directamente entre máquinas.",
-  "metric_explanation": "La puntuación es el número de iteraciones del solver completadas por segundo, expresado como operaciones por segundo, lo que refleja la rapidez con la que la simulación llega a una respuesta.",
-  "value_interpretation": "Cuanto más alto, mejor. Más iteraciones por segundo significan ciclos de diseño más rápidos, ya que los ingenieros esperan a estos cálculos entre cada cambio.",
-  "reasoning": "Los solvers dispersos exigen accesos a memoria irregulares y matemáticas de doble precisión con el patrón que utilizan las herramientas reales de CAD e ingeniería, por lo que esto refleja el rendimiento de simulación mucho mejor que una prueba de rendimiento limpia.",
+  "short_description": "Análisis de tensiones por elementos finitos de un soporte de acero en todos los núcleos.",
+  "description": "Ejecuta un análisis estático de tensiones de un soporte de montaje de acero incluido, igual que las herramientas de simulación de ingeniería. Cada resolución ensambla la matriz de rigidez de una malla de tetraedros cuadráticos con unas 80.000 incógnitas, construye un precondicionador multimalla algebraico y ejecuta un gradiente conjugado hasta una tolerancia estricta, todo en todos los núcleos. El modelo, las cargas y las tolerancias son fijos, y cada resultado se comprueba con la solución de referencia, por lo que las puntuaciones se comparan directamente entre equipos.",
+  "metric_explanation": "La puntuación es el número de resoluciones completas por minuto, desde el ensamblaje hasta el campo de desplazamientos convergido.",
+  "value_interpretation": "Más alto es mejor. Más resoluciones por minuto significa ciclos de diseño más rápidos, ya que los ingenieros esperan estos cálculos entre cada cambio.",
+  "reasoning": "Los solucionadores dispersos exigen accesos irregulares a memoria, ancho de banda de memoria y cálculo de doble precisión con el patrón de las herramientas reales de CAD e ingeniería. El gradiente conjugado precondicionado con multimalla algebraico es el método iterativo estándar para modelos estructurales grandes, por lo que esta prueba refleja el rendimiento de simulación mucho mejor que una prueba de rendimiento pura.",
   "weights": {
     "domain_gaming": {
       "explanation": "La física de los juegos comparte la idea del solucionador iterativo, aunque con una precisión mucho menor."

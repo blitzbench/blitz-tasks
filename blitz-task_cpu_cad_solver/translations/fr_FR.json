@@ -1,11 +1,11 @@
 {
   "lang": "fr_FR",
   "name": "cpu_cad_solver",
-  "short_description": "Résolution par éléments finis creux sur un modèle d'ingenierie fixe.",
-  "description": "Résout un modèle par éléments finis fourni de la manière dont procèdent les outils de simulation d'ingénierie, en assemblant un grand système creux et en exécutant un solveur itératif jusqu'à convergence sur tous les cœurs. Le modèle et les tolérances sont fixes afin que les résultats soient directement comparables d'une machine à l'autre.",
-  "metric_explanation": "Le score correspond au nombre d'itérations du solveur effectuées par seconde, exprimé en opérations par seconde, ce qui traduit la rapidité avec laquelle la simulation parvient à une solution.",
-  "value_interpretation": "Plus la valeur est élevée, mieux c'est. Davantage d'itérations par seconde signifie des cycles de conception plus rapides, car les ingénieurs attendent ces résolutions entre chaque modification.",
-  "reasoning": "Les solveurs creux sollicitent l'accès mémoire irrégulier et le calcul en double précision selon le schéma qu'emploient les véritables outils de CAO et d'ingénierie ; cette mesure reflète donc les performances de simulation bien mieux qu'un test de débit épuré.",
+  "short_description": "Analyse de contraintes par éléments finis d'une équerre en acier sur tous les cœurs.",
+  "description": "Réalise une analyse statique des contraintes d'une équerre de fixation en acier fournie, comme le font les outils de simulation d'ingénierie. Chaque résolution assemble la matrice de rigidité d'un maillage de tétraèdres quadratiques d'environ 80 000 inconnues, construit un préconditionneur multigrille algébrique et exécute un gradient conjugué jusqu'à une tolérance stricte, le tout sur tous les cœurs. Le modèle, les charges et les tolérances sont fixes et chaque résultat est vérifié par rapport à la solution de référence, si bien que les scores se comparent directement d'une machine à l'autre.",
+  "metric_explanation": "Le score est le nombre de résolutions complètes par minute, de l'assemblage jusqu'au champ de déplacements convergé.",
+  "value_interpretation": "Plus c'est élevé, mieux c'est. Plus de résolutions par minute signifie des cycles de conception plus rapides, car les ingénieurs attendent ces calculs entre chaque modification.",
+  "reasoning": "Les solveurs creux sollicitent les accès mémoire irréguliers, la bande passante mémoire et le calcul en double précision selon le schéma des vrais outils de CAO et d'ingénierie. Le gradient conjugué préconditionné par multigrille algébrique est la méthode itérative standard pour les grands modèles de structure, ce test reflète donc bien mieux les performances de simulation qu'un simple test de débit.",
   "weights": {
     "domain_gaming": {
       "explanation": "La physique de jeu reprend le principe du solveur itératif, mais à une précision bien moindre."

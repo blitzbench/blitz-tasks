@@ -1,11 +1,11 @@
 {
   "lang": "it_IT",
   "name": "cpu_cad_solver",
-  "short_description": "Risoluzione a elementi finiti sparsi su un modello ingegneristico fisso.",
-  "description": "Risolve un modello a elementi finiti incluso come fanno gli strumenti di simulazione ingegneristica, assemblando un ampio sistema sparso ed eseguendo un solver iterativo fino alla convergenza su tutti i core. Il modello e le tolleranze sono fissi, così i risultati sono direttamente confrontabili tra le macchine.",
-  "metric_explanation": "Il punteggio è il numero di iterazioni del solver completate al secondo, riportato come operazioni al secondo, e indica la rapidità con cui la simulazione giunge a un risultato.",
-  "value_interpretation": "Più alto è, meglio è. Più iterazioni al secondo significano cicli di progettazione più rapidi, poiché gli ingegneri attendono queste risoluzioni tra una modifica e l'altra.",
-  "reasoning": "I solver sparsi mettono sotto stress l'accesso irregolare alla memoria e i calcoli in precisione doppia secondo lo schema usato dai reali strumenti CAD e ingegneristici, quindi questo riflette le prestazioni di simulazione molto meglio di un test di throughput lineare.",
+  "short_description": "Analisi delle sollecitazioni agli elementi finiti di una staffa in acciaio su tutti i core.",
+  "description": "Esegue un'analisi statica delle sollecitazioni di una staffa di montaggio in acciaio inclusa, come fanno gli strumenti di simulazione ingegneristica. Ogni risoluzione assembla la matrice di rigidezza di una mesh di tetraedri quadratici con circa 80.000 incognite, costruisce un precondizionatore multigrid algebrico ed esegue un gradiente coniugato fino a una tolleranza stretta, il tutto su tutti i core. Modello, carichi e tolleranze sono fissi e ogni risultato viene confrontato con la soluzione di riferimento, quindi i punteggi si confrontano direttamente tra macchine diverse.",
+  "metric_explanation": "Il punteggio è il numero di risoluzioni complete al minuto, dall'assemblaggio al campo di spostamenti a convergenza.",
+  "value_interpretation": "Più alto è meglio. Più risoluzioni al minuto significano cicli di progettazione più rapidi, perché gli ingegneri attendono questi calcoli tra una modifica e l'altra.",
+  "reasoning": "I risolutori sparsi mettono alla prova accessi irregolari alla memoria, banda di memoria e calcolo in doppia precisione secondo lo schema dei veri strumenti CAD e di ingegneria. Il gradiente coniugato precondizionato con multigrid algebrico è il metodo iterativo standard per i grandi modelli strutturali, quindi questo test rispecchia le prestazioni di simulazione molto meglio di un semplice test di throughput.",
   "weights": {
     "domain_gaming": {
       "explanation": "La fisica dei giochi condivide l'idea del solver iterativo, seppur con una precisione molto inferiore."

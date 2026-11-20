@@ -1,11 +1,11 @@
 {
   "lang": "pt_PT",
   "name": "cpu_cad_solver",
-  "short_description": "Resolução de elementos finitos esparsos sobre um modelo de engenharia fixo.",
-  "description": "Resolve um modelo de elementos finitos incluído tal como o fazem as ferramentas de simulação de engenharia, montando um grande sistema esparso e executando um resolvedor iterativo até à convergência em todos os núcleos. O modelo e as tolerâncias são fixos, de modo a que os resultados se comparem diretamente entre máquinas.",
-  "metric_explanation": "A pontuação é o número de iterações do resolvedor concluídas por segundo, indicado como operações por segundo, o que reflete a rapidez com que a simulação chega a uma resposta.",
-  "value_interpretation": "Quanto maior, melhor. Mais iterações por segundo significam ciclos de projeto mais rápidos, uma vez que os engenheiros esperam por estas resoluções entre cada alteração.",
-  "reasoning": "Os resolvedores esparsos exigem muito do acesso irregular à memória e da matemática de precisão dupla no padrão que as ferramentas reais de CAD e engenharia usam, pelo que isto reflete o desempenho de simulação muito melhor do que um teste de débito limpo.",
+  "short_description": "Análise de tensões por elementos finitos de um suporte de aço em todos os núcleos.",
+  "description": "Executa uma análise estática de tensões de um suporte de montagem em aço incluído, tal como fazem as ferramentas de simulação de engenharia. Cada resolução monta a matriz de rigidez de uma malha de tetraedros quadráticos com cerca de 80 000 incógnitas, constrói um pré-condicionador multigrelha algébrico e executa um gradiente conjugado até uma tolerância apertada, tudo em todos os núcleos. O modelo, as cargas e as tolerâncias são fixos e cada resultado é verificado contra a solução de referência, pelo que as pontuações se comparam diretamente entre máquinas.",
+  "metric_explanation": "A pontuação é o número de resoluções completas por minuto, desde a montagem até ao campo de deslocamentos convergido.",
+  "value_interpretation": "Mais alto é melhor. Mais resoluções por minuto significa ciclos de projeto mais rápidos, já que os engenheiros esperam por estes cálculos entre cada alteração.",
+  "reasoning": "Os solvers esparsos exigem acessos irregulares à memória, largura de banda de memória e cálculo em precisão dupla segundo o padrão das ferramentas reais de CAD e engenharia. O gradiente conjugado pré-condicionado com multigrelha algébrica é o método iterativo padrão para grandes modelos estruturais, pelo que este teste reflete o desempenho de simulação muito melhor do que um teste de débito puro.",
   "weights": {
     "domain_gaming": {
       "explanation": "A física dos jogos partilha a ideia do solver iterativo, ainda que com precisão muito menor."

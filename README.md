@@ -97,6 +97,19 @@ compiler). A few link a third-party workload library and need more:
   its compute fallback for GPUs without ray query support. Its shaders need `glslangValidator`
   like every Vulkan runner.
 
+- **`cpu_hpc_fft`** compiles the header only PocketFFT (BSD-3-Clause, `external/pocketfft`) into
+  every SIMD tier, each under its own namespace. MSVC lacks the GCC vector extensions PocketFFT
+  vectorizes with, so MSVC builds run its scalar code; build Windows with clang-cl for comparable
+  scores.
+
+- **`cpu_cad_solver`** compiles the header only AMGCL (MIT, `external/amgcl`), which parallelizes
+  with OpenMP. `common/cpp/cmake/BlitzOpenMP.cmake` uses the compiler's OpenMP runtime (libgomp,
+  linked dynamically, vcomp on MSVC). AppleClang ships none, so on macOS LLVM's libomp is built
+  as a static library from the `external/llvm-project` submodule (shallow, only `openmp/` is
+  built); `-DBLITZ_BUNDLED_LIBOMP=ON` forces that path elsewhere. The finite element model
+  `assets/bracket.mesh` is generated offline by `tools/gen_model.py` with gmsh, which is not
+  needed to build or run the task.
+
 ## Disk tasks
 
 Disk tasks measure the storage device behind a directory, so the caller selects one before

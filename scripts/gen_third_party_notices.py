@@ -128,10 +128,21 @@ def classify_single(spdx_id: str) -> int:
 
 
 def spdx_ids(expression: str) -> list[str]:
-    """Split an SPDX expression into its license ids (ignoring operators)."""
+    """Split an SPDX expression into its license ids (ignoring operators).
+
+    The id after ``WITH`` names an exception, which only grants extra permissions on top of the license before it
+    (e.g. ``Apache-2.0 WITH LLVM-exception``), so it is not a license id of its own and is skipped.
+    """
     ids = []
+    skip_exception = False
     for token in expression.replace("(", " ").replace(")", " ").split():
-        if token in ("AND", "OR", "WITH"):
+        if skip_exception:
+            skip_exception = False
+            continue
+        if token == "WITH":
+            skip_exception = True
+            continue
+        if token in ("AND", "OR"):
             continue
         ids.append(token)
     return ids

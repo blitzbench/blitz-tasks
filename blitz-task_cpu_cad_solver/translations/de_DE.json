@@ -1,11 +1,11 @@
 {
   "lang": "de_DE",
   "name": "cpu_cad_solver",
-  "short_description": "Dünnbesetzte Finite-Elemente-Lösung über ein festes Ingenieurmodell.",
-  "description": "Löst ein mitgeliefertes Finite-Elemente-Modell so, wie es Werkzeuge zur Ingenieursimulation tun: Es baut ein großes dünnbesetztes System auf und führt einen iterativen Solver über alle Kerne bis zur Konvergenz aus. Modell und Toleranzen sind fest, sodass sich die Ergebnisse direkt zwischen Maschinen vergleichen lassen.",
-  "metric_explanation": "Der Score ist die Anzahl der pro Sekunde abgeschlossenen Solver-Iterationen, angegeben als Operationen pro Sekunde, was verfolgt, wie schnell die Simulation zu einem Ergebnis gelangt.",
-  "value_interpretation": "„Höher ist besser.“ Mehr Iterationen pro Sekunde bedeuten schnellere Entwurfszyklen, da Ingenieure zwischen jeder Änderung auf diese Berechnungen warten.",
-  "reasoning": "Dünnbesetzte Solver belasten unregelmäßige Speicherzugriffe und doppelte Genauigkeit in dem Muster, das reale CAD- und Ingenieurwerkzeuge verwenden, weshalb dies die Simulationsleistung weit besser widerspiegelt als ein sauberer Durchsatztest.",
+  "short_description": "Finite-Elemente-Spannungsanalyse einer Stahlkonsole über alle Kerne.",
+  "description": "Führt eine statische Spannungsanalyse einer mitgelieferten Montagekonsole aus Stahl durch, so wie es Werkzeuge für technische Simulation tun. Jeder Lösungsdurchlauf baut die Steifigkeitsmatrix eines quadratischen Tetraedernetzes mit rund 80.000 Unbekannten auf, erstellt einen algebraischen Mehrgitter-Vorkonditionierer und führt ein CG-Verfahren bis zu einer engen Toleranz aus, alles auf allen Kernen. Modell, Lasten und Toleranzen sind fest vorgegeben, und jedes Ergebnis wird mit der Referenzlösung abgeglichen, sodass sich die Werte direkt zwischen Rechnern vergleichen lassen.",
+  "metric_explanation": "Der Score ist die Anzahl vollständiger Lösungsdurchläufe pro Minute, vom Aufbau der Matrix bis zum konvergierten Verschiebungsfeld.",
+  "value_interpretation": "Höher ist besser. Mehr Lösungen pro Minute bedeuten schnellere Entwurfszyklen, da Ingenieure nach jeder Änderung auf diese Berechnungen warten.",
+  "reasoning": "Dünnbesetzte Löser belasten unregelmäßige Speicherzugriffe, Speicherbandbreite und Mathematik mit doppelter Genauigkeit im Muster echter CAD- und Ingenieurwerkzeuge. Das CG-Verfahren mit algebraischem Mehrgitter-Vorkonditionierer ist die Standardmethode für große Strukturmodelle, daher spiegelt dieser Test die Simulationsleistung weit besser wider als ein reiner Durchsatztest.",
   "weights": {
     "domain_gaming": {
       "explanation": "Spielephysik teilt das Prinzip des iterativen Solvers, allerdings bei weitaus geringerer Genauigkeit."

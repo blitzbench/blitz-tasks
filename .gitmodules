@@ -32,3 +32,10 @@
 	path = external/pocketfft
 	url = https://github.com/mreineck/pocketfft.git
 	branch = cpp
+[submodule "external/amgcl"]
+	path = external/amgcl
+	url = https://github.com/ddemidov/amgcl.git
+[submodule "external/llvm-project"]
+	path = external/llvm-project
+	url = https://github.com/llvm/llvm-project.git
+	shallow = true

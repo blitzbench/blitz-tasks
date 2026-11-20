@@ -10,7 +10,7 @@ third-party attributions.
 |---|---|---|
 | `blitz-task_cpu_audio_dsp` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_cache_latency` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
-| `blitz-task_cpu_cad_solver` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
+| `blitz-task_cpu_cad_solver` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | AMGCL (`MIT`, `static`), LLVM OpenMP runtime (libomp) (`Apache-2.0 WITH LLVM-exception`, `static`) |
 | `blitz-task_cpu_compile` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | - |
 | `blitz-task_cpu_crypto_aes` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | OpenSSL (`Apache-2.0`, `static`) |
 | `blitz-task_cpu_crypto_chacha` | [`LicenseRef-BlitzBench-Source-Available`](LICENSES/LicenseRef-BlitzBench-Source-Available.txt) | OpenSSL (`Apache-2.0`, `static`) |
