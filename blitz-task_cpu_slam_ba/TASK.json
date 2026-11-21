@@ -3,6 +3,7 @@
   "name": "cpu_slam_ba",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "cpu": 0.65, "ram": 0.35 },
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"

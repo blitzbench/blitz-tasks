@@ -3,6 +3,7 @@
   "name": "gpu_vision_infer",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "gpu": 0.8, "cpu": 0.2 },
   "gpu_requires": ["fp16"],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",

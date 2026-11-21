@@ -3,6 +3,7 @@
   "name": "cpu_crypto_sign",
   "component": "cpu",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "cpu": 1.0 },
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt"

@@ -2,7 +2,7 @@
 """Validate per-task metadata and generate license reports.
 
 Scans every ``blitz-task_*/TASK.json`` (``license``, ``libraries`` and
-``gpu_requires``) and ``third_party/infrastructure.json``, validates the
+``gpu_requires``, ``component_sensitivity``) and ``third_party/infrastructure.json``, validates the
 metadata, and generates:
 
 - ``THIRD_PARTY_NOTICES.md`` — attribution: every third-party library with
@@ -24,7 +24,10 @@ Checks (errors fail the run; warnings are printed but do not fail):
 - no orphans: every ``third_party/licenses/*`` dir and every ``LICENSES/*``
   file is referenced from somewhere;
 - every GPU task (``"component": "gpu"``) declares ``gpu_requires``, an array of
-  distinct capability tokens from ``GPU_CAPABILITIES``; no other task carries it.
+  distinct capability tokens from ``GPU_CAPABILITIES``; no other task carries it;
+- every real-world task declares ``component_sensitivity`` (optional on synthetic
+  tasks): an object mapping components from ``COMPONENTS`` to shares in (0, 1]
+  that sum to 1 and include the task's own ``component``.
 
 Usage:
     scripts/gen_third_party_notices.py            # validate + (re)generate
@@ -314,6 +317,33 @@ def validate_gpu_requires(task: dict, report: Report) -> None:
         report.error(f"{rel}: gpu_requires lists {duplicates} more than once")
 
 
+COMPONENTS = ("cpu", "gpu", "ram", "disk")
+
+
+def validate_component_sensitivity(task: dict, report: Report) -> None:
+    rel = task["_path"]
+    if "component_sensitivity" not in task:
+        if task.get("benchmark_type") == "real_world":
+            report.error(f"{rel}: real-world task is missing required 'component_sensitivity'")
+        return
+    sens = task["component_sensitivity"]
+    if not isinstance(sens, dict) or not sens:
+        report.error(f"{rel}: 'component_sensitivity' must be a non-empty object")
+        return
+    for comp, share in sens.items():
+        if comp not in COMPONENTS:
+            report.error(f"{rel}: component_sensitivity key {comp!r} not in {COMPONENTS}")
+        if isinstance(share, bool) or not isinstance(share, (int, float)) or not 0 < share <= 1:
+            report.error(f"{rel}: component_sensitivity[{comp!r}] must be a number in (0, 1]")
+            return
+    if task.get("component") not in sens:
+        report.error(f"{rel}: component_sensitivity must include the task's own component "
+                     f"{task.get('component')!r}")
+    total = sum(sens.values())
+    if abs(total - 1.0) > 1e-6:
+        report.error(f"{rel}: component_sensitivity shares sum to {total:g}, expected 1")
+
+
 def validate_cross_task(tasks: list[dict], report: Report) -> None:
     seen: dict[str, tuple] = {}
     for task in tasks:
@@ -477,6 +507,7 @@ def main() -> int:
     for task in tasks:
         validate_task_license(task, report)
         validate_gpu_requires(task, report)
+        validate_component_sensitivity(task, report)
         libs = task.get("libraries", [])
         if not isinstance(libs, list):
             report.error(f"{task['_path']}: 'libraries' must be an array")

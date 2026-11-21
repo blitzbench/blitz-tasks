@@ -3,6 +3,7 @@
   "name": "gpu_stereo_depth",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "gpu": 0.9, "cpu": 0.1 },
   "gpu_requires": [],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",

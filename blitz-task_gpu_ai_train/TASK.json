@@ -3,6 +3,7 @@
   "name": "gpu_ai_train",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "gpu": 0.85, "cpu": 0.15 },
   "gpu_requires": [],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",

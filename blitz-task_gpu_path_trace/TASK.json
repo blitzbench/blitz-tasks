@@ -3,6 +3,7 @@
   "name": "gpu_path_trace",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "gpu": 1.0 },
   "gpu_requires": [],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",

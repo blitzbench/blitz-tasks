@@ -3,6 +3,7 @@
   "name": "gpu_diffusion",
   "component": "gpu",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "gpu": 0.95, "cpu": 0.05 },
   "gpu_requires": [],
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",

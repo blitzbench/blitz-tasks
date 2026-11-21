@@ -265,14 +265,31 @@ they cannot run without:
   "gpu_requires": ["fp64"]
   ```
 
-After touching any license metadata or `gpu_requires`, run
+Real-world tasks additionally declare which components limit them:
+
+- **`component_sensitivity`** (required on real-world tasks, optional on
+  synthetic ones) — an object mapping components (`cpu`, `gpu`, `ram`, `disk`)
+  to the share of the result explained by that component. Shares are in
+  `(0, 1]`, sum to 1, and must include the task's own `component` (which stays
+  the *primary* component: folder name, `gpu_requires`, TaskInfo). Absent means
+  `{ "<component>": 1.0 }`. It is metadata, not a scoring input for the task's
+  own result: the server counts only synthetic tasks toward component scores
+  and uses the shares to explain results ("held back by RAM") and to predict
+  real-world tasks from component scores. The hand-authored values are a prior,
+  to be refitted from results data later.
+
+  ```json
+  "component_sensitivity": { "cpu": 0.35, "ram": 0.65 }
+  ```
+
+After touching any license metadata, `gpu_requires` or `component_sensitivity`, run
 
 ```
 python3 scripts/gen_third_party_notices.py
 ```
 
 to re-validate (existence of license texts, cross-task consistency,
-task-vs-library license compatibility, `gpu_requires` tokens) and regenerate
+task-vs-library license compatibility, `gpu_requires` tokens, `component_sensitivity` shares) and regenerate
 `THIRD_PARTY_NOTICES.md` and `LICENSING.md`. CI can use `--check`.
 
 ## License

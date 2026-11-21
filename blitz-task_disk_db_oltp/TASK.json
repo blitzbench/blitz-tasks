@@ -3,6 +3,7 @@
   "name": "disk_db_oltp",
   "component": "disk",
   "benchmark_type": "real_world",
+  "component_sensitivity": { "disk": 0.75, "cpu": 0.25 },
   "license": {
     "spdx": "LicenseRef-BlitzBench-Source-Available",
     "file": "LICENSES/LicenseRef-BlitzBench-Source-Available.txt",
